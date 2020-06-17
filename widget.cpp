@@ -122,7 +122,14 @@ if(nowDownload<allDownload){
     startRequest(urList.at(nowDownload-1));
 }
 }
-
+void Widget::on_listWidget_currentRowChanged(int currentRow)
+{
+    qDebug()<<currentRow;
+    for (int i=0;i<allDownload;i++) {
+        download_list[i].choose(false);
+    }
+    download_list[currentRow].choose(true);
+}
 //菜单切换逻辑
 void Widget::on_menu_btn_main_clicked() //主页
 {
@@ -540,11 +547,4 @@ void Widget::on_menu_btn_download_clicked()
     ui->stackedWidget->setCurrentIndex(1);
 }
 
-void Widget::on_listWidget_currentRowChanged(int currentRow)
-{
-    qDebug()<<currentRow;
-    for (int i=0;i<allDownload;i++) {
-        download_list[i].choose(false);
-    }
-    download_list[currentRow].choose(true);
-}
+
