@@ -67,6 +67,7 @@ private:
     QNetworkReply *reply;
     QList<QUrl> urList;
     QFile *file;
+
 };
 
 #endif // WIDGET_H

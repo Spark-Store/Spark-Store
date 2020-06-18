@@ -1,6 +1,6 @@
 #include "downloadlist.h"
 #include "ui_downloadlist.h"
-
+#include <QDebug>
 downloadlist::downloadlist(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::downloadlist)
@@ -8,6 +8,7 @@ downloadlist::downloadlist(QWidget *parent) :
     ui->setupUi(this);
     ui->pushButton->setEnabled(false);
     ui->progressBar->setValue(0);
+    ui->label_filename->hide();
 }
 
 downloadlist::~downloadlist()
@@ -50,7 +51,13 @@ void downloadlist::choose(bool isChoosed)
     }
 }
 
+void downloadlist::setFileName(QString fileName)
+{
+    ui->label_filename->setText(fileName);
+}
+
 void downloadlist::on_pushButton_clicked()
 {
-    system("deepin-deb-installer "+ui->label->text().toUtf8()+"&");
+    system("deepin-deb-installer "+ui->label_filename->text().toUtf8()+"&");
+    qDebug()<<ui->label_filename->text().toUtf8();
 }

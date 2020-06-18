@@ -21,6 +21,7 @@ public:
     void readyInstall();
     void choose(bool);
     bool free;
+    void setFileName(QString);
 public: signals:
     void closeDownload();
 private slots:

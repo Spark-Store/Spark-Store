@@ -4,11 +4,16 @@
 #include <QFileInfo>
 #include <QNetworkReply>
 #include <QNetworkAccessManager>
-#include <QtConcurrent> //并发
 #include <QVBoxLayout>
 #include <QGridLayout>
 #include <QListWidgetItem>
 #include "urls.h"
+#include <QDir>
+#include <QProcess>
+#include <QJsonDocument>
+#include <QFile>
+#include <QJsonObject>
+#include <QByteArray>
 Widget::Widget(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::Widget)
@@ -28,14 +33,35 @@ Widget::~Widget()
 
 void Widget::on_webView_linkClicked(const QUrl &arg1)
 {
+
+   QString appName;
+
+    //这里改成获取json后获取url并下载
     if(arg1.path().right(1)=="/"){
         ui->webView->setUrl(arg1);
-    }else if(arg1.path().right(4)==".deb"){
+    }else if(arg1.path().right(5)==".json"){
+        qDebug()<<arg1.toString();
+        QDir dir;
+        dir.cd("/tmp");
+        dir.mkdir("deepin-community-store");
+        QDir::setCurrent("/tmp/deepin-community-store");
+        QProcess get_json;
+        get_json.start("wget -O app.json "+arg1.toString());
+        get_json.waitForFinished();
+        QFile app_json("app.json");
+        if(app_json.open(QIODevice::ReadOnly)){
+            //成功得到json文件
+            qDebug()<<"成功得到";
+            QByteArray json_array=app_json.readAll();
+            QJsonObject json= QJsonDocument::fromJson(json_array).object();
+            appName = json["name"].toString();
+            url=json["url"].toString();
+            qDebug()<<appName;
+
+        }
         ui->stackedWidget->setCurrentIndex(1);
         on_menu_btn_download_clicked();
         allDownload+=1;
-        qDebug()<<arg1;
-        url= arg1;
         QFileInfo info(url.path());
         QString fileName(info.fileName());  //获取文件名
         if(fileName.isEmpty())
@@ -48,7 +74,9 @@ void Widget::on_webView_linkClicked(const QUrl &arg1)
         item->setSizeHint(download_list[allDownload-1].size());
         ui->listWidget->setItemWidget(item,&download_list[allDownload-1]);
         urList.append(url);
-        download_list[allDownload-1].setName(fileName);
+        download_list[allDownload-1].setName(appName);
+        download_list[allDownload-1].setFileName(fileName);
+
         if(!isBusy){
             file = new QFile(fileName);
             if(!file->open(QIODevice::WriteOnly))

@@ -1,6 +1,6 @@
 #ifndef URLS_H
 #define URLS_H
-#define URL_MAIN "https://dstore-appstore.deepin.cn/china/index/"
+#define URL_MAIN "http://127.0.0.1:8000"
 #define URL_NETWORK "https://mirrors.huaweicloud.com/deepin/"
 #define URL_CHAT "https://mirrors.huaweicloud.com/deepin/"
 #define URL_MUSIC "https://mirrors.huaweicloud.com/deepin/"
