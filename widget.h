@@ -7,6 +7,8 @@
 #include <QNetworkReply>
 #include <QNetworkAccessManager>
 #include <downloadlist.h>
+#include <QJsonObject>
+#include <QProcess>
 #define LIST_MAX 99
 namespace Ui {
 class Widget;
@@ -24,6 +26,8 @@ public:
     int allDownload=0;
     int isdownload=false;
     void closeList(int);
+    void loadappinfo(QJsonObject);
+
 private slots:
 
     void on_webView_linkClicked(const QUrl &arg1);
@@ -62,6 +66,12 @@ private slots:
 
     void on_pushButton_2_clicked();
 
+    void on_webView_loadStarted();
+
+    void on_webView_loadFinished(bool arg1);
+
+    void on_menu_btn_theme_clicked();
+
 private:
     QUrl url;
     bool isBusy=false;
@@ -72,6 +82,8 @@ private:
     QList<QUrl> urList;
     QFile *file;
     QString appName;
+    QString urladdress;
+
 
 };
 

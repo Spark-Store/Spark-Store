@@ -59,6 +59,6 @@ void downloadlist::setFileName(QString fileName)
 
 void downloadlist::on_pushButton_clicked()
 {
-    system("deepin-deb-installer "+ui->label_filename->text().toUtf8()+"&");
+    system("deepin-terminal -e sudo dpkg -i ./"+ui->label_filename->text().toUtf8()+" && sudo apt install -f");
     qDebug()<<ui->label_filename->text().toUtf8();
 }
