@@ -9,6 +9,7 @@ downloadlist::downloadlist(QWidget *parent) :
     ui->pushButton->setEnabled(false);
     ui->progressBar->setValue(0);
     ui->label_filename->hide();
+    ui->label->setStyleSheet("color:#000000");
 }
 
 downloadlist::~downloadlist()

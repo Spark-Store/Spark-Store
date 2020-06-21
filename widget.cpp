@@ -14,6 +14,7 @@
 #include <QFile>
 #include <QJsonObject>
 #include <QByteArray>
+#include <QPixmap>
 Widget::Widget(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::Widget)
@@ -24,6 +25,11 @@ Widget::Widget(QWidget *parent) :
     ui->stackedWidget->setCurrentIndex(0);
     ui->listWidget->hide();
     manager = new QNetworkAccessManager(this);
+    ui->screen_1->hide();
+    ui->screen_2->hide();
+    ui->screen_3->hide();
+    ui->screen_4->hide();
+    ui->screen_5->hide();
 }
 
 Widget::~Widget()
@@ -34,9 +40,7 @@ Widget::~Widget()
 void Widget::on_webView_linkClicked(const QUrl &arg1)
 {
 
-   QString appName;
 
-    //这里改成获取json后获取url并下载
     if(arg1.path().right(1)=="/"){
         ui->webView->setUrl(arg1);
     }else if(arg1.path().right(5)==".json"){
@@ -50,45 +54,103 @@ void Widget::on_webView_linkClicked(const QUrl &arg1)
         get_json.waitForFinished();
         QFile app_json("app.json");
         if(app_json.open(QIODevice::ReadOnly)){
+            ui->stackedWidget->setCurrentIndex(2);
             //成功得到json文件
             qDebug()<<"成功得到";
             QByteArray json_array=app_json.readAll();
+            QString urladdress=arg1.toString().left(arg1.toString().length()-8);
             QJsonObject json= QJsonDocument::fromJson(json_array).object();
             appName = json["name"].toString();
-            url=json["url"].toString();
+            url=urladdress + json["filename"].toString();
             qDebug()<<appName;
-
-        }
-        ui->stackedWidget->setCurrentIndex(1);
-        on_menu_btn_download_clicked();
-        allDownload+=1;
-        QFileInfo info(url.path());
-        QString fileName(info.fileName());  //获取文件名
-        if(fileName.isEmpty())
-        {
-            fileName = "index.html";
-        }
-
-        download_list[allDownload-1].setParent(ui->listWidget);
-        QListWidgetItem *item=new QListWidgetItem(ui->listWidget);
-        item->setSizeHint(download_list[allDownload-1].size());
-        ui->listWidget->setItemWidget(item,&download_list[allDownload-1]);
-        urList.append(url);
-        download_list[allDownload-1].setName(appName);
-        download_list[allDownload-1].setFileName(fileName);
-
-        if(!isBusy){
-            file = new QFile(fileName);
-            if(!file->open(QIODevice::WriteOnly))
-            {
-                qDebug()<<"file open error";
-                delete file;
-                file = 0;
-                return ;
+            ui->stackedWidget->setCurrentIndex(2);
+            ui->label_appname->setText(appName);
+            //图标加载
+            get_json.start("wget -O icon.png "+urladdress+"icon.png");
+            get_json.waitForFinished();
+            QPixmap appicon;
+            appicon.load("icon.png");
+            ui->label_appicon->setPixmap(appicon);
+            //软件信息加载
+            QString info;
+            info="版本号："+json["version"].toString()+"\n";
+            info+="作者："+json["author"].toString()+"\n";
+            info+="官网："+json["website"].toString()+"\n";
+            ui->label_info->setText(info);
+            ui->label_more->setText(json["more"].toString());
+            //截图加载
+            get_json.start("wget -O screen_1.png "+urladdress+"screen_1.png");
+            get_json.waitForFinished();
+            get_json.start("wget -O screen_2.png "+urladdress+"screen_2.png");
+            get_json.waitForFinished();
+            get_json.start("wget -O screen_3.png "+urladdress+"screen_3.png");
+            get_json.waitForFinished();
+            get_json.start("wget -O screen_4.png "+urladdress+"screen_4.png");
+            get_json.waitForFinished();
+            get_json.start("wget -O screen_5.png "+urladdress+"screen_5.png");
+            get_json.waitForFinished();
+            QPixmap screen[5];
+            if(screen[0].load("screen_1.png")){
+                ui->screen_1->show();
+                ui->screen_1->setPixmap(screen[0]);
+                ui->screen_1->setScaledContents(true);
             }
-            nowDownload+=1;
-            startRequest(urList.at(nowDownload-1)); //进行链接请求
+            if(screen[1].load("screen_2.png")){
+                ui->screen_2->show();
+                ui->screen_2->setPixmap(screen[1]);
+                ui->screen_2->setScaledContents(true);
+            }
+            if(screen[2].load("screen_3.png")){
+                ui->screen_3->show();
+                ui->screen_3->setPixmap(screen[2]);
+                ui->screen_3->setScaledContents(true);
+            }
+            if(screen[3].load("screen_4.png")){
+                ui->screen_4->show();
+                ui->screen_4->setPixmap(screen[3]);
+                ui->screen_4->setScaledContents(true);
+            }
+            if(screen[4].load("screen_5.png")){
+                ui->screen_5->show();
+                ui->screen_5->setPixmap(screen[4]);
+                ui->screen_5->setScaledContents(true);
+            }
+
         }
+
+    }
+}
+
+void Widget::on_pushButton_clicked()
+{
+    on_menu_btn_download_clicked();
+    allDownload+=1;
+    QFileInfo info(url.path());
+    QString fileName(info.fileName());  //获取文件名
+    if(fileName.isEmpty())
+    {
+        fileName = "index.html";
+    }
+
+    download_list[allDownload-1].setParent(ui->listWidget);
+    QListWidgetItem *item=new QListWidgetItem(ui->listWidget);
+    item->setSizeHint(download_list[allDownload-1].size());
+    ui->listWidget->setItemWidget(item,&download_list[allDownload-1]);
+    urList.append(url);
+    download_list[allDownload-1].setName(appName);
+    download_list[allDownload-1].setFileName(fileName);
+
+    if(!isBusy){
+        file = new QFile(fileName);
+        if(!file->open(QIODevice::WriteOnly))
+        {
+            qDebug()<<"file open error";
+            delete file;
+            file = 0;
+            return ;
+        }
+        nowDownload+=1;
+        startRequest(urList.at(nowDownload-1)); //进行链接请求
     }
 }
 
@@ -574,5 +636,7 @@ void Widget::on_menu_btn_download_clicked()
     ui->menu_btn_network->setStyleSheet("");
     ui->stackedWidget->setCurrentIndex(1);
 }
-
-
+void Widget::on_pushButton_2_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(0);
+}

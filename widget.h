@@ -58,6 +58,10 @@ private slots:
 
     void on_listWidget_currentRowChanged(int currentRow);
 
+    void on_pushButton_clicked();
+
+    void on_pushButton_2_clicked();
+
 private:
     QUrl url;
     bool isBusy=false;
@@ -67,6 +71,7 @@ private:
     QNetworkReply *reply;
     QList<QUrl> urList;
     QFile *file;
+    QString appName;
 
 };
 
