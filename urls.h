@@ -12,5 +12,5 @@
 #define URL_DEV "http://store2.shenmo.tech/store/development/"
 #define URL_SYSTEM "http://store2.shenmo.tech/store/tools/"
 #define URL_OTHER "http://store2.shenmo.tech/store/others/"
-#define URL_THEME "http://store2.shenmo.tech/themes"
+#define URL_THEME "http://store2.shenmo.tech/store/themes/"
 #endif // URLS_H
