@@ -267,6 +267,8 @@ void Widget::on_menu_btn_main_clicked() //主页
     ui->menu_btn_system->setStyleSheet("");
     ui->menu_btn_network->setStyleSheet("");
     ui->menu_btn_download->setStyleSheet("");
+    ui->menu_btn_theme->setStyleSheet("");
+    ui->menu_bg_theme->setStyleSheet("");
     ui->stackedWidget->setCurrentIndex(0);
     ui->webView->setUrl(QUrl(URL_MAIN));
 }
@@ -299,6 +301,8 @@ void Widget::on_menu_btn_network_clicked() //网络应用
     ui->menu_btn_system->setStyleSheet("");
     ui->menu_btn_main->setStyleSheet("");
     ui->menu_btn_download->setStyleSheet("");
+    ui->menu_btn_theme->setStyleSheet("");
+    ui->menu_bg_theme->setStyleSheet("");
     ui->stackedWidget->setCurrentIndex(0);
     ui->webView->setUrl(QUrl(URL_NETWORK));
 }
@@ -331,6 +335,8 @@ void Widget::on_menu_btn_chat_clicked()//社交沟通
     ui->menu_btn_system->setStyleSheet("");
     ui->menu_btn_main->setStyleSheet("");
     ui->menu_btn_download->setStyleSheet("");
+    ui->menu_btn_theme->setStyleSheet("");
+    ui->menu_bg_theme->setStyleSheet("");
      ui->stackedWidget->setCurrentIndex(0);
      ui->webView->setUrl(QUrl(URL_CHAT));
 }
@@ -466,7 +472,7 @@ void Widget::on_menu_btn_game_clicked()//游戏娱乐
     ui->menu_btn_main->setStyleSheet("");
     ui->menu_btn_download->setStyleSheet("");
     ui->menu_btn_theme->setStyleSheet("");
-    ui->menu_bg_theme->setStyleSheet("");//蓝色
+    ui->menu_bg_theme->setStyleSheet("");
      ui->stackedWidget->setCurrentIndex(0);
      ui->webView->setUrl(QUrl(URL_GAME));
 }

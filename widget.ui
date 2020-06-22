@@ -35,7 +35,7 @@
       <number>0</number>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>2</number>
      </property>
      <widget class="QWidget" name="page">
       <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -130,7 +130,7 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>299</width>
+            <width>786</width>
             <height>945</height>
            </rect>
           </property>
@@ -242,6 +242,12 @@
                 <property name="text">
                  <string>图标</string>
                 </property>
+                <property name="scaledContents">
+                 <bool>true</bool>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
                </widget>
               </item>
               <item row="1" column="3" rowspan="4">
@@ -319,7 +325,7 @@
                   <rect>
                    <x>0</x>
                    <y>0</y>
-                   <width>376</width>
+                   <width>752</width>
                    <height>325</height>
                   </rect>
                  </property>
