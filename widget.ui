@@ -131,7 +131,7 @@
             <x>0</x>
             <y>0</y>
             <width>786</width>
-            <height>945</height>
+            <height>805</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_17">
@@ -252,6 +252,11 @@
               </item>
               <item row="1" column="3" rowspan="4">
                <widget class="QLabel" name="label_info">
+                <property name="font">
+                 <font>
+                  <kerning>true</kerning>
+                 </font>
+                </property>
                 <property name="text">
                  <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                 </property>
@@ -278,6 +283,37 @@
                  </size>
                 </property>
                </spacer>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item>
+            <widget class="QWidget" name="widget_5" native="true">
+             <layout class="QVBoxLayout" name="verticalLayout_19">
+              <item>
+               <widget class="QLabel" name="label_10">
+                <property name="font">
+                 <font>
+                  <pointsize>14</pointsize>
+                 </font>
+                </property>
+                <property name="text">
+                 <string>详细介绍</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="label_more">
+                <property name="text">
+                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;详细介绍&lt;/p&gt;&lt;p&gt;由社区爱好者开发的软件商店&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+                </property>
+                <property name="wordWrap">
+                 <bool>true</bool>
+                </property>
+               </widget>
               </item>
              </layout>
             </widget>
@@ -427,37 +463,6 @@
                   </item>
                  </layout>
                 </widget>
-               </widget>
-              </item>
-             </layout>
-            </widget>
-           </item>
-           <item>
-            <widget class="QWidget" name="widget_5" native="true">
-             <layout class="QVBoxLayout" name="verticalLayout_19">
-              <item>
-               <widget class="QLabel" name="label_10">
-                <property name="font">
-                 <font>
-                  <pointsize>14</pointsize>
-                 </font>
-                </property>
-                <property name="text">
-                 <string>详细介绍</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QLabel" name="label_more">
-                <property name="text">
-                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;详细介绍&lt;/p&gt;&lt;p&gt;由社区爱好者开发的软件商店&lt;/p&gt;&lt;p&gt;1212121&lt;/p&gt;&lt;p&gt;12121212&lt;/p&gt;&lt;p&gt;121212&lt;/p&gt;&lt;p&gt;121212&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                </property>
-                <property name="alignment">
-                 <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
-                </property>
-                <property name="wordWrap">
-                 <bool>true</bool>
-                </property>
                </widget>
               </item>
              </layout>

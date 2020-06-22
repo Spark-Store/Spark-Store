@@ -34,7 +34,7 @@ void downloadlist::setName(QString name)
 
 QString downloadlist::getName()
 {
-    return ui->label->text();
+    return ui->label_filename->text();
 }
 
 void downloadlist::readyInstall()
@@ -59,6 +59,7 @@ void downloadlist::setFileName(QString fileName)
 
 void downloadlist::on_pushButton_clicked()
 {
-    system("deepin-terminal -e sudo dpkg -i ./"+ui->label_filename->text().toUtf8()+" && sudo apt install -f");
+//    system("deepin-terminal -e \"sudo dpkg -i ./"+ui->label_filename->text().toUtf8()+" ; sudo apt install -f\"");
+    system("deepin-terminal -e sudo apt install -y ./"+ui->label_filename->text().toUtf8());
     qDebug()<<ui->label_filename->text().toUtf8();
 }

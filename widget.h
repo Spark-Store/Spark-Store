@@ -9,6 +9,7 @@
 #include <downloadlist.h>
 #include <QJsonObject>
 #include <QProcess>
+#include <QFuture>
 #define LIST_MAX 99
 namespace Ui {
 class Widget;
@@ -26,7 +27,10 @@ public:
     int allDownload=0;
     int isdownload=false;
     void closeList(int);
-    void loadappinfo(QJsonObject);
+    void loadappinfo(QUrl);
+    QPixmap screen[5];
+    QFuture<void> load;
+
 
 private slots:
 
@@ -83,7 +87,6 @@ private:
     QFile *file;
     QString appName;
     QString urladdress;
-
 
 };
 

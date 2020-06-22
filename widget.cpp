@@ -24,11 +24,7 @@ Widget::Widget(QWidget *parent) :
     ui->stackedWidget->setCurrentIndex(0);
     ui->listWidget->hide();
     manager = new QNetworkAccessManager(this);
-    ui->screen_1->hide();
-    ui->screen_2->hide();
-    ui->screen_3->hide();
-    ui->screen_4->hide();
-    ui->screen_5->hide();
+
 }
 
 Widget::~Widget()
@@ -38,42 +34,114 @@ Widget::~Widget()
 
 void Widget::on_webView_linkClicked(const QUrl &arg1)
 {
-
-
+    //判断，如果末尾是/就直接访问，如果是app.json就打开详情页
     if(arg1.path().right(1)=="/"){
         ui->webView->setUrl(arg1);
-    }else if(arg1.path().right(5)==".json"){
-        qDebug()<<arg1.toString();
-        QDir dir;
-        dir.cd("/tmp");
-        dir.mkdir("deepin-community-store");
-        QDir::setCurrent("/tmp/deepin-community-store");
-        QProcess get_json;
-        get_json.start("wget -O app.json "+arg1.toString());
-        get_json.waitForFinished();
-        QFile app_json("app.json");
-        if(app_json.open(QIODevice::ReadOnly)){
-            ui->stackedWidget->setCurrentIndex(2);
-            //成功得到json文件
-            qDebug()<<"成功得到";
-            QByteArray json_array=app_json.readAll();
-            urladdress=arg1.toString().left(arg1.toString().length()-8);
-            QJsonObject json= QJsonDocument::fromJson(json_array).object();
-            appName = json["name"].toString();
-            url=urladdress + json["filename"].toString();
-            qDebug()<<appName;
-            ui->stackedWidget->setCurrentIndex(2);
-            ui->label_appname->setText(appName);
-
-            QtConcurrent::run([=](){
-                loadappinfo(json);
-            });
-
-        }
-
+    }else if(arg1.path().right(8)=="app.json"){
+        load.cancel();//打开并发加载线程前关闭正在执行的线程
+        load.waitForFinished();
+        QPixmap pixmap_null;//一个空的图片指针，用来清空先有内容
+        ui->label_appicon->setPixmap(pixmap_null);
+        ui->screen_1->setPixmap(pixmap_null);
+        ui->screen_2->setPixmap(pixmap_null);
+        ui->screen_3->setPixmap(pixmap_null);
+        ui->screen_4->setPixmap(pixmap_null);
+        ui->screen_5->setPixmap(pixmap_null);
+        //先隐藏详情页负责显示截图的label
+        ui->screen_1->hide();
+        ui->screen_2->hide();
+        ui->screen_3->hide();
+        ui->screen_4->hide();
+        ui->screen_5->hide();
+        ui->label_more->setText("");//清空详情介绍
+        ui->label_info->setText("");
+        ui->label_appname->setText("");
+        ui->stackedWidget->setCurrentIndex(2);
+        load = QtConcurrent::run([=](){
+            loadappinfo(arg1);
+        });
     }
 }
+void Widget::loadappinfo(QUrl arg1)
+{
 
+    ui->label_show->setText("正在加载，请稍候");
+
+
+    QProcess get_json;
+    QDir dir;
+    dir.cd("/tmp");
+    dir.mkdir("deepin-community-store");
+    QDir::setCurrent("/tmp/deepin-community-store");
+    get_json.start("wget -O app.json "+arg1.toString());
+    get_json.waitForFinished();
+    QFile app_json("app.json");
+    if(app_json.open(QIODevice::ReadOnly)){
+//        //成功得到json文件
+        QByteArray json_array=app_json.readAll();
+        urladdress=arg1.toString().left(arg1.toString().length()-8);
+        QJsonObject json= QJsonDocument::fromJson(json_array).object();
+        appName = json["name"].toString();
+        url=urladdress + json["filename"].toString();
+        qDebug()<<appName;
+        ui->label_appname->setText(appName);
+        system("rm -r *.png");
+        ui->label_show->show();
+        //图标加载
+        get_json.start("wget -O icon.png "+urladdress+"icon.png");
+        get_json.waitForFinished();
+        QPixmap appicon;
+        qDebug()<<appicon.load("icon.png");
+        ui->label_appicon->setPixmap(appicon);
+        //软件信息加载
+        QString info;
+        info="版本号："+json["version"].toString()+"\n";
+        info+="作者："+json["author"].toString()+"\n";
+        info+="官网："+json["website"].toString()+"\n";
+        ui->label_info->setText(info);
+        ui->label_more->setText(json["more"].toString());
+
+        get_json.start("wget "+urladdress+"screen_1.png");
+        get_json.waitForFinished();
+        if(screen[0].load("screen_1.png")){
+            ui->screen_1->show();
+            ui->screen_1->setPixmap(screen[0]);
+            ui->screen_1->setScaledContents(true);
+        }
+        get_json.start("wget "+urladdress+"screen_2.png");
+        get_json.waitForFinished();
+        if(screen[1].load("screen_2.png")){
+            ui->screen_2->show();
+            ui->screen_2->setPixmap(screen[1]);
+            ui->screen_2->setScaledContents(true);
+        }
+        get_json.start("wget "+urladdress+"screen_3.png");
+        get_json.waitForFinished();
+        if(screen[2].load("screen_3.png")){
+            ui->screen_3->show();
+            ui->screen_3->setPixmap(screen[2]);
+            ui->screen_3->setScaledContents(true);
+        }
+        get_json.start("wget "+urladdress+"screen_4.png");
+        get_json.waitForFinished();
+        if(screen[3].load("screen_4.png")){
+            ui->screen_4->show();
+            ui->screen_4->setPixmap(screen[3]);
+            ui->screen_4->setScaledContents(true);
+        }
+        get_json.start("wget "+urladdress+"screen_5.png");
+        get_json.waitForFinished();
+        if(screen[4].load("screen_5.png")){
+            ui->screen_5->show();
+            ui->screen_5->setPixmap(screen[4]);
+            ui->screen_5->setScaledContents(true);
+        }
+        ui->label_show->setText("");
+        ui->label_show->hide();
+
+    }
+
+}
 void Widget::on_pushButton_clicked()
 {
     on_menu_btn_download_clicked();
@@ -124,70 +192,7 @@ void Widget::closeList(int)
 
 }
 
-void Widget::loadappinfo(QJsonObject json)
-{
-    ui->label_show->setText("正在加载，请稍候");
-    ui->label_show->show();
-    QPixmap pixmap_null;
-    ui->label_appicon->setPixmap(pixmap_null);
-    ui->screen_1->setPixmap(pixmap_null);
-    ui->screen_2->setPixmap(pixmap_null);
-    ui->screen_3->setPixmap(pixmap_null);
-    ui->screen_4->setPixmap(pixmap_null);
-    ui->screen_5->setPixmap(pixmap_null);
-    QProcess get_json;
-    //图标加载
-    get_json.start("wget -O icon.png "+urladdress+"icon.png");
-    get_json.waitForFinished();
-    QPixmap appicon;
-    qDebug()<<appicon.load("icon.png");
-    ui->label_appicon->setPixmap(appicon);
-    //软件信息加载
-    QString info;
-    info="版本号："+json["version"].toString()+"\n";
-    info+="作者："+json["author"].toString()+"\n";
-    info+="官网："+json["website"].toString()+"\n";
-    ui->label_info->setText(info);
-    ui->label_more->setText(json["more"].toString());
-    QPixmap screen[5];
-    get_json.start("wget -O screen_1.png "+urladdress+"screen_1.png");
-    get_json.waitForFinished();
-    if(screen[0].load("screen_1.png")){
-        ui->screen_1->show();
-        ui->screen_1->setPixmap(screen[0]);
-        ui->screen_1->setScaledContents(true);
-    }
-    get_json.start("wget -O screen_2.png "+urladdress+"screen_2.png");
-    get_json.waitForFinished();
-    if(screen[1].load("screen_2.png")){
-        ui->screen_2->show();
-        ui->screen_2->setPixmap(screen[1]);
-        ui->screen_2->setScaledContents(true);
-    }
-    get_json.start("wget -O screen_3.png "+urladdress+"screen_3.png");
-    get_json.waitForFinished();
-    if(screen[2].load("screen_3.png")){
-        ui->screen_3->show();
-        ui->screen_3->setPixmap(screen[2]);
-        ui->screen_3->setScaledContents(true);
-    }
-    get_json.start("wget -O screen_4.png "+urladdress+"screen_4.png");
-    get_json.waitForFinished();
-    if(screen[3].load("screen_4.png")){
-        ui->screen_4->show();
-        ui->screen_4->setPixmap(screen[3]);
-        ui->screen_4->setScaledContents(true);
-    }
-    get_json.start("wget -O screen_5.png "+urladdress+"screen_5.png");
-    get_json.waitForFinished();
-    if(screen[4].load("screen_5.png")){
-        ui->screen_5->show();
-        ui->screen_5->setPixmap(screen[4]);
-        ui->screen_5->setScaledContents(true);
-    }
-    ui->label_show->setText("");
-    ui->label_show->hide();
-}
+
 void Widget::httpReadyRead()
 {
     if(file)
