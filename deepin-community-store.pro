@@ -30,8 +30,7 @@ SOURCES += main.cpp\
 
 HEADERS  += mainwindow.h \
     widget.h \
-    downloadlist.h \
-    urls.h
+    downloadlist.h
 
 CONFIG += link_pkgconfig
 PKGCONFIG += dtkwidget

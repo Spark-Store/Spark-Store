@@ -5,7 +5,7 @@
 #include <QNetworkReply>
 #include <QNetworkAccessManager>
 #include <QVBoxLayout>
-#include "urls.h"
+#include <fstream>
 #include <QDir>
 #include <QProcess>
 #include <QJsonDocument>
@@ -14,59 +14,65 @@
 #include <QByteArray>
 #include <QPixmap>
 #include <QtConcurrent> //并发
+#include <QSettings>
 Widget::Widget(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::Widget)
 {
+    QString serverUrl;
+    std::fstream server;
+
     ui->setupUi(this);
-    ui->webView->setUrl(QUrl(URL_MAIN));
-    ui->webView->page()->setLinkDelegationPolicy(QWebPage::DelegateAllLinks);
+    ui->webView->page()->setLinkDelegationPolicy(QWebPage::DelegateAllLinks);//用来激活接受linkClicked信号
     ui->stackedWidget->setCurrentIndex(0);
     ui->listWidget->hide();
+    ui->label_setting1->hide();
     manager = new QNetworkAccessManager(this);
+    left_list[0]=ui->menu_btn_main;left_menu_bg[0]=ui->menu_bg_main;
+    left_list[1]=ui->menu_btn_network;left_menu_bg[1]=ui->menu_bg_network;
+    left_list[2]=ui->menu_btn_chat;left_menu_bg[2]=ui->menu_bg_chat;
+    left_list[3]=ui->menu_btn_music;left_menu_bg[3]=ui->menu_bg_music;
+    left_list[4]=ui->menu_btn_video;left_menu_bg[4]=ui->menu_bg_video;
+    left_list[5]=ui->menu_btn_photo;left_menu_bg[5]=ui->menu_bg_photo;
+    left_list[6]=ui->menu_btn_game;left_menu_bg[6]=ui->menu_bg_game;
+    left_list[7]=ui->menu_btn_office;left_menu_bg[7]=ui->menu_bg_office;
+    left_list[8]=ui->menu_btn_read;left_menu_bg[8]=ui->menu_bg_read;
+    left_list[9]=ui->menu_btn_dev;left_menu_bg[9]=ui->menu_bg_dev;
+    left_list[10]=ui->menu_btn_system;left_menu_bg[10]=ui->menu_bg_system;
+    left_list[11]=ui->menu_btn_other;left_menu_bg[11]=ui->menu_bg_other;
+    left_list[12]=ui->menu_btn_theme;left_menu_bg[12]=ui->menu_bg_theme;
+    left_list[13]=ui->menu_btn_download;left_menu_bg[13]=ui->menu_bg_download;
+    left_list[14]=ui->menu_btn_settings;left_menu_bg[14]=ui->menu_bg_settings;
+    server.open("server.list",std::ios::in);
+    std::string lineTmp;
+    while (getline(server,lineTmp)) {
+        ui->comboBox_server->addItem(QString::fromStdString(lineTmp));
+    }
+    QSettings readConfig(QDir::homePath()+"/.config/deepin-community-store/config.ini",QSettings::IniFormat);
+    if(readConfig.value("server/choose").toString()!=""){
+        ui->comboBox_server->setCurrentText(readConfig.value("server/choose").toString());
+        serverUrl=readConfig.value("server/choose").toString();
+    }else {
+        serverUrl="http://dcstore.shenmo.tech/";
+    }
+    ui->webView->setUrl(serverUrl+"store/");
 
-    left_list[0]=ui->menu_btn_main;
-    left_list[1]=ui->menu_btn_network;
-    left_list[2]=ui->menu_btn_chat;
-    left_list[3]=ui->menu_btn_music;
-    left_list[4]=ui->menu_btn_video;
-    left_list[5]=ui->menu_btn_photo;
-    left_list[6]=ui->menu_btn_game;
-    left_list[7]=ui->menu_btn_office;
-    left_list[8]=ui->menu_btn_read;
-    left_list[9]=ui->menu_btn_dev;
-    left_list[10]=ui->menu_btn_system;
-    left_list[11]=ui->menu_btn_other;
-    left_list[12]=ui->menu_btn_theme;
-    left_list[13]=ui->menu_btn_download;
-    left_menu_bg[0]=ui->menu_bg_main;
-    left_menu_bg[1]=ui->menu_bg_network;
-    left_menu_bg[2]=ui->menu_bg_chat;
-    left_menu_bg[3]=ui->menu_bg_music;
-    left_menu_bg[4]=ui->menu_bg_video;
-    left_menu_bg[5]=ui->menu_bg_photo;
-    left_menu_bg[6]=ui->menu_bg_game;
-    left_menu_bg[7]=ui->menu_bg_office;
-    left_menu_bg[8]=ui->menu_bg_read;
-    left_menu_bg[9]=ui->menu_bg_dev;
-    left_menu_bg[10]=ui->menu_bg_system;
-    left_menu_bg[11]=ui->menu_bg_other;
-    left_menu_bg[12]=ui->menu_bg_theme;
-    left_menu_bg[13]=ui->menu_bg_download;
-    menuUrl[0]=URL_MAIN;
-    menuUrl[1]=URL_NETWORK;
-    menuUrl[2]=URL_CHAT;
-    menuUrl[3]=URL_MUSIC;
-    menuUrl[4]=URL_VIDEO;
-    menuUrl[5]=URL_PHOTO;
-    menuUrl[6]=URL_GAME;
-    menuUrl[7]=URL_OFFICE;
-    menuUrl[8]=URL_READ;
-    menuUrl[9]=URL_DEV;
-    menuUrl[10]=URL_SYSTEM;
-    menuUrl[11]=URL_OTHER;
-    menuUrl[12]=URL_THEME;
 
+    configCanSeve=true;
+    qDebug()<<serverUrl;
+    menuUrl[0]=serverUrl + "store/";
+    menuUrl[1]=serverUrl + "store/network/";
+    menuUrl[2]=serverUrl + "store/chat/";
+    menuUrl[3]=serverUrl + "store/music/";
+    menuUrl[4]=serverUrl + "store/video";
+    menuUrl[5]=serverUrl + "store/image_graphics/";
+    menuUrl[6]=serverUrl + "store/games/";
+    menuUrl[7]=serverUrl + "store/";
+    menuUrl[8]=serverUrl + "store/reading/";
+    menuUrl[9]=serverUrl + "store/development/";
+    menuUrl[10]=serverUrl + "store/tools/";
+    menuUrl[11]=serverUrl + "store/others/";
+    menuUrl[12]=serverUrl + "store/themes/";
 }
 
 Widget::~Widget()
@@ -76,6 +82,7 @@ Widget::~Widget()
 
 void Widget::on_webView_linkClicked(const QUrl &arg1)
 {
+    qDebug()<<arg1;
     //判断，如果末尾是/就直接访问，如果是app.json就打开详情页
     if(arg1.path().right(1)=="/"){
         ui->webView->setUrl(arg1);
@@ -129,12 +136,6 @@ void Widget::loadappinfo(QUrl arg1)
         ui->label_appname->setText(appName);
         system("rm -r *.png");
         ui->label_show->show();
-        //图标加载
-        get_json.start("wget -O icon.png "+urladdress+"icon.png");
-        get_json.waitForFinished();
-        QPixmap appicon;
-        qDebug()<<appicon.load("icon.png");
-        ui->label_appicon->setPixmap(appicon);
         //软件信息加载
         QString info;
         info="版本号："+json["version"].toString()+"\n";
@@ -142,7 +143,13 @@ void Widget::loadappinfo(QUrl arg1)
         info+="官网："+json["website"].toString()+"\n";
         ui->label_info->setText(info);
         ui->label_more->setText(json["more"].toString());
-
+        //图标加载
+        get_json.start("wget -O icon.png "+urladdress+"icon.png");
+        get_json.waitForFinished();
+        QPixmap appicon;
+        qDebug()<<appicon.load("icon.png");
+        ui->label_appicon->setPixmap(appicon);
+        //截图展示加载
         get_json.start("wget "+urladdress+"screen_1.png");
         get_json.waitForFinished();
         if(screen[0].load("screen_1.png")){
@@ -187,17 +194,21 @@ void Widget::loadappinfo(QUrl arg1)
 
 void Widget::chooseLeftMenu(int index)
 {
-    for (int i=0;i<14;i++) {
+    for (int i=0;i<15;i++) {
         left_list[i]->setStyleSheet("");
         left_menu_bg[i]->setStyleSheet("");
     }
     left_list[index]->setStyleSheet("color:#FFFFFF");
     left_menu_bg[index]->setStyleSheet("background-color:#0081FF;border-radius:8");
+
     if(index<=12){
         ui->webView->setUrl(menuUrl[index]);
+        qDebug()<<menuUrl[index];
         ui->stackedWidget->setCurrentIndex(0);
     }else if (index==13) {
         ui->stackedWidget->setCurrentIndex(1);
+    }else if (index==14) {
+        ui->stackedWidget->setCurrentIndex(3);
     }
 
 }
@@ -358,6 +369,10 @@ void Widget::on_menu_btn_download_clicked()
 {
     chooseLeftMenu(13);
 }
+void Widget::on_menu_btn_settings_clicked()
+{
+    chooseLeftMenu(14);
+}
 void Widget::on_pushButton_2_clicked()
 {
     ui->stackedWidget->setCurrentIndex(0);
@@ -375,3 +390,16 @@ void Widget::on_webView_loadFinished(bool arg1)
     ui->label_show->hide();
 }
 
+
+
+
+
+void Widget::on_comboBox_server_currentIndexChanged(const QString &arg1)
+{
+    if(configCanSeve){
+        ui->label_setting1->show();
+        QSettings *setConfig=new QSettings(QDir::homePath()+"/.config/deepin-community-store/config.ini",QSettings::IniFormat);
+        qDebug()<<arg1;
+        setConfig->setValue("server/choose",arg1);
+    }
+}

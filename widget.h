@@ -78,6 +78,10 @@ private slots:
 
     void on_menu_btn_theme_clicked();
 
+    void on_menu_btn_settings_clicked();
+
+    void on_comboBox_server_currentIndexChanged(const QString &arg1);
+
 private:
     QUrl url;
     bool isBusy=false;
@@ -89,9 +93,10 @@ private:
     QFile *file;
     QString appName;
     QString urladdress;
-    QToolButton * left_list[14];
-    QWidget * left_menu_bg[14];
-    QUrl menuUrl[14];
+    QToolButton * left_list[15];
+    QWidget * left_menu_bg[15];
+    QUrl menuUrl[13];
+    bool configCanSeve=false;
 
 };
 
