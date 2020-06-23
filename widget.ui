@@ -131,7 +131,7 @@
             <x>0</x>
             <y>0</y>
             <width>786</width>
-            <height>805</height>
+            <height>770</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_17">
@@ -305,7 +305,7 @@
               <item>
                <widget class="QLabel" name="label_more">
                 <property name="text">
-                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;详细介绍&lt;/p&gt;&lt;p&gt;由社区爱好者开发的软件商店&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;由社区爱好者开发的软件商店&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                 </property>
                 <property name="alignment">
                  <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>

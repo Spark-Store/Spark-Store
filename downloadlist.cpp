@@ -41,6 +41,7 @@ void downloadlist::readyInstall()
 {
     ui->progressBar->hide();
     ui->pushButton->setEnabled(true);
+    system("notify-send \""+ui->label->text().toUtf8()+"下载完成，等待安装\"");
 }
 
 void downloadlist::choose(bool isChoosed)

@@ -25,6 +25,48 @@ Widget::Widget(QWidget *parent) :
     ui->listWidget->hide();
     manager = new QNetworkAccessManager(this);
 
+    left_list[0]=ui->menu_btn_main;
+    left_list[1]=ui->menu_btn_network;
+    left_list[2]=ui->menu_btn_chat;
+    left_list[3]=ui->menu_btn_music;
+    left_list[4]=ui->menu_btn_video;
+    left_list[5]=ui->menu_btn_photo;
+    left_list[6]=ui->menu_btn_game;
+    left_list[7]=ui->menu_btn_office;
+    left_list[8]=ui->menu_btn_read;
+    left_list[9]=ui->menu_btn_dev;
+    left_list[10]=ui->menu_btn_system;
+    left_list[11]=ui->menu_btn_other;
+    left_list[12]=ui->menu_btn_theme;
+    left_list[13]=ui->menu_btn_download;
+    left_menu_bg[0]=ui->menu_bg_main;
+    left_menu_bg[1]=ui->menu_bg_network;
+    left_menu_bg[2]=ui->menu_bg_chat;
+    left_menu_bg[3]=ui->menu_bg_music;
+    left_menu_bg[4]=ui->menu_bg_video;
+    left_menu_bg[5]=ui->menu_bg_photo;
+    left_menu_bg[6]=ui->menu_bg_game;
+    left_menu_bg[7]=ui->menu_bg_office;
+    left_menu_bg[8]=ui->menu_bg_read;
+    left_menu_bg[9]=ui->menu_bg_dev;
+    left_menu_bg[10]=ui->menu_bg_system;
+    left_menu_bg[11]=ui->menu_bg_other;
+    left_menu_bg[12]=ui->menu_bg_theme;
+    left_menu_bg[13]=ui->menu_bg_download;
+    menuUrl[0]=URL_MAIN;
+    menuUrl[1]=URL_NETWORK;
+    menuUrl[2]=URL_CHAT;
+    menuUrl[3]=URL_MUSIC;
+    menuUrl[4]=URL_VIDEO;
+    menuUrl[5]=URL_PHOTO;
+    menuUrl[6]=URL_GAME;
+    menuUrl[7]=URL_OFFICE;
+    menuUrl[8]=URL_READ;
+    menuUrl[9]=URL_DEV;
+    menuUrl[10]=URL_SYSTEM;
+    menuUrl[11]=URL_OTHER;
+    menuUrl[12]=URL_THEME;
+
 }
 
 Widget::~Widget()
@@ -142,6 +184,23 @@ void Widget::loadappinfo(QUrl arg1)
     }
 
 }
+
+void Widget::chooseLeftMenu(int index)
+{
+    for (int i=0;i<14;i++) {
+        left_list[i]->setStyleSheet("");
+        left_menu_bg[i]->setStyleSheet("");
+    }
+    left_list[index]->setStyleSheet("color:#FFFFFF");
+    left_menu_bg[index]->setStyleSheet("background-color:#0081FF;border-radius:8");
+    if(index<=12){
+        ui->webView->setUrl(menuUrl[index]);
+        ui->stackedWidget->setCurrentIndex(0);
+    }else if (index==13) {
+        ui->stackedWidget->setCurrentIndex(1);
+    }
+
+}
 void Widget::on_pushButton_clicked()
 {
     on_menu_btn_download_clicked();
@@ -245,444 +304,59 @@ void Widget::on_listWidget_currentRowChanged(int currentRow)
 //菜单切换逻辑
 void Widget::on_menu_btn_main_clicked() //主页
 {
-    ui->menu_btn_main->setStyleSheet("color:#FFFFFF");
-    ui->menu_bg_main->setStyleSheet("background-color:#0081FF;border-radius:8");//蓝色
-    //取消其他样式
-    ui->menu_bg_dev->setStyleSheet("");
-    ui->menu_bg_chat->setStyleSheet("");
-    ui->menu_bg_game->setStyleSheet("");
-    ui->menu_bg_read->setStyleSheet("");
-    ui->menu_bg_music->setStyleSheet("");
-    ui->menu_bg_other->setStyleSheet("");
-    ui->menu_bg_photo->setStyleSheet("");
-    ui->menu_bg_video->setStyleSheet("");
-    ui->menu_bg_office->setStyleSheet("");
-    ui->menu_bg_system->setStyleSheet("");
-    ui->menu_bg_network->setStyleSheet("");
-    ui->menu_bg_download->setStyleSheet("");
-    ui->menu_btn_dev->setStyleSheet("");
-    ui->menu_btn_chat->setStyleSheet("");
-    ui->menu_btn_game->setStyleSheet("");
-    ui->menu_btn_read->setStyleSheet("");
-    ui->menu_btn_music->setStyleSheet("");
-    ui->menu_btn_other->setStyleSheet("");
-    ui->menu_btn_photo->setStyleSheet("");
-    ui->menu_btn_video->setStyleSheet("");
-    ui->menu_btn_office->setStyleSheet("");
-    ui->menu_btn_system->setStyleSheet("");
-    ui->menu_btn_network->setStyleSheet("");
-    ui->menu_btn_download->setStyleSheet("");
-    ui->menu_btn_theme->setStyleSheet("");
-    ui->menu_bg_theme->setStyleSheet("");
-    ui->stackedWidget->setCurrentIndex(0);
-    ui->webView->setUrl(QUrl(URL_MAIN));
+    chooseLeftMenu(0);
 }
 void Widget::on_menu_btn_network_clicked() //网络应用
 {
-    ui->menu_btn_network->setStyleSheet("color:#FFFFFF");
-    ui->menu_bg_network->setStyleSheet("background-color:#0081FF;border-radius:8");//蓝色
-    //取消其他样式
-    ui->menu_bg_dev->setStyleSheet("");
-    ui->menu_bg_chat->setStyleSheet("");
-    ui->menu_bg_game->setStyleSheet("");
-    ui->menu_bg_read->setStyleSheet("");
-    ui->menu_bg_music->setStyleSheet("");
-    ui->menu_bg_other->setStyleSheet("");
-    ui->menu_bg_photo->setStyleSheet("");
-    ui->menu_bg_video->setStyleSheet("");
-    ui->menu_bg_office->setStyleSheet("");
-    ui->menu_bg_system->setStyleSheet("");
-    ui->menu_bg_main->setStyleSheet("");
-    ui->menu_bg_download->setStyleSheet("");
-    ui->menu_btn_dev->setStyleSheet("");
-    ui->menu_btn_chat->setStyleSheet("");
-    ui->menu_btn_game->setStyleSheet("");
-    ui->menu_btn_read->setStyleSheet("");
-    ui->menu_btn_music->setStyleSheet("");
-    ui->menu_btn_other->setStyleSheet("");
-    ui->menu_btn_photo->setStyleSheet("");
-    ui->menu_btn_video->setStyleSheet("");
-    ui->menu_btn_office->setStyleSheet("");
-    ui->menu_btn_system->setStyleSheet("");
-    ui->menu_btn_main->setStyleSheet("");
-    ui->menu_btn_download->setStyleSheet("");
-    ui->menu_btn_theme->setStyleSheet("");
-    ui->menu_bg_theme->setStyleSheet("");
-    ui->stackedWidget->setCurrentIndex(0);
-    ui->webView->setUrl(QUrl(URL_NETWORK));
+    chooseLeftMenu(1);
 }
 void Widget::on_menu_btn_chat_clicked()//社交沟通
 {
-    ui->menu_btn_chat->setStyleSheet("color:#FFFFFF");
-    ui->menu_bg_chat->setStyleSheet("background-color:#0081FF;border-radius:8");//蓝色
-    //取消其他样式
-    ui->menu_bg_dev->setStyleSheet("");
-    ui->menu_bg_network->setStyleSheet("");
-    ui->menu_bg_game->setStyleSheet("");
-    ui->menu_bg_read->setStyleSheet("");
-    ui->menu_bg_music->setStyleSheet("");
-    ui->menu_bg_other->setStyleSheet("");
-    ui->menu_bg_photo->setStyleSheet("");
-    ui->menu_bg_video->setStyleSheet("");
-    ui->menu_bg_office->setStyleSheet("");
-    ui->menu_bg_system->setStyleSheet("");
-    ui->menu_bg_main->setStyleSheet("");
-    ui->menu_bg_download->setStyleSheet("");
-    ui->menu_btn_dev->setStyleSheet("");
-    ui->menu_btn_network->setStyleSheet("");
-    ui->menu_btn_game->setStyleSheet("");
-    ui->menu_btn_read->setStyleSheet("");
-    ui->menu_btn_music->setStyleSheet("");
-    ui->menu_btn_other->setStyleSheet("");
-    ui->menu_btn_photo->setStyleSheet("");
-    ui->menu_btn_video->setStyleSheet("");
-    ui->menu_btn_office->setStyleSheet("");
-    ui->menu_btn_system->setStyleSheet("");
-    ui->menu_btn_main->setStyleSheet("");
-    ui->menu_btn_download->setStyleSheet("");
-    ui->menu_btn_theme->setStyleSheet("");
-    ui->menu_bg_theme->setStyleSheet("");
-     ui->stackedWidget->setCurrentIndex(0);
-     ui->webView->setUrl(QUrl(URL_CHAT));
+   chooseLeftMenu(2);
 }
 void Widget::on_menu_btn_music_clicked()//音乐欣赏
 {
-    ui->menu_btn_music->setStyleSheet("color:#FFFFFF");
-    ui->menu_bg_music->setStyleSheet("background-color:#0081FF;border-radius:8");//蓝色
-    //取消其他样式
-    ui->menu_bg_dev->setStyleSheet("");
-    ui->menu_bg_network->setStyleSheet("");
-    ui->menu_bg_game->setStyleSheet("");
-    ui->menu_bg_read->setStyleSheet("");
-    ui->menu_bg_chat->setStyleSheet("");
-    ui->menu_bg_other->setStyleSheet("");
-    ui->menu_bg_photo->setStyleSheet("");
-    ui->menu_bg_video->setStyleSheet("");
-    ui->menu_bg_office->setStyleSheet("");
-    ui->menu_bg_system->setStyleSheet("");
-    ui->menu_bg_main->setStyleSheet("");
-    ui->menu_bg_download->setStyleSheet("");
-    ui->menu_btn_dev->setStyleSheet("");
-    ui->menu_btn_network->setStyleSheet("");
-    ui->menu_btn_game->setStyleSheet("");
-    ui->menu_btn_read->setStyleSheet("");
-    ui->menu_btn_chat->setStyleSheet("");
-    ui->menu_btn_other->setStyleSheet("");
-    ui->menu_btn_photo->setStyleSheet("");
-    ui->menu_btn_video->setStyleSheet("");
-    ui->menu_btn_office->setStyleSheet("");
-    ui->menu_btn_system->setStyleSheet("");
-    ui->menu_btn_main->setStyleSheet("");
-    ui->menu_btn_download->setStyleSheet("");
-    ui->menu_btn_theme->setStyleSheet("");
-    ui->menu_bg_theme->setStyleSheet("");//蓝色
-     ui->stackedWidget->setCurrentIndex(0);
-     ui->webView->setUrl(QUrl(URL_MUSIC));
+    chooseLeftMenu(3);
 }
 void Widget::on_menu_btn_video_clicked()//视频播放
 {
-    ui->menu_btn_video->setStyleSheet("color:#FFFFFF");
-    ui->menu_bg_video->setStyleSheet("background-color:#0081FF;border-radius:8");//蓝色
-    //取消其他样式
-    ui->menu_bg_dev->setStyleSheet("");
-    ui->menu_bg_network->setStyleSheet("");
-    ui->menu_bg_game->setStyleSheet("");
-    ui->menu_bg_read->setStyleSheet("");
-    ui->menu_bg_chat->setStyleSheet("");
-    ui->menu_bg_other->setStyleSheet("");
-    ui->menu_bg_photo->setStyleSheet("");
-    ui->menu_bg_music->setStyleSheet("");
-    ui->menu_bg_office->setStyleSheet("");
-    ui->menu_bg_system->setStyleSheet("");
-    ui->menu_bg_main->setStyleSheet("");
-    ui->menu_bg_download->setStyleSheet("");
-    ui->menu_btn_dev->setStyleSheet("");
-    ui->menu_btn_network->setStyleSheet("");
-    ui->menu_btn_game->setStyleSheet("");
-    ui->menu_btn_read->setStyleSheet("");
-    ui->menu_btn_chat->setStyleSheet("");
-    ui->menu_btn_other->setStyleSheet("");
-    ui->menu_btn_photo->setStyleSheet("");
-    ui->menu_btn_music->setStyleSheet("");
-    ui->menu_btn_office->setStyleSheet("");
-    ui->menu_btn_system->setStyleSheet("");
-    ui->menu_btn_main->setStyleSheet("");
-    ui->menu_btn_download->setStyleSheet("");
-    ui->menu_btn_theme->setStyleSheet("");
-    ui->menu_bg_theme->setStyleSheet("");//蓝色
-     ui->stackedWidget->setCurrentIndex(0);
-     ui->webView->setUrl(QUrl(URL_VIDEO));
+    chooseLeftMenu(4);
 }
 void Widget::on_menu_btn_photo_clicked()//图形图像
 {
-    ui->menu_btn_photo->setStyleSheet("color:#FFFFFF");
-    ui->menu_bg_photo->setStyleSheet("background-color:#0081FF;border-radius:8");//蓝色
-    //取消其他样式
-    ui->menu_bg_dev->setStyleSheet("");
-    ui->menu_bg_network->setStyleSheet("");
-    ui->menu_bg_game->setStyleSheet("");
-    ui->menu_bg_read->setStyleSheet("");
-    ui->menu_bg_chat->setStyleSheet("");
-    ui->menu_bg_other->setStyleSheet("");
-    ui->menu_bg_video->setStyleSheet("");
-    ui->menu_bg_music->setStyleSheet("");
-    ui->menu_bg_office->setStyleSheet("");
-    ui->menu_bg_system->setStyleSheet("");
-    ui->menu_bg_main->setStyleSheet("");
-    ui->menu_bg_download->setStyleSheet("");
-    ui->menu_btn_dev->setStyleSheet("");
-    ui->menu_btn_network->setStyleSheet("");
-    ui->menu_btn_game->setStyleSheet("");
-    ui->menu_btn_read->setStyleSheet("");
-    ui->menu_btn_chat->setStyleSheet("");
-    ui->menu_btn_other->setStyleSheet("");
-    ui->menu_btn_video->setStyleSheet("");
-    ui->menu_btn_music->setStyleSheet("");
-    ui->menu_btn_office->setStyleSheet("");
-    ui->menu_btn_system->setStyleSheet("");
-    ui->menu_btn_main->setStyleSheet("");
-    ui->menu_btn_download->setStyleSheet("");
-    ui->menu_btn_theme->setStyleSheet("");
-    ui->menu_bg_theme->setStyleSheet("");//蓝色
-     ui->stackedWidget->setCurrentIndex(0);
-     ui->webView->setUrl(QUrl(URL_PHOTO));
+chooseLeftMenu(5);
 }
 void Widget::on_menu_btn_game_clicked()//游戏娱乐
 {
-    ui->menu_btn_game->setStyleSheet("color:#FFFFFF");
-    ui->menu_bg_game->setStyleSheet("background-color:#0081FF;border-radius:8");//蓝色
-    //取消其他样式
-    ui->menu_bg_dev->setStyleSheet("");
-    ui->menu_bg_network->setStyleSheet("");
-    ui->menu_bg_photo->setStyleSheet("");
-    ui->menu_bg_read->setStyleSheet("");
-    ui->menu_bg_chat->setStyleSheet("");
-    ui->menu_bg_other->setStyleSheet("");
-    ui->menu_bg_video->setStyleSheet("");
-    ui->menu_bg_music->setStyleSheet("");
-    ui->menu_bg_office->setStyleSheet("");
-    ui->menu_bg_system->setStyleSheet("");
-    ui->menu_bg_main->setStyleSheet("");
-    ui->menu_bg_download->setStyleSheet("");
-    ui->menu_btn_dev->setStyleSheet("");
-    ui->menu_btn_network->setStyleSheet("");
-    ui->menu_btn_photo->setStyleSheet("");
-    ui->menu_btn_read->setStyleSheet("");
-    ui->menu_btn_chat->setStyleSheet("");
-    ui->menu_btn_other->setStyleSheet("");
-    ui->menu_btn_video->setStyleSheet("");
-    ui->menu_btn_music->setStyleSheet("");
-    ui->menu_btn_office->setStyleSheet("");
-    ui->menu_btn_system->setStyleSheet("");
-    ui->menu_btn_main->setStyleSheet("");
-    ui->menu_btn_download->setStyleSheet("");
-    ui->menu_btn_theme->setStyleSheet("");
-    ui->menu_bg_theme->setStyleSheet("");
-     ui->stackedWidget->setCurrentIndex(0);
-     ui->webView->setUrl(QUrl(URL_GAME));
+    chooseLeftMenu(6);
 }
 void Widget::on_menu_btn_office_clicked()//办公学习
 {
-    ui->menu_btn_office->setStyleSheet("color:#FFFFFF");
-    ui->menu_bg_office->setStyleSheet("background-color:#0081FF;border-radius:8");//蓝色
-    //取消其他样式
-    ui->menu_bg_dev->setStyleSheet("");
-    ui->menu_bg_network->setStyleSheet("");
-    ui->menu_bg_photo->setStyleSheet("");
-    ui->menu_bg_read->setStyleSheet("");
-    ui->menu_bg_chat->setStyleSheet("");
-    ui->menu_bg_other->setStyleSheet("");
-    ui->menu_bg_video->setStyleSheet("");
-    ui->menu_bg_music->setStyleSheet("");
-    ui->menu_bg_game->setStyleSheet("");
-    ui->menu_bg_system->setStyleSheet("");
-    ui->menu_bg_main->setStyleSheet("");
-    ui->menu_bg_download->setStyleSheet("");
-    ui->menu_btn_dev->setStyleSheet("");
-    ui->menu_btn_network->setStyleSheet("");
-    ui->menu_btn_photo->setStyleSheet("");
-    ui->menu_btn_read->setStyleSheet("");
-    ui->menu_btn_chat->setStyleSheet("");
-    ui->menu_btn_other->setStyleSheet("");
-    ui->menu_btn_video->setStyleSheet("");
-    ui->menu_btn_music->setStyleSheet("");
-    ui->menu_btn_game->setStyleSheet("");
-    ui->menu_btn_system->setStyleSheet("");
-    ui->menu_btn_main->setStyleSheet("");
-    ui->menu_btn_download->setStyleSheet("");
-    ui->menu_btn_theme->setStyleSheet("");
-    ui->menu_bg_theme->setStyleSheet("");//蓝色
-     ui->stackedWidget->setCurrentIndex(0);
-     ui->webView->setUrl(QUrl(URL_OFFICE));
+    chooseLeftMenu(7);
 }
 void Widget::on_menu_btn_read_clicked()//阅读翻译
 {
-    ui->menu_btn_read->setStyleSheet("color:#FFFFFF");
-    ui->menu_bg_read->setStyleSheet("background-color:#0081FF;border-radius:8");//蓝色
-    //取消其他样式
-    ui->menu_bg_dev->setStyleSheet("");
-    ui->menu_bg_network->setStyleSheet("");
-    ui->menu_bg_photo->setStyleSheet("");
-    ui->menu_bg_office->setStyleSheet("");
-    ui->menu_bg_chat->setStyleSheet("");
-    ui->menu_bg_other->setStyleSheet("");
-    ui->menu_bg_video->setStyleSheet("");
-    ui->menu_bg_music->setStyleSheet("");
-    ui->menu_bg_game->setStyleSheet("");
-    ui->menu_bg_system->setStyleSheet("");
-    ui->menu_bg_main->setStyleSheet("");
-    ui->menu_bg_download->setStyleSheet("");
-    ui->menu_btn_dev->setStyleSheet("");
-    ui->menu_btn_network->setStyleSheet("");
-    ui->menu_btn_photo->setStyleSheet("");
-    ui->menu_btn_office->setStyleSheet("");
-    ui->menu_btn_chat->setStyleSheet("");
-    ui->menu_btn_other->setStyleSheet("");
-    ui->menu_btn_video->setStyleSheet("");
-    ui->menu_btn_music->setStyleSheet("");
-    ui->menu_btn_game->setStyleSheet("");
-    ui->menu_btn_system->setStyleSheet("");
-    ui->menu_btn_main->setStyleSheet("");
-    ui->menu_btn_download->setStyleSheet("");
-    ui->menu_btn_theme->setStyleSheet("");
-    ui->menu_bg_theme->setStyleSheet("");//蓝色
-     ui->stackedWidget->setCurrentIndex(0);
-     ui->webView->setUrl(QUrl(URL_READ));
+    chooseLeftMenu(8);
 }
 void Widget::on_menu_btn_dev_clicked()//编程开发
 {
-    ui->menu_btn_dev->setStyleSheet("color:#FFFFFF");
-    ui->menu_bg_dev->setStyleSheet("background-color:#0081FF;border-radius:8");//蓝色
-    //取消其他样式
-    ui->menu_bg_read->setStyleSheet("");
-    ui->menu_bg_network->setStyleSheet("");
-    ui->menu_bg_photo->setStyleSheet("");
-    ui->menu_bg_office->setStyleSheet("");
-    ui->menu_bg_chat->setStyleSheet("");
-    ui->menu_bg_other->setStyleSheet("");
-    ui->menu_bg_video->setStyleSheet("");
-    ui->menu_bg_music->setStyleSheet("");
-    ui->menu_bg_game->setStyleSheet("");
-    ui->menu_bg_system->setStyleSheet("");
-    ui->menu_bg_main->setStyleSheet("");
-    ui->menu_bg_download->setStyleSheet("");
-    ui->menu_btn_read->setStyleSheet("");
-    ui->menu_btn_network->setStyleSheet("");
-    ui->menu_btn_photo->setStyleSheet("");
-    ui->menu_btn_office->setStyleSheet("");
-    ui->menu_btn_chat->setStyleSheet("");
-    ui->menu_btn_other->setStyleSheet("");
-    ui->menu_btn_video->setStyleSheet("");
-    ui->menu_btn_music->setStyleSheet("");
-    ui->menu_btn_game->setStyleSheet("");
-    ui->menu_btn_system->setStyleSheet("");
-    ui->menu_btn_main->setStyleSheet("");
-    ui->menu_btn_download->setStyleSheet("");
-    ui->menu_btn_theme->setStyleSheet("");
-    ui->menu_bg_theme->setStyleSheet("");//蓝色
-     ui->stackedWidget->setCurrentIndex(0);
-     ui->webView->setUrl(QUrl(URL_DEV));
+    chooseLeftMenu(9);
 }
 void Widget::on_menu_btn_system_clicked()//系统管理
 {
-    ui->menu_btn_system->setStyleSheet("color:#FFFFFF");
-    ui->menu_bg_system->setStyleSheet("background-color:#0081FF;border-radius:8");//蓝色
-    //取消其他样式
-    ui->menu_bg_read->setStyleSheet("");
-    ui->menu_bg_network->setStyleSheet("");
-    ui->menu_bg_photo->setStyleSheet("");
-    ui->menu_bg_office->setStyleSheet("");
-    ui->menu_bg_chat->setStyleSheet("");
-    ui->menu_bg_other->setStyleSheet("");
-    ui->menu_bg_video->setStyleSheet("");
-    ui->menu_bg_music->setStyleSheet("");
-    ui->menu_bg_game->setStyleSheet("");
-    ui->menu_bg_dev->setStyleSheet("");
-    ui->menu_bg_main->setStyleSheet("");
-    ui->menu_bg_download->setStyleSheet("");
-    ui->menu_btn_read->setStyleSheet("");
-    ui->menu_btn_network->setStyleSheet("");
-    ui->menu_btn_photo->setStyleSheet("");
-    ui->menu_btn_office->setStyleSheet("");
-    ui->menu_btn_chat->setStyleSheet("");
-    ui->menu_btn_other->setStyleSheet("");
-    ui->menu_btn_video->setStyleSheet("");
-    ui->menu_btn_music->setStyleSheet("");
-    ui->menu_btn_game->setStyleSheet("");
-    ui->menu_btn_dev->setStyleSheet("");
-    ui->menu_btn_main->setStyleSheet("");
-    ui->menu_btn_download->setStyleSheet("");
-    ui->menu_btn_theme->setStyleSheet("");
-    ui->menu_bg_theme->setStyleSheet("");//蓝色
-     ui->stackedWidget->setCurrentIndex(0);
-     ui->webView->setUrl(QUrl(URL_SYSTEM));
+    chooseLeftMenu(10);
 }
 void Widget::on_menu_btn_other_clicked()//其他软件
 {
-    ui->menu_btn_other->setStyleSheet("color:#FFFFFF");
-    ui->menu_bg_other->setStyleSheet("background-color:#0081FF;border-radius:8");//蓝色
-    //取消其他样式
-    ui->menu_bg_read->setStyleSheet("");
-    ui->menu_bg_network->setStyleSheet("");
-    ui->menu_bg_photo->setStyleSheet("");
-    ui->menu_bg_office->setStyleSheet("");
-    ui->menu_bg_chat->setStyleSheet("");
-    ui->menu_bg_system->setStyleSheet("");
-    ui->menu_bg_video->setStyleSheet("");
-    ui->menu_bg_music->setStyleSheet("");
-    ui->menu_bg_game->setStyleSheet("");
-    ui->menu_bg_dev->setStyleSheet("");
-    ui->menu_bg_main->setStyleSheet("");
-    ui->menu_bg_download->setStyleSheet("");
-    ui->menu_btn_read->setStyleSheet("");
-    ui->menu_btn_network->setStyleSheet("");
-    ui->menu_btn_photo->setStyleSheet("");
-    ui->menu_btn_office->setStyleSheet("");
-    ui->menu_btn_chat->setStyleSheet("");
-    ui->menu_btn_system->setStyleSheet("");
-    ui->menu_btn_video->setStyleSheet("");
-    ui->menu_btn_music->setStyleSheet("");
-    ui->menu_btn_game->setStyleSheet("");
-    ui->menu_btn_dev->setStyleSheet("");
-    ui->menu_btn_main->setStyleSheet("");
-    ui->menu_btn_download->setStyleSheet("");
-    ui->menu_btn_theme->setStyleSheet("");
-    ui->menu_bg_theme->setStyleSheet("");//蓝色
-     ui->stackedWidget->setCurrentIndex(0);
-     ui->webView->setUrl(QUrl(URL_OTHER));
+    chooseLeftMenu(11);
+}
+void Widget::on_menu_btn_theme_clicked()
+{
+    chooseLeftMenu(12);
 }
 void Widget::on_menu_btn_download_clicked()
 {
-    ui->menu_btn_download->setStyleSheet("color:#FFFFFF");
-    ui->menu_bg_download->setStyleSheet("background-color:#0081FF;border-radius:8");//蓝色
-    //取消其他样式
-    ui->menu_bg_dev->setStyleSheet("");
-    ui->menu_bg_chat->setStyleSheet("");
-    ui->menu_bg_game->setStyleSheet("");
-    ui->menu_bg_read->setStyleSheet("");
-    ui->menu_bg_music->setStyleSheet("");
-    ui->menu_bg_other->setStyleSheet("");
-    ui->menu_bg_photo->setStyleSheet("");
-    ui->menu_bg_video->setStyleSheet("");
-    ui->menu_bg_office->setStyleSheet("");
-    ui->menu_bg_system->setStyleSheet("");
-    ui->menu_bg_main->setStyleSheet("");
-    ui->menu_bg_network->setStyleSheet("");
-    ui->menu_btn_dev->setStyleSheet("");
-    ui->menu_btn_chat->setStyleSheet("");
-    ui->menu_btn_game->setStyleSheet("");
-    ui->menu_btn_read->setStyleSheet("");
-    ui->menu_btn_music->setStyleSheet("");
-    ui->menu_btn_other->setStyleSheet("");
-    ui->menu_btn_photo->setStyleSheet("");
-    ui->menu_btn_video->setStyleSheet("");
-    ui->menu_btn_office->setStyleSheet("");
-    ui->menu_btn_system->setStyleSheet("");
-    ui->menu_btn_main->setStyleSheet("");
-    ui->menu_btn_network->setStyleSheet("");
-    ui->menu_btn_theme->setStyleSheet("");
-    ui->menu_bg_theme->setStyleSheet("");//蓝色
-    ui->stackedWidget->setCurrentIndex(1);
+    chooseLeftMenu(13);
 }
 void Widget::on_pushButton_2_clicked()
 {
@@ -701,37 +375,3 @@ void Widget::on_webView_loadFinished(bool arg1)
     ui->label_show->hide();
 }
 
-void Widget::on_menu_btn_theme_clicked()
-{
-    ui->menu_btn_theme->setStyleSheet("color:#FFFFFF");
-    ui->menu_bg_theme->setStyleSheet("background-color:#0081FF;border-radius:8");//蓝色
-    //取消其他样式
-    ui->menu_bg_dev->setStyleSheet("");
-    ui->menu_bg_chat->setStyleSheet("");
-    ui->menu_bg_game->setStyleSheet("");
-    ui->menu_bg_read->setStyleSheet("");
-    ui->menu_bg_music->setStyleSheet("");
-    ui->menu_bg_other->setStyleSheet("");
-    ui->menu_bg_photo->setStyleSheet("");
-    ui->menu_bg_video->setStyleSheet("");
-    ui->menu_bg_office->setStyleSheet("");
-    ui->menu_bg_system->setStyleSheet("");
-    ui->menu_bg_main->setStyleSheet("");
-    ui->menu_bg_network->setStyleSheet("");
-    ui->menu_btn_dev->setStyleSheet("");
-    ui->menu_btn_chat->setStyleSheet("");
-    ui->menu_btn_game->setStyleSheet("");
-    ui->menu_btn_read->setStyleSheet("");
-    ui->menu_btn_music->setStyleSheet("");
-    ui->menu_btn_other->setStyleSheet("");
-    ui->menu_btn_photo->setStyleSheet("");
-    ui->menu_btn_video->setStyleSheet("");
-    ui->menu_btn_office->setStyleSheet("");
-    ui->menu_btn_system->setStyleSheet("");
-    ui->menu_btn_main->setStyleSheet("");
-    ui->menu_btn_network->setStyleSheet("");
-    ui->menu_bg_download->setStyleSheet("");
-    ui->menu_btn_download->setStyleSheet("");
-    ui->stackedWidget->setCurrentIndex(0);
-    ui->webView->setUrl(QUrl(URL_THEME));
-}

@@ -10,6 +10,7 @@
 #include <QJsonObject>
 #include <QProcess>
 #include <QFuture>
+#include <QToolButton>
 #define LIST_MAX 99
 namespace Ui {
 class Widget;
@@ -28,6 +29,7 @@ public:
     int isdownload=false;
     void closeList(int);
     void loadappinfo(QUrl);
+    void chooseLeftMenu(int index);
     QPixmap screen[5];
     QFuture<void> load;
 
@@ -87,6 +89,9 @@ private:
     QFile *file;
     QString appName;
     QString urladdress;
+    QToolButton * left_list[14];
+    QWidget * left_menu_bg[14];
+    QUrl menuUrl[14];
 
 };
 
