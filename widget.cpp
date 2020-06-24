@@ -82,7 +82,6 @@ Widget::~Widget()
 
 void Widget::on_webView_linkClicked(const QUrl &arg1)
 {
-    qDebug()<<arg1;
     //判断，如果末尾是/就直接访问，如果是app.json就打开详情页
     if(arg1.path().right(1)=="/"){
         ui->webView->setUrl(arg1);
@@ -130,19 +129,30 @@ void Widget::loadappinfo(QUrl arg1)
         QByteArray json_array=app_json.readAll();
         urladdress=arg1.toString().left(arg1.toString().length()-8);
         QJsonObject json= QJsonDocument::fromJson(json_array).object();
-        appName = json["name"].toString();
-        url=urladdress + json["filename"].toString();
-        qDebug()<<appName;
+        appName = json["Name"].toString();
+        url=urladdress + json["Filename"].toString();
         ui->label_appname->setText(appName);
         system("rm -r *.png");
         ui->label_show->show();
         //软件信息加载
         QString info;
-        info="版本号："+json["version"].toString()+"\n";
-        info+="作者："+json["author"].toString()+"\n";
-        info+="官网："+json["website"].toString()+"\n";
+        info="版本号："+json["Version"].toString()+"\n";
+        info+="作者："+json["Author"].toString()+"\n";
+        info+="官网："+json["Website"].toString()+"\n";
+        info+="投稿者："+json["Contributor"].toString()+"\n";
+        info+="更新时间："+json["Update"].toString()+"\n";
+        info+="大小："+json["Size"].toString()+"\n";
         ui->label_info->setText(info);
-        ui->label_more->setText(json["more"].toString());
+        ui->label_more->setText(json["More"].toString());
+        QProcess isInstall;
+        isInstall.start("dpkg -s "+json["Pkgname"].toString());
+        isInstall.waitForFinished();
+        qDebug()<<"debisinstall"<<QString::fromStdString(isInstall.readAllStandardError().toStdString()).length();
+        if(isInstall.readAllStandardError().toStdString().length()==0){
+            ui->pushButton->setText("重新安装");
+        }else {
+            ui->pushButton->setText("安装");
+        }
         //图标加载
         get_json.start("wget -O icon.png "+urladdress+"icon.png");
         get_json.waitForFinished();
@@ -203,7 +213,6 @@ void Widget::chooseLeftMenu(int index)
 
     if(index<=12){
         ui->webView->setUrl(menuUrl[index]);
-        qDebug()<<menuUrl[index];
         ui->stackedWidget->setCurrentIndex(0);
     }else if (index==13) {
         ui->stackedWidget->setCurrentIndex(1);
@@ -232,9 +241,7 @@ void Widget::on_pushButton_clicked()
     download_list[allDownload-1].setFileName(fileName);
     if(!isBusy){
         file = new QFile(fileName);
-        if(!file->open(QIODevice::WriteOnly))
-        {
-            qDebug()<<"file open error";
+        if(!file->open(QIODevice::WriteOnly)){
             delete file;
             file = 0;
             return ;
@@ -272,8 +279,10 @@ void Widget::httpReadyRead()
 }
 void Widget::updateDataReadProgress(qint64 bytesRead, qint64 totalBytes)
 {
-    download_list[nowDownload-1].setMax(1000); //最大值
-    download_list[nowDownload-1].setValue((bytesRead*1000)/totalBytes); //当前值
+//    download_list[nowDownload-1].setMax(1000); //最大值
+//    download_list[nowDownload-1].setValue((bytesRead*1000)/totalBytes); //当前值
+    download_list[nowDownload-1].setMax(bytesRead/10);
+    download_list[nowDownload-1].setValue(totalBytes/10);
 }
 
 void Widget::httpFinished() //完成下载
@@ -288,8 +297,6 @@ file = 0;
 isdownload=false;
 isBusy=false;
 download_list[nowDownload-1].readyInstall();
-qDebug()<<nowDownload;
-qDebug()<<allDownload;
 if(nowDownload<allDownload){
     QString fileName=download_list[nowDownload].getName();
     file = new QFile(fileName);
