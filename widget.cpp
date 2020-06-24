@@ -147,8 +147,8 @@ void Widget::loadappinfo(QUrl arg1)
         QProcess isInstall;
         isInstall.start("dpkg -s "+json["Pkgname"].toString());
         isInstall.waitForFinished();
-        qDebug()<<"debisinstall"<<QString::fromStdString(isInstall.readAllStandardError().toStdString()).length();
-        if(isInstall.readAllStandardError().toStdString().length()==0){
+        int error=QString::fromStdString(isInstall.readAllStandardError().toStdString()).length();
+        if(error==0){
             ui->pushButton->setText("重新安装");
         }else {
             ui->pushButton->setText("安装");
