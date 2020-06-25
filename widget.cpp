@@ -60,14 +60,14 @@ Widget::Widget(QWidget *parent) :
 
     configCanSeve=true;
     qDebug()<<serverUrl;
-    menuUrl[0]=serverUrl + "store/";
+    menuUrl[0]=serverUrl + "store/frontpage/";
     menuUrl[1]=serverUrl + "store/network/";
     menuUrl[2]=serverUrl + "store/chat/";
     menuUrl[3]=serverUrl + "store/music/";
     menuUrl[4]=serverUrl + "store/video";
     menuUrl[5]=serverUrl + "store/image_graphics/";
     menuUrl[6]=serverUrl + "store/games/";
-    menuUrl[7]=serverUrl + "store/";
+    menuUrl[7]=serverUrl + "store/office/";
     menuUrl[8]=serverUrl + "store/reading/";
     menuUrl[9]=serverUrl + "store/development/";
     menuUrl[10]=serverUrl + "store/tools/";
@@ -279,10 +279,10 @@ void Widget::httpReadyRead()
 }
 void Widget::updateDataReadProgress(qint64 bytesRead, qint64 totalBytes)
 {
-//    download_list[nowDownload-1].setMax(1000); //最大值
-//    download_list[nowDownload-1].setValue((bytesRead*1000)/totalBytes); //当前值
-    download_list[nowDownload-1].setMax(bytesRead/10);
-    download_list[nowDownload-1].setValue(totalBytes/10);
+    download_list[nowDownload-1].setMax(1000); //最大值
+    download_list[nowDownload-1].setValue((bytesRead*1000)/totalBytes); //当前值
+//    download_list[nowDownload-1].setMax(bytesRead/10);
+//    download_list[nowDownload-1].setValue(totalBytes/10);
 }
 
 void Widget::httpFinished() //完成下载

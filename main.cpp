@@ -12,9 +12,9 @@ int main(int argc, char *argv[])
     a.loadTranslator();
     a.setOrganizationName("deepin");
     a.setApplicationVersion(DApplication::buildVersion("1.0"));
-    //a.setApplicationAcknowledgementPage("https://你的网站");
-    //a.setProductIcon(QIcon(":/images/icon.svg"));  //设置Logo
-    //a.setProductName("DtkDemo");
+    a.setApplicationAcknowledgementPage("https://gitee.com/deepin-community-store/deepin-community-store");
+    a.setProductIcon(QIcon::fromTheme("deepin-community-store"));  //设置Logo
+    a.setProductName("deepin-community-store");
     a.setApplicationName("社区应用商店"); //只有在这儿修改窗口标题才有效
 
     MainWindow w;

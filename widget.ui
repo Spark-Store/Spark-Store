@@ -137,7 +137,7 @@
             <x>0</x>
             <y>0</y>
             <width>781</width>
-            <height>770</height>
+            <height>769</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_17">
@@ -495,7 +495,7 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>547</width>
+            <width>535</width>
             <height>130</height>
            </rect>
           </property>
@@ -687,7 +687,7 @@
             <string notr="true">color:#FFFFFF</string>
            </property>
            <property name="text">
-            <string>首页精选</string>
+            <string>首页推荐</string>
            </property>
           </widget>
          </item>
@@ -1147,7 +1147,7 @@
             </sizepolicy>
            </property>
            <property name="text">
-            <string>系统管理</string>
+            <string>工具插件</string>
            </property>
           </widget>
          </item>
