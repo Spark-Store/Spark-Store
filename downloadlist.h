@@ -2,7 +2,6 @@
 #define DOWNLOADLIST_H
 
 #include <QWidget>
-
 namespace Ui {
 class downloadlist;
 }
@@ -22,6 +21,7 @@ public:
     void choose(bool);
     bool free;
     void setFileName(QString);
+    void seticon(const QPixmap);
 public: signals:
     void closeDownload();
 private slots:

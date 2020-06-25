@@ -15,6 +15,7 @@
 #include <QPixmap>
 #include <QtConcurrent> //并发
 #include <QSettings>
+#include <QIcon>
 Widget::Widget(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::Widget)
@@ -60,19 +61,19 @@ Widget::Widget(QWidget *parent) :
 
     configCanSeve=true;
     qDebug()<<serverUrl;
-    menuUrl[0]=serverUrl + "store/frontpage/";
+    menuUrl[0]=serverUrl + "";
     menuUrl[1]=serverUrl + "store/network/";
     menuUrl[2]=serverUrl + "store/chat/";
     menuUrl[3]=serverUrl + "store/music/";
     menuUrl[4]=serverUrl + "store/video";
     menuUrl[5]=serverUrl + "store/image_graphics/";
     menuUrl[6]=serverUrl + "store/games/";
-    menuUrl[7]=serverUrl + "store/office/";
+    menuUrl[7]=serverUrl + "store/";
     menuUrl[8]=serverUrl + "store/reading/";
     menuUrl[9]=serverUrl + "store/development/";
     menuUrl[10]=serverUrl + "store/tools/";
     menuUrl[11]=serverUrl + "store/others/";
-    menuUrl[12]=serverUrl + "store/themes/";
+    menuUrl[12]=serverUrl + "themes";
 }
 
 Widget::~Widget()
@@ -104,6 +105,7 @@ void Widget::on_webView_linkClicked(const QUrl &arg1)
         ui->label_more->setText("");//清空详情介绍
         ui->label_info->setText("");
         ui->label_appname->setText("");
+        ui->pushButton->setEnabled(false);
         ui->stackedWidget->setCurrentIndex(2);
         load = QtConcurrent::run([=](){
             loadappinfo(arg1);
@@ -159,6 +161,7 @@ void Widget::loadappinfo(QUrl arg1)
         QPixmap appicon;
         qDebug()<<appicon.load("icon.png");
         ui->label_appicon->setPixmap(appicon);
+        ui->pushButton->setEnabled(true);
         //截图展示加载
         get_json.start("wget "+urladdress+"screen_1.png");
         get_json.waitForFinished();
@@ -239,6 +242,9 @@ void Widget::on_pushButton_clicked()
     urList.append(url);
     download_list[allDownload-1].setName(appName);
     download_list[allDownload-1].setFileName(fileName);
+    QPixmap icon;
+    icon.load("icon.png");
+    download_list[allDownload-1].seticon(icon);
     if(!isBusy){
         file = new QFile(fileName);
         if(!file->open(QIODevice::WriteOnly)){
@@ -279,8 +285,9 @@ void Widget::httpReadyRead()
 }
 void Widget::updateDataReadProgress(qint64 bytesRead, qint64 totalBytes)
 {
-    download_list[nowDownload-1].setMax(1000); //最大值
-    download_list[nowDownload-1].setValue((bytesRead*1000)/totalBytes); //当前值
+    download_list[nowDownload-1].setMax(10000); //最大值
+    download_list[nowDownload-1].setValue((bytesRead*10000)/totalBytes); //当前值
+
 //    download_list[nowDownload-1].setMax(bytesRead/10);
 //    download_list[nowDownload-1].setValue(totalBytes/10);
 }

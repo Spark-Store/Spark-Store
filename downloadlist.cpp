@@ -1,6 +1,8 @@
 #include "downloadlist.h"
 #include "ui_downloadlist.h"
 #include <QDebug>
+#include <QIcon>
+#include <QPixmap>
 downloadlist::downloadlist(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::downloadlist)
@@ -20,6 +22,10 @@ downloadlist::~downloadlist()
 void downloadlist::setValue(long long value)
 {
     ui->progressBar->setValue(value);
+    ui->label_2->setText(QString::number((double)value/100)+"%");
+    if(ui->label_2->text()=="100%"){
+        ui->label_2->setText("已完成，等待安装");
+    }
 }
 
 void downloadlist::setMax(long long max)
@@ -48,14 +54,21 @@ void downloadlist::choose(bool isChoosed)
 {
     if(isChoosed){
         ui->label->setStyleSheet("color:#FFFFFF");
+        ui->label_2->setStyleSheet("color:#FFFFFF");
     }else {
         ui->label->setStyleSheet("color:#000000");
+        ui->label_2->setStyleSheet("color:#000000");
     }
 }
 
 void downloadlist::setFileName(QString fileName)
 {
     ui->label_filename->setText(fileName);
+}
+
+void downloadlist::seticon(const QPixmap icon)
+{
+    ui->label_3->setPixmap(icon);
 }
 
 void downloadlist::on_pushButton_clicked()
