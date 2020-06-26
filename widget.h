@@ -96,6 +96,7 @@ private:
     QWidget * left_menu_bg[15];
     QUrl menuUrl[13];
     bool configCanSeve=false;
+    int nowMenu=0;
 
 };
 

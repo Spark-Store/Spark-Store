@@ -38,7 +38,7 @@
       <number>0</number>
      </property>
      <property name="currentIndex">
-      <number>1</number>
+      <number>2</number>
      </property>
      <widget class="QWidget" name="page">
       <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -136,8 +136,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>299</width>
-            <height>770</height>
+            <width>781</width>
+            <height>815</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_17">
@@ -367,7 +367,7 @@
                   <rect>
                    <x>0</x>
                    <y>0</y>
-                   <width>376</width>
+                   <width>747</width>
                    <height>325</height>
                   </rect>
                  </property>
@@ -474,6 +474,19 @@
              </layout>
             </widget>
            </item>
+           <item>
+            <spacer name="verticalSpacer_5">
+             <property name="orientation">
+              <enum>Qt::Vertical</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>20</width>
+               <height>40</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
           </layout>
          </widget>
         </widget>
@@ -495,8 +508,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>547</width>
-            <height>130</height>
+            <width>765</width>
+            <height>595</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_23">

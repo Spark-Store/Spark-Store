@@ -16,6 +16,7 @@
 #include <QtConcurrent> //并发
 #include <QSettings>
 #include <QIcon>
+#include <QWebFrame>
 #include <QGraphicsOpacityEffect>
 Widget::Widget(QWidget *parent) :
     QWidget(parent),
@@ -26,6 +27,7 @@ Widget::Widget(QWidget *parent) :
 
     ui->setupUi(this);
     ui->webView->page()->setLinkDelegationPolicy(QWebPage::DelegateAllLinks);//用来激活接受linkClicked信号
+    ui->webView->page()->settings()->setAttribute(QWebSettings::JavascriptEnabled,true);
     ui->stackedWidget->setCurrentIndex(0);
     ui->listWidget->hide();
     ui->label_setting1->hide();
@@ -57,24 +59,22 @@ Widget::Widget(QWidget *parent) :
     }else {
         serverUrl="http://dcstore.shenmo.tech/";
     }
-    ui->webView->setUrl(serverUrl+"store/");
-
-
     configCanSeve=true;
     qDebug()<<serverUrl;
-    menuUrl[0]=serverUrl + "";
-    menuUrl[1]=serverUrl + "store/network/";
-    menuUrl[2]=serverUrl + "store/chat/";
-    menuUrl[3]=serverUrl + "store/music/";
-    menuUrl[4]=serverUrl + "store/video";
-    menuUrl[5]=serverUrl + "store/image_graphics/";
-    menuUrl[6]=serverUrl + "store/games/";
-    menuUrl[7]=serverUrl + "store/";
-    menuUrl[8]=serverUrl + "store/reading/";
-    menuUrl[9]=serverUrl + "store/development/";
-    menuUrl[10]=serverUrl + "store/tools/";
-    menuUrl[11]=serverUrl + "store/others/";
-    menuUrl[12]=serverUrl + "themes";
+    menuUrl[0]=serverUrl + "store/#/";
+    menuUrl[1]=serverUrl + "store/#/network/";
+    menuUrl[2]=serverUrl + "store/#/relations";
+    menuUrl[3]=serverUrl + "store/#/musicandsound";
+    menuUrl[4]=serverUrl + "store/#/videos";
+    menuUrl[5]=serverUrl + "store/#/photos";
+    menuUrl[6]=serverUrl + "store/#/games/";
+    menuUrl[7]=serverUrl + "store/#/office";
+    menuUrl[8]=serverUrl + "store/#/reading/";
+    menuUrl[9]=serverUrl + "store/#/programming";
+    menuUrl[10]=serverUrl + "store/#/tools/";
+    menuUrl[11]=serverUrl + "store/#/others/";
+    menuUrl[12]=serverUrl + "store/#/themes";
+    ui->webView->setUrl(menuUrl[0]);
     for (int i =0; i<15;i++){
         download_list[i].num=i;
     }
@@ -86,7 +86,7 @@ Widget::Widget(QWidget *parent) :
     opacityEffect_2->setOpacity(0.2);
     ui->line1_widget->setGraphicsEffect(opacityEffect_1);
     ui->line2_widget->setGraphicsEffect(opacityEffect_2);
-
+    connect(ui->webView->page(),SIGNAL(javaScriptWindowObjectCleared()),this,SLOT([=](){qDebug()<<" ";}));
 }
 
 Widget::~Widget()
@@ -96,10 +96,47 @@ Widget::~Widget()
 
 void Widget::on_webView_linkClicked(const QUrl &arg1)
 {
+    //这里通过获取url的方式和现有web不符，
+//    qDebug()<<arg1;
+//    //判断，如果末尾是/就直接访问，如果是app.json就打开详情页
+//    if(arg1.path().right(1)=="/"){
+//        ui->webView->setUrl(arg1);
+//    }else if(arg1.path().right(8)=="app.json"){
+//        load.cancel();//打开并发加载线程前关闭正在执行的线程
+////        load.waitForFinished();
+//        QPixmap pixmap_null;//一个空的图片指针，用来清空先有内容
+//        ui->label_appicon->setPixmap(pixmap_null);
+//        ui->screen_1->setPixmap(pixmap_null);
+//        ui->screen_2->setPixmap(pixmap_null);
+//        ui->screen_3->setPixmap(pixmap_null);
+//        ui->screen_4->setPixmap(pixmap_null);
+//        ui->screen_5->setPixmap(pixmap_null);
+//        //先隐藏详情页负责显示截图的label
+//        ui->screen_1->hide();
+//        ui->screen_2->hide();
+//        ui->screen_3->hide();
+//        ui->screen_4->hide();
+//        ui->screen_5->hide();
+//        ui->label_more->setText("");//清空详情介绍
+//        ui->label_info->setText("");
+//        ui->label_appname->setText("");
+//        ui->pushButton->setEnabled(false);
+//        ui->stackedWidget->setCurrentIndex(2);
+//        load.cancel();//打开并发加载线程前关闭正在执行的线程
+//        load = QtConcurrent::run([=](){
+//            loadappinfo(arg1);
+//        });
+//    }
+}
+void Widget::on_webView_loadStarted()
+{
+
+    ui->label_show->setText("正在加载，请稍候");
+    ui->label_show->show();
+    QUrl arg1=ui->webView->page()->mainFrame()->requestedUrl().toString();
+    qDebug()<<arg1;
     //判断，如果末尾是/就直接访问，如果是app.json就打开详情页
-    if(arg1.path().right(1)=="/"){
-        ui->webView->setUrl(arg1);
-    }else if(arg1.path().right(8)=="app.json"){
+    if(arg1.path().right(8)=="app.json"){
         load.cancel();//打开并发加载线程前关闭正在执行的线程
         load.waitForFinished();
         QPixmap pixmap_null;//一个空的图片指针，用来清空先有内容
@@ -120,6 +157,7 @@ void Widget::on_webView_linkClicked(const QUrl &arg1)
         ui->label_appname->setText("");
         ui->pushButton->setEnabled(false);
         ui->stackedWidget->setCurrentIndex(2);
+        load.cancel();//打开并发加载线程前关闭正在执行的线程
         load = QtConcurrent::run([=](){
             loadappinfo(arg1);
         });
@@ -151,7 +189,8 @@ void Widget::loadappinfo(QUrl arg1)
         ui->label_show->show();
         //软件信息加载
         QString info;
-        info="版本号："+json["Version"].toString()+"\n";
+        info="包名："+json["Pkgname"].toString()+"\n";
+        info+="版本号："+json["Version"].toString()+"\n";
         if(json["Author"].toString()!="" && json["Author"].toString()!=" "){
             info+="作者："+json["Author"].toString()+"\n";
         }
@@ -225,6 +264,7 @@ void Widget::loadappinfo(QUrl arg1)
 
 void Widget::chooseLeftMenu(int index)
 {
+    nowMenu=index;
     for (int i=0;i<15;i++) {
         load.cancel();//打开并发加载线程前关闭正在执行的线程
         left_list[i]->setStyleSheet("");
@@ -413,19 +453,18 @@ void Widget::on_menu_btn_settings_clicked()
 }
 void Widget::on_pushButton_2_clicked()
 {
+    ui->webView->setUrl(menuUrl[nowMenu]);
     ui->stackedWidget->setCurrentIndex(0);
 }
 
-void Widget::on_webView_loadStarted()
-{
-    ui->label_show->setText("正在加载，请稍候");
-    ui->label_show->show();
-}
+
 
 void Widget::on_webView_loadFinished()
 {
-    ui->label_show->setText("");
-    ui->label_show->hide();
+    if(ui->webView->page()->mainFrame()->requestedUrl().toString().right(5)!=".json"){
+        ui->label_show->setText("");
+        ui->label_show->hide();
+    }
 }
 
 
