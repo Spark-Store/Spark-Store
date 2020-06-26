@@ -78,12 +78,15 @@ Widget::Widget(QWidget *parent) :
     for (int i =0; i<15;i++){
         download_list[i].num=i;
     }
-    QGraphicsOpacityEffect *opacityEffect=new QGraphicsOpacityEffect;
+    QGraphicsOpacityEffect *opacityEffect_1=new QGraphicsOpacityEffect;
+    QGraphicsOpacityEffect *opacityEffect_2=new QGraphicsOpacityEffect;
     ui->line1_widget->setStyleSheet("background-color:#808080");
     ui->line2_widget->setStyleSheet("background-color:#808080");
-    ui->line1_widget->setGraphicsEffect(opacityEffect);
-    ui->line2_widget->setGraphicsEffect(opacityEffect);
-    opacityEffect->setOpacity(0.2);
+    opacityEffect_1->setOpacity(0.2);
+    opacityEffect_2->setOpacity(0.2);
+    ui->line1_widget->setGraphicsEffect(opacityEffect_1);
+    ui->line2_widget->setGraphicsEffect(opacityEffect_2);
+
 }
 
 Widget::~Widget()
@@ -260,6 +263,7 @@ void Widget::on_pushButton_clicked()
     download_list[allDownload-1].setFileName(fileName);
     QPixmap icon;
     icon.load("icon.png");
+    system("cp icon.png icon_"+QString::number(allDownload-1).toUtf8()+".png");
     download_list[allDownload-1].seticon(icon);
     if(!isBusy){
         file = new QFile(fileName);

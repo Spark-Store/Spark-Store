@@ -14,7 +14,7 @@ int main(int argc, char *argv[])
     a.setApplicationVersion(DApplication::buildVersion("1.0"));
     a.setApplicationAcknowledgementPage("https://gitee.com/deepin-community-store/deepin-community-store");
     a.setProductIcon(QIcon::fromTheme("deepin-community-store"));  //设置Logo
-    a.setProductName("deepin-community-store");
+    a.setProductName("深度社区应用商店");
     a.setApplicationName("社区应用商店"); //只有在这儿修改窗口标题才有效
 
     MainWindow w;

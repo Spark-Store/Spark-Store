@@ -55,7 +55,7 @@ void downloadlist::readyInstall()
         ui->pushButton->setEnabled(true);
         ui->pushButton->show();
         ui->pushButton_2->hide();
-        system("notify-send \""+ui->label->text().toUtf8()+"下载完成，等待安装\"");
+        system("notify-send \""+ui->label->text().toUtf8()+"下载完成，等待安装\"" +" --icon=/tmp/deepin-community-store/icon_"+QString::number(num).toUtf8()+".png");
     }
 }
 
@@ -98,18 +98,24 @@ void downloadlist::on_pushButton_clicked()
             QString error=QString::fromStdString(installer.readAllStandardError().toStdString());
             QStringList everyError=error.split("\n");
             bool haveError=false;
+            bool notRoot=false;
             for (int i=0;i<everyError.size();i++) {
                 qDebug()<<everyError[i].left(2);
                 if(everyError[i].left(2)=="E:"){
                     haveError=true;
                 }
+                if(everyError[i].right(14)=="Not authorized"){
+                    notRoot=true;
+                }
             }
-            if(!haveError){
+            if(!haveError && !notRoot){
                 ui->pushButton->hide();
                 ui->label_2->setText("安装完成");
-            }else {
+            }else if(haveError){
                 ui->pushButton->hide();
                 ui->label_2->setText("安装出现错误");
+            }else {
+                ui->label_2->setText("安装被终止");
             }
             isInstall=false;
         });
