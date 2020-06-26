@@ -16,6 +16,7 @@
 #include <QtConcurrent> //并发
 #include <QSettings>
 #include <QIcon>
+#include <QGraphicsOpacityEffect>
 Widget::Widget(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::Widget)
@@ -74,6 +75,15 @@ Widget::Widget(QWidget *parent) :
     menuUrl[10]=serverUrl + "store/tools/";
     menuUrl[11]=serverUrl + "store/others/";
     menuUrl[12]=serverUrl + "themes";
+    for (int i =0; i<15;i++){
+        download_list[i].num=i;
+    }
+    QGraphicsOpacityEffect *opacityEffect=new QGraphicsOpacityEffect;
+    ui->line1_widget->setStyleSheet("background-color:#808080");
+    ui->line2_widget->setStyleSheet("background-color:#808080");
+    ui->line1_widget->setGraphicsEffect(opacityEffect);
+    ui->line2_widget->setGraphicsEffect(opacityEffect);
+    opacityEffect->setOpacity(0.2);
 }
 
 Widget::~Widget()
@@ -139,8 +149,13 @@ void Widget::loadappinfo(QUrl arg1)
         //软件信息加载
         QString info;
         info="版本号："+json["Version"].toString()+"\n";
-        info+="作者："+json["Author"].toString()+"\n";
-        info+="官网："+json["Website"].toString()+"\n";
+        if(json["Author"].toString()!="" && json["Author"].toString()!=" "){
+            info+="作者："+json["Author"].toString()+"\n";
+        }
+
+        if(json["Website"].toString()!="" && json["Website"].toString()!=" "){
+            info+="官网："+json["Website"].toString()+"\n";
+        }
         info+="投稿者："+json["Contributor"].toString()+"\n";
         info+="更新时间："+json["Update"].toString()+"\n";
         info+="大小："+json["Size"].toString()+"\n";
@@ -208,6 +223,7 @@ void Widget::loadappinfo(QUrl arg1)
 void Widget::chooseLeftMenu(int index)
 {
     for (int i=0;i<15;i++) {
+        load.cancel();//打开并发加载线程前关闭正在执行的线程
         left_list[i]->setStyleSheet("");
         left_menu_bg[i]->setStyleSheet("");
     }
@@ -249,7 +265,7 @@ void Widget::on_pushButton_clicked()
         file = new QFile(fileName);
         if(!file->open(QIODevice::WriteOnly)){
             delete file;
-            file = 0;
+            file = nullptr;
             return ;
         }
         nowDownload+=1;
@@ -263,15 +279,11 @@ void Widget::startRequest(QUrl url)
     ui->label->hide();
     isBusy=true;
     isdownload=true;
+    download_list[allDownload-1].free=false;
     reply = manager->get(QNetworkRequest(url));
     connect(reply,SIGNAL(finished()),this,SLOT(httpFinished()));
     connect(reply,SIGNAL(readyRead()),this,SLOT(httpReadyRead()));
     connect(reply,SIGNAL(downloadProgress(qint64,qint64)),this,SLOT(updateDataReadProgress(qint64,qint64)));
-
-}
-
-void Widget::closeList(int)
-{
 
 }
 
@@ -287,7 +299,11 @@ void Widget::updateDataReadProgress(qint64 bytesRead, qint64 totalBytes)
 {
     download_list[nowDownload-1].setMax(10000); //最大值
     download_list[nowDownload-1].setValue((bytesRead*10000)/totalBytes); //当前值
+    if(download_list[nowDownload-1].close){
+        download_list[nowDownload-1].closeDownload();
+        httpFinished();
 
+    }
 //    download_list[nowDownload-1].setMax(bytesRead/10);
 //    download_list[nowDownload-1].setValue(totalBytes/10);
 }
@@ -298,23 +314,27 @@ void Widget::httpFinished() //完成下载
 file->flush();
 file->close();
 reply->deleteLater();
-reply = 0;
+reply = nullptr;
 delete file;
-file = 0;
+file = nullptr;
 isdownload=false;
 isBusy=false;
 download_list[nowDownload-1].readyInstall();
+download_list[nowDownload-1].free=true;
 if(nowDownload<allDownload){
-    QString fileName=download_list[nowDownload].getName();
+    nowDownload+=1;
+    while (download_list[nowDownload-1].close) {
+        nowDownload+=1;
+    }
+    QString fileName=download_list[nowDownload-1].getName();
     file = new QFile(fileName);
     if(!file->open(QIODevice::WriteOnly))
     {
         qDebug()<<"file open error";
         delete file;
-        file = 0;
+        file = nullptr;
         return ;
     }
-    nowDownload+=1;
     startRequest(urList.at(nowDownload-1));
 }
 }
@@ -398,7 +418,7 @@ void Widget::on_webView_loadStarted()
     ui->label_show->show();
 }
 
-void Widget::on_webView_loadFinished(bool arg1)
+void Widget::on_webView_loadFinished()
 {
     ui->label_show->setText("");
     ui->label_show->hide();

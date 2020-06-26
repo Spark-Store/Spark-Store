@@ -27,7 +27,6 @@ public:
     int nowDownload=0;
     int allDownload=0;
     int isdownload=false;
-    void closeList(int);
     void loadappinfo(QUrl);
     void chooseLeftMenu(int index);
     QPixmap screen[5];
@@ -74,7 +73,7 @@ private slots:
 
     void on_webView_loadStarted();
 
-    void on_webView_loadFinished(bool arg1);
+    void on_webView_loadFinished();
 
     void on_menu_btn_theme_clicked();
 
