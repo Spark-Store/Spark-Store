@@ -3,6 +3,9 @@
 #### 介绍
 deepin社区商店，由社区维护
 web页面部分正在开发当中，详情请见[web仓库](https://gitee.com/deepin-community-store/DCSAPP_WEB)
+#### 编译指导
+依赖：dtk2版（适用于ubuntu/15.11)：qt5-default g++ libdtkcore2-dev libdtkwidget2-dev libqt5webkit5-dev libdtkgui2-dev
+     dtk5版（适用于20beta):qt5-default g++ libdtkwidget5-dev libdtkcore5-dev libdtkgui5-dev libqt5webkit5-dev
 
 #### 说明
 
