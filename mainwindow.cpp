@@ -10,7 +10,7 @@ MainWindow::MainWindow(QWidget *parent)
     w = new Widget;
 
     resize(w->size()); //设置窗口大小
-    setMinimumSize(900,750);
+    setMinimumSize(900,700);
     setCentralWidget(w);
 }
 
@@ -18,3 +18,4 @@ MainWindow::~MainWindow()
 {
 
 }
+

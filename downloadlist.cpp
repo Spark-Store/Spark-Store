@@ -27,7 +27,7 @@ downloadlist::~downloadlist()
 void downloadlist::setValue(long long value)
 {
     ui->progressBar->setValue(value);
-    ui->label_2->setText(QString::number((double)value/100)+"%");
+    ui->label_2->setText(QString::number((double)value/100)+"% ("+speed+")");
     if(ui->label_2->text()=="100%"){
         ui->label_2->setText("已完成，等待安装");
     }
@@ -83,6 +83,11 @@ void downloadlist::seticon(const QPixmap icon)
 void downloadlist::closeDownload()
 {
     on_pushButton_2_clicked();
+}
+
+void downloadlist::setSpeed(QString s)
+{
+    speed=s;
 }
 
 void downloadlist::on_pushButton_clicked()

@@ -3,18 +3,20 @@
 
 #include <DMainWindow>
 #include "widget.h"
-
+#include <QThread>
 DWIDGET_USE_NAMESPACE
 
 class MainWindow : public DMainWindow
 {
     Q_OBJECT
 
+
 public:
     MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
 private:
+
     Widget *w;
 };
 

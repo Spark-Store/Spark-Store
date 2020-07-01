@@ -47,11 +47,16 @@ Widget::Widget(QWidget *parent) :
     left_list[12]=ui->menu_btn_theme;left_menu_bg[12]=ui->menu_bg_theme;
     left_list[13]=ui->menu_btn_download;left_menu_bg[13]=ui->menu_bg_download;
     left_list[14]=ui->menu_btn_settings;left_menu_bg[14]=ui->menu_bg_settings;
-    server.open("server.list",std::ios::in);
+    server.open(QApplication::applicationDirPath().toUtf8()+"/server.list",std::ios::in);
     std::string lineTmp;
-    while (getline(server,lineTmp)) {
-        ui->comboBox_server->addItem(QString::fromStdString(lineTmp));
+    if(server){
+        while (getline(server,lineTmp)) {
+            ui->comboBox_server->addItem(QString::fromStdString(lineTmp));
+        }
+    }else {
+        ui->comboBox_server->addItem("http://dcstore.shenmo.tech/");
     }
+
     QSettings readConfig(QDir::homePath()+"/.config/deepin-community-store/config.ini",QSettings::IniFormat);
     if(readConfig.value("server/choose").toString()!=""){
         ui->comboBox_server->setCurrentText(readConfig.value("server/choose").toString());
@@ -87,58 +92,50 @@ Widget::Widget(QWidget *parent) :
     ui->line1_widget->setGraphicsEffect(opacityEffect_1);
     ui->line2_widget->setGraphicsEffect(opacityEffect_2);
     connect(ui->webView->page(),SIGNAL(javaScriptWindowObjectCleared()),this,SLOT([=](){qDebug()<<" ";}));
+    download_speed.setInterval(1000);
+    download_speed.start();
+    connect(&download_speed,&QTimer::timeout,[=](){
+        if(isdownload){
+            size1=download_size;
+            QString theSpeed;
+            double bspeed;
+            bspeed=size1-size2;
+            qDebug()<<"run to hear"<<bspeed;
+            if(bspeed<1024){
+                theSpeed=QString::number(bspeed)+"B";
+            }else if (bspeed<(1024*1024)) {
+                theSpeed=QString::number(0.01*int(100*(bspeed/1024)))+"KB";
+            }else if (bspeed<(1024*1024*1024)) {
+                theSpeed=QString::number(0.01*int(100*(bspeed/(1024*1024))))+"MB";
+            }else {
+                theSpeed=QString::number(0.01*int(100*(bspeed/(1024*1024*1024))))+"GB";
+            }
+            download_list[nowDownload-1].setSpeed(theSpeed);
+            size2=download_size;
+        }
+    });
 }
 
 Widget::~Widget()
 {
     delete ui;
 }
-
-void Widget::on_webView_linkClicked(const QUrl &arg1)
-{
-    //这里通过获取url的方式和现有web不符，
-//    qDebug()<<arg1;
-//    //判断，如果末尾是/就直接访问，如果是app.json就打开详情页
-//    if(arg1.path().right(1)=="/"){
-//        ui->webView->setUrl(arg1);
-//    }else if(arg1.path().right(8)=="app.json"){
-//        load.cancel();//打开并发加载线程前关闭正在执行的线程
-////        load.waitForFinished();
-//        QPixmap pixmap_null;//一个空的图片指针，用来清空先有内容
-//        ui->label_appicon->setPixmap(pixmap_null);
-//        ui->screen_1->setPixmap(pixmap_null);
-//        ui->screen_2->setPixmap(pixmap_null);
-//        ui->screen_3->setPixmap(pixmap_null);
-//        ui->screen_4->setPixmap(pixmap_null);
-//        ui->screen_5->setPixmap(pixmap_null);
-//        //先隐藏详情页负责显示截图的label
-//        ui->screen_1->hide();
-//        ui->screen_2->hide();
-//        ui->screen_3->hide();
-//        ui->screen_4->hide();
-//        ui->screen_5->hide();
-//        ui->label_more->setText("");//清空详情介绍
-//        ui->label_info->setText("");
-//        ui->label_appname->setText("");
-//        ui->pushButton->setEnabled(false);
-//        ui->stackedWidget->setCurrentIndex(2);
-//        load.cancel();//打开并发加载线程前关闭正在执行的线程
-//        load = QtConcurrent::run([=](){
-//            loadappinfo(arg1);
-//        });
-//    }
-}
 void Widget::on_webView_loadStarted()
 {
 
-    ui->label_show->setText("正在加载，请稍候");
-    ui->label_show->show();
+
     QUrl arg1=ui->webView->page()->mainFrame()->requestedUrl().toString();
     qDebug()<<arg1;
     //判断，如果末尾是/就直接访问，如果是app.json就打开详情页
     if(arg1.path().right(8)=="app.json"){
         load.cancel();//打开并发加载线程前关闭正在执行的线程
-        load.waitForFinished();
+//        load.waitForFinished();
+//        system("rm -r /tmp/deepin-community-store/icon.png");
+//        system("rm -r /tmp/deepin-community-store/screen_1.png");
+//        system("rm -r /tmp/deepin-community-store/screen_2.png");
+//        system("rm -r /tmp/deepin-community-store/screen_3.png");
+//        system("rm -r /tmp/deepin-community-store/screen_4.png");
+//        system("rm -r /tmp/deepin-community-store/screen_5.png");
         QPixmap pixmap_null;//一个空的图片指针，用来清空先有内容
         ui->label_appicon->setPixmap(pixmap_null);
         ui->screen_1->setPixmap(pixmap_null);
@@ -167,8 +164,7 @@ void Widget::loadappinfo(QUrl arg1)
 {
 
     ui->label_show->setText("正在加载，请稍候");
-
-
+    ui->label_show->show();
     QProcess get_json;
     QDir dir;
     dir.cd("/tmp");
@@ -179,8 +175,16 @@ void Widget::loadappinfo(QUrl arg1)
     QFile app_json("app.json");
     if(app_json.open(QIODevice::ReadOnly)){
 //        //成功得到json文件
+        //将路径转化为相应源的下载路径
         QByteArray json_array=app_json.readAll();
         urladdress=arg1.toString().left(arg1.toString().length()-8);
+        QStringList downloadurl=urladdress.split("/");
+        urladdress=ui->comboBox_server->currentText();
+        for (int i=3;i<downloadurl.size();i++) {
+            urladdress+="/"+downloadurl[i];
+        }
+        qDebug()<<urladdress;
+        //路径转化完成
         QJsonObject json= QJsonDocument::fromJson(json_array).object();
         appName = json["Name"].toString();
         url=urladdress + json["Filename"].toString();
@@ -189,18 +193,18 @@ void Widget::loadappinfo(QUrl arg1)
         ui->label_show->show();
         //软件信息加载
         QString info;
-        info="包名："+json["Pkgname"].toString()+"\n";
-        info+="版本号："+json["Version"].toString()+"\n";
+        info="包名： "+json["Pkgname"].toString()+"\n";
+        info+="版本号： "+json["Version"].toString()+"\n";
         if(json["Author"].toString()!="" && json["Author"].toString()!=" "){
-            info+="作者："+json["Author"].toString()+"\n";
+            info+="作者： "+json["Author"].toString()+"\n";
         }
 
         if(json["Website"].toString()!="" && json["Website"].toString()!=" "){
-            info+="官网："+json["Website"].toString()+"\n";
+            info+="官网： "+json["Website"].toString()+"\n";
         }
-        info+="投稿者："+json["Contributor"].toString()+"\n";
-        info+="更新时间："+json["Update"].toString()+"\n";
-        info+="大小："+json["Size"].toString()+"\n";
+        info+="投稿者： "+json["Contributor"].toString()+"\n";
+        info+="更新时间： "+json["Update"].toString()+"\n";
+        info+="大小： "+json["Size"].toString()+"\n";
         ui->label_info->setText(info);
         ui->label_more->setText(json["More"].toString());
         QProcess isInstall;
@@ -226,6 +230,11 @@ void Widget::loadappinfo(QUrl arg1)
             ui->screen_1->show();
             ui->screen_1->setPixmap(screen[0]);
             ui->screen_1->setScaledContents(true);
+            ui->screen_2->hide();
+            ui->screen_3->hide();
+            ui->screen_4->hide();
+            ui->screen_5->hide();
+
         }
         get_json.start("wget "+urladdress+"screen_2.png");
         get_json.waitForFinished();
@@ -233,6 +242,9 @@ void Widget::loadappinfo(QUrl arg1)
             ui->screen_2->show();
             ui->screen_2->setPixmap(screen[1]);
             ui->screen_2->setScaledContents(true);
+            ui->screen_3->hide();
+            ui->screen_4->hide();
+            ui->screen_5->hide();
         }
         get_json.start("wget "+urladdress+"screen_3.png");
         get_json.waitForFinished();
@@ -240,6 +252,8 @@ void Widget::loadappinfo(QUrl arg1)
             ui->screen_3->show();
             ui->screen_3->setPixmap(screen[2]);
             ui->screen_3->setScaledContents(true);
+            ui->screen_4->hide();
+            ui->screen_5->hide();
         }
         get_json.start("wget "+urladdress+"screen_4.png");
         get_json.waitForFinished();
@@ -247,6 +261,7 @@ void Widget::loadappinfo(QUrl arg1)
             ui->screen_4->show();
             ui->screen_4->setPixmap(screen[3]);
             ui->screen_4->setScaledContents(true);
+            ui->screen_5->hide();
         }
         get_json.start("wget "+urladdress+"screen_5.png");
         get_json.waitForFinished();
@@ -264,11 +279,12 @@ void Widget::loadappinfo(QUrl arg1)
 
 void Widget::chooseLeftMenu(int index)
 {
+
     nowMenu=index;
     for (int i=0;i<15;i++) {
         load.cancel();//打开并发加载线程前关闭正在执行的线程
-        left_list[i]->setStyleSheet("");
-        left_menu_bg[i]->setStyleSheet("");
+        left_list[i]->setStyleSheet("color:#414D68");
+        left_menu_bg[i]->setStyleSheet("border-radius:8");
     }
     left_list[index]->setStyleSheet("color:#FFFFFF");
     left_menu_bg[index]->setStyleSheet("background-color:#0081FF;border-radius:8");
@@ -343,6 +359,7 @@ void Widget::updateDataReadProgress(qint64 bytesRead, qint64 totalBytes)
 {
     download_list[nowDownload-1].setMax(10000); //最大值
     download_list[nowDownload-1].setValue((bytesRead*10000)/totalBytes); //当前值
+    download_size=bytesRead;
     if(download_list[nowDownload-1].close){
         download_list[nowDownload-1].closeDownload();
         httpFinished();
@@ -462,7 +479,7 @@ void Widget::on_pushButton_2_clicked()
 void Widget::on_webView_loadFinished()
 {
     if(ui->webView->page()->mainFrame()->requestedUrl().toString().right(5)!=".json"){
-        ui->label_show->setText("");
+        ui->label_show->setText("正在加载，请稍候");
         ui->label_show->hide();
     }
 }
@@ -480,3 +497,4 @@ void Widget::on_comboBox_server_currentIndexChanged(const QString &arg1)
         setConfig->setValue("server/choose",arg1);
     }
 }
+

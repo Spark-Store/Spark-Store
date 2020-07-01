@@ -23,6 +23,7 @@ public:
     void setFileName(QString);
     void seticon(const QPixmap);
     void closeDownload();
+    void setSpeed(QString);
     int num;
     bool close=false;
 
@@ -35,6 +36,7 @@ private slots:
 private:
     Ui::downloadlist *ui;
     static bool isInstall;
+    QString speed;
 
 };
 //bool downloadlist::isInstall=false;

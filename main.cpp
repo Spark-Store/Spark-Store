@@ -11,7 +11,7 @@ int main(int argc, char *argv[])
     a.setAttribute(Qt::AA_UseHighDpiPixmaps);
     a.loadTranslator();
     a.setOrganizationName("deepin");
-    a.setApplicationVersion(DApplication::buildVersion("1.0"));
+    a.setApplicationVersion(DApplication::buildVersion("1.0-beta"));
     a.setApplicationAcknowledgementPage("https://gitee.com/deepin-community-store/deepin-community-store");
     a.setProductIcon(QIcon::fromTheme("deepin-community-store"));  //设置Logo
     a.setProductName("深度社区应用商店");

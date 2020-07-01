@@ -11,15 +11,18 @@
 #include <QProcess>
 #include <QFuture>
 #include <QToolButton>
+#include <QTimer>
 #define LIST_MAX 99
 namespace Ui {
 class Widget;
 }
 
+
+
 class Widget : public QWidget
 {
-    Q_OBJECT
 
+    Q_OBJECT
 public:
     explicit Widget(QWidget *parent = 0);
     ~Widget();
@@ -31,11 +34,10 @@ public:
     void chooseLeftMenu(int index);
     QPixmap screen[5];
     QFuture<void> load;
-
+    QTimer download_speed;
 
 private slots:
 
-    void on_webView_linkClicked(const QUrl &arg1);
     void httpFinished();
     void httpReadyRead();
     void updateDataReadProgress(qint64,qint64);
@@ -81,7 +83,7 @@ private slots:
 
     void on_comboBox_server_currentIndexChanged(const QString &arg1);
 
-private:
+public:
     QUrl url;
     bool isBusy=false;
     downloadlist download_list[LIST_MAX];
@@ -97,6 +99,10 @@ private:
     QUrl menuUrl[13];
     bool configCanSeve=false;
     int nowMenu=0;
+    long download_size=0;
+    long size1=0;
+    long size2=0;
+
 
 };
 
