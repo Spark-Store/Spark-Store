@@ -2,6 +2,7 @@
 #define DOWNLOADLIST_H
 
 #include <QWidget>
+#include <outputwindow.h>
 namespace Ui {
 class downloadlist;
 }
@@ -26,17 +27,22 @@ public:
     void setSpeed(QString);
     int num;
     bool close=false;
-
+    QString out;
+    outputwindow output_w;
+    bool reinstall=false;
 private slots:
     void on_pushButton_clicked();
 
     void on_pushButton_2_clicked();
 
 
+    void on_pushButton_3_clicked();
+
 private:
     Ui::downloadlist *ui;
     static bool isInstall;
     QString speed;
+
 
 };
 //bool downloadlist::isInstall=false;

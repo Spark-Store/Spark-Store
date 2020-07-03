@@ -3,13 +3,8 @@
 #### 介绍
 deepin社区商店，由社区维护
 web页面部分正在开发当中，详情请见[web仓库](https://gitee.com/deepin-community-store/DCSAPP_WEB)
-#### 编译指导
-依赖：dtk2版（适用于ubuntu/15.11)：qt5-default g++ libdtkcore2-dev libdtkwidget2-dev libqt5webkit5-dev libdtkgui2-dev
-     dtk5版（适用于20beta):qt5-default g++ libdtkwidget5-dev libdtkcore5-dev libdtkgui5-dev libqt5webkit5-dev
 
 #### 说明
-
-需要在运行目录下放置服务器线路列表`server.list`，每行一个，在末尾需要添加“/”
 
 当前服务器线路列表（项目中包含）：
 
@@ -17,7 +12,6 @@ web页面部分正在开发当中，详情请见[web仓库](https://gitee.com/de
 http://dcstore.shenmo.tech/
 http://store.shenmo.tech/
 http://store2.shenmo.tech/
-http://store.moshengren.xyz/
 ```
 
  #### 目录结构
@@ -26,7 +20,7 @@ http://store.moshengren.xyz/
 
 配置文件被储存到`~/.config/deepin-community-store/`中。
 
-线路文件：当前运行目录下的`./server.list`
+线路文件：新版的线路文件被放置于源服务器中，可随时刷新更新源列表
 
 #### 参与贡献
 

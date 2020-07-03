@@ -38,7 +38,7 @@
       <number>0</number>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>3</number>
      </property>
      <widget class="QWidget" name="page">
       <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -123,7 +123,7 @@
        <item>
         <widget class="QScrollArea" name="scrollArea">
          <property name="styleSheet">
-          <string notr="true">c</string>
+          <string notr="true"/>
          </property>
          <property name="lineWidth">
           <number>0</number>
@@ -135,7 +135,7 @@
           <property name="geometry">
            <rect>
             <x>0</x>
-            <y>-177</y>
+            <y>0</y>
             <width>781</width>
             <height>815</height>
            </rect>
@@ -561,6 +561,13 @@
                   </widget>
                  </item>
                  <item>
+                  <widget class="QPushButton" name="pushButton_3">
+                   <property name="text">
+                    <string>刷新</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
                   <widget class="QLabel" name="label_setting1">
                    <property name="maximumSize">
                     <size>
@@ -687,10 +694,10 @@
             </sizepolicy>
            </property>
            <property name="styleSheet">
-            <string notr="true">color:#FFFFFF</string>
+            <string notr="true"/>
            </property>
            <property name="text">
-            <string>首页精选</string>
+            <string>商店首页</string>
            </property>
           </widget>
          </item>

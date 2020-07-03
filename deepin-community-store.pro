@@ -26,11 +26,13 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += main.cpp\
         mainwindow.cpp \
     widget.cpp \
-    downloadlist.cpp
+    downloadlist.cpp \
+    outputwindow.cpp
 
 HEADERS  += mainwindow.h \
     widget.h \
-    downloadlist.h
+    downloadlist.h \
+    outputwindow.h
 
 CONFIG += link_pkgconfig
 PKGCONFIG += dtkwidget
@@ -39,4 +41,5 @@ CONFIG += c++11
 
 FORMS += \
     widget.ui \
-    downloadlist.ui
+    downloadlist.ui \
+    outputwindow.ui

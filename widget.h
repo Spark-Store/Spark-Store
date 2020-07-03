@@ -83,6 +83,8 @@ private slots:
 
     void on_comboBox_server_currentIndexChanged(const QString &arg1);
 
+    void on_pushButton_3_clicked();
+
 public:
     QUrl url;
     bool isBusy=false;

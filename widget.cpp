@@ -47,8 +47,11 @@ Widget::Widget(QWidget *parent) :
     left_list[12]=ui->menu_btn_theme;left_menu_bg[12]=ui->menu_bg_theme;
     left_list[13]=ui->menu_btn_download;left_menu_bg[13]=ui->menu_bg_download;
     left_list[14]=ui->menu_btn_settings;left_menu_bg[14]=ui->menu_bg_settings;
-    server.open(QApplication::applicationDirPath().toUtf8()+"/server.list",std::ios::in);
+    server.open(QDir::homePath().toUtf8()+"/.config/deepin-community-store/server.list",std::ios::in);
+//    system("mkdir /etc/deepin-community-store/");
+//    server.open("/etc/deepin-community-store/server.list",std::ios::in);
     std::string lineTmp;
+
     if(server){
         while (getline(server,lineTmp)) {
             ui->comboBox_server->addItem(QString::fromStdString(lineTmp));
@@ -100,7 +103,6 @@ Widget::Widget(QWidget *parent) :
             QString theSpeed;
             double bspeed;
             bspeed=size1-size2;
-            qDebug()<<"run to hear"<<bspeed;
             if(bspeed<1024){
                 theSpeed=QString::number(bspeed)+"B";
             }else if (bspeed<(1024*1024)) {
@@ -114,6 +116,9 @@ Widget::Widget(QWidget *parent) :
             size2=download_size;
         }
     });
+    chooseLeftMenu(0);
+
+
 }
 
 Widget::~Widget()
@@ -125,17 +130,9 @@ void Widget::on_webView_loadStarted()
 
 
     QUrl arg1=ui->webView->page()->mainFrame()->requestedUrl().toString();
-    qDebug()<<arg1;
     //判断，如果末尾是/就直接访问，如果是app.json就打开详情页
     if(arg1.path().right(8)=="app.json"){
         load.cancel();//打开并发加载线程前关闭正在执行的线程
-//        load.waitForFinished();
-//        system("rm -r /tmp/deepin-community-store/icon.png");
-//        system("rm -r /tmp/deepin-community-store/screen_1.png");
-//        system("rm -r /tmp/deepin-community-store/screen_2.png");
-//        system("rm -r /tmp/deepin-community-store/screen_3.png");
-//        system("rm -r /tmp/deepin-community-store/screen_4.png");
-//        system("rm -r /tmp/deepin-community-store/screen_5.png");
         QPixmap pixmap_null;//一个空的图片指针，用来清空先有内容
         ui->label_appicon->setPixmap(pixmap_null);
         ui->screen_1->setPixmap(pixmap_null);
@@ -174,16 +171,15 @@ void Widget::loadappinfo(QUrl arg1)
     get_json.waitForFinished();
     QFile app_json("app.json");
     if(app_json.open(QIODevice::ReadOnly)){
-//        //成功得到json文件
-        //将路径转化为相应源的下载路径
+        //        //成功得到json文件
         QByteArray json_array=app_json.readAll();
+        //将路径转化为相应源的下载路径
         urladdress=arg1.toString().left(arg1.toString().length()-8);
         QStringList downloadurl=urladdress.split("/");
         urladdress=ui->comboBox_server->currentText();
         for (int i=3;i<downloadurl.size();i++) {
             urladdress+="/"+downloadurl[i];
         }
-        qDebug()<<urladdress;
         //路径转化完成
         QJsonObject json= QJsonDocument::fromJson(json_array).object();
         appName = json["Name"].toString();
@@ -213,6 +209,7 @@ void Widget::loadappinfo(QUrl arg1)
         int error=QString::fromStdString(isInstall.readAllStandardError().toStdString()).length();
         if(error==0){
             ui->pushButton->setText("重新安装");
+
         }else {
             ui->pushButton->setText("安装");
         }
@@ -282,13 +279,12 @@ void Widget::chooseLeftMenu(int index)
 
     nowMenu=index;
     for (int i=0;i<15;i++) {
-        load.cancel();//打开并发加载线程前关闭正在执行的线程
-        left_list[i]->setStyleSheet("color:#414D68");
-        left_menu_bg[i]->setStyleSheet("border-radius:8");
+        left_list[i]->setStyleSheet("");
+        left_list[i]->setFont(QFont("",11));
+        left_menu_bg[i]->setStyleSheet("");
     }
     left_list[index]->setStyleSheet("color:#FFFFFF");
     left_menu_bg[index]->setStyleSheet("background-color:#0081FF;border-radius:8");
-
     if(index<=12){
         ui->webView->setUrl(menuUrl[index]);
         ui->stackedWidget->setCurrentIndex(0);
@@ -331,6 +327,9 @@ void Widget::on_pushButton_clicked()
         nowDownload+=1;
         startRequest(urList.at(nowDownload-1)); //进行链接请求
     }
+    if(ui->pushButton->text()=="重新安装"){
+        download_list[allDownload-1].reinstall=true;
+    }
 }
 
 void Widget::startRequest(QUrl url)
@@ -365,39 +364,36 @@ void Widget::updateDataReadProgress(qint64 bytesRead, qint64 totalBytes)
         httpFinished();
 
     }
-//    download_list[nowDownload-1].setMax(bytesRead/10);
-//    download_list[nowDownload-1].setValue(totalBytes/10);
 }
 
 void Widget::httpFinished() //完成下载
 {
 
-file->flush();
-file->close();
-reply->deleteLater();
-reply = nullptr;
-delete file;
-file = nullptr;
-isdownload=false;
-isBusy=false;
-download_list[nowDownload-1].readyInstall();
-download_list[nowDownload-1].free=true;
-if(nowDownload<allDownload){
-    nowDownload+=1;
-    while (download_list[nowDownload-1].close) {
+    file->flush();
+    file->close();
+    reply->deleteLater();
+    reply = nullptr;
+    delete file;
+    file = nullptr;
+    isdownload=false;
+    isBusy=false;
+    download_list[nowDownload-1].readyInstall();
+    download_list[nowDownload-1].free=true;
+    if(nowDownload<allDownload){
         nowDownload+=1;
+        while (download_list[nowDownload-1].close) {
+            nowDownload+=1;
+        }
+        QString fileName=download_list[nowDownload-1].getName();
+        file = new QFile(fileName);
+        if(!file->open(QIODevice::WriteOnly))
+        {
+            delete file;
+            file = nullptr;
+            return ;
+        }
+        startRequest(urList.at(nowDownload-1));
     }
-    QString fileName=download_list[nowDownload-1].getName();
-    file = new QFile(fileName);
-    if(!file->open(QIODevice::WriteOnly))
-    {
-        qDebug()<<"file open error";
-        delete file;
-        file = nullptr;
-        return ;
-    }
-    startRequest(urList.at(nowDownload-1));
-}
 }
 void Widget::on_listWidget_currentRowChanged(int currentRow)
 {
@@ -418,7 +414,7 @@ void Widget::on_menu_btn_network_clicked() //网络应用
 }
 void Widget::on_menu_btn_chat_clicked()//社交沟通
 {
-   chooseLeftMenu(2);
+    chooseLeftMenu(2);
 }
 void Widget::on_menu_btn_music_clicked()//音乐欣赏
 {
@@ -430,7 +426,7 @@ void Widget::on_menu_btn_video_clicked()//视频播放
 }
 void Widget::on_menu_btn_photo_clicked()//图形图像
 {
-chooseLeftMenu(5);
+    chooseLeftMenu(5);
 }
 void Widget::on_menu_btn_game_clicked()//游戏娱乐
 {
@@ -498,3 +494,25 @@ void Widget::on_comboBox_server_currentIndexChanged(const QString &arg1)
     }
 }
 
+
+void Widget::on_pushButton_3_clicked()
+{
+    QtConcurrent::run([=](){
+        ui->pushButton_3->setEnabled(false);
+        ui->comboBox_server->clear();
+        system(QDir::homePath().toUtf8()+"/.config/deepin-community-store/server.list");
+        system("wget -P "+QDir::homePath().toUtf8()+"/.config/deepin-community-store http://store2.shenmo.tech/store/server.list");
+        std::fstream server;
+        server.open(QDir::homePath().toUtf8()+"/.config/deepin-community-store/server.list",std::ios::in);
+        std::string lineTmp;
+        if(server){
+            while (getline(server,lineTmp)) {
+                ui->comboBox_server->addItem(QString::fromStdString(lineTmp));
+            }
+        }else {
+            ui->comboBox_server->addItem("http://dcstore.shenmo.tech/");
+        }
+        ui->pushButton_3->setEnabled(true);
+        ui->comboBox_server->setCurrentIndex(0);
+    });
+}

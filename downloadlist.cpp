@@ -16,6 +16,7 @@ downloadlist::downloadlist(QWidget *parent) :
     ui->progressBar->setValue(0);
     ui->label_filename->hide();
     ui->pushButton->hide();
+    ui->pushButton_3->hide();
     ui->label->setStyleSheet("color:#000000");
 }
 
@@ -98,9 +99,15 @@ void downloadlist::on_pushButton_clicked()
         ui->label_2->setText("正在安装，请稍候");
         QtConcurrent::run([=](){
             QProcess installer;
-            installer.start("pkexec apt install -y /tmp/deepin-community-store/"+ui->label_filename->text().toUtf8());
+            if(reinstall){
+                installer.start("pkexec apt reinstall -y /tmp/deepin-community-store/"+ui->label_filename->text().toUtf8());
+            }else {
+                installer.start("pkexec apt install -y /tmp/deepin-community-store/"+ui->label_filename->text().toUtf8());
+            }
+
             installer.waitForFinished();
             QString error=QString::fromStdString(installer.readAllStandardError().toStdString());
+            out=installer.readAllStandardOutput();
             QStringList everyError=error.split("\n");
             bool haveError=false;
             bool notRoot=false;
@@ -116,15 +123,18 @@ void downloadlist::on_pushButton_clicked()
             if(!haveError && !notRoot){
                 ui->pushButton->hide();
                 ui->label_2->setText("安装完成");
+                ui->pushButton_3->show();
             }else if(haveError){
                 ui->pushButton->hide();
                 ui->label_2->setText("安装出现错误");
+                ui->pushButton_3->show();
+
             }else {
                 ui->label_2->setText("安装被终止");
+                ui->pushButton->setEnabled(true);
             }
             isInstall=false;
         });
-    //    system("x-terminal-emulator -e sudo apt install -y ./"+ui->label_filename->text().toUtf8());
         qDebug()<<ui->label_filename->text().toUtf8();
     }
 
@@ -136,4 +146,10 @@ void downloadlist::on_pushButton_2_clicked()
     ui->pushButton_2->setEnabled(false);
     ui->progressBar->hide();
     close=true;
+}
+
+void downloadlist::on_pushButton_3_clicked()
+{
+    output_w.setoutput(out);
+    output_w.show();
 }

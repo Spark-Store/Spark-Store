@@ -12,7 +12,7 @@ class MainWindow : public DMainWindow
 
 
 public:
-    MainWindow(QWidget *parent = 0);
+    MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
 private:
