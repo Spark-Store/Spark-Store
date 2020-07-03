@@ -1,7 +1,7 @@
-# 深度社区应用商店
+#  星火商店
 
 #### 介绍
-deepin社区商店，由社区维护
+星火商店商店，由深度社区维护
 web页面部分正在开发当中，详情请见[web仓库](https://gitee.com/deepin-community-store/DCSAPP_WEB)
 
 #### 说明

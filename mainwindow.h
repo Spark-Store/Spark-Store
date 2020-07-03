@@ -4,6 +4,7 @@
 #include <DMainWindow>
 #include "widget.h"
 #include <QThread>
+#include <DSearchEdit>
 DWIDGET_USE_NAMESPACE
 
 class MainWindow : public DMainWindow
@@ -14,7 +15,7 @@ class MainWindow : public DMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
-
+//    DSearchEdit *searchEdit=new DSearchEdit;
 private:
 
     Widget *w;

@@ -12,6 +12,9 @@ MainWindow::MainWindow(QWidget *parent)
     resize(w->size()); //设置窗口大小
     setMinimumSize(950,700);
     setCentralWidget(w);
+//    searchEdit->setParent(this);
+//    searchEdit->move(1,1);
+//    searchEdit->show();
 }
 
 MainWindow::~MainWindow()

@@ -8,7 +8,7 @@ QT       += core gui webkitwidgets network concurrent
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = deepin-community-store
+TARGET = spark-store
 TEMPLATE = app
 
 # The following define makes your compiler emit warnings if you use
