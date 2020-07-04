@@ -1166,7 +1166,7 @@
                    <x>0</x>
                    <y>0</y>
                    <width>376</width>
-                   <height>39</height>
+                   <height>325</height>
                   </rect>
                  </property>
                  <layout class="QHBoxLayout" name="horizontalLayout_4">
@@ -1306,7 +1306,7 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>765</width>
+            <width>807</width>
             <height>595</height>
            </rect>
           </property>
@@ -1390,6 +1390,56 @@
                     </size>
                    </property>
                   </spacer>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+              <item>
+               <widget class="QWidget" name="widget_8" native="true">
+                <layout class="QGridLayout" name="gridLayout_3">
+                 <item row="1" column="0" colspan="4">
+                  <widget class="QLabel" name="label_7">
+                   <property name="styleSheet">
+                    <string notr="true">color:#808080</string>
+                   </property>
+                   <property name="text">
+                    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;源服务器的作用是保证软件更新，并且支持使用apt工具获取软件。通常我们更建议你使用第一个线路作为更新源。&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="0" column="2">
+                  <widget class="QPushButton" name="pushButton_4">
+                   <property name="text">
+                    <string>更新源</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="0" column="0">
+                  <widget class="QLabel" name="label_6">
+                   <property name="text">
+                    <string>更新源服务器：</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="0" column="3">
+                  <spacer name="horizontalSpacer_4">
+                   <property name="orientation">
+                    <enum>Qt::Horizontal</enum>
+                   </property>
+                   <property name="sizeHint" stdset="0">
+                    <size>
+                     <width>40</width>
+                     <height>20</height>
+                    </size>
+                   </property>
+                  </spacer>
+                 </item>
+                 <item row="0" column="1">
+                  <widget class="QLabel" name="label_aptserver">
+                   <property name="text">
+                    <string>服务器</string>
+                   </property>
+                  </widget>
                  </item>
                 </layout>
                </widget>

@@ -70,6 +70,7 @@ Widget::Widget(QWidget *parent) :
     configCanSeve=true;
     qDebug()<<serverUrl;
     menuUrl[0]=serverUrl + "store/#/";
+//    menuUrl[0]="http://127.0.0.1:8000/#/relations";
     menuUrl[1]=serverUrl + "store/#/network/";
     menuUrl[2]=serverUrl + "store/#/relations";
     menuUrl[3]=serverUrl + "store/#/musicandsound";
@@ -117,7 +118,14 @@ Widget::Widget(QWidget *parent) :
         }
     });
     chooseLeftMenu(0);
-
+    QFile aptserver("/etc/apt/sources.list.d/sparkstore.list");
+    aptserver.open(QIODevice::ReadOnly);
+    if(aptserver.isOpen()){
+        ui->label_aptserver->setText(aptserver.readAll());
+    }else {
+        ui->label_aptserver->setText("不存在");
+    }
+    aptserver.close();
 
 }
 
@@ -514,5 +522,49 @@ void Widget::on_pushButton_3_clicked()
         }
         ui->pushButton_3->setEnabled(true);
         ui->comboBox_server->setCurrentIndex(0);
+    });
+}
+
+void Widget::on_pushButton_4_clicked()
+{
+    QtConcurrent::run([=](){
+       ui->pushButton_4->setEnabled(false);
+       ui->label_aptserver->setText("请稍等，正在更新");
+       std::fstream sourcesList;
+       system("mkdir /tmp/spark-store");
+       sourcesList.open("/tmp/spark-store/sparkstore.list",std::ios::out);
+       if(sourcesList){
+           sourcesList<<"deb [by-hash=force] ";
+           sourcesList<<QString::fromUtf8(ui->comboBox_server->currentText().toUtf8()).toStdString();
+           sourcesList<<" ./";
+           std::fstream update;
+           update.open("/tmp/spark-store/update.sh",std::ios::out);
+           update<<"#!/bin/sh\n";
+           update<<"mv /tmp/spark-store/sparkstore.list /etc/apt/sources.list.d/sparkstore.list && apt update";
+           update.close();
+           system("chmod +x /tmp/spark-store/update.sh");
+           QProcess runupdate;
+           runupdate.start("pkexec /tmp/spark-store/update.sh");
+           runupdate.waitForFinished();
+           qDebug()<<runupdate.readAllStandardError();
+           QString error=QString::fromStdString(runupdate.readAllStandardError().toStdString());
+           QStringList everyError=error.split("\n");
+           bool haveError=false;
+           for (int i=0;i<everyError.size();i++) {
+               qDebug()<<everyError[i].left(2);
+               if(everyError[i].left(2)=="E:"){
+                   haveError=true;
+               }
+           }
+           if(!haveError){
+               ui->label_aptserver->setText("deb [by-hash=force] "+ui->comboBox_server->currentText().toUtf8()+" ./");
+           }else {
+               ui->label_aptserver->setText("更新中发生错误，请在终端使用apt update来查看错误原因");
+           }
+       }else {
+           qDebug()<<"更新源失败";
+       }
+
+       ui->pushButton_4->setEnabled(true);
     });
 }
