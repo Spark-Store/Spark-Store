@@ -30,6 +30,8 @@ public:
     QString out;
     outputwindow output_w;
     bool reinstall=false;
+    QString error;
+    QString pkgName;
 private slots:
     void on_pushButton_clicked();
 

@@ -934,8 +934,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>299</width>
-            <height>815</height>
+            <width>298</width>
+            <height>814</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_17">
@@ -1000,7 +1000,7 @@
                 </property>
                </widget>
               </item>
-              <item row="4" column="1" rowspan="2">
+              <item row="5" column="1" rowspan="2">
                <spacer name="verticalSpacer_2">
                 <property name="orientation">
                  <enum>Qt::Vertical</enum>
@@ -1054,7 +1054,7 @@
                 </property>
                </widget>
               </item>
-              <item row="1" column="3" rowspan="4">
+              <item row="1" column="3" rowspan="5">
                <widget class="QLabel" name="label_info">
                 <property name="font">
                  <font>
@@ -1087,6 +1087,13 @@
                  </size>
                 </property>
                </spacer>
+              </item>
+              <item row="4" column="1">
+               <widget class="QPushButton" name="pushButton_5">
+                <property name="text">
+                 <string>卸载</string>
+                </property>
+               </widget>
               </item>
              </layout>
             </widget>
@@ -1165,8 +1172,8 @@
                   <rect>
                    <x>0</x>
                    <y>0</y>
-                   <width>376</width>
-                   <height>325</height>
+                   <width>351</width>
+                   <height>38</height>
                   </rect>
                  </property>
                  <layout class="QHBoxLayout" name="horizontalLayout_4">
@@ -1306,8 +1313,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>807</width>
-            <height>595</height>
+            <width>765</width>
+            <height>662</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_23">
@@ -1403,7 +1410,10 @@
                     <string notr="true">color:#808080</string>
                    </property>
                    <property name="text">
-                    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;源服务器的作用是保证软件更新，并且支持使用apt工具获取软件。通常我们更建议你使用第一个线路作为更新源。&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;源服务器的作用是保证软件更新，并且支持使用apt工具获取软件。通常我们更建议你使用第一个线路作为更新源。虽然它可能偶尔有些慢。&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                   </property>
+                   <property name="wordWrap">
+                    <bool>true</bool>
                    </property>
                   </widget>
                  </item>
@@ -1465,7 +1475,7 @@
               <item>
                <widget class="QLabel" name="label_5">
                 <property name="text">
-                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;我们并不是官方团队，和你一样，我们也只是众多Linux/deepin系统爱好者和用户之中的一员，我们开发并且运营这个“星火应用商店”，是为了让社区的朋友们一起分享好用的软件，或者一起参与开发，让大家都用到最新的，最优秀的软件。&lt;/p&gt;&lt;p&gt;如果你也想参与我们，不管是参与开发，设计，投递还是投稿作品，我们都欢迎你的加入。&lt;/p&gt;&lt;p&gt;QQ群：872690351&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;我们并不是官方团队，和你一样，我们也只是众多Linux/deepin系统爱好者和用户之中的一员，我们开发并且运营这个“Spark应用商店”，是为了让社区的朋友们一起分享好用的软件，或者一起参与开发，让大家都用到最新的，最优秀的软件。&lt;/p&gt;&lt;p&gt;我们并没有因此盈利，所有开发和维护人员都不会获得报酬，我们的主要支出大部分依赖于社区对我们的捐助，很感谢大家，这部分捐助让我们并不需要耗费太多精力去担心资金问题。&lt;/p&gt;&lt;p&gt;我们的服务和开发的软件都是免费供给大家使用，交流，学习的，但是在您的使用过程中一定要遵守当地的法律法规，否则出现任何问题和我们无关。&lt;/p&gt;&lt;p&gt;如果商店中任何一部分有侵犯您权益的行为，请告知我们&amp;lt;jifengshenmo@outlook.com&amp;gt;，我们会第一时间删除侵权内容。&lt;/p&gt;&lt;p&gt;如果你也想参与我们，不管是参与开发，设计，投递还是投稿作品，我们都欢迎你的加入。&lt;/p&gt;&lt;p&gt;QQ群：872690351&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                 </property>
                 <property name="wordWrap">
                  <bool>true</bool>

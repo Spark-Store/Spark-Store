@@ -87,6 +87,8 @@ private slots:
 
     void on_pushButton_4_clicked();
 
+    void on_pushButton_5_clicked();
+
 public:
     QUrl url;
     bool isBusy=false;
@@ -98,6 +100,7 @@ public:
     QFile *file;
     QString appName;
     QString urladdress;
+    QString pkgName;
     QToolButton * left_list[15];
     QWidget * left_menu_bg[15];
     QUrl menuUrl[13];

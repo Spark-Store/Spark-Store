@@ -96,17 +96,18 @@ void downloadlist::on_pushButton_clicked()
     if(!isInstall){
         isInstall=true;
         ui->pushButton->setEnabled(false);
+        qDebug()<<"/tmp/deepin-community-store/"+ui->label_filename->text().toUtf8();
         ui->label_2->setText("正在安装，请稍候");
         QtConcurrent::run([=](){
             QProcess installer;
             if(reinstall){
-                installer.start("pkexec apt reinstall -y /tmp/deepin-community-store/"+ui->label_filename->text().toUtf8());
+                installer.start("pkexec ssinstall /tmp/deepin-community-store/"+ui->label_filename->text().toUtf8());
             }else {
-                installer.start("pkexec apt install -y /tmp/deepin-community-store/"+ui->label_filename->text().toUtf8());
+                installer.start("pkexec ssinstall /tmp/deepin-community-store/"+ui->label_filename->text().toUtf8());
             }
 
             installer.waitForFinished();
-            QString error=QString::fromStdString(installer.readAllStandardError().toStdString());
+            error=installer.readAllStandardError();
             out=installer.readAllStandardOutput();
             QStringList everyError=error.split("\n");
             bool haveError=false;
@@ -120,20 +121,23 @@ void downloadlist::on_pushButton_clicked()
                     notRoot=true;
                 }
             }
-            if(!haveError && !notRoot){
+            QProcess isInstall;
+            isInstall.start("dpkg -s "+pkgName);
+            isInstall.waitForFinished();
+            int error=QString::fromStdString(isInstall.readAllStandardError().toStdString()).length();
+            if(error==0){
                 ui->pushButton->hide();
                 ui->label_2->setText("安装完成");
                 ui->pushButton_3->show();
-            }else if(haveError){
+            }else {
                 ui->pushButton->hide();
                 ui->label_2->setText("安装出现错误");
                 ui->pushButton_3->show();
-
-            }else {
+            }
+            if(notRoot){
                 ui->label_2->setText("安装被终止");
                 ui->pushButton->setEnabled(true);
             }
-            isInstall=false;
         });
         qDebug()<<ui->label_filename->text().toUtf8();
     }
@@ -150,6 +154,6 @@ void downloadlist::on_pushButton_2_clicked()
 
 void downloadlist::on_pushButton_3_clicked()
 {
-    output_w.setoutput(out);
+    output_w.setoutput(out+"\nERROR:\n"+error);
     output_w.show();
 }

@@ -1,7 +1,7 @@
 #include "mainwindow.h"
 
 #include <DMainWindow>
-
+#include <QDesktopWidget>
 DWIDGET_USE_NAMESPACE
 
 MainWindow::MainWindow(QWidget *parent)
@@ -10,7 +10,8 @@ MainWindow::MainWindow(QWidget *parent)
     w = new Widget;
 
     resize(w->size()); //设置窗口大小
-    setMinimumSize(950,700);
+
+//    setMinimumSize(950,700);
     setCentralWidget(w);
 //    searchEdit->setParent(this);
 //    searchEdit->move(1,1);

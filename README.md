@@ -11,7 +11,8 @@ web页面部分正在开发当中，详情请见[web仓库](https://gitee.com/de
 ```
 http://dcstore.shenmo.tech/
 http://store.shenmo.tech/
-http://store2.shenmo.tech/
+http://store.moshengren.xyz/
+http://store.jerrywang.top/
 ```
 
  #### 目录结构

@@ -126,6 +126,7 @@ Widget::Widget(QWidget *parent) :
         ui->label_aptserver->setText("不存在");
     }
     aptserver.close();
+    ui->pushButton_5->hide();
 
 }
 
@@ -167,6 +168,8 @@ void Widget::on_webView_loadStarted()
 }
 void Widget::loadappinfo(QUrl arg1)
 {
+    ui->pushButton_5->hide();
+
 
     ui->label_show->setText("正在加载，请稍候");
     ui->label_show->show();
@@ -212,11 +215,13 @@ void Widget::loadappinfo(QUrl arg1)
         ui->label_info->setText(info);
         ui->label_more->setText(json["More"].toString());
         QProcess isInstall;
+        pkgName=json["Pkgname"].toString();
         isInstall.start("dpkg -s "+json["Pkgname"].toString());
         isInstall.waitForFinished();
         int error=QString::fromStdString(isInstall.readAllStandardError().toStdString()).length();
         if(error==0){
             ui->pushButton->setText("重新安装");
+            ui->pushButton_5->show();
 
         }else {
             ui->pushButton->setText("安装");
@@ -309,6 +314,7 @@ void Widget::on_pushButton_clicked()
     allDownload+=1;
     QFileInfo info(url.path());
     QString fileName(info.fileName());  //获取文件名
+    download_list[allDownload-1].pkgName=pkgName;
     if(fileName.isEmpty())
     {
         fileName = "index.html";
@@ -319,6 +325,7 @@ void Widget::on_pushButton_clicked()
     item->setSizeHint(download_list[allDownload-1].size());
     ui->listWidget->setItemWidget(item,&download_list[allDownload-1]);
     urList.append(url);
+    qDebug()<<"下载:"<<url;
     download_list[allDownload-1].setName(appName);
     download_list[allDownload-1].setFileName(fileName);
     QPixmap icon;
@@ -508,8 +515,8 @@ void Widget::on_pushButton_3_clicked()
     QtConcurrent::run([=](){
         ui->pushButton_3->setEnabled(false);
         ui->comboBox_server->clear();
-        system(QDir::homePath().toUtf8()+"/.config/deepin-community-store/server.list");
-        system("wget -P "+QDir::homePath().toUtf8()+"/.config/deepin-community-store http://store2.shenmo.tech/store/server.list");
+        system("rm "+QDir::homePath().toUtf8()+"/.config/deepin-community-store/server.list");
+        system("wget -P "+QDir::homePath().toUtf8()+"/.config/deepin-community-store http://dcstore.shenmo.tech/store/server.list");
         std::fstream server;
         server.open(QDir::homePath().toUtf8()+"/.config/deepin-community-store/server.list",std::ios::in);
         std::string lineTmp;
@@ -536,7 +543,7 @@ void Widget::on_pushButton_4_clicked()
        if(sourcesList){
            sourcesList<<"deb [by-hash=force] ";
            sourcesList<<QString::fromUtf8(ui->comboBox_server->currentText().toUtf8()).toStdString();
-           sourcesList<<" ./";
+           sourcesList<<" /";
            std::fstream update;
            update.open("/tmp/spark-store/update.sh",std::ios::out);
            update<<"#!/bin/sh\n";
@@ -557,7 +564,7 @@ void Widget::on_pushButton_4_clicked()
                }
            }
            if(!haveError){
-               ui->label_aptserver->setText("deb [by-hash=force] "+ui->comboBox_server->currentText().toUtf8()+" ./");
+               ui->label_aptserver->setText("deb [by-hash=force] "+ui->comboBox_server->currentText().toUtf8()+" /");
            }else {
                ui->label_aptserver->setText("更新中发生错误，请在终端使用apt update来查看错误原因");
            }
@@ -566,5 +573,22 @@ void Widget::on_pushButton_4_clicked()
        }
 
        ui->pushButton_4->setEnabled(true);
+    });
+}
+
+void Widget::on_pushButton_5_clicked()
+{
+    QtConcurrent::run([=](){
+        ui->pushButton->setEnabled(false);
+        ui->pushButton_5->setEnabled(false);
+        QProcess uninstall;
+        uninstall.start("pkexec apt purge -y "+pkgName);
+        uninstall.waitForFinished();
+        ui->pushButton->setEnabled(true);
+        ui->pushButton->setText("安装");
+        ui->pushButton_5->hide();
+        ui->pushButton_5->setEnabled(true);
+        updatesEnabled();
+        system("notify-send 卸载完成 --icon=spark-store");
     });
 }
