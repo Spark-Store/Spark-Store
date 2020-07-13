@@ -10,7 +10,7 @@ int main(int argc, char *argv[])
     a.setAttribute(Qt::AA_UseHighDpiPixmaps);
     a.loadTranslator();
     a.setOrganizationName("community");
-    a.setApplicationVersion(DApplication::buildVersion("1.0-beta5"));
+    a.setApplicationVersion(DApplication::buildVersion("1.0-beta5.1"));
     a.setApplicationAcknowledgementPage("https://gitee.com/deepin-community-store/deepin-community-store");
     a.setProductIcon(QIcon::fromTheme("spark-store"));  //设置Logo
     a.setProductName("Spark应用商店");

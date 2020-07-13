@@ -12,7 +12,10 @@
 #include <QFuture>
 #include <QToolButton>
 #include <QTimer>
+
 #define LIST_MAX 99
+#define TMP_PATH "/tmp/spark-store"
+
 namespace Ui {
 class Widget;
 }
@@ -32,6 +35,7 @@ public:
     int isdownload=false;
     void loadappinfo(QUrl);
     void chooseLeftMenu(int index);
+    quint64 dirFileSize(const QString &path);
     QPixmap screen[5];
     QFuture<void> load;
     QTimer download_speed;
@@ -67,8 +71,6 @@ private slots:
 
     void on_menu_btn_other_clicked();
 
-    void on_listWidget_currentRowChanged(int currentRow);
-
     void on_pushButton_clicked();
 
     void on_pushButton_2_clicked();
@@ -88,6 +90,8 @@ private slots:
     void on_pushButton_4_clicked();
 
     void on_pushButton_5_clicked();
+
+    void on_pushButton_6_clicked();
 
 public:
     QUrl url;

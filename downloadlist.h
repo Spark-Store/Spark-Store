@@ -19,7 +19,6 @@ public:
     void setName(QString);
     QString getName();
     void readyInstall();
-    void choose(bool);
     bool free;
     void setFileName(QString);
     void seticon(const QPixmap);

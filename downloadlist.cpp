@@ -17,7 +17,6 @@ downloadlist::downloadlist(QWidget *parent) :
     ui->label_filename->hide();
     ui->pushButton->hide();
     ui->pushButton_3->hide();
-    ui->label->setStyleSheet("color:#000000");
 }
 
 downloadlist::~downloadlist()
@@ -29,7 +28,7 @@ void downloadlist::setValue(long long value)
 {
     ui->progressBar->setValue(value);
     ui->label_2->setText(QString::number((double)value/100)+"% ("+speed+")");
-    if(ui->label_2->text()=="100%"){
+    if(ui->label_2->text().left(4)=="100%"){
         ui->label_2->setText("已完成，等待安装");
     }
 }
@@ -56,18 +55,7 @@ void downloadlist::readyInstall()
         ui->pushButton->setEnabled(true);
         ui->pushButton->show();
         ui->pushButton_2->hide();
-        system("notify-send \""+ui->label->text().toUtf8()+"下载完成，等待安装\"" +" --icon=/tmp/deepin-community-store/icon_"+QString::number(num).toUtf8()+".png");
-    }
-}
-
-void downloadlist::choose(bool isChoosed)
-{
-    if(isChoosed){
-        ui->label->setStyleSheet("color:#FFFFFF");
-        ui->label_2->setStyleSheet("color:#FFFFFF");
-    }else {
-        ui->label->setStyleSheet("color:#000000");
-        ui->label_2->setStyleSheet("color:#000000");
+        system("notify-send \""+ui->label->text().toUtf8()+"下载完成，等待安装\"" +" --icon=/tmp/spark-store/icon_"+QString::number(num).toUtf8()+".png");
     }
 }
 
@@ -96,14 +84,14 @@ void downloadlist::on_pushButton_clicked()
     if(!isInstall){
         isInstall=true;
         ui->pushButton->setEnabled(false);
-        qDebug()<<"/tmp/deepin-community-store/"+ui->label_filename->text().toUtf8();
+        qDebug()<<"/tmp/spark-store/"+ui->label_filename->text().toUtf8();
         ui->label_2->setText("正在安装，请稍候");
         QtConcurrent::run([=](){
             QProcess installer;
             if(reinstall){
-                installer.start("pkexec ssinstall /tmp/deepin-community-store/"+ui->label_filename->text().toUtf8());
+                installer.start("pkexec ssinstall /tmp/spark-store/"+ui->label_filename->text().toUtf8());
             }else {
-                installer.start("pkexec ssinstall /tmp/deepin-community-store/"+ui->label_filename->text().toUtf8());
+                installer.start("pkexec ssinstall /tmp/spark-store/"+ui->label_filename->text().toUtf8());
             }
 
             installer.waitForFinished();
@@ -130,15 +118,22 @@ void downloadlist::on_pushButton_clicked()
                 ui->label_2->setText("安装完成");
                 ui->pushButton_3->show();
             }else {
-                ui->pushButton->hide();
-                ui->label_2->setText("安装出现错误");
+                ui->pushButton->show();
+                ui->pushButton->setEnabled(true);
+                ui->pushButton->setText("重装");
+                ui->label_2->setText("安装出现错误，可重新安装");
                 ui->pushButton_3->show();
             }
             if(notRoot){
-                ui->label_2->setText("安装被终止");
+                ui->label_2->setText("安装被终止，可重新安装");
                 ui->pushButton->setEnabled(true);
+                ui->pushButton->show();
+                ui->pushButton_3->hide();
             }
+            downloadlist::isInstall=false;
+
         });
+
         qDebug()<<ui->label_filename->text().toUtf8();
     }
 
