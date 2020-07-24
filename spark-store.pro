@@ -27,12 +27,12 @@ SOURCES += main.cpp\
         mainwindow.cpp \
     widget.cpp \
     downloadlist.cpp \
-    outputwindow.cpp
+    image_show.cpp
 
 HEADERS  += mainwindow.h \
     widget.h \
     downloadlist.h \
-    outputwindow.h
+    image_show.h
 
 CONFIG += link_pkgconfig
 PKGCONFIG += dtkwidget
@@ -41,5 +41,4 @@ CONFIG += c++11
 
 FORMS += \
     widget.ui \
-    downloadlist.ui \
-    outputwindow.ui
+    downloadlist.ui

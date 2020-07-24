@@ -9,13 +9,14 @@ int main(int argc, char *argv[])
     DApplication a(argc, argv);
     a.setAttribute(Qt::AA_UseHighDpiPixmaps);
     a.loadTranslator();
-    a.setOrganizationName("community");
-    a.setApplicationVersion(DApplication::buildVersion("1.0-beta5.1"));
-    a.setApplicationAcknowledgementPage("https://gitee.com/deepin-community-store/deepin-community-store");
+    a.setOrganizationName("spark-union");
+    a.setApplicationVersion(DApplication::buildVersion("1.0-beta5.4"));
+    a.setApplicationAcknowledgementPage("https://gitee.com/deepin-community-store/spark-store");
     a.setProductIcon(QIcon::fromTheme("spark-store"));  //设置Logo
-    a.setProductName("Spark应用商店");
-    a.setApplicationName("Spark应用商店"); //只有在这儿修改窗口标题才有效
 
+    a.setProductName("Spark应用商店");
+    a.setApplicationDescription("深度社区驱动的一款为deepin打造的第三方商店");
+    a.setApplicationName("Spark应用商店"); //只有在这儿修改窗口标题才有效
     MainWindow w;
     QDesktopWidget *s=DApplication::desktop();
     int d_w=s->width();
@@ -45,7 +46,6 @@ int main(int argc, char *argv[])
 
     //让打开时界面显示在正中
     Dtk::Widget::moveToCenter(&w);
-
 
     return a.exec();
 }

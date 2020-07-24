@@ -5,6 +5,7 @@
 #include <QPixmap>
 #include <QtConcurrent>
 #include <QProcess>
+#include <QTextBrowser>
 bool downloadlist::isInstall=false;
 
 downloadlist::downloadlist(QWidget *parent) :
@@ -17,6 +18,8 @@ downloadlist::downloadlist(QWidget *parent) :
     ui->label_filename->hide();
     ui->pushButton->hide();
     ui->pushButton_3->hide();
+    ui->widget_spinner->start();
+    ui->widget_spinner->hide();
 }
 
 downloadlist::~downloadlist()
@@ -26,8 +29,8 @@ downloadlist::~downloadlist()
 
 void downloadlist::setValue(long long value)
 {
-    ui->progressBar->setValue(value);
-    ui->label_2->setText(QString::number((double)value/100)+"% ("+speed+")");
+    ui->progressBar->setValue(int(value));
+    ui->label_2->setText(QString::number(double(value)/100)+"% ("+speed+")");
     if(ui->label_2->text().left(4)=="100%"){
         ui->label_2->setText("已完成，等待安装");
     }
@@ -35,7 +38,7 @@ void downloadlist::setValue(long long value)
 
 void downloadlist::setMax(long long max)
 {
-    ui->progressBar->setMaximum(max);
+    ui->progressBar->setMaximum(int(max));
 }
 
 void downloadlist::setName(QString name)
@@ -83,29 +86,29 @@ void downloadlist::on_pushButton_clicked()
 {
     if(!isInstall){
         isInstall=true;
-        ui->pushButton->setEnabled(false);
+        ui->pushButton->hide();
+        ui->widget_spinner->show();
         qDebug()<<"/tmp/spark-store/"+ui->label_filename->text().toUtf8();
         ui->label_2->setText("正在安装，请稍候");
         QtConcurrent::run([=](){
             QProcess installer;
             if(reinstall){
-                installer.start("pkexec ssinstall /tmp/spark-store/"+ui->label_filename->text().toUtf8());
+                installer.start("pkexec gdebi -n /tmp/spark-store/"+ui->label_filename->text().toUtf8());
             }else {
-                installer.start("pkexec ssinstall /tmp/spark-store/"+ui->label_filename->text().toUtf8());
+                installer.start("pkexec gdebi -n /tmp/spark-store/"+ui->label_filename->text().toUtf8());
             }
 
             installer.waitForFinished();
-            error=installer.readAllStandardError();
             out=installer.readAllStandardOutput();
-            QStringList everyError=error.split("\n");
+            QStringList everyOut=out.split("\n");
             bool haveError=false;
             bool notRoot=false;
-            for (int i=0;i<everyError.size();i++) {
-                qDebug()<<everyError[i].left(2);
-                if(everyError[i].left(2)=="E:"){
+            for (int i=0;i<everyOut.size();i++) {
+                qDebug()<<everyOut[i].left(2);
+                if(everyOut[i].left(2)=="E:"){
                     haveError=true;
                 }
-                if(everyError[i].right(14)=="Not authorized"){
+                if(everyOut[i].right(14)=="Not authorized"){
                     notRoot=true;
                 }
             }
@@ -119,17 +122,18 @@ void downloadlist::on_pushButton_clicked()
                 ui->pushButton_3->show();
             }else {
                 ui->pushButton->show();
-                ui->pushButton->setEnabled(true);
+                ui->pushButton->show();
                 ui->pushButton->setText("重装");
                 ui->label_2->setText("安装出现错误，可重新安装");
                 ui->pushButton_3->show();
             }
             if(notRoot){
                 ui->label_2->setText("安装被终止，可重新安装");
-                ui->pushButton->setEnabled(true);
+                ui->pushButton->show();
                 ui->pushButton->show();
                 ui->pushButton_3->hide();
             }
+            ui->widget_spinner->hide();
             downloadlist::isInstall=false;
 
         });
@@ -149,6 +153,14 @@ void downloadlist::on_pushButton_2_clicked()
 
 void downloadlist::on_pushButton_3_clicked()
 {
-    output_w.setoutput(out+"\nERROR:\n"+error);
+
+
+    output_w.layout()->addWidget(textbrowser);
+    textbrowser->setLineWidth(0);
+    textbrowser->setText(out);
+    output_w.layout()->setMargin(20);
+    output_w.setTitle(ui->label->text());
+    output_w.setMinimumHeight(600);
+    output_w.setAttribute(Qt::WA_TranslucentBackground);
     output_w.show();
 }

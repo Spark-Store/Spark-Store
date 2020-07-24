@@ -2,7 +2,9 @@
 #define DOWNLOADLIST_H
 
 #include <QWidget>
-#include <outputwindow.h>
+#include <DDialog>
+#include <QTextBrowser>
+DWIDGET_USE_NAMESPACE
 namespace Ui {
 class downloadlist;
 }
@@ -27,9 +29,9 @@ public:
     int num;
     bool close=false;
     QString out;
-    outputwindow output_w;
+    DDialog output_w;
+    QTextBrowser *textbrowser=new QTextBrowser;
     bool reinstall=false;
-    QString error;
     QString pkgName;
 private slots:
     void on_pushButton_clicked();
