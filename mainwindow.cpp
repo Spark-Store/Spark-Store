@@ -56,10 +56,17 @@ MainWindow::MainWindow(QWidget *parent)
     });
 
 
+
 }
 
 MainWindow::~MainWindow()
 {
+
+}
+
+void MainWindow::openUrl(QUrl url)
+{
+    w->openUrl(url);
 
 }
 

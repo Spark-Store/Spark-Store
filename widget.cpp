@@ -108,10 +108,17 @@ void Widget::initUI()
     //初始化web加载动画
     QHBoxLayout *m_weblayout=new QHBoxLayout;
     m_weblayout->addWidget(m_loadweb);
+    m_weblayout->addWidget(m_loaderror);
     m_loadweb->hide();
+    m_loaderror->hide();
     m_loadweb->start();
-    m_loadweb->setMaximumSize(60,60);
+    m_loadweb->setMaximumSize(30,30);
+    m_loadweb->setTextVisible(false);
+    m_loaderror->setPixmap(QIcon::fromTheme("dialog-error").pixmap(60,60));
+    m_loaderror->setAlignment(Qt::AlignCenter);
+
     ui->webView->setLayout(m_weblayout);
+    ui->label_show->hide();
 }
 
 void Widget::initConfig()
@@ -131,7 +138,6 @@ void Widget::initConfig()
 
 
     //读取服务器URL并初始化菜单项的链接
-    QString serverUrl;
     QSettings readConfig(QDir::homePath()+"/.config/spark-store/config.ini",QSettings::IniFormat);
     if(readConfig.value("server/choose").toString()!=""){
         ui->comboBox_server->setCurrentText(readConfig.value("server/choose").toString());
@@ -185,7 +191,12 @@ void Widget::initConfig()
 void Widget::on_webView_loadStarted()
 {
 
+    m_loadweb->setValue(0);
     m_loadweb->show();
+    m_loaderror->hide();
+    ui->label_show->hide();
+
+
     QUrl arg1=ui->webView->page()->mainFrame()->requestedUrl().toString();
     //判断，如果末尾是/就直接访问，如果是app.json就打开详情页
     if(arg1.path().right(8)=="app.json"){
@@ -279,8 +290,7 @@ void Widget::loadappinfo(QUrl arg1)
         //图标加载
         get_json.start("wget -O icon.png "+urladdress+"icon.png");
         get_json.waitForFinished();
-        QPixmap appicon;
-        qDebug()<<appicon.load("icon.png");
+        QPixmap appicon(QString::fromUtf8(TMP_PATH)+"/icon.png");
         ui->label_appicon->setPixmap(appicon);
         ui->pushButton_download->setEnabled(true);
         //截图展示加载
@@ -299,10 +309,9 @@ void Widget::loadappinfo(QUrl arg1)
             get_json.start("wget "+urladdress+"screen_"+QString::number(i)+".png");
             get_json.waitForFinished();
             if(screen[i].load("screen_"+QString::number(i)+".png")){
-                qDebug()<<"加载第"+QString::number(i)+"张图片";
                 label_screen[i]->setImage(screen[i]);
                 label_screen[i]->show();
-                switch(i){
+                switch(i){ //故意为之，为了清除多余截图
                 case 0:
                     label_screen[1]->hide();
                 case 1:
@@ -342,7 +351,6 @@ void Widget::on_pushButton_download_clicked()
     item->setFlags(item->flags() & ~Qt::ItemIsEnabled & ~Qt::ItemIsSelectable);
     ui->listWidget->setItemWidget(item,&download_list[allDownload-1]);
     urList.append(url);
-    qDebug()<<"下载:"<<url;
     download_list[allDownload-1].setName(appName);
     download_list[allDownload-1].setFileName(fileName);
     QPixmap icon;
@@ -447,7 +455,6 @@ void Widget::chooseLeftMenu(int index)
     left_menu_bg[index]->setStyleSheet("background-color:#0081FF;border-radius:8");
     if(index<=12){
         ui->webView->setUrl(menuUrl[index]);
-        qDebug()<<menuUrl[index];
         ui->stackedWidget->setCurrentIndex(0);
     }else if (index==13) {
         ui->stackedWidget->setCurrentIndex(1);
@@ -516,21 +523,11 @@ void Widget::on_pushButton_return_clicked()
     ui->stackedWidget->setCurrentIndex(0);
 }
 
-
-
-void Widget::on_webView_loadFinished()
-{
-    if(ui->webView->page()->mainFrame()->requestedUrl().toString().right(5)!=".json"){
-        ui->label_show->setText("正在加载，请稍候");
-        ui->label_show->hide();
-    }
-}
 void Widget::on_comboBox_server_currentIndexChanged(const QString &arg1)
 {
     if(configCanSave){
         ui->label_setting1->show();
         QSettings *setConfig=new QSettings(QDir::homePath()+"/.config/spark-store/config.ini",QSettings::IniFormat);
-        qDebug()<<arg1;
         setConfig->setValue("server/choose",arg1);
     }
 }
@@ -578,12 +575,10 @@ void Widget::on_pushButton_updateApt_clicked()
            QProcess runupdate;
            runupdate.start("pkexec "+QString::fromUtf8(TMP_PATH)+"/update.sh");
            runupdate.waitForFinished();
-           qDebug()<<runupdate.readAllStandardError();
            QString error=QString::fromStdString(runupdate.readAllStandardError().toStdString());
            QStringList everyError=error.split("\n");
            bool haveError=false;
            for (int i=0;i<everyError.size();i++) {
-               qDebug()<<everyError[i].left(2);
                if(everyError[i].left(2)=="E:"){
                    haveError=true;
                }
@@ -594,7 +589,7 @@ void Widget::on_pushButton_updateApt_clicked()
                ui->label_aptserver->setText("更新中发生错误，请在终端使用apt update来查看错误原因");
            }
        }else {
-           qDebug()<<"更新源失败";
+           ui->label_aptserver->setText("服务器错误");
        }
 
        ui->pushButton_updateApt->setEnabled(true);
@@ -677,6 +672,12 @@ void Widget::opensetting()
     ui->stackedWidget->setCurrentIndex(3);
 }
 
+void Widget::openUrl(QUrl u)
+{
+    QString app=serverUrl + "store"+u.path()+"/app.json";
+    ui->webView->setUrl(app);
+}
+
 void Widget::on_pushButton_website_clicked()
 {
     QDesktopServices::openUrl(QUrl(appweb));
@@ -685,5 +686,16 @@ void Widget::on_pushButton_website_clicked()
 
 void Widget::on_webView_loadFinished(bool arg1)
 {
-    m_loadweb->hide();
+    if(arg1){
+         m_loadweb->hide();
+    }else {
+        m_loadweb->hide();
+        m_loaderror->show();
+    }
+
+}
+
+void Widget::on_webView_loadProgress(int progress)
+{
+    m_loadweb->setValue(progress);
 }

@@ -43,7 +43,11 @@ int main(int argc, char *argv[])
     }
 
     w.show();
-
+//    qDebug()<<argv[1];
+    QString arg1=argv[1];
+    if(arg1.left(6)=="spk://"){
+        w.openUrl(QUrl(argv[1]));
+    }
     //让打开时界面显示在正中
     Dtk::Widget::moveToCenter(&w);
 

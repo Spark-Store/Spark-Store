@@ -10,10 +10,35 @@ web页面部分正在开发当中，详情请见[web仓库](https://gitee.com/de
 
 ```
 http://dcstore.shenmo.tech/
-http://store.shenmo.tech/
-http://store.moshengren.xyz/
 http://store.jerrywang.top/
 ```
+
+#### 参数
+
+参数只有一个Url，该url应当遵循这种格式：`spk://<任意合法字符>/web分类/包名`
+
+例如:
+
+[spk://abcdefg/network/firefox-zh](spk://abcdefg/network/firefox-zh)
+
+[spk://higklmn/network/firefox-zh](spk://higklmn/network/firefox-zh)
+
+可选的web分类：
+
+| 分类名称 | web分类       |
+| -------- | ------------- |
+| 网络应用 | network       |
+| 社交沟通 | relations     |
+| 音乐欣赏 | MusicAndSound |
+| 视频播放 | Videos        |
+| 图形图像 | Photos        |
+| 游戏娱乐 | Games         |
+| 办公学习 | Office        |
+| 阅读翻译 | Reading       |
+| 编程开发 | Programming   |
+| 系统工具 | Tools         |
+| 主题美化 | Themes        |
+| 其他应用 | Others        |
 
  #### 目录结构
 

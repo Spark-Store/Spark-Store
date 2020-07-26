@@ -790,7 +790,7 @@
       <number>0</number>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>2</number>
      </property>
      <widget class="QWidget" name="page">
       <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -1193,19 +1193,60 @@
                  </property>
                  <layout class="QHBoxLayout" name="horizontalLayout_4">
                   <item>
-                   <widget class="image_show" name="screen_0" native="true"/>
+                   <widget class="image_show" name="screen_0" native="true">
+                    <property name="minimumSize">
+                     <size>
+                      <width>0</width>
+                      <height>0</height>
+                     </size>
+                    </property>
+                    <property name="maximumSize">
+                     <size>
+                      <width>400</width>
+                      <height>16777215</height>
+                     </size>
+                    </property>
+                   </widget>
                   </item>
                   <item>
-                   <widget class="image_show" name="screen_1" native="true"/>
+                   <widget class="image_show" name="screen_1" native="true">
+                    <property name="maximumSize">
+                     <size>
+                      <width>400</width>
+                      <height>16777215</height>
+                     </size>
+                    </property>
+                   </widget>
                   </item>
                   <item>
-                   <widget class="image_show" name="screen_2" native="true"/>
+                   <widget class="image_show" name="screen_2" native="true">
+                    <property name="maximumSize">
+                     <size>
+                      <width>400</width>
+                      <height>16777215</height>
+                     </size>
+                    </property>
+                   </widget>
                   </item>
                   <item>
-                   <widget class="image_show" name="screen_3" native="true"/>
+                   <widget class="image_show" name="screen_3" native="true">
+                    <property name="maximumSize">
+                     <size>
+                      <width>400</width>
+                      <height>16777215</height>
+                     </size>
+                    </property>
+                   </widget>
                   </item>
                   <item>
-                   <widget class="image_show" name="screen_4" native="true"/>
+                   <widget class="image_show" name="screen_4" native="true">
+                    <property name="maximumSize">
+                     <size>
+                      <width>400</width>
+                      <height>16777215</height>
+                     </size>
+                    </property>
+                   </widget>
                   </item>
                  </layout>
                 </widget>

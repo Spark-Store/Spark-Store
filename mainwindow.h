@@ -19,6 +19,8 @@ public:
     ~MainWindow();
     DSearchEdit *searchEdit=new DSearchEdit;
     DTitlebar *titlebar=new DTitlebar;
+    void openUrl(QUrl);
+
 private:
 
     Widget *w;
