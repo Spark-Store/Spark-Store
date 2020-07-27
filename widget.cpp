@@ -399,8 +399,10 @@ void Widget::searchApp(QString text)
     if(text.left(6)=="spk://"){
         openUrl(text);
     }else {
-        ui->webView->setUrl(QUrl("http://www.baidu.com/s?wd="+text));
-        ui->stackedWidget->setCurrentIndex(0);
+        system("notify-send 目前仅支持商店专用链接的打开，搜索功能正在开发，请期待以后的版本！ --icon=spark-store");
+//        ui->webView->setUrl(QUrl("http://www.baidu.com/s?wd="+text));
+//        ui->stackedWidget->setCurrentIndex(0);
+
     }
 
 }
