@@ -21,6 +21,7 @@ MainWindow::MainWindow(QWidget *parent)
     DMainWindow::titlebar()->addWidget(searchEdit);
     DMainWindow::titlebar()->setIcon(QIcon::fromTheme("spark-store"));
     DMainWindow::titlebar()->setTitle("星火应用商店");
+    searchEdit->setPlaceholderText("搜索或打开链接");
     searchEdit->setMaximumWidth(300);
 
     //添加菜单项

@@ -24,6 +24,7 @@
 #include <DSettingsDialog>
 #include "image_show.h"
 #include <DBlurEffectWidget>
+#include <QClipboard>
 DWIDGET_USE_NAMESPACE
 
 Widget::Widget(QWidget *parent) :
@@ -196,11 +197,16 @@ void Widget::on_webView_loadStarted()
     m_loaderror->hide();
     ui->label_show->hide();
 
-
-
+    //分析出服务器中的分类名称
     QUrl arg1=ui->webView->page()->mainFrame()->requestedUrl().toString();
-    qDebug()<<arg1;
-    //判断，如果末尾是/就直接访问，如果是app.json就打开详情页
+    QStringList url_=arg1.path().split("/");
+    if(url_.size()>3){
+        type_name=url_[2];
+    }
+
+
+//    qDebug()<<type_name[2];
+    //如果是app.json就打开详情页
     if(arg1.path().right(8)=="app.json"){
         load.cancel();//打开并发加载线程前关闭正在执行的线程
         QPixmap pixmap_null;//一个空的图片，用来清空现有内容
@@ -390,7 +396,13 @@ void Widget::startRequest(QUrl url)
 
 void Widget::searchApp(QString text)
 {
-    ui->webView->setUrl(QUrl("http://www.baidu.com/s?wd="+text));
+    if(text.left(6)=="spk://"){
+        openUrl(text);
+    }else {
+        ui->webView->setUrl(QUrl("http://www.baidu.com/s?wd="+text));
+        ui->stackedWidget->setCurrentIndex(0);
+    }
+
 }
 
 
@@ -700,4 +712,14 @@ void Widget::on_webView_loadFinished(bool arg1)
 void Widget::on_webView_loadProgress(int progress)
 {
     m_loadweb->setValue(progress);
+}
+
+void Widget::on_pushButton_clicked()
+{
+    QString share_url;
+    share_url="spk://store/"+type_name+"/"+pkgName;
+    qDebug()<<"Share"<<share_url;
+    QClipboard *clipboard=QApplication::clipboard();
+    system("notify-send 链接已经复制到剪贴板 --icon=spark-store");
+    clipboard->setText(share_url);
 }

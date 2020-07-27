@@ -43,7 +43,6 @@ int main(int argc, char *argv[])
     }
 
     w.show();
-//    qDebug()<<argv[1];
     QString arg1=argv[1];
     if(arg1.left(6)=="spk://"){
         w.openUrl(QUrl(argv[1]));

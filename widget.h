@@ -73,6 +73,8 @@ private slots:
     void on_webView_loadFinished(bool arg1);
     void on_webView_loadProgress(int progress);
 
+    void on_pushButton_clicked();
+
 public:
 
     QUrl url;
@@ -111,6 +113,7 @@ private:
     QPixmap screen[5];
     QFuture<void> load;
     QTimer download_speed;
+    QString type_name;
 
 };
 
