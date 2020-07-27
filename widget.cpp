@@ -197,7 +197,9 @@ void Widget::on_webView_loadStarted()
     ui->label_show->hide();
 
 
+
     QUrl arg1=ui->webView->page()->mainFrame()->requestedUrl().toString();
+    qDebug()<<arg1;
     //判断，如果末尾是/就直接访问，如果是app.json就打开详情页
     if(arg1.path().right(8)=="app.json"){
         load.cancel();//打开并发加载线程前关闭正在执行的线程
