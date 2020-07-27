@@ -30,7 +30,7 @@
     <number>0</number>
    </property>
    <item row="0" column="0" rowspan="2">
-    <widget class="QWidget" name="widget" native="true">
+    <widget class="QWidget" name="widget_menuList" native="true">
      <property name="minimumSize">
       <size>
        <width>150</width>
@@ -888,7 +888,7 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>856</width>
+            <width>440</width>
             <height>864</height>
            </rect>
           </property>
@@ -1194,8 +1194,8 @@
                   <rect>
                    <x>0</x>
                    <y>0</y>
-                   <width>822</width>
-                   <height>325</height>
+                   <width>98</width>
+                   <height>28</height>
                   </rect>
                  </property>
                  <layout class="QHBoxLayout" name="horizontalLayout_4">

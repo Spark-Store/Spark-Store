@@ -79,8 +79,8 @@ void Widget::initUI()
     //初始化分界线
     QGraphicsOpacityEffect *opacityEffect_1=new QGraphicsOpacityEffect;
     QGraphicsOpacityEffect *opacityEffect_2=new QGraphicsOpacityEffect;
-    opacityEffect_1->setOpacity(0.2);
-    opacityEffect_2->setOpacity(0.2);
+    opacityEffect_1->setOpacity(0.1);
+    opacityEffect_2->setOpacity(0.1);
     ui->line1_widget->setGraphicsEffect(opacityEffect_1);
     ui->line2_widget->setGraphicsEffect(opacityEffect_2);
 
@@ -113,9 +113,10 @@ void Widget::initUI()
     m_loadweb->hide();
     m_loaderror->hide();
     m_loadweb->start();
-    m_loadweb->setMaximumSize(30,30);
+    m_loadweb->setMaximumSize(50,50);
+    m_loadweb->setMinimumSize(50,50);
     m_loadweb->setTextVisible(false);
-    m_loaderror->setPixmap(QIcon::fromTheme("dialog-error").pixmap(60,60));
+    m_loaderror->setPixmap(QIcon::fromTheme("dialog-error").pixmap(50,50));
     m_loaderror->setAlignment(Qt::AlignCenter);
 
     ui->webView->setLayout(m_weblayout);
@@ -692,6 +693,15 @@ void Widget::openUrl(QUrl u)
 {
     QString app=serverUrl + "store"+u.path()+"/app.json";
     ui->webView->setUrl(app);
+}
+
+void Widget::setTheme(bool isDark)
+{
+    if(isDark){
+        ui->widget_menuList->setStyleSheet("background-color:#282828");
+    }else {
+        ui->widget_menuList->setStyleSheet("background-color:#FFFFFF");
+    }
 }
 
 void Widget::on_pushButton_website_clicked()

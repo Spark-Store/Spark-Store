@@ -41,6 +41,7 @@ public:
     int isdownload=false;
     void opensetting(); //打开设置页面
     void openUrl(QUrl);
+    void setTheme(bool);
 
 private slots:
 

@@ -38,8 +38,10 @@ MainWindow::MainWindow(QWidget *parent)
     connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged, this, [ = ](DGuiApplicationHelper::ColorType themeType) {
         if(themeType==DGuiApplicationHelper::DarkType){
             qDebug()<<"Dark";
+            w->setTheme(true);
         }else {
             qDebug()<<"White";
+            w->setTheme(false);
         }
     });
 //    if(DGuiApplicationHelper::instance()-==DGuiApplicationHelper::ColorType::LightType){
