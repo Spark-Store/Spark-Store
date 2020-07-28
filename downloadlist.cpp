@@ -53,7 +53,7 @@ QString downloadlist::getName()
 
 void downloadlist::readyInstall()
 {
-    if(ui->progressBar->value()!= ui->progressBar->maximum()){
+    if(ui->progressBar->value()!= ui->progressBar->maximum() && !close){
         ui->progressBar->hide();
         ui->pushButton_install->show();
         ui->pushButton_2->hide();

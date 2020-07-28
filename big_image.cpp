@@ -1,5 +1,6 @@
 #include "big_image.h"
 #include <QHBoxLayout>
+#include <QtConcurrent>
 big_image::big_image(DBlurEffectWidget *parent) : DBlurEffectWidget(parent)
 {
 //    m_image->setParent(this);
@@ -10,6 +11,9 @@ big_image::big_image(DBlurEffectWidget *parent) : DBlurEffectWidget(parent)
     m_image->setAlignment(Qt::AlignCenter);
     m_image->setMaximumSize(1024,768);
     setWindowFlags(this->windowFlags() | Qt::WindowStaysOnTopHint);//设置图片对话框总在最前
+    setRadius(0);
+
+
 
 }
 

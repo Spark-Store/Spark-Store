@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1018</width>
-    <height>685</height>
+    <width>1053</width>
+    <height>674</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -26,215 +26,9 @@
    <property name="bottomMargin">
     <number>0</number>
    </property>
-   <property name="horizontalSpacing">
+   <property name="spacing">
     <number>0</number>
    </property>
-   <item row="0" column="0" rowspan="2">
-    <widget class="QWidget" name="widget_menuList" native="true">
-     <property name="minimumSize">
-      <size>
-       <width>150</width>
-       <height>0</height>
-      </size>
-     </property>
-     <property name="maximumSize">
-      <size>
-       <width>150</width>
-       <height>16777215</height>
-      </size>
-     </property>
-     <property name="font">
-      <font>
-       <pointsize>11</pointsize>
-      </font>
-     </property>
-     <property name="accessibleDescription">
-      <string>background-color:#FFFFFF</string>
-     </property>
-     <property name="styleSheet">
-      <string notr="true"/>
-     </property>
-     <layout class="QVBoxLayout" name="verticalLayout_24">
-      <property name="spacing">
-       <number>2</number>
-      </property>
-      <property name="leftMargin">
-       <number>5</number>
-      </property>
-      <property name="rightMargin">
-       <number>5</number>
-      </property>
-      <item>
-       <widget class="QPushButton" name="menu_main">
-        <property name="styleSheet">
-         <string notr="true"/>
-        </property>
-        <property name="text">
-         <string>商店首页</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="menu_network">
-        <property name="text">
-         <string>网络应用</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="menu_chat">
-        <property name="text">
-         <string>社交沟通</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="menu_music">
-        <property name="text">
-         <string>音乐欣赏</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="menu_video">
-        <property name="text">
-         <string>视频播放</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="menu_photo">
-        <property name="text">
-         <string>图形图像</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="menu_game">
-        <property name="text">
-         <string>游戏娱乐</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="menu_office">
-        <property name="text">
-         <string>办公学习</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="menu_read">
-        <property name="text">
-         <string>阅读翻译</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="menu_dev">
-        <property name="text">
-         <string>编程开发</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="menu_system">
-        <property name="text">
-         <string>系统工具</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="menu_theme">
-        <property name="text">
-         <string>主题美化</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="menu_other">
-        <property name="text">
-         <string>其他应用</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QWidget" name="line1_widget" native="true">
-        <property name="minimumSize">
-         <size>
-          <width>0</width>
-          <height>1</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>16777215</width>
-          <height>4</height>
-         </size>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">background-color:#808080</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="menu_download">
-        <property name="text">
-         <string>下载列表</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <spacer name="verticalSpacer">
-        <property name="orientation">
-         <enum>Qt::Vertical</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>20</width>
-          <height>219</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
-     </layout>
-    </widget>
-   </item>
-   <item row="1" column="2">
-    <widget class="QLabel" name="label_show">
-     <property name="maximumSize">
-      <size>
-       <width>16777215</width>
-       <height>30</height>
-      </size>
-     </property>
-     <property name="text">
-      <string/>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignCenter</set>
-     </property>
-    </widget>
-   </item>
-   <item row="0" column="1" rowspan="2">
-    <widget class="QWidget" name="line2_widget" native="true">
-     <property name="minimumSize">
-      <size>
-       <width>1</width>
-       <height>0</height>
-      </size>
-     </property>
-     <property name="maximumSize">
-      <size>
-       <width>4</width>
-       <height>16777215</height>
-      </size>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">background-color:#808080</string>
-     </property>
-    </widget>
-   </item>
    <item row="0" column="2">
     <widget class="QStackedWidget" name="stackedWidget">
      <property name="styleSheet">
@@ -244,7 +38,7 @@
       <number>0</number>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="page">
       <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -272,7 +66,10 @@
       </layout>
      </widget>
      <widget class="QWidget" name="page_2">
-      <layout class="QHBoxLayout" name="horizontalLayout_2">
+      <layout class="QVBoxLayout" name="verticalLayout_2">
+       <property name="spacing">
+        <number>0</number>
+       </property>
        <property name="leftMargin">
         <number>0</number>
        </property>
@@ -285,6 +82,13 @@
        <property name="bottomMargin">
         <number>0</number>
        </property>
+       <item>
+        <widget class="QListWidget" name="listWidget">
+         <property name="lineWidth">
+          <number>0</number>
+         </property>
+        </widget>
+       </item>
        <item>
         <widget class="QLabel" name="label">
          <property name="font">
@@ -304,9 +108,18 @@
         </widget>
        </item>
        <item>
-        <widget class="QListWidget" name="listWidget">
-         <property name="lineWidth">
-          <number>0</number>
+        <widget class="QPushButton" name="btn_openDir">
+         <property name="maximumSize">
+          <size>
+           <width>16777215</width>
+           <height>30</height>
+          </size>
+         </property>
+         <property name="focusPolicy">
+          <enum>Qt::NoFocus</enum>
+         </property>
+         <property name="text">
+          <string>打开文件夹</string>
          </property>
         </widget>
        </item>
@@ -342,7 +155,7 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>440</width>
+            <width>891</width>
             <height>864</height>
            </rect>
           </property>
@@ -648,7 +461,7 @@
                   <rect>
                    <x>0</x>
                    <y>0</y>
-                   <width>406</width>
+                   <width>857</width>
                    <height>325</height>
                   </rect>
                  </property>
@@ -733,6 +546,16 @@
          </widget>
         </widget>
        </item>
+       <item>
+        <widget class="QLabel" name="label_show">
+         <property name="text">
+          <string/>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
       </layout>
      </widget>
      <widget class="QWidget" name="page_4">
@@ -765,8 +588,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>687</width>
-            <height>830</height>
+            <width>891</width>
+            <height>786</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_23">
@@ -1037,6 +860,196 @@
        </item>
       </layout>
      </widget>
+    </widget>
+   </item>
+   <item row="0" column="1" rowspan="2">
+    <widget class="QWidget" name="line2_widget" native="true">
+     <property name="minimumSize">
+      <size>
+       <width>1</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>4</width>
+       <height>16777215</height>
+      </size>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color:#808080</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="0" rowspan="2">
+    <widget class="QWidget" name="widget_menuList" native="true">
+     <property name="minimumSize">
+      <size>
+       <width>150</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>150</width>
+       <height>16777215</height>
+      </size>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>11</pointsize>
+      </font>
+     </property>
+     <property name="accessibleDescription">
+      <string>background-color:#FFFFFF</string>
+     </property>
+     <property name="styleSheet">
+      <string notr="true"/>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_24">
+      <property name="spacing">
+       <number>2</number>
+      </property>
+      <property name="leftMargin">
+       <number>5</number>
+      </property>
+      <property name="rightMargin">
+       <number>5</number>
+      </property>
+      <item>
+       <widget class="QPushButton" name="menu_main">
+        <property name="styleSheet">
+         <string notr="true"/>
+        </property>
+        <property name="text">
+         <string>商店首页</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="menu_network">
+        <property name="text">
+         <string>网络应用</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="menu_chat">
+        <property name="text">
+         <string>社交沟通</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="menu_music">
+        <property name="text">
+         <string>音乐欣赏</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="menu_video">
+        <property name="text">
+         <string>视频播放</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="menu_photo">
+        <property name="text">
+         <string>图形图像</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="menu_game">
+        <property name="text">
+         <string>游戏娱乐</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="menu_office">
+        <property name="text">
+         <string>办公学习</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="menu_read">
+        <property name="text">
+         <string>阅读翻译</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="menu_dev">
+        <property name="text">
+         <string>编程开发</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="menu_system">
+        <property name="text">
+         <string>系统工具</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="menu_theme">
+        <property name="text">
+         <string>主题美化</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="menu_other">
+        <property name="text">
+         <string>其他应用</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QWidget" name="line1_widget" native="true">
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>1</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>4</height>
+         </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color:#808080</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="menu_download">
+        <property name="text">
+         <string>下载列表</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <spacer name="verticalSpacer">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>20</width>
+          <height>219</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+     </layout>
     </widget>
    </item>
   </layout>

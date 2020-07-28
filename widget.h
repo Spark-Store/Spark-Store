@@ -62,6 +62,8 @@ private slots:
 
     void on_pushButton_clicked();
 
+    void on_btn_openDir_clicked();
+
 public:
 
     QUrl url;

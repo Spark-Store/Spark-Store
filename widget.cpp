@@ -207,12 +207,16 @@ void Widget::initConfig()
 void Widget::setTheme(bool isDark,QColor color)
 {
     if(isDark){
+        //黑色模式
         ui->widget_menuList->setStyleSheet("background-color:#282828");
         ui->webView->setStyleSheet("background-color:#282828");
+        ui->btn_openDir->setStyleSheet("color:#8B91A1;background-color:#2E2F30;border:0px");
 
     }else {
+        //亮色模式
         ui->widget_menuList->setStyleSheet("background-color:#FFFFFF");
         ui->webView->setStyleSheet("background-color:#FFFFFF");
+        ui->btn_openDir->setStyleSheet("color:#505050;background-color:#FBFBFB;border:0px");
     }
     main_color=color;
     left_list[nowMenu]->setStyleSheet("color:#FFFFFF;background-color:"+main_color.name()+";border-radius:8;border:0px");
@@ -697,4 +701,10 @@ void Widget::on_pushButton_clicked()
     QClipboard *clipboard=QApplication::clipboard();
     system("notify-send 链接已经复制到剪贴板 --icon=spark-store");
     clipboard->setText(share_url);
+}
+
+void Widget::on_btn_openDir_clicked()
+{
+
+    QDesktopServices::openUrl(QUrl("file:///tmp/spark-store", QUrl::TolerantMode));
 }

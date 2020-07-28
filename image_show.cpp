@@ -37,7 +37,7 @@ void image_show::setImage(QPixmap image)
 void image_show::mousePressEvent(QMouseEvent *)
 {
    m_dialog->setimage(m_image);
-   m_dialog->show();
+   m_dialog->showFullScreen();
    moveToCenter(m_dialog);
 
 }
