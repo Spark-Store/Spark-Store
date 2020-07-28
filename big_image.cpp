@@ -9,9 +9,11 @@ big_image::big_image(DBlurEffectWidget *parent) : DBlurEffectWidget(parent)
     layout->addWidget(m_image);
     layout->setMargin(0);
     m_image->setAlignment(Qt::AlignCenter);
-    m_image->setMaximumSize(1024,768);
+    m_image->setMaximumSize(1360,768);
     setWindowFlags(this->windowFlags() | Qt::WindowStaysOnTopHint);//设置图片对话框总在最前
     setRadius(0);
+    setMaskAlpha(100);
+    setMaskColor(QColor("#000000"));
 
 
 
