@@ -189,6 +189,17 @@ void Widget::initConfig()
     }
     aptserver.close();
 }
+void Widget::setTheme(bool isDark)
+{
+    if(isDark){
+        ui->widget_menuList->setStyleSheet("background-color:#282828");
+        ui->webView->setStyleSheet("background-color:#282828");
+    }else {
+
+        ui->widget_menuList->setStyleSheet("background-color:#FFFFFF");
+        ui->webView->setStyleSheet("background-color:#FFFFFF");
+    }
+}
 
 void Widget::on_webView_loadStarted()
 {
@@ -695,14 +706,7 @@ void Widget::openUrl(QUrl u)
     ui->webView->setUrl(app);
 }
 
-void Widget::setTheme(bool isDark)
-{
-    if(isDark){
-        ui->widget_menuList->setStyleSheet("background-color:#282828");
-    }else {
-        ui->widget_menuList->setStyleSheet("background-color:#FFFFFF");
-    }
-}
+
 
 void Widget::on_pushButton_website_clicked()
 {
