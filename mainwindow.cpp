@@ -32,21 +32,21 @@ MainWindow::MainWindow(QWidget *parent)
 
 
 
+//    connect(DGuiApplicationHelper::instance(),&DGuiApplicationHelper::instance()->applicationPalette().highlight().color()::)
 
 
     //链接信号和槽
     connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged, this, [ = ](DGuiApplicationHelper::ColorType themeType) {
+        QColor main_color;
+        main_color=DGuiApplicationHelper::instance()->applicationPalette().highlight().color();
         if(themeType==DGuiApplicationHelper::DarkType){
             qDebug()<<"Dark";
-            w->setTheme(true);
+            w->setTheme(true,main_color);
         }else {
             qDebug()<<"White";
-            w->setTheme(false);
+            w->setTheme(false,main_color);
         }
     });
-//    if(DGuiApplicationHelper::instance()-==DGuiApplicationHelper::ColorType::LightType){
-
-//    }
     connect(setting,&QAction::triggered,w,&Widget::opensetting);
     connect(searchEdit,&DSearchEdit::editingFinished,this,[=](){
         QString searchtext=searchEdit->text();

@@ -41,7 +41,7 @@ public:
     int isdownload=false;
     void opensetting(); //打开设置页面
     void openUrl(QUrl);
-    void setTheme(bool);
+    void setTheme(bool,QColor);
 
 private slots:
 
@@ -115,6 +115,7 @@ private:
     QFuture<void> load;
     QTimer download_speed;
     QString type_name;
+    QColor main_color;
 
 };
 

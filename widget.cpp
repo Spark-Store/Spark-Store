@@ -25,6 +25,7 @@
 #include "image_show.h"
 #include <DBlurEffectWidget>
 #include <QClipboard>
+#include <DGuiApplicationHelper>
 DWIDGET_USE_NAMESPACE
 
 Widget::Widget(QWidget *parent) :
@@ -103,8 +104,6 @@ void Widget::initUI()
     left_list[12]=ui->menu_btn_theme;left_menu_bg[12]=ui->menu_bg_theme;
     left_list[13]=ui->menu_btn_download;left_menu_bg[13]=ui->menu_bg_download;
 
-//    DBlurEffectWidget *bwidget=new DBlurEffectWidget;
-//    bwidget->show();
 
     //初始化web加载动画
     QHBoxLayout *m_weblayout=new QHBoxLayout;
@@ -189,16 +188,18 @@ void Widget::initConfig()
     }
     aptserver.close();
 }
-void Widget::setTheme(bool isDark)
+void Widget::setTheme(bool isDark,QColor color)
 {
     if(isDark){
         ui->widget_menuList->setStyleSheet("background-color:#282828");
         ui->webView->setStyleSheet("background-color:#282828");
-    }else {
 
+    }else {
         ui->widget_menuList->setStyleSheet("background-color:#FFFFFF");
         ui->webView->setStyleSheet("background-color:#FFFFFF");
     }
+    main_color=color;
+    chooseLeftMenu(nowMenu);
 }
 
 void Widget::on_webView_loadStarted()
@@ -215,9 +216,6 @@ void Widget::on_webView_loadStarted()
     if(url_.size()>3){
         type_name=url_[2];
     }
-
-
-//    qDebug()<<type_name[2];
     //如果是app.json就打开详情页
     if(arg1.path().right(8)=="app.json"){
         load.cancel();//打开并发加载线程前关闭正在执行的线程
@@ -480,7 +478,7 @@ void Widget::chooseLeftMenu(int index)
         left_menu_bg[i]->setStyleSheet("");
     }
     left_list[index]->setStyleSheet("color:#FFFFFF");
-    left_menu_bg[index]->setStyleSheet("background-color:#0081FF;border-radius:8");
+    left_menu_bg[index]->setStyleSheet("background-color:"+main_color.name()+";border-radius:8");
     if(index<=12){
         ui->webView->setUrl(menuUrl[index]);
         ui->stackedWidget->setCurrentIndex(0);
