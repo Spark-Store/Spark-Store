@@ -36,7 +36,9 @@ MainWindow::MainWindow(QWidget *parent)
 
 
     //链接信号和槽
-    connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged, this, [ = ](DGuiApplicationHelper::ColorType themeType) {
+
+    //设置活动颜色和明暗模式
+    connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged, this, [=](DGuiApplicationHelper::ColorType themeType) {
         QColor main_color;
         main_color=DGuiApplicationHelper::instance()->applicationPalette().highlight().color();
         if(themeType==DGuiApplicationHelper::DarkType){
@@ -47,7 +49,9 @@ MainWindow::MainWindow(QWidget *parent)
             w->setTheme(false,main_color);
         }
     });
+    //设置菜单
     connect(setting,&QAction::triggered,w,&Widget::opensetting);
+    //搜索事件
     connect(searchEdit,&DSearchEdit::editingFinished,this,[=](){
         QString searchtext=searchEdit->text();
         if(searchtext!=""){

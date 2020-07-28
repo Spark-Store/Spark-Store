@@ -36,6 +36,22 @@ Widget::Widget(QWidget *parent) :
     initUI();
     initConfig();
     manager = new QNetworkAccessManager(this);//下载管理
+
+    connect(ui->menu_main,&QPushButton::clicked,[=](){Widget::chooseLeftMenu(0);});
+    connect(ui->menu_network,&QPushButton::clicked,[=](){Widget::chooseLeftMenu(1);});
+    connect(ui->menu_chat,&QPushButton::clicked,[=](){Widget::chooseLeftMenu(2);});
+    connect(ui->menu_music,&QPushButton::clicked,[=](){Widget::chooseLeftMenu(3);});
+    connect(ui->menu_video,&QPushButton::clicked,[=](){Widget::chooseLeftMenu(4);});
+    connect(ui->menu_photo,&QPushButton::clicked,[=](){Widget::chooseLeftMenu(5);});
+    connect(ui->menu_game,&QPushButton::clicked,[=](){Widget::chooseLeftMenu(6);});
+    connect(ui->menu_office,&QPushButton::clicked,[=](){Widget::chooseLeftMenu(7);});
+    connect(ui->menu_read,&QPushButton::clicked,[=](){Widget::chooseLeftMenu(8);});
+    connect(ui->menu_dev,&QPushButton::clicked,[=](){Widget::chooseLeftMenu(9);});
+    connect(ui->menu_system,&QPushButton::clicked,[=](){Widget::chooseLeftMenu(10);});
+    connect(ui->menu_theme,&QPushButton::clicked,[=](){Widget::chooseLeftMenu(11);});
+    connect(ui->menu_other,&QPushButton::clicked,[=](){Widget::chooseLeftMenu(12);});
+    connect(ui->menu_download,&QPushButton::clicked,[=](){Widget::chooseLeftMenu(13);});
+
     //计算显示下载速度
     download_speed.setInterval(1000);
     download_speed.start();
@@ -89,20 +105,20 @@ void Widget::initUI()
 
 
     //初始化菜单数组
-    left_list[0]=ui->menu_btn_main;left_menu_bg[0]=ui->menu_bg_main;
-    left_list[1]=ui->menu_btn_network;left_menu_bg[1]=ui->menu_bg_network;
-    left_list[2]=ui->menu_btn_chat;left_menu_bg[2]=ui->menu_bg_chat;
-    left_list[3]=ui->menu_btn_music;left_menu_bg[3]=ui->menu_bg_music;
-    left_list[4]=ui->menu_btn_video;left_menu_bg[4]=ui->menu_bg_video;
-    left_list[5]=ui->menu_btn_photo;left_menu_bg[5]=ui->menu_bg_photo;
-    left_list[6]=ui->menu_btn_game;left_menu_bg[6]=ui->menu_bg_game;
-    left_list[7]=ui->menu_btn_office;left_menu_bg[7]=ui->menu_bg_office;
-    left_list[8]=ui->menu_btn_read;left_menu_bg[8]=ui->menu_bg_read;
-    left_list[9]=ui->menu_btn_dev;left_menu_bg[9]=ui->menu_bg_dev;
-    left_list[10]=ui->menu_btn_system;left_menu_bg[10]=ui->menu_bg_system;
-    left_list[11]=ui->menu_btn_other;left_menu_bg[11]=ui->menu_bg_other;
-    left_list[12]=ui->menu_btn_theme;left_menu_bg[12]=ui->menu_bg_theme;
-    left_list[13]=ui->menu_btn_download;left_menu_bg[13]=ui->menu_bg_download;
+    left_list[0]=ui->menu_main;
+    left_list[1]=ui->menu_network;
+    left_list[2]=ui->menu_chat;
+    left_list[3]=ui->menu_music;
+    left_list[4]=ui->menu_video;
+    left_list[5]=ui->menu_photo;
+    left_list[6]=ui->menu_game;
+    left_list[7]=ui->menu_office;
+    left_list[8]=ui->menu_read;
+    left_list[9]=ui->menu_dev;
+    left_list[10]=ui->menu_system;
+    left_list[11]=ui->menu_theme;
+    left_list[12]=ui->menu_other;
+    left_list[13]=ui->menu_download;
 
 
     //初始化web加载动画
@@ -149,29 +165,29 @@ void Widget::initConfig()
     configCanSave=true;   //防止出发保存配置信号
 //    ui->
 //    menuUrl[0]="https://mp.weixin.qq.com/s/1OmCgJ13yVDSRebdgtW9fg";
-    menuUrl[0]=serverUrl + "store/#/";
-    menuUrl[1]=serverUrl + "store/#/network/";
+    menuUrl[0]=serverUrl + "store/#";
+    menuUrl[1]=serverUrl + "store/#/network";
     menuUrl[2]=serverUrl + "store/#/relations";
     menuUrl[3]=serverUrl + "store/#/musicandsound";
     menuUrl[4]=serverUrl + "store/#/videos";
     menuUrl[5]=serverUrl + "store/#/photos";
-    menuUrl[6]=serverUrl + "store/#/games/";
+    menuUrl[6]=serverUrl + "store/#/games";
     menuUrl[7]=serverUrl + "store/#/office";
-    menuUrl[8]=serverUrl + "store/#/reading/";
+    menuUrl[8]=serverUrl + "store/#/reading";
     menuUrl[9]=serverUrl + "store/#/programming";
-    menuUrl[10]=serverUrl + "store/#/tools/";
-    menuUrl[11]=serverUrl + "store/#/others/";
-    menuUrl[12]=serverUrl + "store/#/themes";
+    menuUrl[10]=serverUrl + "store/#/tools";
+    menuUrl[11]=serverUrl + "store/#/themes";
+    menuUrl[12]=serverUrl + "store/#/others";
 
 
     //web控件初始化
     ui->webView->page()->setLinkDelegationPolicy(QWebPage::DelegateAllLinks);   //用来激活接受linkClicked信号
     ui->webView->page()->settings()->setAttribute(QWebSettings::JavascriptEnabled,true);
 
+
     //初始化首页
     ui->webView->setUrl(menuUrl[0]);
     chooseLeftMenu(0);
-
 
     //给下载列表赋值到数组，方便调用
     for (int i =0; i<LIST_MAX;i++){
@@ -199,7 +215,7 @@ void Widget::setTheme(bool isDark,QColor color)
         ui->webView->setStyleSheet("background-color:#FFFFFF");
     }
     main_color=color;
-    chooseLeftMenu(nowMenu);
+    left_list[nowMenu]->setStyleSheet("color:#FFFFFF;background-color:"+main_color.name()+";border-radius:8;border:0px");
 }
 
 void Widget::on_webView_loadStarted()
@@ -242,6 +258,26 @@ void Widget::on_webView_loadStarted()
             loadappinfo(arg1);
         });
     }
+}
+//菜单切换逻辑
+
+void Widget::chooseLeftMenu(int index)
+{
+
+    nowMenu=index;
+    for (int i=0;i<14;i++) {
+        left_list[i]->setStyleSheet("border:0px");
+        left_list[i]->setFont(QFont("",11));
+        left_list[i]->setMinimumHeight(30);
+    }
+    left_list[index]->setStyleSheet("color:#FFFFFF;background-color:"+main_color.name()+";border-radius:8;border:0px");
+    if(index<=12){
+        ui->webView->setUrl(menuUrl[index]);
+        ui->stackedWidget->setCurrentIndex(0);
+    }else if (index==13) {
+        ui->stackedWidget->setCurrentIndex(1);
+    }
+
 }
 void Widget::loadappinfo(QUrl arg1)
 {
@@ -353,7 +389,7 @@ void Widget::loadappinfo(QUrl arg1)
 
 void Widget::on_pushButton_download_clicked()
 {
-    on_menu_btn_download_clicked();
+    chooseLeftMenu(13);
     allDownload+=1;
     QFileInfo info(url.path());
     QString fileName(info.fileName());  //获取文件名
@@ -466,83 +502,8 @@ void Widget::httpFinished() //完成下载
     }
 }
 
-//菜单切换逻辑
 
-void Widget::chooseLeftMenu(int index)
-{
 
-    nowMenu=index;
-    for (int i=0;i<14;i++) {
-        left_list[i]->setStyleSheet("");
-        left_list[i]->setFont(QFont("",11));
-        left_menu_bg[i]->setStyleSheet("");
-    }
-    left_list[index]->setStyleSheet("color:#FFFFFF");
-    left_menu_bg[index]->setStyleSheet("background-color:"+main_color.name()+";border-radius:8");
-    if(index<=12){
-        ui->webView->setUrl(menuUrl[index]);
-        ui->stackedWidget->setCurrentIndex(0);
-    }else if (index==13) {
-        ui->stackedWidget->setCurrentIndex(1);
-    }
-
-}
-void Widget::on_menu_btn_main_clicked() //主页
-{
-    chooseLeftMenu(0);
-}
-void Widget::on_menu_btn_network_clicked() //网络应用
-{
-    chooseLeftMenu(1);
-}
-void Widget::on_menu_btn_chat_clicked()//社交沟通
-{
-    chooseLeftMenu(2);
-}
-void Widget::on_menu_btn_music_clicked()//音乐欣赏
-{
-    chooseLeftMenu(3);
-}
-void Widget::on_menu_btn_video_clicked()//视频播放
-{
-    chooseLeftMenu(4);
-}
-void Widget::on_menu_btn_photo_clicked()//图形图像
-{
-    chooseLeftMenu(5);
-}
-void Widget::on_menu_btn_game_clicked()//游戏娱乐
-{
-    chooseLeftMenu(6);
-}
-void Widget::on_menu_btn_office_clicked()//办公学习
-{
-    chooseLeftMenu(7);
-}
-void Widget::on_menu_btn_read_clicked()//阅读翻译
-{
-    chooseLeftMenu(8);
-}
-void Widget::on_menu_btn_dev_clicked()//编程开发
-{
-    chooseLeftMenu(9);
-}
-void Widget::on_menu_btn_system_clicked()//系统管理
-{
-    chooseLeftMenu(10);
-}
-void Widget::on_menu_btn_other_clicked()//其他软件
-{
-    chooseLeftMenu(11);
-}
-void Widget::on_menu_btn_theme_clicked()
-{
-    chooseLeftMenu(12);
-}
-void Widget::on_menu_btn_download_clicked()
-{
-    chooseLeftMenu(13);
-}
 void Widget::on_pushButton_return_clicked()
 {
     ui->webView->setUrl(menuUrl[nowMenu]);

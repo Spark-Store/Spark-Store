@@ -48,23 +48,9 @@ private slots:
     void httpFinished();
     void httpReadyRead();
     void updateDataReadProgress(qint64,qint64);
-    void on_menu_btn_main_clicked();
-    void on_menu_btn_network_clicked();
-    void on_menu_btn_download_clicked();
-    void on_menu_btn_chat_clicked();
-    void on_menu_btn_music_clicked();
-    void on_menu_btn_video_clicked();
-    void on_menu_btn_photo_clicked();
-    void on_menu_btn_game_clicked();
-    void on_menu_btn_office_clicked();
-    void on_menu_btn_read_clicked();
-    void on_menu_btn_dev_clicked();
-    void on_menu_btn_system_clicked();
-    void on_menu_btn_other_clicked();
     void on_pushButton_download_clicked();
     void on_pushButton_return_clicked();
     void on_webView_loadStarted();
-    void on_menu_btn_theme_clicked();
     void on_comboBox_server_currentIndexChanged(const QString &arg1);
     void on_pushButton_updateServer_clicked();
     void on_pushButton_updateApt_clicked();
@@ -99,8 +85,7 @@ private:
     quint64 dirFileSize(const QString &path);
 
 private:
-    QToolButton * left_list[15];
-    QWidget * left_menu_bg[15];
+    QPushButton * left_list[15];
     QUrl menuUrl[13];
     DWaterProgress *m_loadweb=new DWaterProgress;
     QLabel *m_loaderror=new QLabel;
