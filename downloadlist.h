@@ -34,7 +34,7 @@ public:
     bool reinstall=false;
     QString pkgName;
 private slots:
-    void on_pushButton_clicked();
+    void on_pushButton_install_clicked();
 
     void on_pushButton_2_clicked();
 

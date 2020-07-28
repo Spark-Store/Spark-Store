@@ -93,7 +93,7 @@ void downloadlist::setSpeed(QString s)
     speed=s;
 }
 
-void downloadlist::on_pushButton_clicked()
+void downloadlist::on_pushButton_install_clicked()
 {
     if(!isInstall){
         isInstall=true;
