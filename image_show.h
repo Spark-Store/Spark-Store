@@ -6,7 +6,8 @@
 #include <QLabel>
 #include <QPixmap>
 #include <DDialog>
-
+#include <DBlurEffectWidget>
+#include <big_image.h>
 DWIDGET_USE_NAMESPACE
 class image_show : public QWidget
 {
@@ -19,7 +20,7 @@ private:
     QLabel *m_label=new QLabel;
     QPixmap m_image;
     QLabel image;
-    DDialog *m_dialog=new DDialog;
+    big_image *m_dialog=new big_image;
     void mousePressEvent(QMouseEvent *event);
 signals:
 

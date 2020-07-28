@@ -27,12 +27,14 @@ SOURCES += main.cpp\
         mainwindow.cpp \
     widget.cpp \
     downloadlist.cpp \
-    image_show.cpp
+    image_show.cpp \
+    big_image.cpp
 
 HEADERS  += mainwindow.h \
     widget.h \
     downloadlist.h \
-    image_show.h
+    image_show.h \
+    big_image.h
 
 CONFIG += link_pkgconfig
 PKGCONFIG += dtkwidget

@@ -3,6 +3,8 @@
 #include <QDebug>
 #include <QPainter>
 #include <DDialog>
+#include <DBlurEffectWidget>
+#include <DWidgetUtil>
 DWIDGET_USE_NAMESPACE
 image_show::image_show(QWidget *parent) : QWidget(parent)
 {
@@ -10,7 +12,6 @@ image_show::image_show(QWidget *parent) : QWidget(parent)
     layout->addWidget(m_label);
     setLayout(layout);
     m_label->setText("layout");
-
 }
 
 void image_show::setImage(QPixmap image)
@@ -35,14 +36,8 @@ void image_show::setImage(QPixmap image)
 
 void image_show::mousePressEvent(QMouseEvent *)
 {
-    image.setPixmap(m_image);
-    m_dialog->setTitle("截图预览");
-    image.setAlignment(Qt::AlignCenter);
-    m_dialog->layout()->addWidget(&image);
-    m_dialog->layout()->setMargin(10);
-    image.setMaximumSize(1024,768);
-    m_dialog->setWindowFlags(m_dialog->windowFlags() | Qt::WindowStaysOnTopHint);//设置图片对话框总在最前
-    image.show();
-    m_dialog->hide();
-    m_dialog->exec();
+   m_dialog->setimage(m_image);
+   m_dialog->show();
+   moveToCenter(m_dialog);
+
 }
