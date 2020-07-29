@@ -5,6 +5,8 @@
 #include <DDialog>
 #include <DBlurEffectWidget>
 #include <DWidgetUtil>
+#include <DApplication>
+#include <QDesktopWidget>
 DWIDGET_USE_NAMESPACE
 image_show::image_show(QWidget *parent) : QWidget(parent)
 {
@@ -19,18 +21,26 @@ void image_show::setImage(QPixmap image)
 
     QImage screen0;
     screen0=image.toImage();
-    QPainter painter(&screen0);
+//    QPainter painter(&screen0);
     QImage re_screen1;
     QImage re_screen0=screen0.scaled(QSize(400,300),Qt::KeepAspectRatio,Qt::SmoothTransformation);
-    //防止图片尺寸过大导致窗口覆盖整个屏幕
-    if(screen0.width()>1024 || screen0.height()>768){
-        re_screen1=screen0.scaled(QSize(1024,768),Qt::KeepAspectRatio,Qt::SmoothTransformation);
+    int desktop_w=DApplication::desktop()->width();
+    int desktop_h=DApplication::desktop()->height();
+    if(screen0.width()>(desktop_w-20) || screen0.height()>(desktop_h-20)){
+         re_screen1=screen0.scaled(QSize(desktop_w-20,desktop_h-20),Qt::KeepAspectRatio,Qt::SmoothTransformation);
+         m_image=QPixmap::fromImage(re_screen1);
     }else {
-        re_screen1=screen0;
-
+        m_image=image;
     }
+    //防止图片尺寸过大导致窗口覆盖整个屏幕
+//    if(screen0.width()>1024 || screen0.height()>768){
+//        re_screen1=screen0.scaled(QSize(1024,768),Qt::KeepAspectRatio,Qt::SmoothTransformation);
+//    }else {
+//        re_screen1=screen0;
 
-    m_image=QPixmap::fromImage(re_screen1);
+//    }
+//    m_image=QPixmap::fromImage(re_screen1);
+
     m_label->setPixmap(QPixmap::fromImage(re_screen0));
 }
 

@@ -203,6 +203,10 @@ void Widget::initConfig()
         ui->label_aptserver->setText("不存在");
     }
     aptserver.close();
+
+    //新建临时文件夹
+    QDir dir("/tmp");
+    dir.mkdir("spark-store");
 }
 void Widget::setTheme(bool isDark,QColor color)
 {
@@ -295,7 +299,7 @@ void Widget::loadappinfo(QUrl arg1)
     QDir dir("/tmp");
     dir.mkdir("spark-store");
     QDir::setCurrent("/tmp/spark-store");
-    get_json.start("wget -O app.json "+arg1.toString());
+    get_json.start("curl -o app.json "+arg1.toString());
     get_json.waitForFinished();
     QFile app_json("app.json");
     if(app_json.open(QIODevice::ReadOnly)){
@@ -346,7 +350,7 @@ void Widget::loadappinfo(QUrl arg1)
             ui->pushButton_download->setText("安装");
         }
         //图标加载
-        get_json.start("wget -O icon.png "+urladdress+"icon.png");
+        get_json.start("curl -o icon.png "+urladdress+"icon.png");
         get_json.waitForFinished();
         QPixmap appicon(QString::fromUtf8(TMP_PATH)+"/icon.png");
         ui->label_appicon->setPixmap(appicon);
@@ -364,7 +368,7 @@ void Widget::loadappinfo(QUrl arg1)
         ui->screen_3->hide();
         ui->screen_4->hide();
         for (int i=0;i<5;i++) {
-            get_json.start("wget "+urladdress+"screen_"+QString::number(i)+".png");
+            get_json.start("curl -o screen_"+QString::number(i)+".png "+urladdress+"screen_"+QString::number(i)+".png");
             get_json.waitForFinished();
             if(screen[i].load("screen_"+QString::number(i)+".png")){
                 label_screen[i]->setImage(screen[i]);
@@ -528,7 +532,7 @@ void Widget::on_pushButton_updateServer_clicked()
         ui->pushButton_updateServer->setEnabled(false);
         ui->comboBox_server->clear();
         QFile::remove(QDir::homePath().toUtf8()+"/.config/spark-store/server.list");
-        system("wget -P "+QDir::homePath().toUtf8()+"/.config/spark-store http://dcstore.shenmo.tech/store/server.list");
+        system("curl -o "+QDir::homePath().toUtf8()+"/.config/spark-store/server.list http://dcstore.shenmo.tech/store/server.list");
         std::fstream server;
         server.open(QDir::homePath().toUtf8()+"/.config/spark-store/server.list",std::ios::in);
         std::string lineTmp;
