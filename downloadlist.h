@@ -4,6 +4,8 @@
 #include <QWidget>
 #include <DDialog>
 #include <QTextBrowser>
+#include <QMenu>
+#include <QAction>
 DWIDGET_USE_NAMESPACE
 namespace Ui {
 class downloadlist;
@@ -33,6 +35,10 @@ public:
     QTextBrowser *textbrowser=new QTextBrowser;
     bool reinstall=false;
     QString pkgName;
+    QMenu *menu_install=new QMenu;
+    QAction *action_gdebi=new QAction;
+    QAction *action_dpkg=new QAction;
+    void install(int);
 private slots:
     void on_pushButton_install_clicked();
 

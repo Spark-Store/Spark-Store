@@ -20,6 +20,12 @@ downloadlist::downloadlist(QWidget *parent) :
     ui->pushButton_3->hide();
     ui->widget_spinner->start();
     ui->widget_spinner->hide();
+    action_dpkg->setText("dpkg");
+    action_gdebi->setText("gdebi");
+    connect(action_dpkg,&QAction::triggered,[=](){downloadlist::install(1);});
+    connect(action_gdebi,&QAction::triggered,[=](){downloadlist::install(0);});
+    menu_install->addAction(action_gdebi);
+    menu_install->addAction(action_dpkg);
 }
 
 downloadlist::~downloadlist()
@@ -93,7 +99,7 @@ void downloadlist::setSpeed(QString s)
     speed=s;
 }
 
-void downloadlist::on_pushButton_install_clicked()
+void downloadlist::install(int t)
 {
     if(!isInstall){
         isInstall=true;
@@ -104,9 +110,18 @@ void downloadlist::on_pushButton_install_clicked()
         QtConcurrent::run([=](){
             QProcess installer;
             if(reinstall){
-                installer.start("pkexec gdebi -n /tmp/spark-store/"+ui->label_filename->text().toUtf8());
+                if(t==0){
+                    installer.start("pkexec gdebi -n /tmp/spark-store/"+ui->label_filename->text().toUtf8());
+                }else {
+                    installer.start("pkexec ssinstall -n /tmp/spark-store/"+ui->label_filename->text().toUtf8());
+                }
+
             }else {
-                installer.start("pkexec gdebi -n /tmp/spark-store/"+ui->label_filename->text().toUtf8());
+                if(t==0){
+                    installer.start("pkexec gdebi -n /tmp/spark-store/"+ui->label_filename->text().toUtf8());
+                }else {
+                    installer.start("pkexec ssinstall -n /tmp/spark-store/"+ui->label_filename->text().toUtf8());
+                }
             }
 
             installer.waitForFinished();
@@ -152,6 +167,13 @@ void downloadlist::on_pushButton_install_clicked()
         qDebug()<<ui->label_filename->text().toUtf8();
     }
 
+}
+
+void downloadlist::on_pushButton_install_clicked()
+{
+    //弹出菜单
+//    menu_install->show();
+    menu_install->exec(cursor().pos());
 }
 
 void downloadlist::on_pushButton_2_clicked()
