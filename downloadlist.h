@@ -41,10 +41,8 @@ public:
     void install(int);
 private slots:
     void on_pushButton_install_clicked();
-
+    void on_pushButton_maninst_clicked();
     void on_pushButton_2_clicked();
-
-
     void on_pushButton_3_clicked();
 
 private:

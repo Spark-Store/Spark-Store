@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>729</width>
+    <width>776</width>
     <height>54</height>
    </rect>
   </property>
@@ -55,6 +55,22 @@
     </widget>
    </item>
    <item>
+    <spacer name="horizontalSpacer">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="sizeType">
+      <enum>QSizePolicy::Fixed</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item>
     <widget class="QLabel" name="label_filename">
      <property name="maximumSize">
       <size>
@@ -71,7 +87,7 @@
     <widget class="QLabel" name="label">
      <property name="minimumSize">
       <size>
-       <width>100</width>
+       <width>80</width>
        <height>0</height>
       </size>
      </property>
@@ -92,7 +108,7 @@
     </widget>
    </item>
    <item>
-    <spacer name="horizontalSpacer">
+    <spacer name="horizontalSpacer_2">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
@@ -101,7 +117,7 @@
      </property>
      <property name="sizeHint" stdset="0">
       <size>
-       <width>40</width>
+       <width>20</width>
        <height>20</height>
       </size>
      </property>
@@ -181,7 +197,7 @@
     </widget>
    </item>
    <item>
-    <spacer name="horizontalSpacer_2">
+    <spacer name="horizontalSpacer_3">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
@@ -200,7 +216,7 @@
     <widget class="DSpinner" name="widget_spinner" native="true">
      <property name="minimumSize">
       <size>
-       <width>60</width>
+       <width>30</width>
        <height>0</height>
       </size>
      </property>
