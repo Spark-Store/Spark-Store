@@ -309,13 +309,18 @@ void Widget::loadappinfo(QUrl arg1)
         urladdress=arg1.toString().left(arg1.toString().length()-8);
         QStringList downloadurl=urladdress.split("/");
         urladdress=ui->comboBox_server->currentText();
+        QString deburl=urladdress;
+        urladdress="http://img.shenmo.tech:38324/";//使用图片专用服务器请保留这行，删除后将使用源服务器
+
         for (int i=3;i<downloadurl.size();i++) {
             urladdress+="/"+downloadurl[i];
+            deburl+="/"+downloadurl[i];
         }
         //路径转化完成
         QJsonObject json= QJsonDocument::fromJson(json_array).object();
         appName = json["Name"].toString();
-        url=urladdress + json["Filename"].toString();
+        url=deburl + json["Filename"].toString();
+        qDebug()<<url;
         ui->label_appname->setText(appName);
         system("rm -r *.png");
         ui->label_show->show();
