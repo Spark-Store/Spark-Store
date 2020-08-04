@@ -113,14 +113,14 @@ void downloadlist::install(int t)
                 if(t==0){
                     installer.start("pkexec gdebi -n /tmp/spark-store/"+ui->label_filename->text().toUtf8());
                 }else {
-                    installer.start("pkexec ssinstall -n /tmp/spark-store/"+ui->label_filename->text().toUtf8());
+                    installer.start("pkexec ssinstall /tmp/spark-store/"+ui->label_filename->text().toUtf8());
                 }
 
             }else {
                 if(t==0){
                     installer.start("pkexec gdebi -n /tmp/spark-store/"+ui->label_filename->text().toUtf8());
                 }else {
-                    installer.start("pkexec ssinstall -n /tmp/spark-store/"+ui->label_filename->text().toUtf8());
+                    installer.start("pkexec ssinstall /tmp/spark-store/"+ui->label_filename->text().toUtf8());
                 }
             }
 
