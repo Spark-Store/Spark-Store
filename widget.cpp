@@ -165,7 +165,7 @@ void Widget::initConfig()
     configCanSave=true;   //防止出发保存配置信号
 //    ui->
 //    menuUrl[0]="https://mp.weixin.qq.com/s/1OmCgJ13yVDSRebdgtW9fg";
-    menuUrl[0]=serverUrl + "store/#";
+    menuUrl[0]=serverUrl + "store/#/";
     menuUrl[1]=serverUrl + "store/#/network";
     menuUrl[2]=serverUrl + "store/#/relations";
     menuUrl[3]=serverUrl + "store/#/musicandsound";
@@ -212,18 +212,21 @@ void Widget::setTheme(bool isDark,QColor color)
 {
     if(isDark){
         //黑色模式
+        themeIsDark=true;
         ui->widget_menuList->setStyleSheet("background-color:#282828");
         ui->webView->setStyleSheet("background-color:#282828");
         ui->btn_openDir->setStyleSheet("color:#8B91A1;background-color:#2E2F30;border:0px");
-
+//        ui->webView->page()->;
     }else {
         //亮色模式
+        themeIsDark=false;
         ui->widget_menuList->setStyleSheet("background-color:#FFFFFF");
         ui->webView->setStyleSheet("background-color:#FFFFFF");
         ui->btn_openDir->setStyleSheet("color:#505050;background-color:#FBFBFB;border:0px");
     }
     main_color=color;
-    left_list[nowMenu]->setStyleSheet("color:#FFFFFF;background-color:"+main_color.name()+";border-radius:8;border:0px");
+//    left_list[nowMenu]->setStyleSheet("color:#FFFFFF;background-color:"+main_color.name()+";border-radius:8;border:0px");
+    chooseLeftMenu(nowMenu);
 }
 
 void Widget::on_webView_loadStarted()
@@ -280,7 +283,19 @@ void Widget::chooseLeftMenu(int index)
     }
     left_list[index]->setStyleSheet("color:#FFFFFF;background-color:"+main_color.name()+";border-radius:8;border:0px");
     if(index<=12){
-        ui->webView->setUrl(menuUrl[index]);
+        if(themeIsDark){
+            QString darkurl=menuUrl[index].toString();
+            QStringList tmp=darkurl.split("/");
+            darkurl.clear();
+            for (int i=0;i<tmp.size()-1;i++) {
+                darkurl+=tmp[i]+"/";
+            }
+            darkurl+="dark"+tmp[tmp.size()-1];
+            ui->webView->setUrl(darkurl);
+            qDebug()<<darkurl;
+        }else {
+            ui->webView->setUrl(menuUrl[index]);
+        }
         ui->stackedWidget->setCurrentIndex(0);
     }else if (index==13) {
         ui->stackedWidget->setCurrentIndex(1);

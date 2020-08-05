@@ -78,6 +78,7 @@ public:
     QString urladdress;
     QString pkgName;
     QString appweb;
+    bool themeIsDark;
 
 private:
     void initUI();
