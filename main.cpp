@@ -22,18 +22,18 @@ int main(int argc, char *argv[])
     int d_w=s->width();
     int d_h=s->height();
     if(d_w<=1366){
-        w.setMinimumWidth(350);
-        w.resize(835,640);
+        w.setMinimumWidth(840);
+        w.resize(840,650);
     }else if(d_w<=1920){
-        w.setMinimumWidth(1140);
+        w.setMinimumWidth(1180);
         w.resize(1180,760);
     }else {
-        w.setMinimumWidth(1140);
+        w.setMinimumWidth(1180);
         w.resize(1180,760);
     }
     if(d_h<=768){
-        w.setMinimumHeight(640);
-        w.resize(835,640);
+        w.setMinimumHeight(650);
+        w.resize(840,650);
     }else if(d_h<=1080){
         w.setMinimumHeight(760);
         w.resize(1180,760);
