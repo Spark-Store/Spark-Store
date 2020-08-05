@@ -24,13 +24,12 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 
 SOURCES += main.cpp\
-        mainwindow.cpp \
     widget.cpp \
     downloadlist.cpp \
     image_show.cpp \
     big_image.cpp
 
-HEADERS  += mainwindow.h \
+HEADERS  += \
     widget.h \
     downloadlist.h \
     image_show.h \

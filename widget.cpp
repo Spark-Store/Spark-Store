@@ -25,11 +25,12 @@
 #include "image_show.h"
 #include <DBlurEffectWidget>
 #include <QClipboard>
+#include <DApplication>
 #include <DGuiApplicationHelper>
 DWIDGET_USE_NAMESPACE
 
-Widget::Widget(QWidget *parent) :
-    QWidget(parent),
+Widget::Widget(DBlurEffectWidget *parent) :
+    DBlurEffectWidget(parent),
     ui(new Ui::Widget)
 {
     ui->setupUi(this);
@@ -51,6 +52,30 @@ Widget::Widget(QWidget *parent) :
     connect(ui->menu_theme,&QPushButton::clicked,[=](){Widget::chooseLeftMenu(11);});
     connect(ui->menu_other,&QPushButton::clicked,[=](){Widget::chooseLeftMenu(12);});
     connect(ui->menu_download,&QPushButton::clicked,[=](){Widget::chooseLeftMenu(13);});
+//    connect((ui->titlebar))
+
+
+    //搜索事件
+    connect(searchEdit,&DSearchEdit::editingFinished,this,[=](){
+        QString searchtext=searchEdit->text();
+        if(searchtext!=""){
+            qDebug()<<searchEdit->text();
+            searchApp(searchtext);
+        }
+        searchEdit->clearEdit();
+
+    });
+    connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged, this, [=](DGuiApplicationHelper::ColorType themeType) {
+        QColor main_color;
+        main_color=DGuiApplicationHelper::instance()->applicationPalette().highlight().color();
+        if(themeType==DGuiApplicationHelper::DarkType){
+            qDebug()<<"Dark";
+            setTheme(true,main_color);
+        }else {
+            qDebug()<<"White";
+            setTheme(false,main_color);
+        }
+    });
 
     //计算显示下载速度
     download_speed.setInterval(1000);
@@ -80,29 +105,46 @@ Widget::Widget(QWidget *parent) :
 Widget::~Widget()
 {
     delete ui;
+    qDebug()<<"exit";
+    DApplication::quit();
 }
 void Widget::initUI()
 {
     //ui初始化
-
+    setMaskAlpha(230);
+    ui->webfoot->setFixedHeight(0);
     ui->stackedWidget->setCurrentIndex(0);
     ui->listWidget->hide();
     ui->label_setting1->hide();
     ui->pushButton_uninstall->hide();
     ui->line1_widget->setStyleSheet("background-color:#808080");
-    ui->line2_widget->setStyleSheet("background-color:#808080");
+    ui->icon->setPixmap(QIcon::fromTheme("spark-store").pixmap(36,36));
+
 
 
     //初始化分界线
     QGraphicsOpacityEffect *opacityEffect_1=new QGraphicsOpacityEffect;
-    QGraphicsOpacityEffect *opacityEffect_2=new QGraphicsOpacityEffect;
     opacityEffect_1->setOpacity(0.1);
-    opacityEffect_2->setOpacity(0.1);
     ui->line1_widget->setGraphicsEffect(opacityEffect_1);
-    ui->line2_widget->setGraphicsEffect(opacityEffect_2);
 
 
 
+    //搜索框
+    titlebar=ui->titlebar;
+    titlebar->addWidget(searchEdit);
+//    titlebar->setIcon(QIcon::fromTheme("spark-store"));
+    titlebar->setTitle("星火应用商店");
+    searchEdit->setPlaceholderText("搜索或打开链接");
+    searchEdit->setMaximumWidth(300);
+    titlebar->setSeparatorVisible(true);
+//    titlebar->setAutoHideOnFullscreen(true);
+
+    //添加菜单项
+    QAction *setting=new QAction("设置");
+    QMenu *menu=new QMenu;
+    menu->addAction(setting);
+    titlebar->setMenu(menu);
+    connect(setting,&QAction::triggered,this,&Widget::opensetting);
 
     //初始化菜单数组
     left_list[0]=ui->menu_main;
@@ -163,8 +205,6 @@ void Widget::initConfig()
         serverUrl="http://store.jerrywang.top/";//默认URL
     }
     configCanSave=true;   //防止出发保存配置信号
-//    ui->
-//    menuUrl[0]="https://mp.weixin.qq.com/s/1OmCgJ13yVDSRebdgtW9fg";
     menuUrl[0]=serverUrl + "store/#/";
     menuUrl[1]=serverUrl + "store/#/network";
     menuUrl[2]=serverUrl + "store/#/relations";
@@ -183,7 +223,7 @@ void Widget::initConfig()
     //web控件初始化
     ui->webView->page()->setLinkDelegationPolicy(QWebPage::DelegateAllLinks);   //用来激活接受linkClicked信号
     ui->webView->page()->settings()->setAttribute(QWebSettings::JavascriptEnabled,true);
-
+    ui->webfoot->hide();
 
     //初始化首页
     ui->webView->setUrl(menuUrl[0]);
@@ -213,20 +253,33 @@ void Widget::setTheme(bool isDark,QColor color)
     if(isDark){
         //黑色模式
         themeIsDark=true;
-        ui->widget_menuList->setStyleSheet("background-color:#282828");
         ui->webView->setStyleSheet("background-color:#282828");
         ui->btn_openDir->setStyleSheet("color:#8B91A1;background-color:#2E2F30;border:0px");
-//        ui->webView->page()->;
+        ui->webfoot->setStyleSheet("background-color:#252525");
+        ui->label->setStyleSheet("background-color:#252525");
+        ui->scrollArea->setStyleSheet("#scrollArea{background-color:#252525}");
+        ui->label_show->setStyleSheet("background-color:#252525");
     }else {
         //亮色模式
         themeIsDark=false;
-        ui->widget_menuList->setStyleSheet("background-color:#FFFFFF");
         ui->webView->setStyleSheet("background-color:#FFFFFF");
+        ui->webfoot->setStyleSheet("background-color:#FFFFFF");
         ui->btn_openDir->setStyleSheet("color:#505050;background-color:#FBFBFB;border:0px");
+        ui->label->setStyleSheet("background-color:#FFFFFF");
+        ui->scrollArea->setStyleSheet("#scrollArea{background-color:#F8F8F8}");
+        ui->label_show->setStyleSheet("background-color:#F8F8F8");
     }
     main_color=color;
 //    left_list[nowMenu]->setStyleSheet("color:#FFFFFF;background-color:"+main_color.name()+";border-radius:8;border:0px");
-    chooseLeftMenu(nowMenu);
+    if(ui->stackedWidget->currentIndex()==0){
+        chooseLeftMenu(nowMenu);
+    }
+
+}
+
+DTitlebar* Widget::getTitlebar()
+{
+    return ui->titlebar;
 }
 
 void Widget::on_webView_loadStarted()
@@ -276,10 +329,12 @@ void Widget::chooseLeftMenu(int index)
 {
 
     nowMenu=index;
+//    setfoot();
+//    updatefoot();
     for (int i=0;i<14;i++) {
         left_list[i]->setStyleSheet("border:0px");
         left_list[i]->setFont(QFont("",11));
-        left_list[i]->setMinimumHeight(30);
+        left_list[i]->setFixedHeight(38);
     }
     left_list[index]->setStyleSheet("color:#FFFFFF;background-color:"+main_color.name()+";border-radius:8;border:0px");
     if(index<=12){
@@ -301,6 +356,17 @@ void Widget::chooseLeftMenu(int index)
         ui->stackedWidget->setCurrentIndex(1);
     }
 
+}
+
+void Widget::setfoot(int h)
+{
+    foot=h;
+}
+
+void Widget::updatefoot()
+{
+    int allh=ui->stackedWidget->height();
+    ui->webfoot->setFixedHeight(allh-foot);
 }
 void Widget::loadappinfo(QUrl arg1)
 {
@@ -534,8 +600,21 @@ void Widget::httpFinished() //完成下载
 
 void Widget::on_pushButton_return_clicked()
 {
-    ui->webView->setUrl(menuUrl[nowMenu]);
     ui->stackedWidget->setCurrentIndex(0);
+
+    if(themeIsDark){
+        QString darkurl=menuUrl[nowMenu].toString();
+        QStringList tmp=darkurl.split("/");
+        darkurl.clear();
+        for (int i=0;i<tmp.size()-1;i++) {
+            darkurl+=tmp[i]+"/";
+        }
+        darkurl+="dark"+tmp[tmp.size()-1];
+        ui->webView->setUrl(darkurl);
+        qDebug()<<darkurl;
+    }else {
+        ui->webView->setUrl(menuUrl[nowMenu]);
+    }
 }
 
 void Widget::on_comboBox_server_currentIndexChanged(const QString &arg1)

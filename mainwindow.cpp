@@ -7,20 +7,30 @@
 #include <QDebug>
 #include <DFileServices>
 #include <DApplicationHelper>
+#include <QVBoxLayout>
 DWIDGET_USE_NAMESPACE
 
-MainWindow::MainWindow(QWidget *parent)
-    : DMainWindow(parent)
+MainWindow::MainWindow(DBlurEffectWidget *parent)
+    : DBlurEffectWidget(parent)
 {
     w = new Widget;
 
+    QVBoxLayout *layout=new QVBoxLayout;
+//    layout->addWidget(titlebar);
+//    titlebar->show();
+    titlebar=w->getTitlebar();
+    layout->addWidget(w);
+    w->show();
+    setLayout(layout);
+    layout->setMargin(0);
+    layout->setSpacing(0);
     resize(w->size()); //设置窗口大小
-    setCentralWidget(w);
+//    setCentralWidget(w);
 
     //添加搜索框
-    DMainWindow::titlebar()->addWidget(searchEdit);
-    DMainWindow::titlebar()->setIcon(QIcon::fromTheme("spark-store"));
-    DMainWindow::titlebar()->setTitle("星火应用商店");
+    titlebar->addWidget(searchEdit);
+//    titlebar->setIcon(QIcon::fromTheme("spark-store"));
+    titlebar->setTitle("星火应用商店");
     searchEdit->setPlaceholderText("搜索或打开链接");
     searchEdit->setMaximumWidth(300);
 
@@ -28,11 +38,8 @@ MainWindow::MainWindow(QWidget *parent)
     QAction *setting=new QAction("设置");
     QMenu *menu=new QMenu;
     menu->addAction(setting);
-    DMainWindow::titlebar()->setMenu(menu);
+    titlebar->setMenu(menu);
 
-
-
-//    connect(DGuiApplicationHelper::instance(),&DGuiApplicationHelper::instance()->applicationPalette().highlight().color()::)
 
 
     //链接信号和槽
@@ -49,6 +56,8 @@ MainWindow::MainWindow(QWidget *parent)
             w->setTheme(false,main_color);
         }
     });
+
+
     //设置菜单
     connect(setting,&QAction::triggered,w,&Widget::opensetting);
     //搜索事件
@@ -61,6 +70,7 @@ MainWindow::MainWindow(QWidget *parent)
         searchEdit->clearEdit();
 
     });
+
 
 
 

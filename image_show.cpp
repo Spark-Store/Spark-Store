@@ -32,14 +32,6 @@ void image_show::setImage(QPixmap image)
     }else {
         m_image=image;
     }
-    //防止图片尺寸过大导致窗口覆盖整个屏幕
-//    if(screen0.width()>1024 || screen0.height()>768){
-//        re_screen1=screen0.scaled(QSize(1024,768),Qt::KeepAspectRatio,Qt::SmoothTransformation);
-//    }else {
-//        re_screen1=screen0;
-
-//    }
-//    m_image=QPixmap::fromImage(re_screen1);
 
     m_label->setPixmap(QPixmap::fromImage(re_screen0));
 }

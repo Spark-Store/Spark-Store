@@ -29,7 +29,213 @@
    <property name="spacing">
     <number>0</number>
    </property>
-   <item row="0" column="2">
+   <item row="0" column="0" rowspan="3">
+    <widget class="QWidget" name="widget_menuList" native="true">
+     <property name="minimumSize">
+      <size>
+       <width>150</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>150</width>
+       <height>16777215</height>
+      </size>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>11</pointsize>
+      </font>
+     </property>
+     <property name="accessibleDescription">
+      <string>background-color:#FFFFFF</string>
+     </property>
+     <property name="styleSheet">
+      <string notr="true"/>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_24">
+      <property name="spacing">
+       <number>2</number>
+      </property>
+      <property name="leftMargin">
+       <number>5</number>
+      </property>
+      <property name="rightMargin">
+       <number>5</number>
+      </property>
+      <item>
+       <widget class="QLabel" name="icon">
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>36</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>36</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>icon</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <spacer name="verticalSpacer_7">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeType">
+         <enum>QSizePolicy::Fixed</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>20</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <widget class="QPushButton" name="menu_main">
+        <property name="styleSheet">
+         <string notr="true"/>
+        </property>
+        <property name="text">
+         <string>商店首页</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="menu_network">
+        <property name="text">
+         <string>网络应用</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="menu_chat">
+        <property name="text">
+         <string>社交沟通</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="menu_music">
+        <property name="text">
+         <string>音乐欣赏</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="menu_video">
+        <property name="text">
+         <string>视频播放</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="menu_photo">
+        <property name="text">
+         <string>图形图像</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="menu_game">
+        <property name="text">
+         <string>游戏娱乐</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="menu_office">
+        <property name="text">
+         <string>办公学习</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="menu_read">
+        <property name="text">
+         <string>阅读翻译</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="menu_dev">
+        <property name="text">
+         <string>编程开发</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="menu_system">
+        <property name="text">
+         <string>系统工具</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="menu_theme">
+        <property name="text">
+         <string>主题美化</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="menu_other">
+        <property name="text">
+         <string>其他应用</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QWidget" name="line1_widget" native="true">
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>1</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>4</height>
+         </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color:#808080</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="menu_download">
+        <property name="text">
+         <string>下载列表</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <spacer name="verticalSpacer">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>20</width>
+          <height>40</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="1" column="1">
     <widget class="QStackedWidget" name="stackedWidget">
      <property name="styleSheet">
       <string notr="true"/>
@@ -38,10 +244,13 @@
       <number>0</number>
      </property>
      <property name="currentIndex">
-      <number>1</number>
+      <number>2</number>
      </property>
      <widget class="QWidget" name="page">
       <layout class="QVBoxLayout" name="verticalLayout_4">
+       <property name="spacing">
+        <number>0</number>
+       </property>
        <property name="leftMargin">
         <number>0</number>
        </property>
@@ -56,12 +265,268 @@
        </property>
        <item>
         <widget class="QWebView" name="webView">
+         <property name="palette">
+          <palette>
+           <active>
+            <colorrole role="WindowText">
+             <brush brushstyle="SolidPattern">
+              <color alpha="255">
+               <red>65</red>
+               <green>77</green>
+               <blue>104</blue>
+              </color>
+             </brush>
+            </colorrole>
+            <colorrole role="Light">
+             <brush brushstyle="SolidPattern">
+              <color alpha="255">
+               <red>3</red>
+               <green>3</green>
+               <blue>3</blue>
+              </color>
+             </brush>
+            </colorrole>
+            <colorrole role="Dark">
+             <brush brushstyle="SolidPattern">
+              <color alpha="255">
+               <red>46</red>
+               <green>46</green>
+               <blue>46</blue>
+              </color>
+             </brush>
+            </colorrole>
+            <colorrole role="Text">
+             <brush brushstyle="SolidPattern">
+              <color alpha="255">
+               <red>65</red>
+               <green>77</green>
+               <blue>104</blue>
+              </color>
+             </brush>
+            </colorrole>
+            <colorrole role="ButtonText">
+             <brush brushstyle="SolidPattern">
+              <color alpha="255">
+               <red>65</red>
+               <green>77</green>
+               <blue>104</blue>
+              </color>
+             </brush>
+            </colorrole>
+            <colorrole role="Base">
+             <brush brushstyle="SolidPattern">
+              <color alpha="255">
+               <red>0</red>
+               <green>0</green>
+               <blue>0</blue>
+              </color>
+             </brush>
+            </colorrole>
+            <colorrole role="Window">
+             <brush brushstyle="SolidPattern">
+              <color alpha="255">
+               <red>0</red>
+               <green>0</green>
+               <blue>0</blue>
+              </color>
+             </brush>
+            </colorrole>
+            <colorrole role="HighlightedText">
+             <brush brushstyle="SolidPattern">
+              <color alpha="255">
+               <red>28</red>
+               <green>28</green>
+               <blue>28</blue>
+              </color>
+             </brush>
+            </colorrole>
+            <colorrole role="NoRole">
+             <brush brushstyle="SolidPattern">
+              <color alpha="255">
+               <red>0</red>
+               <green>0</green>
+               <blue>0</blue>
+              </color>
+             </brush>
+            </colorrole>
+           </active>
+           <inactive>
+            <colorrole role="WindowText">
+             <brush brushstyle="SolidPattern">
+              <color alpha="255">
+               <red>138</red>
+               <green>145</green>
+               <blue>161</blue>
+              </color>
+             </brush>
+            </colorrole>
+            <colorrole role="Light">
+             <brush brushstyle="SolidPattern">
+              <color alpha="255">
+               <red>3</red>
+               <green>3</green>
+               <blue>3</blue>
+              </color>
+             </brush>
+            </colorrole>
+            <colorrole role="Dark">
+             <brush brushstyle="SolidPattern">
+              <color alpha="255">
+               <red>46</red>
+               <green>46</green>
+               <blue>46</blue>
+              </color>
+             </brush>
+            </colorrole>
+            <colorrole role="Text">
+             <brush brushstyle="SolidPattern">
+              <color alpha="255">
+               <red>138</red>
+               <green>145</green>
+               <blue>161</blue>
+              </color>
+             </brush>
+            </colorrole>
+            <colorrole role="ButtonText">
+             <brush brushstyle="SolidPattern">
+              <color alpha="255">
+               <red>138</red>
+               <green>145</green>
+               <blue>161</blue>
+              </color>
+             </brush>
+            </colorrole>
+            <colorrole role="Base">
+             <brush brushstyle="SolidPattern">
+              <color alpha="255">
+               <red>0</red>
+               <green>0</green>
+               <blue>0</blue>
+              </color>
+             </brush>
+            </colorrole>
+            <colorrole role="Window">
+             <brush brushstyle="SolidPattern">
+              <color alpha="255">
+               <red>0</red>
+               <green>0</green>
+               <blue>0</blue>
+              </color>
+             </brush>
+            </colorrole>
+            <colorrole role="HighlightedText">
+             <brush brushstyle="SolidPattern">
+              <color alpha="255">
+               <red>28</red>
+               <green>28</green>
+               <blue>28</blue>
+              </color>
+             </brush>
+            </colorrole>
+            <colorrole role="NoRole">
+             <brush brushstyle="SolidPattern">
+              <color alpha="255">
+               <red>0</red>
+               <green>0</green>
+               <blue>0</blue>
+              </color>
+             </brush>
+            </colorrole>
+           </inactive>
+           <disabled>
+            <colorrole role="WindowText">
+             <brush brushstyle="SolidPattern">
+              <color alpha="255">
+               <red>46</red>
+               <green>46</green>
+               <blue>46</blue>
+              </color>
+             </brush>
+            </colorrole>
+            <colorrole role="Light">
+             <brush brushstyle="SolidPattern">
+              <color alpha="255">
+               <red>3</red>
+               <green>3</green>
+               <blue>3</blue>
+              </color>
+             </brush>
+            </colorrole>
+            <colorrole role="Dark">
+             <brush brushstyle="SolidPattern">
+              <color alpha="255">
+               <red>46</red>
+               <green>46</green>
+               <blue>46</blue>
+              </color>
+             </brush>
+            </colorrole>
+            <colorrole role="Text">
+             <brush brushstyle="SolidPattern">
+              <color alpha="255">
+               <red>46</red>
+               <green>46</green>
+               <blue>46</blue>
+              </color>
+             </brush>
+            </colorrole>
+            <colorrole role="ButtonText">
+             <brush brushstyle="SolidPattern">
+              <color alpha="255">
+               <red>46</red>
+               <green>46</green>
+               <blue>46</blue>
+              </color>
+             </brush>
+            </colorrole>
+            <colorrole role="Base">
+             <brush brushstyle="SolidPattern">
+              <color alpha="255">
+               <red>0</red>
+               <green>0</green>
+               <blue>0</blue>
+              </color>
+             </brush>
+            </colorrole>
+            <colorrole role="Window">
+             <brush brushstyle="SolidPattern">
+              <color alpha="255">
+               <red>0</red>
+               <green>0</green>
+               <blue>0</blue>
+              </color>
+             </brush>
+            </colorrole>
+            <colorrole role="HighlightedText">
+             <brush brushstyle="SolidPattern">
+              <color alpha="255">
+               <red>28</red>
+               <green>28</green>
+               <blue>28</blue>
+              </color>
+             </brush>
+            </colorrole>
+            <colorrole role="NoRole">
+             <brush brushstyle="SolidPattern">
+              <color alpha="255">
+               <red>0</red>
+               <green>0</green>
+               <blue>0</blue>
+              </color>
+             </brush>
+            </colorrole>
+           </disabled>
+          </palette>
+         </property>
          <property name="url">
           <url>
            <string>http://0.0.0.1/</string>
           </url>
          </property>
         </widget>
+       </item>
+       <item>
+        <widget class="QWidget" name="webfoot" native="true"/>
        </item>
       </layout>
      </widget>
@@ -99,6 +564,9 @@
          <property name="styleSheet">
           <string notr="true"/>
          </property>
+         <property name="lineWidth">
+          <number>0</number>
+         </property>
          <property name="text">
           <string>当前下载列表为空</string>
          </property>
@@ -127,6 +595,9 @@
      </widget>
      <widget class="QWidget" name="page_3">
       <layout class="QVBoxLayout" name="verticalLayout_16">
+       <property name="spacing">
+        <number>0</number>
+       </property>
        <property name="leftMargin">
         <number>0</number>
        </property>
@@ -155,7 +626,7 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>891</width>
+            <width>901</width>
             <height>864</height>
            </rect>
           </property>
@@ -461,7 +932,7 @@
                   <rect>
                    <x>0</x>
                    <y>0</y>
-                   <width>857</width>
+                   <width>867</width>
                    <height>325</height>
                   </rect>
                  </property>
@@ -588,7 +1059,7 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>891</width>
+            <width>901</width>
             <height>786</height>
            </rect>
           </property>
@@ -862,194 +1333,14 @@
      </widget>
     </widget>
    </item>
-   <item row="0" column="1" rowspan="2">
-    <widget class="QWidget" name="line2_widget" native="true">
+   <item row="0" column="1">
+    <widget class="DTitlebar" name="titlebar" native="true">
      <property name="minimumSize">
       <size>
-       <width>1</width>
-       <height>0</height>
+       <width>0</width>
+       <height>20</height>
       </size>
      </property>
-     <property name="maximumSize">
-      <size>
-       <width>4</width>
-       <height>16777215</height>
-      </size>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">background-color:#808080</string>
-     </property>
-    </widget>
-   </item>
-   <item row="0" column="0" rowspan="2">
-    <widget class="QWidget" name="widget_menuList" native="true">
-     <property name="minimumSize">
-      <size>
-       <width>150</width>
-       <height>0</height>
-      </size>
-     </property>
-     <property name="maximumSize">
-      <size>
-       <width>150</width>
-       <height>16777215</height>
-      </size>
-     </property>
-     <property name="font">
-      <font>
-       <pointsize>11</pointsize>
-      </font>
-     </property>
-     <property name="accessibleDescription">
-      <string>background-color:#FFFFFF</string>
-     </property>
-     <property name="styleSheet">
-      <string notr="true"/>
-     </property>
-     <layout class="QVBoxLayout" name="verticalLayout_24">
-      <property name="spacing">
-       <number>2</number>
-      </property>
-      <property name="leftMargin">
-       <number>5</number>
-      </property>
-      <property name="rightMargin">
-       <number>5</number>
-      </property>
-      <item>
-       <widget class="QPushButton" name="menu_main">
-        <property name="styleSheet">
-         <string notr="true"/>
-        </property>
-        <property name="text">
-         <string>商店首页</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="menu_network">
-        <property name="text">
-         <string>网络应用</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="menu_chat">
-        <property name="text">
-         <string>社交沟通</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="menu_music">
-        <property name="text">
-         <string>音乐欣赏</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="menu_video">
-        <property name="text">
-         <string>视频播放</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="menu_photo">
-        <property name="text">
-         <string>图形图像</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="menu_game">
-        <property name="text">
-         <string>游戏娱乐</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="menu_office">
-        <property name="text">
-         <string>办公学习</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="menu_read">
-        <property name="text">
-         <string>阅读翻译</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="menu_dev">
-        <property name="text">
-         <string>编程开发</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="menu_system">
-        <property name="text">
-         <string>系统工具</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="menu_theme">
-        <property name="text">
-         <string>主题美化</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="menu_other">
-        <property name="text">
-         <string>其他应用</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QWidget" name="line1_widget" native="true">
-        <property name="minimumSize">
-         <size>
-          <width>0</width>
-          <height>1</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>16777215</width>
-          <height>4</height>
-         </size>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">background-color:#808080</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="menu_download">
-        <property name="text">
-         <string>下载列表</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <spacer name="verticalSpacer">
-        <property name="orientation">
-         <enum>Qt::Vertical</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>20</width>
-          <height>219</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
-     </layout>
     </widget>
    </item>
   </layout>
@@ -1064,6 +1355,12 @@
    <class>image_show</class>
    <extends>QWidget</extends>
    <header location="global">image_show.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>DTitlebar</class>
+   <extends>QWidget</extends>
+   <header location="global">dtitlebar.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

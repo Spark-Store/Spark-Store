@@ -9,16 +9,16 @@
 #include <DTitlebar>
 DWIDGET_USE_NAMESPACE
 
-class MainWindow : public DMainWindow
+class MainWindow : public DBlurEffectWidget
 {
     Q_OBJECT
 
 
 public:
-    MainWindow(QWidget *parent = nullptr);
+    MainWindow(DBlurEffectWidget *parent = nullptr);
     ~MainWindow();
     DSearchEdit *searchEdit=new DSearchEdit;
-    DTitlebar *titlebar=new DTitlebar;
+    DTitlebar *titlebar;
     void openUrl(QUrl);
 
 private:

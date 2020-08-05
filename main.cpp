@@ -1,7 +1,7 @@
-#include "mainwindow.h"
 #include <DApplication>
 #include <DWidgetUtil>  //Dtk::Widget::moveToCenter(&w); 要调用它，就得引用DWidgetUtil
 #include <QDesktopWidget>
+#include <widget.h>
 DWIDGET_USE_NAMESPACE
 int main(int argc, char *argv[])
 {
@@ -10,14 +10,14 @@ int main(int argc, char *argv[])
     a.setAttribute(Qt::AA_UseHighDpiPixmaps);
     a.loadTranslator();
     a.setOrganizationName("spark-union");
-    a.setApplicationVersion(DApplication::buildVersion("1.0-beta5.6"));
+    a.setApplicationVersion(DApplication::buildVersion("1.0-beta6.1"));
     a.setApplicationAcknowledgementPage("https://gitee.com/deepin-community-store/spark-store");
     a.setProductIcon(QIcon::fromTheme("spark-store"));  //设置Logo
 
     a.setProductName("Spark应用商店");
     a.setApplicationDescription("深度社区驱动的一款为deepin打造的第三方商店");
     a.setApplicationName("Spark应用商店"); //只有在这儿修改窗口标题才有效
-    MainWindow w;
+    Widget w;
     QDesktopWidget *s=DApplication::desktop();
     int d_w=s->width();
     int d_h=s->height();

@@ -17,6 +17,8 @@
 #include <DSpinner>
 #include <DWaterProgress>
 #include <QLabel>
+#include <DTitlebar>
+#include <DSearchEdit>
 #define LIST_MAX 99 //一次最多下载数量
 #define TMP_PATH "/tmp/spark-store"
 
@@ -27,12 +29,12 @@ class Widget;
 
 
 
-class Widget : public QWidget
+class Widget : public DBlurEffectWidget
 {
 
     Q_OBJECT
 public:
-    explicit Widget(QWidget *parent = nullptr);
+    explicit Widget(DBlurEffectWidget *parent = nullptr);
     ~Widget();
     void startRequest(QUrl url);
     void searchApp(QString);
@@ -42,6 +44,7 @@ public:
     void opensetting(); //打开设置页面
     void openUrl(QUrl);
     void setTheme(bool,QColor);
+    DTitlebar* getTitlebar();
 
 private slots:
 
@@ -80,11 +83,16 @@ public:
     QString appweb;
     bool themeIsDark;
 
+
+
 private:
     void initUI();
     void initConfig();
     void loadappinfo(QUrl);
     void chooseLeftMenu(int index);
+    void setfoot(int);
+    void updatefoot();
+
     quint64 dirFileSize(const QString &path);
 
 private:
@@ -104,6 +112,9 @@ private:
     QTimer download_speed;
     QString type_name;
     QColor main_color;
+    int foot;
+    DSearchEdit *searchEdit=new DSearchEdit;
+    DTitlebar *titlebar;
 
 };
 
