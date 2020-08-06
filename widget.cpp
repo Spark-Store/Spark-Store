@@ -469,9 +469,9 @@ void Widget::loadappinfo(QUrl arg1)
         ui->screen_3->hide();
         ui->screen_4->hide();
         for (int i=0;i<5;i++) {
-            get_json.start("curl -o screen_"+QString::number(i)+".png "+urladdress+"screen_"+QString::number(i)+".png");
+            get_json.start("curl -o screen_"+QString::number(i+1)+".png "+urladdress+"screen_"+QString::number(i+1)+".png");
             get_json.waitForFinished();
-            if(screen[i].load("screen_"+QString::number(i)+".png")){
+            if(screen[i].load("screen_"+QString::number(i+1)+".png")){
                 label_screen[i]->setImage(screen[i]);
                 label_screen[i]->show();
                 switch(i){ //故意为之，为了清除多余截图
@@ -484,6 +484,9 @@ void Widget::loadappinfo(QUrl arg1)
                 case 3:
                     label_screen[4]->hide();
                 }
+            }else{
+                QFile::remove("screen_"+QString::number(i+1)+".png");
+                break;
             }
         }
         ui->label_show->setText("");
