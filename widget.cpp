@@ -206,6 +206,7 @@ void Widget::initConfig()
     }
     configCanSave=true;   //防止出发保存配置信号
     menuUrl[0]=serverUrl + "store/#/";
+//    menuUrl[0]="http://127.0.0.1:8000/#/darkprogramming";
     menuUrl[1]=serverUrl + "store/#/network";
     menuUrl[2]=serverUrl + "store/#/relations";
     menuUrl[3]=serverUrl + "store/#/musicandsound";
@@ -270,7 +271,8 @@ void Widget::setTheme(bool isDark,QColor color)
         ui->label_show->setStyleSheet("background-color:#F8F8F8");
     }
     main_color=color;
-//    left_list[nowMenu]->setStyleSheet("color:#FFFFFF;background-color:"+main_color.name()+";border-radius:8;border:0px");
+
+    updateUI();
     if(ui->stackedWidget->currentIndex()==0){
         chooseLeftMenu(nowMenu);
     }
@@ -323,6 +325,20 @@ void Widget::on_webView_loadStarted()
         });
     }
 }
+void Widget::updateUI()
+{
+    for (int i=0;i<14;i++) {
+//        left_list[i]->setStyleSheet("border:0px");
+        left_list[i]->setFont(QFont("",11));
+        left_list[i]->setFixedHeight(38);
+        if(themeIsDark){
+            left_list[i]->setStyleSheet("color:#FFFFFF;border:0px");
+        }else {
+            left_list[i]->setStyleSheet("color:#252525;border:0px");
+        }
+    }
+    left_list[nowMenu]->setStyleSheet("color:#FFFFFF;background-color:"+main_color.name()+";border-radius:8;border:0px");
+}
 //菜单切换逻辑
 
 void Widget::chooseLeftMenu(int index)
@@ -331,11 +347,8 @@ void Widget::chooseLeftMenu(int index)
     nowMenu=index;
 //    setfoot();
 //    updatefoot();
-    for (int i=0;i<14;i++) {
-        left_list[i]->setStyleSheet("border:0px");
-        left_list[i]->setFont(QFont("",11));
-        left_list[i]->setFixedHeight(38);
-    }
+
+    updateUI();
     left_list[index]->setStyleSheet("color:#FFFFFF;background-color:"+main_color.name()+";border-radius:8;border:0px");
     if(index<=12){
         if(themeIsDark){
@@ -368,6 +381,8 @@ void Widget::updatefoot()
     int allh=ui->stackedWidget->height();
     ui->webfoot->setFixedHeight(allh-foot);
 }
+
+
 void Widget::loadappinfo(QUrl arg1)
 {
     //置UI状态

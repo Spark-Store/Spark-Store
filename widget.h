@@ -92,6 +92,7 @@ private:
     void chooseLeftMenu(int index);
     void setfoot(int);
     void updatefoot();
+    void updateUI();
 
     quint64 dirFileSize(const QString &path);
 
