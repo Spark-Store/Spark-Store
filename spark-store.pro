@@ -43,3 +43,6 @@ CONFIG += c++11
 FORMS += \
     widget.ui \
     downloadlist.ui
+
+RESOURCES += \
+    icons.qrc

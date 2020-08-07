@@ -1,0 +1,35 @@
+<RCC>
+    <qresource prefix="/icons">
+        <file>icons/category_active_16px.svg</file>
+        <file>icons/category_active_22px.png</file>
+        <file>icons/category_active_22px@2x.png</file>
+        <file>icons/category_chat_dark.svg</file>
+        <file>icons/category_chat.svg</file>
+        <file>icons/category_develop_dark.svg</file>
+        <file>icons/category_develop.svg</file>
+        <file>icons/category_game_dark.svg</file>
+        <file>icons/category_game.svg</file>
+        <file>icons/category_graphic_dark.svg</file>
+        <file>icons/category_graphic.svg</file>
+        <file>icons/category_music_dark.svg</file>
+        <file>icons/category_music.svg</file>
+        <file>icons/category_network_dark.svg</file>
+        <file>icons/category_network.svg</file>
+        <file>icons/category_office_dark.svg</file>
+        <file>icons/category_office.svg</file>
+        <file>icons/category_others_dark.svg</file>
+        <file>icons/category_others.svg</file>
+        <file>icons/category_reading_dark.svg</file>
+        <file>icons/category_reading.svg</file>
+        <file>icons/category_system_dark.svg</file>
+        <file>icons/category_system.svg</file>
+        <file>icons/category_video_dark.svg</file>
+        <file>icons/category_video.svg</file>
+        <file>icons/downloads-symbolic_dark.svg</file>
+        <file>icons/downloads-symbolic.svg</file>
+        <file>icons/theme-symbolic_dark.svg</file>
+        <file>icons/theme-symbolic.svg</file>
+        <file>icons/homepage.svg</file>
+        <file>icons/homepage_dark.svg</file>
+    </qresource>
+</RCC>

@@ -178,6 +178,7 @@ void Widget::initUI()
 
     ui->webView->setLayout(m_weblayout);
     ui->label_show->hide();
+
 }
 
 void Widget::initConfig()
@@ -260,6 +261,10 @@ void Widget::setTheme(bool isDark,QColor color)
         ui->label->setStyleSheet("background-color:#252525");
         ui->scrollArea->setStyleSheet("#scrollArea{background-color:#252525}");
         ui->label_show->setStyleSheet("background-color:#252525");
+
+        //菜单图标
+
+
     }else {
         //亮色模式
         themeIsDark=false;
@@ -269,6 +274,7 @@ void Widget::setTheme(bool isDark,QColor color)
         ui->label->setStyleSheet("background-color:#FFFFFF");
         ui->scrollArea->setStyleSheet("#scrollArea{background-color:#F8F8F8}");
         ui->label_show->setStyleSheet("background-color:#F8F8F8");
+
     }
     main_color=color;
 
@@ -333,11 +339,85 @@ void Widget::updateUI()
         left_list[i]->setFixedHeight(38);
         if(themeIsDark){
             left_list[i]->setStyleSheet("color:#FFFFFF;border:0px");
+
+            left_list[0]->setIcon(QIcon(":/icons/icons/homepage_dark.svg"));
+            left_list[1]->setIcon(QIcon(":/icons/icons/category_network_dark.svg"));
+            left_list[2]->setIcon(QIcon(":/icons/icons/category_chat_dark.svg"));
+            left_list[3]->setIcon(QIcon(":/icons/icons/category_music_dark.svg"));
+            left_list[4]->setIcon(QIcon(":/icons/icons/category_video_dark.svg"));
+            left_list[5]->setIcon(QIcon(":/icons/icons/category_graphic_dark.svg"));
+            left_list[6]->setIcon(QIcon(":/icons/icons/category_game_dark.svg"));
+            left_list[7]->setIcon(QIcon(":/icons/icons/category_office_dark.svg"));
+            left_list[8]->setIcon(QIcon(":/icons/icons/category_reading_dark.svg"));
+            left_list[9]->setIcon(QIcon(":/icons/icons/category_develop_dark.svg"));
+            left_list[10]->setIcon(QIcon(":/icons/icons/category_system_dark.svg"));
+            left_list[11]->setIcon(QIcon(":/icons/icons/theme-symbolic_dark.svg"));
+            left_list[12]->setIcon(QIcon(":/icons/icons/category_others_dark.svg"));
+            left_list[13]->setIcon(QIcon(":/icons/icons/downloads-symbolic_dark.svg"));
         }else {
             left_list[i]->setStyleSheet("color:#252525;border:0px");
+
+            left_list[0]->setIcon(QIcon(":/icons/icons/homepage.svg"));
+            left_list[1]->setIcon(QIcon(":/icons/icons/category_network.svg"));
+            left_list[2]->setIcon(QIcon(":/icons/icons/category_chat.svg"));
+            left_list[3]->setIcon(QIcon(":/icons/icons/category_music.svg"));
+            left_list[4]->setIcon(QIcon(":/icons/icons/category_video.svg"));
+            left_list[5]->setIcon(QIcon(":/icons/icons/category_graphic.svg"));
+            left_list[6]->setIcon(QIcon(":/icons/icons/category_game.svg"));
+            left_list[7]->setIcon(QIcon(":/icons/icons/category_office.svg"));
+            left_list[8]->setIcon(QIcon(":/icons/icons/category_reading.svg"));
+            left_list[9]->setIcon(QIcon(":/icons/icons/category_develop.svg"));
+            left_list[10]->setIcon(QIcon(":/icons/icons/category_system.svg"));
+            left_list[11]->setIcon(QIcon(":/icons/icons/theme-symbolic.svg"));
+            left_list[12]->setIcon(QIcon(":/icons/icons/category_others.svg"));
+            left_list[13]->setIcon(QIcon(":/icons/icons/downloads-symbolic.svg"));
         }
     }
     left_list[nowMenu]->setStyleSheet("color:#FFFFFF;background-color:"+main_color.name()+";border-radius:8;border:0px");
+    switch (nowMenu) {
+    case 0:
+        left_list[0]->setIcon(QIcon(":/icons/icons/homepage_dark.svg"));
+        break;
+    case 1:
+        left_list[1]->setIcon(QIcon(":/icons/icons/category_network_dark.svg"));
+        break;
+    case 2:
+        left_list[2]->setIcon(QIcon(":/icons/icons/category_chat_dark.svg"));
+        break;
+    case 3:
+        left_list[3]->setIcon(QIcon(":/icons/icons/category_music_dark.svg"));
+        break;
+    case 4:
+        left_list[4]->setIcon(QIcon(":/icons/icons/category_video_dark.svg"));
+        break;
+    case 5:
+        left_list[5]->setIcon(QIcon(":/icons/icons/category_graphic_dark.svg"));
+        break;
+    case 6:
+        left_list[6]->setIcon(QIcon(":/icons/icons/category_game_dark.svg"));
+        break;
+    case 7:
+        left_list[7]->setIcon(QIcon(":/icons/icons/category_office_dark.svg"));
+        break;
+    case 8:
+        left_list[8]->setIcon(QIcon(":/icons/icons/category_reading_dark.svg"));
+        break;
+    case 9:
+        left_list[9]->setIcon(QIcon(":/icons/icons/category_develop_dark.svg"));
+        break;
+    case 10:
+        left_list[10]->setIcon(QIcon(":/icons/icons/category_system_dark.svg"));
+        break;
+    case 11:
+        left_list[11]->setIcon(QIcon(":/icons/icons/theme-symbolic_dark.svg"));
+        break;
+    case 12:
+        left_list[12]->setIcon(QIcon(":/icons/icons/category_others_dark.svg"));
+        break;
+    case 13:
+        left_list[13]->setIcon(QIcon(":/icons/icons/downloads-symbolic_dark.svg"));
+        break;
+    }
 }
 //菜单切换逻辑
 
@@ -364,6 +444,7 @@ void Widget::chooseLeftMenu(int index)
         }else {
             ui->webView->setUrl(menuUrl[index]);
         }
+
         ui->stackedWidget->setCurrentIndex(0);
     }else if (index==13) {
         ui->stackedWidget->setCurrentIndex(1);

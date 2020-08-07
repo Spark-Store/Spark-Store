@@ -9,6 +9,7 @@ int main(int argc, char *argv[])
     DApplication a(argc, argv);
     a.setAttribute(Qt::AA_UseHighDpiPixmaps);
     a.loadTranslator();
+
     a.setOrganizationName("spark-union");
     a.setApplicationVersion(DApplication::buildVersion("1.0-beta7"));
     a.setApplicationAcknowledgementPage("https://gitee.com/deepin-community-store/spark-store");
@@ -22,8 +23,8 @@ int main(int argc, char *argv[])
     int d_w=s->width();
     int d_h=s->height();
     if(d_w<=1366){
-        w.setMinimumWidth(840);
-        w.resize(840,650);
+        w.setMinimumWidth(925);
+        w.resize(925,650);
     }else if(d_w<=1920){
         w.setMinimumWidth(1180);
         w.resize(1180,760);
@@ -33,7 +34,7 @@ int main(int argc, char *argv[])
     }
     if(d_h<=768){
         w.setMinimumHeight(650);
-        w.resize(840,650);
+        w.resize(925,650);
     }else if(d_h<=1080){
         w.setMinimumHeight(760);
         w.resize(1180,760);
