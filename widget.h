@@ -67,6 +67,8 @@ private slots:
 
     void on_btn_openDir_clicked();
 
+    void on_stackedWidget_currentChanged(int arg1);
+
 public:
 
     QUrl url;

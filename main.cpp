@@ -42,6 +42,7 @@ int main(int argc, char *argv[])
         w.setMinimumHeight(760);
         w.resize(1180,760);
     }
+//    w.resize(925,650);
 
     w.show();
     QString arg1=argv[1];

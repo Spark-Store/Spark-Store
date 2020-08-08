@@ -119,6 +119,7 @@ void Widget::initUI()
     ui->pushButton_uninstall->hide();
     ui->line1_widget->setStyleSheet("background-color:#808080");
     ui->icon->setPixmap(QIcon::fromTheme("spark-store").pixmap(36,36));
+    ui->titlebar->setFixedHeight(48);
 
 
 
@@ -130,12 +131,20 @@ void Widget::initUI()
 
 
     //搜索框
+    QWidget *w_titlebar=new QWidget;
+    QHBoxLayout *ly_titlebar=new QHBoxLayout;
+    w_titlebar->setLayout(ly_titlebar);
+    ly_titlebar->addWidget(ui->pushButton_return);
+    ly_titlebar->addStretch();
+    ly_titlebar->addSpacing(50);
+    ly_titlebar->addWidget(searchEdit);
+    ly_titlebar->addStretch();
     titlebar=ui->titlebar;
-    titlebar->addWidget(searchEdit);
+    titlebar->setCustomWidget(w_titlebar);
 //    titlebar->setIcon(QIcon::fromTheme("spark-store"));
     titlebar->setTitle("星火应用商店");
     searchEdit->setPlaceholderText("搜索或打开链接");
-    searchEdit->setMaximumWidth(300);
+    searchEdit->setFixedWidth(300);
     titlebar->setSeparatorVisible(true);
 //    titlebar->setAutoHideOnFullscreen(true);
 
@@ -261,6 +270,7 @@ void Widget::setTheme(bool isDark,QColor color)
         ui->label->setStyleSheet("background-color:#252525");
         ui->scrollArea->setStyleSheet("#scrollArea{background-color:#252525}");
         ui->label_show->setStyleSheet("background-color:#252525");
+        ui->pushButton_return->setIcon(QIcon(":/icons/icons/category_active_dark.svg"));
 
         //菜单图标
 
@@ -274,6 +284,7 @@ void Widget::setTheme(bool isDark,QColor color)
         ui->label->setStyleSheet("background-color:#FFFFFF");
         ui->scrollArea->setStyleSheet("#scrollArea{background-color:#F8F8F8}");
         ui->label_show->setStyleSheet("background-color:#F8F8F8");
+        ui->pushButton_return->setIcon(QIcon(":/icons/icons/category_active.svg"));
 
     }
     main_color=color;
@@ -292,7 +303,6 @@ DTitlebar* Widget::getTitlebar()
 
 void Widget::on_webView_loadStarted()
 {
-
     m_loadweb->setValue(0);
     m_loadweb->show();
     m_loaderror->hide();
@@ -699,21 +709,25 @@ void Widget::httpFinished() //完成下载
 
 void Widget::on_pushButton_return_clicked()
 {
-    ui->stackedWidget->setCurrentIndex(0);
-
-    if(themeIsDark){
-        QString darkurl=menuUrl[nowMenu].toString();
-        QStringList tmp=darkurl.split("/");
-        darkurl.clear();
-        for (int i=0;i<tmp.size()-1;i++) {
-            darkurl+=tmp[i]+"/";
-        }
-        darkurl+="dark"+tmp[tmp.size()-1];
-        ui->webView->setUrl(darkurl);
-        qDebug()<<darkurl;
-    }else {
-        ui->webView->setUrl(menuUrl[nowMenu]);
-    }
+//    ui->stackedWidget->setCurrentIndex(0);
+//    if(nowMenu==13){
+//        chooseLeftMenu(13);
+//        return;
+//    }
+    chooseLeftMenu(nowMenu);
+//    if(themeIsDark){
+//        QString darkurl=menuUrl[nowMenu].toString();
+//        QStringList tmp=darkurl.split("/");
+//        darkurl.clear();
+//        for (int i=0;i<tmp.size()-1;i++) {
+//            darkurl+=tmp[i]+"/";
+//        }
+//        darkurl+="dark"+tmp[tmp.size()-1];
+//        ui->webView->setUrl(darkurl);
+//        qDebug()<<darkurl;
+//    }else {
+//        ui->webView->setUrl(menuUrl[nowMenu]);
+//    }
 }
 
 void Widget::on_comboBox_server_currentIndexChanged(const QString &arg1)
@@ -909,4 +923,14 @@ void Widget::on_btn_openDir_clicked()
 {
 
     QDesktopServices::openUrl(QUrl("file:///tmp/spark-store", QUrl::TolerantMode));
+}
+
+void Widget::on_stackedWidget_currentChanged(int arg1)
+{
+    qDebug()<<arg1;
+    if(arg1==0 || arg1==1){
+        ui->pushButton_return->setEnabled(false);
+    }else {
+        ui->pushButton_return->setEnabled(true);
+    }
 }

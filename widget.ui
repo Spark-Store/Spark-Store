@@ -649,7 +649,11 @@
                  </size>
                 </property>
                 <property name="text">
-                 <string>&lt;</string>
+                 <string/>
+                </property>
+                <property name="icon">
+                 <iconset resource="icons.qrc">
+                  <normaloff>:/icons/icons/category_active.svg</normaloff>:/icons/icons/category_active.svg</iconset>
                 </property>
                </widget>
               </item>
@@ -1059,8 +1063,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>901</width>
-            <height>786</height>
+            <width>687</width>
+            <height>830</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_23">
@@ -1364,6 +1368,8 @@
    <container>1</container>
   </customwidget>
  </customwidgets>
- <resources/>
+ <resources>
+  <include location="icons.qrc"/>
+ </resources>
  <connections/>
 </ui>

@@ -1,8 +1,5 @@
 <RCC>
     <qresource prefix="/icons">
-        <file>icons/category_active_16px.svg</file>
-        <file>icons/category_active_22px.png</file>
-        <file>icons/category_active_22px@2x.png</file>
         <file>icons/category_chat_dark.svg</file>
         <file>icons/category_chat.svg</file>
         <file>icons/category_develop_dark.svg</file>
@@ -31,5 +28,7 @@
         <file>icons/theme-symbolic.svg</file>
         <file>icons/homepage.svg</file>
         <file>icons/homepage_dark.svg</file>
+        <file>icons/category_active_dark.svg</file>
+        <file>icons/category_active.svg</file>
     </qresource>
 </RCC>
