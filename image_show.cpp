@@ -24,8 +24,8 @@ void image_show::setImage(QPixmap image)
 //    QPainter painter(&screen0);
     QImage re_screen1;
     QImage re_screen0=screen0.scaled(QSize(400,300),Qt::KeepAspectRatio,Qt::SmoothTransformation);
-    int desktop_w=DApplication::desktop()->width();
-    int desktop_h=DApplication::desktop()->height();
+    desktop_w=DApplication::desktop()->width();
+    desktop_h=DApplication::desktop()->height();
     if(screen0.width()>(desktop_w-20) || screen0.height()>(desktop_h-20)){
          re_screen1=screen0.scaled(QSize(desktop_w-20,desktop_h-20),Qt::KeepAspectRatio,Qt::SmoothTransformation);
          m_image=QPixmap::fromImage(re_screen1);
@@ -40,6 +40,8 @@ void image_show::mousePressEvent(QMouseEvent *)
 {
    m_dialog->setimage(m_image);
    m_dialog->showFullScreen();
-   moveToCenter(m_dialog);
+   m_dialog->setFixedSize(desktop_w,desktop_h);
+   m_dialog->move(0,0);/*
+   moveToCenter(m_dialog);*/
 
 }

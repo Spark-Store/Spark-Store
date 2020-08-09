@@ -111,7 +111,7 @@ Widget::~Widget()
 void Widget::initUI()
 {
     //ui初始化
-    setMaskAlpha(230);
+    setMaskAlpha(220);
     ui->webfoot->setFixedHeight(0);
     ui->stackedWidget->setCurrentIndex(0);
     ui->listWidget->hide();
@@ -119,7 +119,7 @@ void Widget::initUI()
     ui->pushButton_uninstall->hide();
     ui->line1_widget->setStyleSheet("background-color:#808080");
     ui->icon->setPixmap(QIcon::fromTheme("spark-store").pixmap(36,36));
-    ui->titlebar->setFixedHeight(48);
+    ui->titlebar->setFixedHeight(50);
 
 
 
@@ -134,7 +134,7 @@ void Widget::initUI()
     QWidget *w_titlebar=new QWidget;
     QHBoxLayout *ly_titlebar=new QHBoxLayout;
     w_titlebar->setLayout(ly_titlebar);
-    ly_titlebar->addWidget(ui->pushButton_return);
+//    ly_titlebar->addWidget(ui->pushButton_return);
     ly_titlebar->addStretch();
     ly_titlebar->addSpacing(50);
     ly_titlebar->addWidget(searchEdit);

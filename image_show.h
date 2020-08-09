@@ -16,6 +16,8 @@ public:
     explicit image_show(QWidget *parent = nullptr);
 
     void setImage(QPixmap);
+    int desktop_w;
+    int desktop_h;
 private:
     QLabel *m_label=new QLabel;
     QPixmap m_image;
