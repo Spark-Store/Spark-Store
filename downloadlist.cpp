@@ -25,7 +25,13 @@ downloadlist::downloadlist(QWidget *parent) :
     connect(action_dpkg,&QAction::triggered,[=](){downloadlist::install(1);});
     connect(action_gdebi,&QAction::triggered,[=](){downloadlist::install(0);});
     menu_install->addAction(action_gdebi);
-    menu_install->addAction(action_dpkg);
+    //ssinstall命令存在时再加入该选项
+    QFile ssinstall("/bin/ssinstall");
+    ssinstall.open(QIODevice::ReadOnly);
+    if(ssinstall.isOpen()){
+        menu_install->addAction(action_dpkg);
+    }
+
 }
 
 downloadlist::~downloadlist()
@@ -170,76 +176,7 @@ void downloadlist::install(int t)
 void downloadlist::on_pushButton_install_clicked()
 {
     //弹出菜单
-//    menu_install->show();
     menu_install->exec(cursor().pos());
-}
-void downloadlist::on_pushButton_maninst_clicked()
-{
-    if(!isInstall)
-    {
-        isInstall = true;
-        ui->pushButton_install->hide();
-        ui->widget_spinner->show();
-        qDebug() << "/tmp/spark-store/" + ui->label_filename->text().toUtf8();
-        ui->label_2->setText("正在安装，请稍候");
-        QtConcurrent::run([=]()
-        {
-            QProcess installer;
-            if(reinstall)
-            {
-                installer.start("pkexec apt reinstall /tmp/spark-store/" + ui->label_filename->text().toUtf8());
-            }
-            else
-            {
-                installer.start("pkexec apt install /tmp/spark-store/" + ui->label_filename->text().toUtf8());
-            }
-            installer.waitForFinished();
-            out = installer.readAllStandardOutput();
-            installer.close();
-            QStringList everyOut = out.split("\n");
-            bool haveError = false;
-            bool notRoot = false;
-            for (int i = 0; i < everyOut.size(); i++)
-            {
-                qDebug() << everyOut[i].left(2);
-                if(everyOut[i].left(2) == "E:")
-                {
-                    haveError = true;
-                }
-                if(everyOut[i].right(14) == "Not authorized")
-                {
-                    notRoot = true;
-                }
-            }
-            QProcess isInstall;
-            isInstall.start("dpkg -s " + pkgName);
-            isInstall.waitForFinished();
-            int error = QString::fromStdString(isInstall.readAllStandardError().toStdString()).length();
-            isInstall.close();
-            if(error == 0)
-            {
-                ui->pushButton_install->hide();
-                ui->label_2->setText("安装完成");
-                ui->pushButton_3->show();
-            }
-            else
-            {
-                ui->pushButton_install->show();
-                ui->pushButton_install->setText("重装");
-                ui->label_2->setText("安装出现错误，可重新安装");
-                ui->pushButton_3->show();
-            }
-            if(notRoot)
-            {
-                ui->label_2->setText("安装被终止，可重新安装");
-                ui->pushButton_install->show();
-                ui->pushButton_3->hide();
-            }
-            ui->widget_spinner->hide();
-            downloadlist::isInstall = false;
-        });
-        qDebug() << ui->label_filename->text().toUtf8();
-    }
 }
 
 void downloadlist::on_pushButton_2_clicked()

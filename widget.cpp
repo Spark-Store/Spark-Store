@@ -186,6 +186,7 @@ void Widget::initUI()
     m_loaderror->setAlignment(Qt::AlignCenter);
 
     ui->webView->setLayout(m_weblayout);
+//    ui->stackedWidget->setLayout(m_weblayout);
     ui->label_show->hide();
 
 }
@@ -271,7 +272,6 @@ void Widget::setTheme(bool isDark,QColor color)
         ui->scrollArea->setStyleSheet("#scrollArea{background-color:#252525}");
         ui->label_show->setStyleSheet("background-color:#252525");
         ui->pushButton_return->setIcon(QIcon(":/icons/icons/category_active_dark.svg"));
-
         //菜单图标
 
 
@@ -317,19 +317,7 @@ void Widget::on_webView_loadStarted()
     //如果是app.json就打开详情页
     if(arg1.path().right(8)=="app.json"){
         load.cancel();//打开并发加载线程前关闭正在执行的线程
-        QPixmap pixmap_null;//一个空的图片，用来清空现有内容
-        ui->label_appicon->setPixmap(pixmap_null);
-        ui->screen_0->setImage(pixmap_null);
-        ui->screen_1->setImage(pixmap_null);
-        ui->screen_2->setImage(pixmap_null);
-        ui->screen_3->setImage(pixmap_null);
-        ui->screen_4->setImage(pixmap_null);
-        //先隐藏详情页负责显示截图的label
-        ui->screen_0->hide();
-        ui->screen_1->hide();
-        ui->screen_2->hide();
-        ui->screen_3->hide();
-        ui->screen_4->hide();
+
         ui->label_more->setText("");//清空详情介绍
         ui->label_info->setText("");
         ui->label_appname->setText("");
@@ -343,44 +331,44 @@ void Widget::on_webView_loadStarted()
 }
 void Widget::updateUI()
 {
+    if(themeIsDark){
+        left_list[0]->setIcon(QIcon(":/icons/icons/homepage_dark.svg"));
+        left_list[1]->setIcon(QIcon(":/icons/icons/category_network_dark.svg"));
+        left_list[2]->setIcon(QIcon(":/icons/icons/category_chat_dark.svg"));
+        left_list[3]->setIcon(QIcon(":/icons/icons/category_music_dark.svg"));
+        left_list[4]->setIcon(QIcon(":/icons/icons/category_video_dark.svg"));
+        left_list[5]->setIcon(QIcon(":/icons/icons/category_graphic_dark.svg"));
+        left_list[6]->setIcon(QIcon(":/icons/icons/category_game_dark.svg"));
+        left_list[7]->setIcon(QIcon(":/icons/icons/category_office_dark.svg"));
+        left_list[8]->setIcon(QIcon(":/icons/icons/category_reading_dark.svg"));
+        left_list[9]->setIcon(QIcon(":/icons/icons/category_develop_dark.svg"));
+        left_list[10]->setIcon(QIcon(":/icons/icons/category_system_dark.svg"));
+        left_list[11]->setIcon(QIcon(":/icons/icons/theme-symbolic_dark.svg"));
+        left_list[12]->setIcon(QIcon(":/icons/icons/category_others_dark.svg"));
+        left_list[13]->setIcon(QIcon(":/icons/icons/downloads-symbolic_dark.svg"));
+    }else {
+        left_list[0]->setIcon(QIcon(":/icons/icons/homepage.svg"));
+        left_list[1]->setIcon(QIcon(":/icons/icons/category_network.svg"));
+        left_list[2]->setIcon(QIcon(":/icons/icons/category_chat.svg"));
+        left_list[3]->setIcon(QIcon(":/icons/icons/category_music.svg"));
+        left_list[4]->setIcon(QIcon(":/icons/icons/category_video.svg"));
+        left_list[5]->setIcon(QIcon(":/icons/icons/category_graphic.svg"));
+        left_list[6]->setIcon(QIcon(":/icons/icons/category_game.svg"));
+        left_list[7]->setIcon(QIcon(":/icons/icons/category_office.svg"));
+        left_list[8]->setIcon(QIcon(":/icons/icons/category_reading.svg"));
+        left_list[9]->setIcon(QIcon(":/icons/icons/category_develop.svg"));
+        left_list[10]->setIcon(QIcon(":/icons/icons/category_system.svg"));
+        left_list[11]->setIcon(QIcon(":/icons/icons/theme-symbolic.svg"));
+        left_list[12]->setIcon(QIcon(":/icons/icons/category_others.svg"));
+        left_list[13]->setIcon(QIcon(":/icons/icons/downloads-symbolic.svg"));
+    }
     for (int i=0;i<14;i++) {
-//        left_list[i]->setStyleSheet("border:0px");
         left_list[i]->setFont(QFont("",11));
         left_list[i]->setFixedHeight(38);
         if(themeIsDark){
             left_list[i]->setStyleSheet("color:#FFFFFF;border:0px");
-
-            left_list[0]->setIcon(QIcon(":/icons/icons/homepage_dark.svg"));
-            left_list[1]->setIcon(QIcon(":/icons/icons/category_network_dark.svg"));
-            left_list[2]->setIcon(QIcon(":/icons/icons/category_chat_dark.svg"));
-            left_list[3]->setIcon(QIcon(":/icons/icons/category_music_dark.svg"));
-            left_list[4]->setIcon(QIcon(":/icons/icons/category_video_dark.svg"));
-            left_list[5]->setIcon(QIcon(":/icons/icons/category_graphic_dark.svg"));
-            left_list[6]->setIcon(QIcon(":/icons/icons/category_game_dark.svg"));
-            left_list[7]->setIcon(QIcon(":/icons/icons/category_office_dark.svg"));
-            left_list[8]->setIcon(QIcon(":/icons/icons/category_reading_dark.svg"));
-            left_list[9]->setIcon(QIcon(":/icons/icons/category_develop_dark.svg"));
-            left_list[10]->setIcon(QIcon(":/icons/icons/category_system_dark.svg"));
-            left_list[11]->setIcon(QIcon(":/icons/icons/theme-symbolic_dark.svg"));
-            left_list[12]->setIcon(QIcon(":/icons/icons/category_others_dark.svg"));
-            left_list[13]->setIcon(QIcon(":/icons/icons/downloads-symbolic_dark.svg"));
         }else {
             left_list[i]->setStyleSheet("color:#252525;border:0px");
-
-            left_list[0]->setIcon(QIcon(":/icons/icons/homepage.svg"));
-            left_list[1]->setIcon(QIcon(":/icons/icons/category_network.svg"));
-            left_list[2]->setIcon(QIcon(":/icons/icons/category_chat.svg"));
-            left_list[3]->setIcon(QIcon(":/icons/icons/category_music.svg"));
-            left_list[4]->setIcon(QIcon(":/icons/icons/category_video.svg"));
-            left_list[5]->setIcon(QIcon(":/icons/icons/category_graphic.svg"));
-            left_list[6]->setIcon(QIcon(":/icons/icons/category_game.svg"));
-            left_list[7]->setIcon(QIcon(":/icons/icons/category_office.svg"));
-            left_list[8]->setIcon(QIcon(":/icons/icons/category_reading.svg"));
-            left_list[9]->setIcon(QIcon(":/icons/icons/category_develop.svg"));
-            left_list[10]->setIcon(QIcon(":/icons/icons/category_system.svg"));
-            left_list[11]->setIcon(QIcon(":/icons/icons/theme-symbolic.svg"));
-            left_list[12]->setIcon(QIcon(":/icons/icons/category_others.svg"));
-            left_list[13]->setIcon(QIcon(":/icons/icons/downloads-symbolic.svg"));
         }
     }
     left_list[nowMenu]->setStyleSheet("color:#FFFFFF;background-color:"+main_color.name()+";border-radius:8;border:0px");
@@ -476,6 +464,18 @@ void Widget::updatefoot()
 
 void Widget::loadappinfo(QUrl arg1)
 {
+
+    if(arg1.isEmpty()){
+        return;
+    }
+
+    //先隐藏详情页负责显示截图的label
+    ui->screen_0->hide();
+    ui->screen_1->hide();
+    ui->screen_2->hide();
+    ui->screen_3->hide();
+    ui->screen_4->hide();
+
     //置UI状态
     ui->pushButton_uninstall->hide();
     ui->label_show->setText("正在加载，请稍候");
@@ -486,6 +486,7 @@ void Widget::loadappinfo(QUrl arg1)
     QDir dir("/tmp");
     dir.mkdir("spark-store");
     QDir::setCurrent("/tmp/spark-store");
+
     get_json.start("curl -o app.json "+arg1.toString());
     get_json.waitForFinished();
     QFile app_json("app.json");
@@ -497,7 +498,9 @@ void Widget::loadappinfo(QUrl arg1)
         QStringList downloadurl=urladdress.split("/");
         urladdress=ui->comboBox_server->currentText();
         QString deburl=urladdress;
+        deburl=deburl.left(urladdress.length()-1);
         urladdress="http://img.shenmo.tech:38324/";//使用图片专用服务器请保留这行，删除后将使用源服务器
+        urladdress=urladdress.left(urladdress.length()-1);
 
         for (int i=3;i<downloadurl.size();i++) {
             urladdress+="/"+downloadurl[i];
@@ -548,17 +551,13 @@ void Widget::loadappinfo(QUrl arg1)
         ui->label_appicon->setPixmap(appicon);
         ui->pushButton_download->setEnabled(true);
         //截图展示加载
+
         image_show *label_screen[5];
         label_screen[0]=ui->screen_0;
         label_screen[1]=ui->screen_1;
         label_screen[2]=ui->screen_2;
         label_screen[3]=ui->screen_3;
         label_screen[4]=ui->screen_4;
-        ui->screen_0->hide();
-        ui->screen_1->hide();
-        ui->screen_2->hide();
-        ui->screen_3->hide();
-        ui->screen_4->hide();
         for (int i=0;i<5;i++) {
             get_json.start("curl -o screen_"+QString::number(i+1)+".png "+urladdress+"screen_"+QString::number(i+1)+".png");
             get_json.waitForFinished();
@@ -907,6 +906,9 @@ void Widget::on_webView_loadFinished(bool arg1)
 void Widget::on_webView_loadProgress(int progress)
 {
     m_loadweb->setValue(progress);
+    if(progress>=90){
+        m_loadweb->hide();
+    }
 }
 
 void Widget::on_pushButton_clicked()
