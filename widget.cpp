@@ -145,7 +145,7 @@ void Widget::initUI()
     titlebar->setTitle("星火应用商店");
     searchEdit->setPlaceholderText("搜索或打开链接");
     searchEdit->setFixedWidth(300);
-    titlebar->setSeparatorVisible(true);
+    titlebar->setSeparatorVisible(false);
 //    titlebar->setAutoHideOnFullscreen(true);
 
     //添加菜单项

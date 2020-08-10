@@ -287,7 +287,7 @@
       <number>0</number>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="page">
       <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -613,8 +613,11 @@
        </item>
        <item>
         <widget class="QListWidget" name="listWidget">
+         <property name="frameShape">
+          <enum>QFrame::NoFrame</enum>
+         </property>
          <property name="frameShadow">
-          <enum>QFrame::Plain</enum>
+          <enum>QFrame::Sunken</enum>
          </property>
          <property name="lineWidth">
           <number>0</number>
@@ -672,7 +675,7 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>404</width>
+            <width>901</width>
             <height>849</height>
            </rect>
           </property>
@@ -968,8 +971,8 @@
                   <rect>
                    <x>0</x>
                    <y>0</y>
-                   <width>98</width>
-                   <height>28</height>
+                   <width>867</width>
+                   <height>325</height>
                   </rect>
                  </property>
                  <layout class="QHBoxLayout" name="horizontalLayout_4">
