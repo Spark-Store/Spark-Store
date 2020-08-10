@@ -287,7 +287,7 @@
       <number>0</number>
      </property>
      <property name="currentIndex">
-      <number>1</number>
+      <number>3</number>
      </property>
      <widget class="QWidget" name="page">
       <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -1087,6 +1087,9 @@
          <property name="styleSheet">
           <string notr="true"/>
          </property>
+         <property name="frameShape">
+          <enum>QFrame::NoFrame</enum>
+         </property>
          <property name="lineWidth">
           <number>0</number>
          </property>
@@ -1098,8 +1101,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>687</width>
-            <height>830</height>
+            <width>903</width>
+            <height>786</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_23">
