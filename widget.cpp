@@ -213,7 +213,7 @@ void Widget::initConfig()
         ui->comboBox_server->setCurrentText(readConfig.value("server/choose").toString());
         serverUrl=readConfig.value("server/choose").toString();
     }else {
-        serverUrl="http://store.jerrywang.top/";//默认URL
+        serverUrl="http://store.jerrywang.top/amd64/";//默认URL
     }
     configCanSave=true;   //防止出发保存配置信号
     menuUrl[0]=serverUrl + "store/#/";

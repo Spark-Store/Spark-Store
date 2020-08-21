@@ -675,7 +675,7 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>901</width>
+            <width>404</width>
             <height>849</height>
            </rect>
           </property>
@@ -971,7 +971,7 @@
                   <rect>
                    <x>0</x>
                    <y>0</y>
-                   <width>867</width>
+                   <width>370</width>
                    <height>325</height>
                   </rect>
                  </property>
@@ -1198,7 +1198,7 @@
                     <string notr="true">color:#808080</string>
                    </property>
                    <property name="text">
-                    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;源服务器的作用是保证软件更新，并且支持使用apt工具获取软件。通常我们更建议你使用第一个线路作为更新源。虽然它可能偶尔有些慢。&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;源服务器的作用是保证软件更新，并且支持使用apt工具获取软件。通常我们更建议你使用第一个线路作为更新源，一般是最稳定的&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                    </property>
                    <property name="wordWrap">
                     <bool>true</bool>
