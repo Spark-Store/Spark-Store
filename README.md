@@ -9,8 +9,10 @@ web页面部分正在开发当中，详情请见[web仓库](https://gitee.com/de
 当前服务器线路列表（项目中包含）：
 
 ```
-http://dcstore.shenmo.tech/
+http://cdn.jerrywang.top/
+http://sucdn.jerrywang.top/
 http://store.jerrywang.top/
+http://dcstore.shenmo.tech/
 ```
 
 #### 参数
@@ -25,7 +27,7 @@ http://store.jerrywang.top/
 
 可选的web分类：
 
-| 分类名称 | web分类        |
+| 分类名称 | web分类   　    |
 | -------- | -------------- |
 | 网络应用 | network        |
 | 社交沟通 | chat           |
