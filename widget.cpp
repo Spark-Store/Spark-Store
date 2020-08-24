@@ -487,7 +487,7 @@ void Widget::loadappinfo(QUrl arg1)
         urladdress=ui->comboBox_server->currentText();
         QString deburl=urladdress;
         deburl=deburl.left(urladdress.length()-1);
-        urladdress="http://img.shenmo.tech:38324/"; // 使用图片专用服务器请保留这行，删除后将使用源服务器
+        urladdress="http://img.jerrywang.top/"; // 使用图片专用服务器请保留这行，删除后将使用源服务器
         urladdress=urladdress.left(urladdress.length()-1);
 
         for (int i=3;i<downloadurl.size();i++) {
