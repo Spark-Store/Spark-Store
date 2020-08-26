@@ -9,6 +9,7 @@ class ProgressLoad : public QWidget
 public:
     explicit ProgressLoad(QWidget *parent = nullptr);
     void setValue(int v);
+    void setTheme(bool dark,QColor color);
 signals:
 
 public slots:

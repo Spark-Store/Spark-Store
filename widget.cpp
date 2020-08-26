@@ -38,9 +38,7 @@ Widget::Widget(DBlurEffectWidget *parent) :
     initConfig();
     manager = new QNetworkAccessManager(this);//下载管理
     m_loadweb=ui->progressload;
-//    m_loadweb->setParent(nullptr);
     m_loadweb->show();
-    m_loadweb->setValue(50);
 
     connect(ui->menu_main,&QPushButton::clicked,[=](){Widget::chooseLeftMenu(0);});
     connect(ui->menu_network,&QPushButton::clicked,[=](){Widget::chooseLeftMenu(1);});
@@ -174,23 +172,6 @@ void Widget::initUI()
     left_list[13]=ui->menu_download;
 
 
-    //初始化web加载动画
-//    QHBoxLayout *m_weblayout=new QHBoxLayout;
-//    m_weblayout->addWidget(m_loadweb);
-//    m_weblayout->addWidget(m_loaderror);
-//    m_loadweb->hide();
-//    m_loadweb->setParent(ui->webEngineView);
-//    m_loaderror->hide();
-//    m_loadweb->start();
-//    m_loadweb->setMaximumSize(50,50);
-//    m_loadweb->setMinimumSize(50,50);
-//    m_loadweb->setTextVisible(false);
-//    m_loaderror->setPixmap(QIcon::fromTheme("dialog-error").pixmap(50,50));
-//    m_loaderror->setAlignment(Qt::AlignCenter);
-
-//    ui->webEngineView->setLayout(m_weblayout);
-//    ui->stackedWidget->setLayout(m_weblayout);
-
     ui->label_show->hide();
 
 }
@@ -289,7 +270,7 @@ void Widget::setTheme(bool isDark,QColor color)
         ui->pushButton_return->setIcon(QIcon(":/icons/icons/category_active.svg"));
     }
     main_color=color;
-
+    m_loadweb->setTheme(themeIsDark,color);
     updateUI();
     if(ui->stackedWidget->currentIndex()==0){
         chooseLeftMenu(nowMenu);
@@ -344,6 +325,7 @@ void Widget::updateUI()
             left_list[i]->setStyleSheet("color:#252525;border:0px");
         }
     }
+
     left_list[nowMenu]->setStyleSheet("color:#FFFFFF;background-color:"+main_color.name()+";border-radius:8;border:0px");
     switch (nowMenu) {
     case 0:
@@ -409,6 +391,7 @@ void Widget::chooseLeftMenu(int index)
             darkurl+="dark"+tmp[tmp.size()-1];
             ui->webEngineView->setUrl(darkurl);
             qDebug()<<darkurl;
+
         }else {
             ui->webEngineView->setUrl(menuUrl[index]);
 

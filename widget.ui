@@ -421,6 +421,8 @@
           <property name="geometry">
            <rect>
             <x>0</x>
+            <y>0</y>
+            <width>901</width>
             <height>849</height>
            </rect>
           </property>
@@ -716,7 +718,7 @@
                   <rect>
                    <x>0</x>
                    <y>0</y>
-                   <width>370</width>
+                   <width>867</width>
                    <height>325</height>
                   </rect>
                  </property>
@@ -846,8 +848,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>903</width>
-            <height>786</height>
+            <width>687</width>
+            <height>830</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_23">
@@ -1135,17 +1137,20 @@
      <property name="minimumSize">
       <size>
        <width>0</width>
-       <height>10</height>
+       <height>3</height>
       </size>
      </property>
      <property name="maximumSize">
       <size>
        <width>16777215</width>
-       <height>10</height>
+       <height>3</height>
       </size>
      </property>
+     <property name="toolTipDuration">
+      <number>-1</number>
+     </property>
      <property name="styleSheet">
-      <string notr="true">background-color:#000000</string>
+      <string notr="true"/>
      </property>
     </widget>
    </item>
