@@ -19,6 +19,7 @@
 #include <QLabel>
 #include <DTitlebar>
 #include <DSearchEdit>
+#include <progressload.h>
 #define LIST_MAX 99 //一次最多下载数量
 #define TMP_PATH "/tmp/spark-store"
 
@@ -53,21 +54,26 @@ private slots:
     void updateDataReadProgress(qint64,qint64);
     void on_pushButton_download_clicked();
     void on_pushButton_return_clicked();
-    void on_webView_loadStarted();
     void on_comboBox_server_currentIndexChanged(const QString &arg1);
     void on_pushButton_updateServer_clicked();
     void on_pushButton_updateApt_clicked();
     void on_pushButton_uninstall_clicked();
     void on_pushButton_clear_clicked();
     void on_pushButton_website_clicked();
-    void on_webView_loadFinished(bool arg1);
-    void on_webView_loadProgress(int progress);
 
     void on_pushButton_clicked();
 
     void on_btn_openDir_clicked();
 
     void on_stackedWidget_currentChanged(int arg1);
+
+    void on_webEngineView_urlChanged(const QUrl &arg1);
+
+    void on_webEngineView_loadStarted();
+
+    void on_webEngineView_loadProgress(int progress);
+
+    void on_webEngineView_loadFinished(bool arg1);
 
 public:
 
@@ -101,7 +107,7 @@ private:
 private:
     QPushButton * left_list[15];
     QUrl menuUrl[13];
-    DWaterProgress *m_loadweb=new DWaterProgress;
+    ProgressLoad *m_loadweb;
     QLabel *m_loaderror=new QLabel;
     QString serverUrl;
     bool configCanSave=false;

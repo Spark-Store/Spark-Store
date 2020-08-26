@@ -37,6 +37,7 @@ Widget::Widget(DBlurEffectWidget *parent) :
     initUI();
     initConfig();
     manager = new QNetworkAccessManager(this);//下载管理
+    m_loadweb=ui->progressload;
 
     connect(ui->menu_main,&QPushButton::clicked,[=](){Widget::chooseLeftMenu(0);});
     connect(ui->menu_network,&QPushButton::clicked,[=](){Widget::chooseLeftMenu(1);});
@@ -99,6 +100,11 @@ Widget::Widget(DBlurEffectWidget *parent) :
             size2=download_size;
         }
     });
+
+
+    //
+    m_loadweb->show();
+    m_loadweb->setValue(50);
 }
 
 
@@ -173,19 +179,20 @@ void Widget::initUI()
 
 
     //初始化web加载动画
-    QHBoxLayout *m_weblayout=new QHBoxLayout;
-    m_weblayout->addWidget(m_loadweb);
-    m_weblayout->addWidget(m_loaderror);
-    m_loadweb->hide();
-    m_loaderror->hide();
-    m_loadweb->start();
-    m_loadweb->setMaximumSize(50,50);
-    m_loadweb->setMinimumSize(50,50);
-    m_loadweb->setTextVisible(false);
-    m_loaderror->setPixmap(QIcon::fromTheme("dialog-error").pixmap(50,50));
-    m_loaderror->setAlignment(Qt::AlignCenter);
+//    QHBoxLayout *m_weblayout=new QHBoxLayout;
+//    m_weblayout->addWidget(m_loadweb);
+//    m_weblayout->addWidget(m_loaderror);
+//    m_loadweb->hide();
+//    m_loadweb->setParent(ui->webEngineView);
+//    m_loaderror->hide();
+//    m_loadweb->start();
+//    m_loadweb->setMaximumSize(50,50);
+//    m_loadweb->setMinimumSize(50,50);
+//    m_loadweb->setTextVisible(false);
+//    m_loaderror->setPixmap(QIcon::fromTheme("dialog-error").pixmap(50,50));
+//    m_loaderror->setAlignment(Qt::AlignCenter);
 
-    ui->webView->setLayout(m_weblayout);
+//    ui->webEngineView->setLayout(m_weblayout);
 //    ui->stackedWidget->setLayout(m_weblayout);
     ui->label_show->hide();
 
@@ -233,12 +240,13 @@ void Widget::initConfig()
 
 
     //web控件初始化
-    ui->webView->page()->setLinkDelegationPolicy(QWebPage::DelegateAllLinks);   //用来激活接受linkClicked信号
-    ui->webView->page()->settings()->setAttribute(QWebSettings::JavascriptEnabled,true);
+//    ui->webView->page()->setLinkDelegationPolicy(QWebPage::DelegateAllLinks);   //用来激活接受linkClicked信号
+//    ui->webView->page()->settings()->setAttribute(QWebSettings::JavascriptEnabled,true);
     ui->webfoot->hide();
 
     //初始化首页
-    ui->webView->setUrl(menuUrl[0]);
+    ui->webEngineView->setUrl(menuUrl[0]);
+//    ui->webEngineView->setUrl(menuUrl[1]);
     chooseLeftMenu(0);
 
     //给下载列表赋值到数组，方便调用
@@ -265,7 +273,7 @@ void Widget::setTheme(bool isDark,QColor color)
     if(isDark){
         //黑色模式
         themeIsDark=true;
-        ui->webView->setStyleSheet("background-color:#282828");
+        ui->webEngineView->setStyleSheet("background-color:#282828");
         ui->btn_openDir->setStyleSheet("color:#8B91A1;background-color:#2E2F30;border:0px");
         ui->webfoot->setStyleSheet("background-color:#252525");
         ui->label->setStyleSheet("background-color:#252525");
@@ -278,7 +286,7 @@ void Widget::setTheme(bool isDark,QColor color)
     }else {
         //亮色模式
         themeIsDark=false;
-        ui->webView->setStyleSheet("background-color:#FFFFFF");
+        ui->webEngineView->setStyleSheet("background-color:#FFFFFF");
         ui->webfoot->setStyleSheet("background-color:#FFFFFF");
         ui->btn_openDir->setStyleSheet("color:#505050;background-color:#FBFBFB;border:0px");
         ui->label->setStyleSheet("background-color:#FFFFFF");
@@ -299,35 +307,6 @@ void Widget::setTheme(bool isDark,QColor color)
 DTitlebar* Widget::getTitlebar()
 {
     return ui->titlebar;
-}
-
-void Widget::on_webView_loadStarted()
-{
-    m_loadweb->setValue(0);
-    m_loadweb->show();
-    m_loaderror->hide();
-    ui->label_show->hide();
-
-    //分析出服务器中的分类名称
-    QUrl arg1=ui->webView->page()->mainFrame()->requestedUrl().toString();
-    QStringList url_=arg1.path().split("/");
-    if(url_.size()>3){
-        type_name=url_[2];
-    }
-    //如果是app.json就打开详情页
-    if(arg1.path().right(8)=="app.json"){
-        load.cancel();//打开并发加载线程前关闭正在执行的线程
-
-        ui->label_more->setText("");//清空详情介绍
-        ui->label_info->setText("");
-        ui->label_appname->setText("");
-        ui->pushButton_download->setEnabled(false);
-        ui->stackedWidget->setCurrentIndex(2);
-        load.cancel();//打开并发加载线程前关闭正在执行的线程
-        load = QtConcurrent::run([=](){
-            loadappinfo(arg1);
-        });
-    }
 }
 void Widget::updateUI()
 {
@@ -423,8 +402,6 @@ void Widget::chooseLeftMenu(int index)
 {
 
     nowMenu=index;
-//    setfoot();
-//    updatefoot();
 
     updateUI();
     left_list[index]->setStyleSheet("color:#FFFFFF;background-color:"+main_color.name()+";border-radius:8;border:0px");
@@ -437,10 +414,11 @@ void Widget::chooseLeftMenu(int index)
                 darkurl+=tmp[i]+"/";
             }
             darkurl+="dark"+tmp[tmp.size()-1];
-            ui->webView->setUrl(darkurl);
+            ui->webEngineView->setUrl(darkurl);
             qDebug()<<darkurl;
         }else {
-            ui->webView->setUrl(menuUrl[index]);
+            ui->webEngineView->setUrl(menuUrl[index]);
+
         }
 
         ui->stackedWidget->setCurrentIndex(0);
@@ -475,6 +453,7 @@ void Widget::loadappinfo(QUrl arg1)
     ui->screen_2->hide();
     ui->screen_3->hide();
     ui->screen_4->hide();
+    ui->label_appicon->clear();
 
     //置UI状态
     ui->pushButton_uninstall->hide();
@@ -881,7 +860,7 @@ void Widget::opensetting()
 void Widget::openUrl(QUrl u)
 {
     QString app=serverUrl + "store"+u.path()+"/app.json";
-    ui->webView->setUrl(app);
+    ui->webEngineView->setUrl(app);
 }
 
 
@@ -891,25 +870,6 @@ void Widget::on_pushButton_website_clicked()
     QDesktopServices::openUrl(QUrl(appweb));
 }
 
-
-void Widget::on_webView_loadFinished(bool arg1)
-{
-    if(arg1){
-         m_loadweb->hide();
-    }else {
-        m_loadweb->hide();
-        m_loaderror->show();
-    }
-
-}
-
-void Widget::on_webView_loadProgress(int progress)
-{
-    m_loadweb->setValue(progress);
-    if(progress>=90){
-        m_loadweb->hide();
-    }
-}
 
 void Widget::on_pushButton_clicked()
 {
@@ -935,4 +895,58 @@ void Widget::on_stackedWidget_currentChanged(int arg1)
     }else {
         ui->pushButton_return->setEnabled(true);
     }
+}
+
+void Widget::on_webEngineView_urlChanged(const QUrl &arg1)
+{
+    //分析出服务器中的分类名称
+    QStringList url_=arg1.path().split("/");
+    QString pname;
+    if(url_.size()>3){
+        type_name=url_[2];
+        pname=url_[3];
+    }
+    //如果是app.json就打开详情页
+    if(arg1.path().right(8)=="app.json"){
+        load.cancel();//打开并发加载线程前关闭正在执行的线程
+
+        ui->label_more->setText("");//清空详情介绍
+        ui->label_info->setText("");
+        ui->label_appname->setText("");
+        ui->pushButton_download->setEnabled(false);
+        ui->stackedWidget->setCurrentIndex(2);
+        qDebug()<<"https://demo-one-vert.vercel.app/"+type_name+"/"+pname;
+        load.cancel();//打开并发加载线程前关闭正在执行的线程
+        load = QtConcurrent::run([=](){
+
+            loadappinfo(arg1);
+        });
+    }
+}
+
+void Widget::on_webEngineView_loadStarted()
+{
+//    m_loadweb->setValue(0);
+//    m_loadweb->show();
+//    m_loaderror->hide();
+//    ui->label_show->hide();
+}
+
+void Widget::on_webEngineView_loadProgress(int progress)
+{
+//    m_loadweb->setValue(progress);
+//    if(progress>=90){
+//        m_loadweb->hide();
+//    }
+}
+
+void Widget::on_webEngineView_loadFinished(bool arg1)
+{
+//    if(arg1){
+//         m_loadweb->hide();
+//    }else {
+//        m_loadweb->hide();
+//        m_loaderror->show();
+//    }
+
 }

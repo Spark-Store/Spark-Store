@@ -4,9 +4,12 @@
 #
 #-------------------------------------------------
 
-QT       += core gui webkitwidgets network concurrent
+QT       += core gui webkitwidgets network concurrent webenginewidgets
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+
+CONFIG += link_pkgconfig
+PKGCONFIG += dtkwidget
 
 TARGET = spark-store
 TEMPLATE = app
@@ -27,16 +30,17 @@ SOURCES += main.cpp\
     widget.cpp \
     downloadlist.cpp \
     image_show.cpp \
-    big_image.cpp
+    big_image.cpp \
+    progressload.cpp
 
 HEADERS  += \
     widget.h \
     downloadlist.h \
     image_show.h \
-    big_image.h
+    big_image.h \
+    progressload.h
 
-CONFIG += link_pkgconfig
-PKGCONFIG += dtkwidget
+
 
 CONFIG += c++11
 

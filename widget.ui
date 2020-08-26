@@ -29,7 +29,7 @@
    <property name="spacing">
     <number>0</number>
    </property>
-   <item row="0" column="0" rowspan="3">
+   <item row="0" column="0" rowspan="4">
     <widget class="QWidget" name="widget_menuList" native="true">
      <property name="minimumSize">
       <size>
@@ -147,6 +147,13 @@
         </property>
        </spacer>
       </item>
+      <item row="11" column="0" colspan="5">
+       <widget class="QPushButton" name="menu_dev">
+        <property name="text">
+         <string>编程开发</string>
+        </property>
+       </widget>
+      </item>
       <item row="0" column="3">
        <widget class="QPushButton" name="pushButton_return">
         <property name="maximumSize">
@@ -161,13 +168,6 @@
         <property name="icon">
          <iconset resource="icons.qrc">
           <normaloff>:/icons/icons/category_active.svg</normaloff>:/icons/icons/category_active.svg</iconset>
-        </property>
-       </widget>
-      </item>
-      <item row="11" column="0" colspan="5">
-       <widget class="QPushButton" name="menu_dev">
-        <property name="text">
-         <string>编程开发</string>
         </property>
        </widget>
       </item>
@@ -278,7 +278,7 @@
      </layout>
     </widget>
    </item>
-   <item row="1" column="1">
+   <item row="2" column="1">
     <widget class="QStackedWidget" name="stackedWidget">
      <property name="styleSheet">
       <string notr="true"/>
@@ -287,7 +287,7 @@
       <number>0</number>
      </property>
      <property name="currentIndex">
-      <number>3</number>
+      <number>2</number>
      </property>
      <widget class="QWidget" name="page">
       <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -307,263 +307,10 @@
         <number>0</number>
        </property>
        <item>
-        <widget class="QWebView" name="webView">
-         <property name="palette">
-          <palette>
-           <active>
-            <colorrole role="WindowText">
-             <brush brushstyle="SolidPattern">
-              <color alpha="255">
-               <red>65</red>
-               <green>77</green>
-               <blue>104</blue>
-              </color>
-             </brush>
-            </colorrole>
-            <colorrole role="Light">
-             <brush brushstyle="SolidPattern">
-              <color alpha="255">
-               <red>3</red>
-               <green>3</green>
-               <blue>3</blue>
-              </color>
-             </brush>
-            </colorrole>
-            <colorrole role="Dark">
-             <brush brushstyle="SolidPattern">
-              <color alpha="255">
-               <red>46</red>
-               <green>46</green>
-               <blue>46</blue>
-              </color>
-             </brush>
-            </colorrole>
-            <colorrole role="Text">
-             <brush brushstyle="SolidPattern">
-              <color alpha="255">
-               <red>65</red>
-               <green>77</green>
-               <blue>104</blue>
-              </color>
-             </brush>
-            </colorrole>
-            <colorrole role="ButtonText">
-             <brush brushstyle="SolidPattern">
-              <color alpha="255">
-               <red>65</red>
-               <green>77</green>
-               <blue>104</blue>
-              </color>
-             </brush>
-            </colorrole>
-            <colorrole role="Base">
-             <brush brushstyle="SolidPattern">
-              <color alpha="255">
-               <red>0</red>
-               <green>0</green>
-               <blue>0</blue>
-              </color>
-             </brush>
-            </colorrole>
-            <colorrole role="Window">
-             <brush brushstyle="SolidPattern">
-              <color alpha="255">
-               <red>0</red>
-               <green>0</green>
-               <blue>0</blue>
-              </color>
-             </brush>
-            </colorrole>
-            <colorrole role="HighlightedText">
-             <brush brushstyle="SolidPattern">
-              <color alpha="255">
-               <red>28</red>
-               <green>28</green>
-               <blue>28</blue>
-              </color>
-             </brush>
-            </colorrole>
-            <colorrole role="NoRole">
-             <brush brushstyle="SolidPattern">
-              <color alpha="255">
-               <red>0</red>
-               <green>0</green>
-               <blue>0</blue>
-              </color>
-             </brush>
-            </colorrole>
-           </active>
-           <inactive>
-            <colorrole role="WindowText">
-             <brush brushstyle="SolidPattern">
-              <color alpha="255">
-               <red>138</red>
-               <green>145</green>
-               <blue>161</blue>
-              </color>
-             </brush>
-            </colorrole>
-            <colorrole role="Light">
-             <brush brushstyle="SolidPattern">
-              <color alpha="255">
-               <red>3</red>
-               <green>3</green>
-               <blue>3</blue>
-              </color>
-             </brush>
-            </colorrole>
-            <colorrole role="Dark">
-             <brush brushstyle="SolidPattern">
-              <color alpha="255">
-               <red>46</red>
-               <green>46</green>
-               <blue>46</blue>
-              </color>
-             </brush>
-            </colorrole>
-            <colorrole role="Text">
-             <brush brushstyle="SolidPattern">
-              <color alpha="255">
-               <red>138</red>
-               <green>145</green>
-               <blue>161</blue>
-              </color>
-             </brush>
-            </colorrole>
-            <colorrole role="ButtonText">
-             <brush brushstyle="SolidPattern">
-              <color alpha="255">
-               <red>138</red>
-               <green>145</green>
-               <blue>161</blue>
-              </color>
-             </brush>
-            </colorrole>
-            <colorrole role="Base">
-             <brush brushstyle="SolidPattern">
-              <color alpha="255">
-               <red>0</red>
-               <green>0</green>
-               <blue>0</blue>
-              </color>
-             </brush>
-            </colorrole>
-            <colorrole role="Window">
-             <brush brushstyle="SolidPattern">
-              <color alpha="255">
-               <red>0</red>
-               <green>0</green>
-               <blue>0</blue>
-              </color>
-             </brush>
-            </colorrole>
-            <colorrole role="HighlightedText">
-             <brush brushstyle="SolidPattern">
-              <color alpha="255">
-               <red>28</red>
-               <green>28</green>
-               <blue>28</blue>
-              </color>
-             </brush>
-            </colorrole>
-            <colorrole role="NoRole">
-             <brush brushstyle="SolidPattern">
-              <color alpha="255">
-               <red>0</red>
-               <green>0</green>
-               <blue>0</blue>
-              </color>
-             </brush>
-            </colorrole>
-           </inactive>
-           <disabled>
-            <colorrole role="WindowText">
-             <brush brushstyle="SolidPattern">
-              <color alpha="255">
-               <red>46</red>
-               <green>46</green>
-               <blue>46</blue>
-              </color>
-             </brush>
-            </colorrole>
-            <colorrole role="Light">
-             <brush brushstyle="SolidPattern">
-              <color alpha="255">
-               <red>3</red>
-               <green>3</green>
-               <blue>3</blue>
-              </color>
-             </brush>
-            </colorrole>
-            <colorrole role="Dark">
-             <brush brushstyle="SolidPattern">
-              <color alpha="255">
-               <red>46</red>
-               <green>46</green>
-               <blue>46</blue>
-              </color>
-             </brush>
-            </colorrole>
-            <colorrole role="Text">
-             <brush brushstyle="SolidPattern">
-              <color alpha="255">
-               <red>46</red>
-               <green>46</green>
-               <blue>46</blue>
-              </color>
-             </brush>
-            </colorrole>
-            <colorrole role="ButtonText">
-             <brush brushstyle="SolidPattern">
-              <color alpha="255">
-               <red>46</red>
-               <green>46</green>
-               <blue>46</blue>
-              </color>
-             </brush>
-            </colorrole>
-            <colorrole role="Base">
-             <brush brushstyle="SolidPattern">
-              <color alpha="255">
-               <red>0</red>
-               <green>0</green>
-               <blue>0</blue>
-              </color>
-             </brush>
-            </colorrole>
-            <colorrole role="Window">
-             <brush brushstyle="SolidPattern">
-              <color alpha="255">
-               <red>0</red>
-               <green>0</green>
-               <blue>0</blue>
-              </color>
-             </brush>
-            </colorrole>
-            <colorrole role="HighlightedText">
-             <brush brushstyle="SolidPattern">
-              <color alpha="255">
-               <red>28</red>
-               <green>28</green>
-               <blue>28</blue>
-              </color>
-             </brush>
-            </colorrole>
-            <colorrole role="NoRole">
-             <brush brushstyle="SolidPattern">
-              <color alpha="255">
-               <red>0</red>
-               <green>0</green>
-               <blue>0</blue>
-              </color>
-             </brush>
-            </colorrole>
-           </disabled>
-          </palette>
-         </property>
+        <widget class="QWebEngineView" name="webEngineView">
          <property name="url">
           <url>
-           <string>http://0.0.0.1/</string>
+           <string>about:blank</string>
           </url>
          </property>
         </widget>
@@ -657,7 +404,7 @@
         <number>0</number>
        </property>
        <property name="bottomMargin">
-        <number>0</number>
+        <number>10</number>
        </property>
        <item>
         <widget class="QScrollArea" name="scrollArea">
@@ -674,7 +421,7 @@
           <property name="geometry">
            <rect>
             <x>0</x>
-            <y>0</y>
+            <y>-228</y>
             <width>901</width>
             <height>849</height>
            </rect>
@@ -1385,13 +1132,32 @@
      </property>
     </widget>
    </item>
+   <item row="1" column="1">
+    <widget class="ProgressLoad" name="progressload" native="true">
+     <property name="minimumSize">
+      <size>
+       <width>0</width>
+       <height>10</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>16777215</width>
+       <height>10</height>
+      </size>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color:#000000</string>
+     </property>
+    </widget>
+   </item>
   </layout>
  </widget>
  <customwidgets>
   <customwidget>
-   <class>QWebView</class>
+   <class>QWebEngineView</class>
    <extends>QWidget</extends>
-   <header>QtWebKitWidgets/QWebView</header>
+   <header location="global">QtWebEngineWidgets/QWebEngineView</header>
   </customwidget>
   <customwidget>
    <class>image_show</class>
@@ -1403,6 +1169,12 @@
    <class>DTitlebar</class>
    <extends>QWidget</extends>
    <header location="global">dtitlebar.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>ProgressLoad</class>
+   <extends>QWidget</extends>
+   <header location="global">progressload.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
