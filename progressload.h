@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <QTimer>
+#include <QPalette>
 class ProgressLoad : public QWidget
 {
     Q_OBJECT
@@ -17,6 +18,7 @@ private:
     QWidget *m_progess;
     int value;
     QTimer *timer;
+    QPalette plt;
 };
 
 #endif // PROGRESSLOAD_H

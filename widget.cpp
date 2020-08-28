@@ -16,7 +16,6 @@
 #include <QtConcurrent> // 并发
 #include <QSettings>
 #include <QIcon>
-#include <QWebFrame>
 #include <QGraphicsOpacityEffect>
 #include <QDesktopServices>
 #include <DSettings>
@@ -868,7 +867,7 @@ void Widget::on_webEngineView_urlChanged(const QUrl &arg1)
     //如果是app.json就打开详情页
     if(arg1.path().right(8)=="app.json"){
         load.cancel();//打开并发加载线程前关闭正在执行的线程
-
+        m_loadweb->setValue(0);
         ui->label_more->setText("");//清空详情介绍
         ui->label_info->setText("");
         ui->label_appname->setText("");
@@ -895,16 +894,16 @@ void Widget::on_webEngineView_loadProgress(int progress)
 {
     m_loadweb->setValue(progress);
     if(progress>=90){
-        m_loadweb->hide();
+        m_loadweb->setValue(0);
     }
 }
 
 void Widget::on_webEngineView_loadFinished(bool arg1)
 {
     if(arg1){
-         m_loadweb->hide();
+         m_loadweb->setValue(0);
     }else {
-        m_loadweb->hide();
+        m_loadweb->setValue(0);
         m_loaderror->show();
     }
 

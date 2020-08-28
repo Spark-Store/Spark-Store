@@ -24,9 +24,14 @@ void ProgressLoad::setValue(int v)
 void ProgressLoad::setTheme(bool dark, QColor color)
 {
     if(dark){
-        m_progess->setStyleSheet("background-color:282828");
+        plt.setColor(QPalette::Background,QColor(28,28,28));
+        setAutoFillBackground(true);
+        setPalette(plt);
+
     }else {
-        m_progess->setStyleSheet("background-color:FFFFFF");
+        plt.setColor(QPalette::Background,QColor(255,255,255));
+        setAutoFillBackground(true);
+        setPalette(plt);
     }
-    setStyleSheet("background-color:"+color.name());
+    m_progess->setStyleSheet("background-color:"+color.name());
 }
