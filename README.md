@@ -50,6 +50,23 @@ http://dcstore.shenmo.tech/
 
 线路文件：新版的线路文件被放置于源服务器中，可随时刷新更新源列表
 
+#### 如何编译
+
+Deepin/UOS 系统下, 安装依赖
+
+```shell
+sudo apt install qt5-default libdtkcore-dev libdtkwidget-dev ibqt5webkitwidget5-dev qtwebengine5-dev
+```
+
+```shell
+mkdir build
+cd build
+qmake ..
+make -j
+```
+
+./build文件下的spark-store即为可执行文件
+
 #### 参与贡献
 
 1.  Fork 本仓库
