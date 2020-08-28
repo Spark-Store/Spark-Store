@@ -55,7 +55,7 @@ http://dcstore.shenmo.tech/
 Deepin/UOS 系统下, 安装依赖
 
 ```shell
-sudo apt install qt5-default libdtkcore-dev libdtkwidget-dev ibqt5webkitwidget5-dev qtwebengine5-dev
+sudo apt install qt5-default libdtkcore-dev libdtkwidget-dev qtwebengine5-dev
 ```
 
 ```shell
