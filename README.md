@@ -59,6 +59,8 @@ sudo apt install qt5-default libdtkcore-dev libdtkwidget-dev qtwebengine5-dev
 ```
 
 ```shell
+git clone https://gitee.com/deepin-community-store/spark-store.git
+cd spark-store
 mkdir build
 cd build
 qmake ..
