@@ -38,6 +38,7 @@ public:
     QMenu *menu_install=new QMenu;
     QAction *action_gdebi=new QAction;
     QAction *action_dpkg=new QAction;
+    QAction *action_deepin=new QAction;
     void install(int);
 private slots:
     void on_pushButton_install_clicked();
