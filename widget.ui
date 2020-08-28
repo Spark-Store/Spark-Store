@@ -945,7 +945,7 @@
                     <string notr="true">color:#808080</string>
                    </property>
                    <property name="text">
-                    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;源服务器的作用是保证软件更新，并且支持使用apt工具获取软件。通常我们更建议你使用第一个线路作为更新源，一般是最稳定的&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;源服务器的作用是保证软件更新，并且支持使用apt工具获取软件。通常我们更建议你使用第一个线路作为更新源，一般是最稳定的。&lt;/p&gt;&lt;p&gt;线路说明: &lt;/p&gt;&lt;p&gt;1. 国内推荐使用sucdn.jerrywang.top, cfcdn.jerrry.wang。前二者无法使用时，请切换到store.jerrywang.top&lt;/p&gt;&lt;p&gt;2. 国外推荐使用cfcdn.jerrry.wang, dcstore.spark-app.store&lt;/p&gt;&lt;p&gt;3. cdn.jerrywang.top尚在测试中&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                    </property>
                    <property name="wordWrap">
                     <bool>true</bool>
