@@ -404,12 +404,18 @@
         <number>0</number>
        </property>
        <property name="bottomMargin">
-        <number>10</number>
+        <number>0</number>
        </property>
        <item>
         <widget class="QScrollArea" name="scrollArea">
          <property name="styleSheet">
           <string notr="true"/>
+         </property>
+         <property name="frameShape">
+          <enum>QFrame::NoFrame</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Raised</enum>
          </property>
          <property name="lineWidth">
           <number>0</number>
@@ -422,8 +428,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>901</width>
-            <height>849</height>
+            <width>889</width>
+            <height>854</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_17">
@@ -437,6 +443,9 @@
                <width>16777215</width>
                <height>350</height>
               </size>
+             </property>
+             <property name="autoFillBackground">
+              <bool>true</bool>
              </property>
              <layout class="QGridLayout" name="gridLayout">
               <item row="2" column="2">
@@ -718,8 +727,8 @@
                   <rect>
                    <x>0</x>
                    <y>0</y>
-                   <width>867</width>
-                   <height>325</height>
+                   <width>851</width>
+                   <height>323</height>
                   </rect>
                  </property>
                  <layout class="QHBoxLayout" name="horizontalLayout_4">
@@ -848,8 +857,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>687</width>
-            <height>830</height>
+            <width>889</width>
+            <height>906</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_23">

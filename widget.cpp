@@ -254,7 +254,7 @@ void Widget::setTheme(bool isDark,QColor color)
         ui->btn_openDir->setStyleSheet("color:#8B91A1;background-color:#2E2F30;border:0px");
         ui->webfoot->setStyleSheet("background-color:#252525");
         ui->label->setStyleSheet("background-color:#252525");
-        ui->scrollArea->setStyleSheet("#scrollArea{background-color:#252525}");
+//        ui->scrollArea->setStyleSheet("background-color:#252525");
         ui->label_show->setStyleSheet("background-color:#252525");
         ui->pushButton_return->setIcon(QIcon(":/icons/icons/category_active_dark.svg"));
     }else {
@@ -264,7 +264,7 @@ void Widget::setTheme(bool isDark,QColor color)
         ui->webfoot->setStyleSheet("background-color:#FFFFFF");
         ui->btn_openDir->setStyleSheet("color:#505050;background-color:#FBFBFB;border:0px");
         ui->label->setStyleSheet("background-color:#FFFFFF");
-        ui->scrollArea->setStyleSheet("#scrollArea{background-color:#F8F8F8}");
+//        ui->scrollArea->setStyleSheet("background-color:#F8F8F8");
         ui->label_show->setStyleSheet("background-color:#F8F8F8");
         ui->pushButton_return->setIcon(QIcon(":/icons/icons/category_active.svg"));
     }
