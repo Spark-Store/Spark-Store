@@ -448,7 +448,7 @@
               <bool>true</bool>
              </property>
              <layout class="QGridLayout" name="gridLayout">
-              <item row="2" column="2">
+              <item row="3" column="2">
                <spacer name="horizontalSpacer_2">
                 <property name="orientation">
                  <enum>Qt::Horizontal</enum>
@@ -464,7 +464,7 @@
                 </property>
                </spacer>
               </item>
-              <item row="2" column="0">
+              <item row="3" column="0">
                <spacer name="horizontalSpacer">
                 <property name="orientation">
                  <enum>Qt::Horizontal</enum>
@@ -480,14 +480,14 @@
                 </property>
                </spacer>
               </item>
-              <item row="4" column="1">
+              <item row="5" column="1">
                <widget class="QPushButton" name="pushButton_download">
                 <property name="text">
                  <string>安装</string>
                 </property>
                </widget>
               </item>
-              <item row="6" column="1" rowspan="2">
+              <item row="7" column="1" rowspan="2">
                <spacer name="verticalSpacer_2">
                 <property name="orientation">
                  <enum>Qt::Vertical</enum>
@@ -500,7 +500,7 @@
                 </property>
                </spacer>
               </item>
-              <item row="3" column="1">
+              <item row="4" column="1">
                <spacer name="verticalSpacer_3">
                 <property name="orientation">
                  <enum>Qt::Vertical</enum>
@@ -516,7 +516,7 @@
                 </property>
                </spacer>
               </item>
-              <item row="5" column="1">
+              <item row="6" column="1">
                <widget class="QPushButton" name="pushButton_uninstall">
                 <property name="text">
                  <string>卸载</string>
@@ -581,7 +581,7 @@
                 </property>
                </widget>
               </item>
-              <item row="2" column="3" rowspan="5" colspan="6">
+              <item row="3" column="3" rowspan="5" colspan="6">
                <widget class="QLabel" name="label_info">
                 <property name="font">
                  <font>
@@ -599,7 +599,7 @@
                 </property>
                </widget>
               </item>
-              <item row="1" column="3">
+              <item row="2" column="3">
                <spacer name="verticalSpacer_6">
                 <property name="orientation">
                  <enum>Qt::Vertical</enum>
@@ -615,7 +615,7 @@
                 </property>
                </spacer>
               </item>
-              <item row="2" column="1">
+              <item row="3" column="1">
                <widget class="QLabel" name="label_appicon">
                 <property name="minimumSize">
                  <size>
@@ -648,6 +648,147 @@
                 <property name="text">
                  <string>分享</string>
                 </property>
+               </widget>
+              </item>
+              <item row="1" column="3" colspan="6">
+               <widget class="QWidget" name="widget" native="true">
+                <property name="minimumSize">
+                 <size>
+                  <width>0</width>
+                  <height>30</height>
+                 </size>
+                </property>
+                <layout class="QHBoxLayout" name="horizontalLayout_2">
+                 <property name="leftMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="topMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="rightMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="bottomMargin">
+                  <number>0</number>
+                 </property>
+                 <item>
+                  <widget class="QLabel" name="tag_community">
+                   <property name="maximumSize">
+                    <size>
+                     <width>30</width>
+                     <height>16777215</height>
+                    </size>
+                   </property>
+                   <property name="text">
+                    <string>TextLabel</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLabel" name="tag_ubuntu">
+                   <property name="maximumSize">
+                    <size>
+                     <width>30</width>
+                     <height>16777215</height>
+                    </size>
+                   </property>
+                   <property name="text">
+                    <string>TextLabel</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLabel" name="tag_deepin">
+                   <property name="maximumSize">
+                    <size>
+                     <width>30</width>
+                     <height>16777215</height>
+                    </size>
+                   </property>
+                   <property name="text">
+                    <string>TextLabel</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLabel" name="tag_uos">
+                   <property name="maximumSize">
+                    <size>
+                     <width>30</width>
+                     <height>16777215</height>
+                    </size>
+                   </property>
+                   <property name="text">
+                    <string>TextLabel</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLabel" name="tag_dtk5">
+                   <property name="maximumSize">
+                    <size>
+                     <width>30</width>
+                     <height>16777215</height>
+                    </size>
+                   </property>
+                   <property name="text">
+                    <string>TextLabel</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLabel" name="tag_dwine2">
+                   <property name="maximumSize">
+                    <size>
+                     <width>30</width>
+                     <height>16777215</height>
+                    </size>
+                   </property>
+                   <property name="text">
+                    <string>TextLabel</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLabel" name="tag_dwine5">
+                   <property name="maximumSize">
+                    <size>
+                     <width>30</width>
+                     <height>16777215</height>
+                    </size>
+                   </property>
+                   <property name="text">
+                    <string>TextLabel</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLabel" name="tag_a2d">
+                   <property name="maximumSize">
+                    <size>
+                     <width>30</width>
+                     <height>16777215</height>
+                    </size>
+                   </property>
+                   <property name="text">
+                    <string>TextLabel</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <spacer name="horizontalSpacer_10">
+                   <property name="orientation">
+                    <enum>Qt::Horizontal</enum>
+                   </property>
+                   <property name="sizeHint" stdset="0">
+                    <size>
+                     <width>40</width>
+                     <height>20</height>
+                    </size>
+                   </property>
+                  </spacer>
+                 </item>
+                </layout>
                </widget>
               </item>
              </layout>
@@ -857,8 +998,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>889</width>
-            <height>906</height>
+            <width>692</width>
+            <height>994</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_23">

@@ -426,6 +426,14 @@ void Widget::loadappinfo(QUrl arg1)
     ui->screen_3->hide();
     ui->screen_4->hide();
     ui->label_appicon->clear();
+    ui->tag_community->hide();
+    ui->tag_ubuntu->hide();
+    ui->tag_deepin->hide();
+    ui->tag_uos->hide();
+    ui->tag_dtk5->hide();
+    ui->tag_dwine2->hide();
+    ui->tag_dwine5->hide();
+    ui->tag_a2d->hide();
 
     //　重置UI状态
     ui->pushButton_uninstall->hide();
@@ -495,12 +503,34 @@ void Widget::loadappinfo(QUrl arg1)
         }else {
             ui->pushButton_download->setText("安装");
         }
+        //tag加载
+        QString tags=json["Tags"].toString();
+        QStringList tagList=tags.split(";");
+        for (int i=0;i<tagList.size();i++) {
+            if(tagList[i]=="community")
+                ui->tag_community->show();
+            if(tagList[i]=="ubuntu")
+                ui->tag_ubuntu->show();
+            if(tagList[i]=="deepin")
+                ui->tag_deepin->show();
+            if(tagList[i]=="uos")
+                ui->tag_uos->show();
+            if(tagList[i]=="dtk5")
+                ui->tag_dtk5->show();
+            if(tagList[i]=="dwine2")
+                ui->tag_dwine2->show();
+            if(tagList[i]=="dwine5")
+                ui->tag_dwine5->show();
+            if(tagList[i]=="a2d")
+                ui->tag_a2d->show();
+        }
         // 图标加载
         get_json.start("curl -o icon.png "+urladdress+"icon.png");
         get_json.waitForFinished();
         QPixmap appicon(QString::fromUtf8(TMP_PATH)+"/icon.png");
         ui->label_appicon->setPixmap(appicon);
         ui->pushButton_download->setEnabled(true);
+
 
         // 截图展示加载
         image_show *label_screen[5];
