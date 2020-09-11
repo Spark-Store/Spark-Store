@@ -197,7 +197,6 @@ void Widget::initConfig()
     }else {
         serverUrl="http://sucdn.jerrywang.top/";  // 默认URL
     }
-    // by shenmo 在这里换成路径为{cdn/dc}/store/#
     configCanSave=true;   //　防止触发保存配置信号
     menuUrl[0]=serverUrl + "store/#/";
     // menuUrl[0]="http://127.0.0.1:8000/#/darkprogramming";
