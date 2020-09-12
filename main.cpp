@@ -16,7 +16,7 @@ int main(int argc, char *argv[])
     a.setProductIcon(QIcon::fromTheme("spark-store"));  //设置Logo
 
     a.setProductName("Spark应用商店");
-    a.setApplicationDescription("社区驱动的一款为第三方应用商店，为改变而生");
+    a.setApplicationDescription("社区驱动的一款为第三方应用商店，为改变而生\n本程序按GPL第三版开源");
     a.setApplicationName("Spark应用商店"); //只有在这儿修改窗口标题才有效
     Widget w;
     QDesktopWidget *s=DApplication::desktop();
