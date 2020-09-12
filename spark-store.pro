@@ -7,8 +7,8 @@
 QT       += core gui network concurrent webenginewidgets
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
-TRANSLATIONS = lang_English.ts \
-               lang_Chinses.ts
+TRANSLATIONS = ./trans/lang_English.ts \
+               ./trans/lang_Chinses.ts
 
 CONFIG += link_pkgconfig
 PKGCONFIG += dtkwidget
