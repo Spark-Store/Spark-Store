@@ -474,7 +474,7 @@ void Widget::loadappinfo(QUrl arg1)
         ui->label_show->show();
         // 软件信息加载
         QString info;
-        info="包名： "+json["Pkgname"].toString()+"\n";
+        info= "包名： "+json["Pkgname"].toString()+"\n";
         info+="版本号： "+json["Version"].toString()+"\n";
         if(json["Author"].toString()!="" && json["Author"].toString()!=" "){
             info+="作者： "+json["Author"].toString()+"\n";

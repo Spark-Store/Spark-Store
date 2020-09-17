@@ -2,6 +2,21 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="zh_CN">
 <context>
+    <name>QLabel</name>
+    <message>
+        <location filename="../main.cpp" line="19"/>
+        <location filename="../main.cpp" line="21"/>
+        <source>Spark应用商店</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../main.cpp" line="20"/>
+        <source>社区驱动的一款为第三方应用商店，为改变而生
+本程序按GPL第三版开源</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>Widget</name>
     <message>
         <location filename="../widget.ui" line="14"/>
