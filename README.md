@@ -9,10 +9,9 @@ web页面部分正在开发当中，详情请见[web仓库](https://gitee.com/de
 当前服务器线路列表（项目中包含）：
 
 ```
-http://cdn.jerrywang.top/
 http://sucdn.jerrywang.top/
 http://store.jerrywang.top/
-http://dcstore.shenmo.tech/
+http://dcstore.spark-app.store/
 ```
 
 #### 参数
@@ -52,7 +51,7 @@ http://dcstore.shenmo.tech/
 
 #### 如何编译
 
-Deepin/UOS 系统下, 安装依赖
+Deepin V20/UOS 系统下, 安装依赖
 
 ```shell
 sudo apt install qt5-default libdtkcore-dev libdtkwidget-dev qtwebengine5-dev
