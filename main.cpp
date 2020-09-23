@@ -15,19 +15,20 @@ int main(int argc, char *argv[])
     a.setAboutDialog(&dialog);
     dialog.setLicense("本程序按GPL第三版开源");
     dialog.setVersion(DApplication::buildVersion("2.0"));
+    dialog.setAcknowledgementVisible(true);
+    dialog.setAcknowledgementLink("https://gitee.com/deepin-community-store/spark-store");
     a.setApplicationAcknowledgementPage("https://gitee.com/deepin-community-store/spark-store");
     dialog.setProductIcon(QIcon::fromTheme("spark-store"));  //设置Logo
-
     dialog.setProductName(QLabel::tr("Spark应用商店"));
-    dialog.setDescription(QLabel::tr("社区驱动的一款为第三方应用商店，为改变而生\n We born for change"));
+    //dialog.setDescription(QLabel::tr("社区驱动的一款第三方应用商店，为改变而生\n We born for change"));
+    dialog.setDescription(
+        "<span style=' font-size:10pt;font-weight:60;'>社区驱动的一款第三方应用商店</span><br/>"
+        "<a href='https://www.spark-app.store/'>https://www.spark-app.store</a><br/>"
+        "<span style=' font-size:12pt;'>Spark developers</span>");
     dialog.setProductName(QLabel::tr("Spark应用商店"));
-
-
-
     dialog.setCompanyLogo(QPixmap(":/Logo-Spark.png"));
     dialog.setWebsiteName("The Spark Project");
     dialog.setWebsiteLink("https://gitee.com/deepin-community-store");
-
     Widget w;
     QDesktopWidget *s=DApplication::desktop();
     int d_w=s->width();
