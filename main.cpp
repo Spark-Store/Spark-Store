@@ -3,22 +3,31 @@
 #include <QDesktopWidget>
 #include <widget.h>
 #include <QTranslator>
+#include <DAboutDialog>
 DWIDGET_USE_NAMESPACE
 int main(int argc, char *argv[])
 {
     DApplication::loadDXcbPlugin();  //让bar处在标题栏中
     DApplication a(argc, argv);
+    DAboutDialog dialog;
     a.setAttribute(Qt::AA_UseHighDpiPixmaps);
     a.loadTranslator();
-
-    a.setOrganizationName("spark-union");
-    a.setApplicationVersion(DApplication::buildVersion("2.0"));
+    a.setAboutDialog(&dialog);
+    dialog.setLicense("本程序按GPL第三版开源");
+    dialog.setVersion(DApplication::buildVersion("2.0"));
     a.setApplicationAcknowledgementPage("https://gitee.com/deepin-community-store/spark-store");
-    a.setProductIcon(QIcon::fromTheme("spark-store"));  //设置Logo
+    dialog.setProductIcon(QIcon::fromTheme("spark-store"));  //设置Logo
 
-    a.setProductName(QLabel::tr("Spark应用商店"));
-    a.setApplicationDescription(QLabel::tr("社区驱动的一款为第三方应用商店，为改变而生\n本程序按GPL第三版开源"));
-    a.setApplicationName(QLabel::tr("Spark应用商店"));
+    dialog.setProductName(QLabel::tr("Spark应用商店"));
+    dialog.setDescription(QLabel::tr("社区驱动的一款为第三方应用商店，为改变而生\n We born for change"));
+    dialog.setProductName(QLabel::tr("Spark应用商店"));
+
+
+
+    dialog.setCompanyLogo(QPixmap(":/Logo-Spark.png"));
+    dialog.setWebsiteName("The Spark Project");
+    dialog.setWebsiteLink("https://gitee.com/deepin-community-store");
+
     Widget w;
     QDesktopWidget *s=DApplication::desktop();
     int d_w=s->width();

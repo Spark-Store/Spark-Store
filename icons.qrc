@@ -31,4 +31,7 @@
         <file>icons/category_active_dark.svg</file>
         <file>icons/category_active.svg</file>
     </qresource>
+    <qresource prefix="/">
+        <file>Logo-Spark.png</file>
+    </qresource>
 </RCC>
