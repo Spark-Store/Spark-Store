@@ -14,7 +14,7 @@ int main(int argc, char *argv[])
     a.loadTranslator();
     a.setAboutDialog(&dialog);
     dialog.setLicense("本程序按GPL第三版开源");
-    dialog.setVersion(DApplication::buildVersion("2.0"));
+    dialog.setVersion(DApplication::buildVersion("2.0+1"));
     dialog.setAcknowledgementVisible(true);
     dialog.setAcknowledgementLink("https://gitee.com/deepin-community-store/spark-store");
     a.setApplicationAcknowledgementPage("https://gitee.com/deepin-community-store/spark-store");
