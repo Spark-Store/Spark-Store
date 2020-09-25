@@ -96,7 +96,7 @@ public:
 private:
     void initUI();
     void initConfig();
-    void loadappinfo(QUrl);
+    int loadappinfo(QUrl);
     void chooseLeftMenu(int index);
     void setfoot(int);
     void updatefoot();
