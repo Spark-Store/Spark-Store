@@ -412,10 +412,10 @@ void Widget::updatefoot()
     ui->webfoot->setFixedHeight(allh-foot);
 }
 
-void Widget::loadappinfo(QUrl arg1)
+int Widget::loadappinfo(QUrl arg1)
 {
     if(arg1.isEmpty()){
-        return;
+        return 1;
     }
 
     //　先隐藏详情页负责显示截图的label
@@ -447,6 +447,9 @@ void Widget::loadappinfo(QUrl arg1)
 
     get_json.start("curl -o app.json "+arg1.toString());
     get_json.waitForFinished();
+    if(get_json.exitCode())
+      return 2;
+
     QFile app_json("app.json");
     if(app_json.open(QIODevice::ReadOnly)){
         // 成功得到json文件
@@ -526,9 +529,13 @@ void Widget::loadappinfo(QUrl arg1)
         // 图标加载
         get_json.start("curl -o icon.png "+urladdress+"icon.png");
         get_json.waitForFinished();
-        QPixmap appicon(QString::fromUtf8(TMP_PATH)+"/icon.png");
-        ui->label_appicon->setPixmap(appicon);
-        ui->pushButton_download->setEnabled(true);
+        if(!get_json.exitCode()) {
+          QPixmap appicon(QString::fromUtf8(TMP_PATH)+"/icon.png");
+          ui->label_appicon->setPixmap(appicon);
+          ui->pushButton_download->setEnabled(true);
+        }
+        else
+          system("notify-send 应用程序图标加载失败 --icon=spark-store");
 
 
         // 截图展示加载
@@ -562,6 +569,7 @@ void Widget::loadappinfo(QUrl arg1)
         ui->label_show->setText("");
         ui->label_show->hide();
     }
+    return 0;
 }
 
 void Widget::on_pushButton_download_clicked()
@@ -906,7 +914,20 @@ void Widget::on_webEngineView_urlChanged(const QUrl &arg1)
         load.cancel();//打开并发加载线程前关闭正在执行的线程
         load = QtConcurrent::run([=](){
 
-            loadappinfo(arg1);
+            int loadresult = loadappinfo(arg1);
+            if(!loadresult)
+              return;
+            else {
+              switch(loadresult)
+              {
+                case 1: // 空的arg1
+                  //此处不应通知用户
+                  break;
+                case 2: // curl下载app.json失败
+                  system("notify-send 应用程序详细信息下载失败，请检查网络连接 --icon=spark-store");
+                  break;
+              }
+            }
         });
     }
 }
