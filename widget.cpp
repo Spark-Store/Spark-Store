@@ -148,11 +148,18 @@ void Widget::initUI()
     // titlebar->setAutoHideOnFullscreen(true);
 
     // 添加菜单项
+    QAction *actionSubmission = new QAction("软件投稿", this);
     QAction *setting=new QAction("设置");
+
     QMenu *menu=new QMenu;
+
     menu->addAction(setting);
+    menu->addAction(actionSubmission);
     titlebar->setMenu(menu);
+    connect(actionSubmission, &QAction::triggered, this,
+            [=](){QDesktopServices::openUrl(QUrl("https://upload.spark-app.store/"));});
     connect(setting,&QAction::triggered,this,&Widget::opensetting);
+
 
     // 初始化菜单数组
     left_list[0]=ui->menu_main;
