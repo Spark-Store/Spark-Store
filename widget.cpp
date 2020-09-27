@@ -263,6 +263,7 @@ void Widget::setTheme(bool isDark,QColor color)
 //        ui->scrollArea->setStyleSheet("background-color:#252525");
         ui->label_show->setStyleSheet("background-color:#252525");
         ui->pushButton_return->setIcon(QIcon(":/icons/icons/category_active_dark.svg"));
+        ui->pushButton_refresh->setIcon(QIcon(":/icons/icons/refresh-page-dark.svg"));
     }else {
         // 亮色模式
         themeIsDark=false;
@@ -273,6 +274,7 @@ void Widget::setTheme(bool isDark,QColor color)
 //        ui->scrollArea->setStyleSheet("background-color:#F8F8F8");
         ui->label_show->setStyleSheet("background-color:#F8F8F8");
         ui->pushButton_return->setIcon(QIcon(":/icons/icons/category_active.svg"));
+        ui->pushButton_refresh->setIcon(QIcon(":/icons/icons/refresh-page.svg"));
     }
     main_color=color;
     m_loadweb->setTheme(themeIsDark,color);
@@ -711,6 +713,14 @@ void Widget::on_pushButton_return_clicked()
     // }else {
     //     ui->webView->setUrl(menuUrl[nowMenu]);
     // }
+}
+
+void Widget::on_pushButton_refresh_clicked()
+{
+    if(ui->stackedWidget->currentIndex() == 2) //如果在详情页面要重新触发UrlChanged
+      emit ui->webEngineView->urlChanged(ui->webEngineView->url());
+    else
+      ui->webEngineView->reload();
 }
 
 void Widget::on_comboBox_server_currentIndexChanged(const QString &arg1)

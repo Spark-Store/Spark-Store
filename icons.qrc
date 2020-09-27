@@ -30,6 +30,8 @@
         <file>icons/homepage_dark.svg</file>
         <file>icons/category_active_dark.svg</file>
         <file>icons/category_active.svg</file>
+        <file>icons/refresh-page-dark.svg</file>
+        <file>icons/refresh-page.svg</file>
     </qresource>
     <qresource prefix="/">
         <file>Logo-Spark.png</file>

@@ -61,35 +61,35 @@
       <property name="rightMargin">
        <number>5</number>
       </property>
-      <item row="6" column="0" colspan="5">
+      <item row="6" column="0" colspan="6">
        <widget class="QPushButton" name="menu_video">
         <property name="text">
          <string>视频播放</string>
         </property>
        </widget>
       </item>
-      <item row="16" column="0" colspan="5">
+      <item row="16" column="0" colspan="6">
        <widget class="QPushButton" name="menu_download">
         <property name="text">
          <string>下载列表</string>
         </property>
        </widget>
       </item>
-      <item row="12" column="0" colspan="5">
+      <item row="12" column="0" colspan="6">
        <widget class="QPushButton" name="menu_system">
         <property name="text">
          <string>系统工具</string>
         </property>
        </widget>
       </item>
-      <item row="13" column="0" colspan="5">
+      <item row="13" column="0" colspan="6">
        <widget class="QPushButton" name="menu_theme">
         <property name="text">
          <string>主题美化</string>
         </property>
        </widget>
       </item>
-      <item row="5" column="0" colspan="5">
+      <item row="5" column="0" colspan="6">
        <widget class="QPushButton" name="menu_music">
         <property name="text">
          <string>音乐欣赏</string>
@@ -131,7 +131,7 @@
         </property>
        </spacer>
       </item>
-      <item row="0" column="4">
+      <item row="0" column="5">
        <spacer name="horizontalSpacer_8">
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
@@ -147,14 +147,21 @@
         </property>
        </spacer>
       </item>
-      <item row="11" column="0" colspan="5">
+      <item row="11" column="0" colspan="6">
        <widget class="QPushButton" name="menu_dev">
         <property name="text">
          <string>编程开发</string>
         </property>
        </widget>
       </item>
-      <item row="0" column="3">
+      <item row="9" column="0" colspan="6">
+       <widget class="QPushButton" name="menu_office">
+        <property name="text">
+         <string>办公学习</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="4">
        <widget class="QPushButton" name="pushButton_return">
         <property name="maximumSize">
          <size>
@@ -162,19 +169,15 @@
           <height>16777215</height>
          </size>
         </property>
+        <property name="toolTip">
+         <string>回到分类</string>
+        </property>
         <property name="text">
          <string/>
         </property>
         <property name="icon">
          <iconset resource="icons.qrc">
           <normaloff>:/icons/icons/category_active.svg</normaloff>:/icons/icons/category_active.svg</iconset>
-        </property>
-       </widget>
-      </item>
-      <item row="9" column="0" colspan="5">
-       <widget class="QPushButton" name="menu_office">
-        <property name="text">
-         <string>办公学习</string>
         </property>
        </widget>
       </item>
@@ -191,21 +194,21 @@
         </property>
        </spacer>
       </item>
-      <item row="10" column="0" colspan="5">
+      <item row="10" column="0" colspan="6">
        <widget class="QPushButton" name="menu_read">
         <property name="text">
          <string>阅读翻译</string>
         </property>
        </widget>
       </item>
-      <item row="14" column="0" colspan="5">
+      <item row="14" column="0" colspan="6">
        <widget class="QPushButton" name="menu_other">
         <property name="text">
          <string>其他应用</string>
         </property>
        </widget>
       </item>
-      <item row="2" column="0" colspan="5">
+      <item row="2" column="0" colspan="6">
        <widget class="QPushButton" name="menu_main">
         <property name="styleSheet">
          <string notr="true"/>
@@ -215,35 +218,35 @@
         </property>
        </widget>
       </item>
-      <item row="7" column="0" colspan="5">
+      <item row="7" column="0" colspan="6">
        <widget class="QPushButton" name="menu_photo">
         <property name="text">
          <string>图形图像</string>
         </property>
        </widget>
       </item>
-      <item row="8" column="0" colspan="5">
+      <item row="8" column="0" colspan="6">
        <widget class="QPushButton" name="menu_game">
         <property name="text">
          <string>游戏娱乐</string>
         </property>
        </widget>
       </item>
-      <item row="4" column="0" colspan="5">
+      <item row="4" column="0" colspan="6">
        <widget class="QPushButton" name="menu_chat">
         <property name="text">
          <string>社交沟通</string>
         </property>
        </widget>
       </item>
-      <item row="3" column="0" colspan="5">
+      <item row="3" column="0" colspan="6">
        <widget class="QPushButton" name="menu_network">
         <property name="text">
          <string>网络应用</string>
         </property>
        </widget>
       </item>
-      <item row="15" column="0" colspan="5">
+      <item row="15" column="0" colspan="6">
        <widget class="QWidget" name="line1_widget" native="true">
         <property name="minimumSize">
          <size>
@@ -275,6 +278,26 @@
         </property>
        </spacer>
       </item>
+      <item row="0" column="3">
+       <widget class="QPushButton" name="pushButton_refresh">
+        <property name="maximumSize">
+         <size>
+          <width>40</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="toolTip">
+         <string>重新加载</string>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="icon">
+         <iconset resource="icons.qrc">
+          <normaloff>:/icons/icons/refresh-page.svg</normaloff>:/icons/icons/refresh-page.svg</iconset>
+        </property>
+       </widget>
+      </item>
      </layout>
     </widget>
    </item>
@@ -287,7 +310,7 @@
       <number>0</number>
      </property>
      <property name="currentIndex">
-      <number>2</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="page">
       <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -308,6 +331,9 @@
        </property>
        <item>
         <widget class="QWebEngineView" name="webEngineView">
+         <property name="contextMenuPolicy">
+          <enum>Qt::DefaultContextMenu</enum>
+         </property>
          <property name="url">
           <url>
            <string>about:blank</string>
@@ -428,7 +454,7 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>889</width>
+            <width>470</width>
             <height>854</height>
            </rect>
           </property>
@@ -868,8 +894,8 @@
                   <rect>
                    <x>0</x>
                    <y>0</y>
-                   <width>851</width>
-                   <height>323</height>
+                   <width>98</width>
+                   <height>28</height>
                   </rect>
                  </property>
                  <layout class="QHBoxLayout" name="horizontalLayout_4">
@@ -999,7 +1025,7 @@
             <x>0</x>
             <y>0</y>
             <width>692</width>
-            <height>994</height>
+            <height>836</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_23">
