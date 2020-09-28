@@ -26,6 +26,7 @@
 #include <QClipboard>
 #include <DApplication>
 #include <DGuiApplicationHelper>
+#include <DPushButton>
 DWIDGET_USE_NAMESPACE
 
 Widget::Widget(DBlurEffectWidget *parent) :
@@ -39,20 +40,20 @@ Widget::Widget(DBlurEffectWidget *parent) :
     m_loadweb=ui->progressload;
     m_loadweb->show();
 
-    connect(ui->menu_main,&QPushButton::clicked,[=](){Widget::chooseLeftMenu(0);});
-    connect(ui->menu_network,&QPushButton::clicked,[=](){Widget::chooseLeftMenu(1);});
-    connect(ui->menu_chat,&QPushButton::clicked,[=](){Widget::chooseLeftMenu(2);});
-    connect(ui->menu_music,&QPushButton::clicked,[=](){Widget::chooseLeftMenu(3);});
-    connect(ui->menu_video,&QPushButton::clicked,[=](){Widget::chooseLeftMenu(4);});
-    connect(ui->menu_photo,&QPushButton::clicked,[=](){Widget::chooseLeftMenu(5);});
-    connect(ui->menu_game,&QPushButton::clicked,[=](){Widget::chooseLeftMenu(6);});
-    connect(ui->menu_office,&QPushButton::clicked,[=](){Widget::chooseLeftMenu(7);});
-    connect(ui->menu_read,&QPushButton::clicked,[=](){Widget::chooseLeftMenu(8);});
-    connect(ui->menu_dev,&QPushButton::clicked,[=](){Widget::chooseLeftMenu(9);});
-    connect(ui->menu_system,&QPushButton::clicked,[=](){Widget::chooseLeftMenu(10);});
-    connect(ui->menu_theme,&QPushButton::clicked,[=](){Widget::chooseLeftMenu(11);});
-    connect(ui->menu_other,&QPushButton::clicked,[=](){Widget::chooseLeftMenu(12);});
-    connect(ui->menu_download,&QPushButton::clicked,[=](){Widget::chooseLeftMenu(13);});
+    connect(ui->menu_main,&DPushButton::clicked,[=](){Widget::chooseLeftMenu(0);});
+    connect(ui->menu_network,&DPushButton::clicked,[=](){Widget::chooseLeftMenu(1);});
+    connect(ui->menu_chat,&DPushButton::clicked,[=](){Widget::chooseLeftMenu(2);});
+    connect(ui->menu_music,&DPushButton::clicked,[=](){Widget::chooseLeftMenu(3);});
+    connect(ui->menu_video,&DPushButton::clicked,[=](){Widget::chooseLeftMenu(4);});
+    connect(ui->menu_photo,&DPushButton::clicked,[=](){Widget::chooseLeftMenu(5);});
+    connect(ui->menu_game,&DPushButton::clicked,[=](){Widget::chooseLeftMenu(6);});
+    connect(ui->menu_office,&DPushButton::clicked,[=](){Widget::chooseLeftMenu(7);});
+    connect(ui->menu_read,&DPushButton::clicked,[=](){Widget::chooseLeftMenu(8);});
+    connect(ui->menu_dev,&DPushButton::clicked,[=](){Widget::chooseLeftMenu(9);});
+    connect(ui->menu_system,&DPushButton::clicked,[=](){Widget::chooseLeftMenu(10);});
+    connect(ui->menu_theme,&DPushButton::clicked,[=](){Widget::chooseLeftMenu(11);});
+    connect(ui->menu_other,&DPushButton::clicked,[=](){Widget::chooseLeftMenu(12);});
+    connect(ui->menu_download,&DPushButton::clicked,[=](){Widget::chooseLeftMenu(13);});
     // connect((ui->titlebar))
 
     // 搜索事件

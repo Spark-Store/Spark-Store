@@ -64,35 +64,35 @@
       <item row="6" column="0" colspan="6">
        <widget class="QPushButton" name="menu_video">
         <property name="text">
-         <string>视频播放</string>
+         <string>Videos</string>
         </property>
        </widget>
       </item>
       <item row="16" column="0" colspan="6">
        <widget class="QPushButton" name="menu_download">
         <property name="text">
-         <string>下载列表</string>
+         <string>Download List</string>
         </property>
        </widget>
       </item>
       <item row="12" column="0" colspan="6">
        <widget class="QPushButton" name="menu_system">
         <property name="text">
-         <string>系统工具</string>
+         <string>Tools</string>
         </property>
        </widget>
       </item>
       <item row="13" column="0" colspan="6">
        <widget class="QPushButton" name="menu_theme">
         <property name="text">
-         <string>主题美化</string>
+         <string>Beautify</string>
         </property>
        </widget>
       </item>
       <item row="5" column="0" colspan="6">
        <widget class="QPushButton" name="menu_music">
         <property name="text">
-         <string>音乐欣赏</string>
+         <string>Music</string>
         </property>
        </widget>
       </item>
@@ -150,14 +150,14 @@
       <item row="11" column="0" colspan="6">
        <widget class="QPushButton" name="menu_dev">
         <property name="text">
-         <string>编程开发</string>
+         <string>Coding</string>
         </property>
        </widget>
       </item>
       <item row="9" column="0" colspan="6">
        <widget class="QPushButton" name="menu_office">
         <property name="text">
-         <string>办公学习</string>
+         <string>Office</string>
         </property>
        </widget>
       </item>
@@ -197,14 +197,14 @@
       <item row="10" column="0" colspan="6">
        <widget class="QPushButton" name="menu_read">
         <property name="text">
-         <string>阅读翻译</string>
+         <string>Translate</string>
         </property>
        </widget>
       </item>
       <item row="14" column="0" colspan="6">
        <widget class="QPushButton" name="menu_other">
         <property name="text">
-         <string>其他应用</string>
+         <string>Others</string>
         </property>
        </widget>
       </item>
@@ -214,35 +214,35 @@
          <string notr="true"/>
         </property>
         <property name="text">
-         <string>商店首页</string>
+         <string>FrontPage</string>
         </property>
        </widget>
       </item>
       <item row="7" column="0" colspan="6">
        <widget class="QPushButton" name="menu_photo">
         <property name="text">
-         <string>图形图像</string>
+         <string>Images</string>
         </property>
        </widget>
       </item>
       <item row="8" column="0" colspan="6">
        <widget class="QPushButton" name="menu_game">
         <property name="text">
-         <string>游戏娱乐</string>
+         <string>Games</string>
         </property>
        </widget>
       </item>
       <item row="4" column="0" colspan="6">
        <widget class="QPushButton" name="menu_chat">
         <property name="text">
-         <string>社交沟通</string>
+         <string>Chatting</string>
         </property>
        </widget>
       </item>
       <item row="3" column="0" colspan="6">
        <widget class="QPushButton" name="menu_network">
         <property name="text">
-         <string>网络应用</string>
+         <string>Network</string>
         </property>
        </widget>
       </item>
@@ -454,8 +454,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>470</width>
-            <height>854</height>
+            <width>455</width>
+            <height>849</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_17">
@@ -894,8 +894,8 @@
                   <rect>
                    <x>0</x>
                    <y>0</y>
-                   <width>98</width>
-                   <height>28</height>
+                   <width>421</width>
+                   <height>325</height>
                   </rect>
                  </property>
                  <layout class="QHBoxLayout" name="horizontalLayout_4">
@@ -1024,8 +1024,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>692</width>
-            <height>836</height>
+            <width>687</width>
+            <height>830</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_23">
