@@ -75,7 +75,9 @@ private slots:
 
     void on_webEngineView_loadFinished(bool arg1);
 
-public:
+    void on_pushButton_refresh_clicked();
+
+  public:
 
     QUrl url;
 

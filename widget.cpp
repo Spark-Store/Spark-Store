@@ -148,11 +148,18 @@ void Widget::initUI()
     // titlebar->setAutoHideOnFullscreen(true);
 
     // 添加菜单项
+    QAction *actionSubmission = new QAction("软件投稿", this);
     QAction *setting=new QAction("设置");
+
     QMenu *menu=new QMenu;
+
     menu->addAction(setting);
+    menu->addAction(actionSubmission);
     titlebar->setMenu(menu);
+    connect(actionSubmission, &QAction::triggered, this,
+            [=](){QDesktopServices::openUrl(QUrl("https://upload.spark-app.store/"));});
     connect(setting,&QAction::triggered,this,&Widget::opensetting);
+
 
     // 初始化菜单数组
     left_list[0]=ui->menu_main;
@@ -256,6 +263,7 @@ void Widget::setTheme(bool isDark,QColor color)
 //        ui->scrollArea->setStyleSheet("background-color:#252525");
         ui->label_show->setStyleSheet("background-color:#252525");
         ui->pushButton_return->setIcon(QIcon(":/icons/icons/category_active_dark.svg"));
+        ui->pushButton_refresh->setIcon(QIcon(":/icons/icons/refresh-page-dark.svg"));
     }else {
         // 亮色模式
         themeIsDark=false;
@@ -266,6 +274,7 @@ void Widget::setTheme(bool isDark,QColor color)
 //        ui->scrollArea->setStyleSheet("background-color:#F8F8F8");
         ui->label_show->setStyleSheet("background-color:#F8F8F8");
         ui->pushButton_return->setIcon(QIcon(":/icons/icons/category_active.svg"));
+        ui->pushButton_refresh->setIcon(QIcon(":/icons/icons/refresh-page.svg"));
     }
     main_color=color;
     m_loadweb->setTheme(themeIsDark,color);
@@ -704,6 +713,14 @@ void Widget::on_pushButton_return_clicked()
     // }else {
     //     ui->webView->setUrl(menuUrl[nowMenu]);
     // }
+}
+
+void Widget::on_pushButton_refresh_clicked()
+{
+    if(ui->stackedWidget->currentIndex() == 2) //如果在详情页面要重新触发UrlChanged
+      emit ui->webEngineView->urlChanged(ui->webEngineView->url());
+    else
+      ui->webEngineView->reload();
 }
 
 void Widget::on_comboBox_server_currentIndexChanged(const QString &arg1)
