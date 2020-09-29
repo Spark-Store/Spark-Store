@@ -142,8 +142,8 @@ void Widget::initUI()
     titlebar=ui->titlebar;
     titlebar->setCustomWidget(w_titlebar);
     // titlebar->setIcon(QIcon::fromTheme("spark-store"));
-    titlebar->setTitle("星火应用商店");
-    searchEdit->setPlaceholderText("搜索或打开链接");
+    titlebar->setTitle("Spark Store");
+    searchEdit->setPlaceholderText("Search or enter spk://");
     searchEdit->setFixedWidth(300);
     titlebar->setSeparatorVisible(false);
     // titlebar->setAutoHideOnFullscreen(true);
@@ -446,7 +446,7 @@ int Widget::loadappinfo(QUrl arg1)
 
     //　重置UI状态
     ui->pushButton_uninstall->hide();
-    ui->label_show->setText("正在加载，请稍候");
+    ui->label_show->setText("Loading...");
     ui->label_show->show();
     ui->pushButton_website->hide();
 
@@ -487,20 +487,20 @@ int Widget::loadappinfo(QUrl arg1)
         ui->label_show->show();
         // 软件信息加载
         QString info;
-        info= "包名： "+json["Pkgname"].toString()+"\n";
-        info+="版本号： "+json["Version"].toString()+"\n";
+        info= "PkgName： "+json["Pkgname"].toString()+"\n";
+        info+="Version： "+json["Version"].toString()+"\n";
         if(json["Author"].toString()!="" && json["Author"].toString()!=" "){
-            info+="作者： "+json["Author"].toString()+"\n";
+            info+="Author： "+json["Author"].toString()+"\n";
         }
 
         if(json["Website"].toString()!="" && json["Website"].toString()!=" "){
-            info+="官网： "+json["Website"].toString()+"\n";
+            info+="Official Site： "+json["Website"].toString()+"\n";
             ui->pushButton_website->show();
             appweb=json["Website"].toString();
         }
-        info+="投稿者： "+json["Contributor"].toString()+"\n";
-        info+="更新时间： "+json["Update"].toString()+"\n";
-        info+="大小： "+json["Size"].toString()+"\n";
+        info+="Contributor： "+json["Contributor"].toString()+"\n";
+        info+="Update Time： "+json["Update"].toString()+"\n";
+        info+="Installed Size： "+json["Size"].toString()+"\n";
         ui->label_info->setText(info);
         ui->label_more->setText(json["More"].toString());
         QProcess isInstall;
@@ -509,11 +509,11 @@ int Widget::loadappinfo(QUrl arg1)
         isInstall.waitForFinished();
         int error=QString::fromStdString(isInstall.readAllStandardError().toStdString()).length();
         if(error==0){
-            ui->pushButton_download->setText("重新安装");
+            ui->pushButton_download->setText("Reinstall");
             ui->pushButton_uninstall->show();
 
         }else {
-            ui->pushButton_download->setText("安装");
+            ui->pushButton_download->setText("Install");
         }
         //tag加载
         QString tags=json["Tags"].toString();
@@ -545,7 +545,7 @@ int Widget::loadappinfo(QUrl arg1)
           ui->pushButton_download->setEnabled(true);
         }
         else
-          system("notify-send 应用程序图标加载失败 --icon=spark-store");
+          system("notify-send Failed to load App icon --icon=spark-store");
 
 
         // 截图展示加载
@@ -591,7 +591,7 @@ void Widget::on_pushButton_download_clicked()
     download_list[allDownload-1].pkgName=pkgName;
     if(fileName.isEmpty())
     {
-        system("notify-send 获取失败 --icon=spark-store");
+        system("notify-send Failed to get file name --icon=spark-store");
         return;
     }
     download_list[allDownload-1].setParent(ui->listWidget);
@@ -616,7 +616,7 @@ void Widget::on_pushButton_download_clicked()
         nowDownload+=1;
         startRequest(urList.at(nowDownload-1)); // 进行链接请求
     }
-    if(ui->pushButton_download->text()=="重新安装"){
+    if(ui->pushButton_download->text()=="Reinstall"){
         download_list[allDownload-1].reinstall=true;
     }
 }
@@ -639,7 +639,7 @@ void Widget::searchApp(QString text)
     if(text.left(6)=="spk://"){
         openUrl(text);
     }else {
-        system("notify-send 目前仅支持商店专用链接的打开，搜索功能正在开发，请期待以后的版本！ --icon=spark-store");
+        system("notify-send The store can only process spk:// url now.Please look forward to later version! --icon=spark-store");
         // ui->webView->setUrl(QUrl("http://www.baidu.com/s?wd="+text));
         // ui->stackedWidget->setCurrentIndex(0);
     }
@@ -759,7 +759,7 @@ void Widget::on_pushButton_updateApt_clicked()
 {
     QtConcurrent::run([=](){
        ui->pushButton_updateApt->setEnabled(false);
-       ui->label_aptserver->setText("请稍等，正在更新");
+       ui->label_aptserver->setText("Updating,PLease wait");
        std::fstream sourcesList;
        QDir tmpdir("/tmp");
        tmpdir.mkpath("spark-store");
