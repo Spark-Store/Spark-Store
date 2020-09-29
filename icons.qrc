@@ -35,5 +35,25 @@
     </qresource>
     <qresource prefix="/">
         <file>Logo-Spark.png</file>
+        <file>big_image.cpp</file>
+        <file>big_image.h</file>
+        <file>downloadlist.cpp</file>
+        <file>downloadlist.h</file>
+        <file>image_show.cpp</file>
+        <file>image_show.h</file>
+        <file>main.cpp</file>
+        <file>progressload.cpp</file>
+        <file>progressload.h</file>
+        <file>widget.cpp</file>
+        <file>widget.h</file>
+        <file>tags/a2d.png</file>
+        <file>tags/community.svg</file>
+        <file>tags/deepin.svg</file>
+        <file>tags/logo_icon.svg</file>
+        <file>tags/uos.svg</file>
+        <file>tags/a2d-small.png</file>
+        <file>tags/community-small.png</file>
+        <file>tags/deepin-small.png</file>
+        <file>tags/dtk-small.png</file>
     </qresource>
 </RCC>
