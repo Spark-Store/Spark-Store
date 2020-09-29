@@ -149,8 +149,8 @@ void Widget::initUI()
     // titlebar->setAutoHideOnFullscreen(true);
 
     // 添加菜单项
-    QAction *actionSubmission = new QAction("软件投稿", this);
-    QAction *setting=new QAction("设置");
+    QAction *actionSubmission = new QAction("Submit App", this);
+    QAction *setting=new QAction("Settings");
 
     QMenu *menu=new QMenu;
 
