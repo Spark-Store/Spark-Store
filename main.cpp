@@ -11,23 +11,25 @@ int main(int argc, char *argv[])
     DApplication a(argc, argv);
     DAboutDialog dialog;
     a.setAttribute(Qt::AA_UseHighDpiPixmaps);
-    a.loadTranslator();
+    a.loadTranslator();//载入翻译
     a.setAboutDialog(&dialog);
-    dialog.setLicense("We publish this program under GPL V3");
-    dialog.setVersion(DApplication::buildVersion(" Version 2.0+1"));
+    dialog.setLicense(QObject::tr("We publish this program under GPL V3"));
+    dialog.setVersion(DApplication::buildVersion(QObject::tr("Version 2.0+2")));
     dialog.setAcknowledgementVisible(true);
-    dialog.setAcknowledgementLink("https://gitee.com/deepin-community-store/spark-store");
-    a.setApplicationAcknowledgementPage("https://gitee.com/deepin-community-store/spark-store");
+    dialog.setAcknowledgementLink(QObject::tr("https://gitee.com/deepin-community-store/spark-store"));
+    a.setApplicationAcknowledgementPage(QObject::tr("https://gitee.com/deepin-community-store/spark-store"));
     dialog.setProductIcon(QIcon::fromTheme("spark-store"));  //设置Logo
     dialog.setProductName(QLabel::tr("Spark Store"));
     //dialog.setDescription(QLabel::tr("An appstore powered by deepin community\n We born for change"));
-    dialog.setDescription(
+    dialog.setDescription(QObject::tr(
         "<span style=' font-size:10pt;font-weight:60;'>An appstore powered by deepin community</span><br/>"
         "<a href='https://www.spark-app.store/'>https://www.spark-app.store</a><br/>"
-        "<span style=' font-size:12pt;'>Spark developers</span>");
+        "<span style=' font-size:12pt;'>Spark developers</span>"
+                              )
+                          );
     dialog.setProductName(QLabel::tr("Spark Store"));
     dialog.setCompanyLogo(QPixmap(":/Logo-Spark.png"));
-    dialog.setWebsiteName("The Spark Project");
+    dialog.setWebsiteName(QObject::tr("The Spark Project"));
     dialog.setWebsiteLink("https://gitee.com/deepin-community-store");
     Widget w;
     QDesktopWidget *s=DApplication::desktop();

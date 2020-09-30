@@ -20,9 +20,9 @@ downloadlist::downloadlist(QWidget *parent) :
     ui->pushButton_3->hide();
     ui->widget_spinner->start();
     ui->widget_spinner->hide();
-    action_dpkg->setText("dpkg");
-    action_gdebi->setText("gdebi");
-    action_deepin->setText("deepin deb installer");
+    action_dpkg->setText(QObject::tr("dpkg"));
+    action_gdebi->setText(QObject::tr("gdebi"));
+    action_deepin->setText(QObject::tr("deepin deb installer"));
     connect(action_dpkg,&QAction::triggered,[=](){downloadlist::install(1);});
     connect(action_gdebi,&QAction::triggered,[=](){downloadlist::install(0);});
     connect(action_deepin,&QAction::triggered,[=](){downloadlist::install(2);});
@@ -51,7 +51,7 @@ void downloadlist::setValue(long long value)
     ui->progressBar->setValue(int(value));
     ui->label_2->setText(QString::number(double(value)/100)+"% ("+speed+")");
     if(ui->label_2->text().left(4)=="100%"){
-        ui->label_2->setText("Downloaded,waiting to Install");
+        ui->label_2->setText(QObject::tr("Downloaded,waiting to Install"));
     }
 }
 
@@ -77,7 +77,7 @@ void downloadlist::readyInstall()
         ui->pushButton_install->show();
         ui->pushButton_2->hide();
         system("notify-send \""+ui->label->text().toUtf8()+"Download Failed\"" +" --icon=/tmp/spark-store/icon_"+QString::number(num).toUtf8()+".png");
-        ui->label_2->setText("Download Failed，Check Your Connection");
+        ui->label_2->setText(QObject::tr("Download Failed，Check Your Connection"));
         ui->pushButton_install->setEnabled(false);
         return;
 
@@ -119,7 +119,7 @@ void downloadlist::install(int t)
         ui->pushButton_install->hide();
         ui->widget_spinner->show();
         qDebug()<<"/tmp/spark-store/"+ui->label_filename->text().toUtf8();
-        ui->label_2->setText("Installing...");
+        ui->label_2->setText(QObject::tr("Installing..."));
         QtConcurrent::run([=](){
             QProcess installer;
             if(!reinstall){
@@ -166,16 +166,16 @@ void downloadlist::install(int t)
             int error=QString::fromStdString(isInstall.readAllStandardError().toStdString()).length();
             if(error==0){
                 ui->pushButton_install->hide();
-                ui->label_2->setText("Finish");
+                ui->label_2->setText(QObject::tr("Finish"));
                 ui->pushButton_3->show();
             }else {
                 ui->pushButton_install->show();
-                ui->pushButton_install->setText("Retry");
-                ui->label_2->setText("Error happened in dpkg progress , you can try it again");
+                ui->pushButton_install->setText(QObject::tr("Retry"));
+                ui->label_2->setText(QObject::tr("Error happened in dpkg progress , you can try it again"));
                 ui->pushButton_3->show();
             }
             if(notRoot){
-                ui->label_2->setText("dpkg progress had been aborted，you can retry installation");
+                ui->label_2->setText(QObject::tr("dpkg progress had been aborted，you can retry installation"));
                 ui->pushButton_install->show();
                 ui->pushButton_3->hide();
             }
@@ -197,7 +197,7 @@ void downloadlist::on_pushButton_install_clicked()
 
 void downloadlist::on_pushButton_2_clicked()
 {
-    ui->label_2->setText("Download Canceled");
+    ui->label_2->setText(QObject::tr("Download Canceled"));
     ui->pushButton_2->setEnabled(false);
     ui->progressBar->hide();
     close=true;

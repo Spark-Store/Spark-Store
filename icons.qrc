@@ -55,5 +55,9 @@
         <file>tags/community-small.png</file>
         <file>tags/deepin-small.png</file>
         <file>tags/dtk-small.png</file>
+        <file>tags/uos-small.png</file>
+        <file>tags/community.png</file>
+        <file>tags/ubuntu-small.png</file>
+        <file>tags/ubuntu.png</file>
     </qresource>
 </RCC>

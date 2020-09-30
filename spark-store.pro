@@ -52,3 +52,18 @@ FORMS += \
 
 RESOURCES += \
     icons.qrc
+
+DISTFILES += \
+    tags/a2d-small.png \
+    tags/a2d.png \
+    tags/community-small.png \
+    tags/community.png \
+    tags/deepin-small.png \
+    tags/dtk-small.png \
+    tags/ubuntu-small.png \
+    tags/ubuntu.png \
+    tags/uos-small.png \
+    tags/community.svg \
+    tags/deepin.svg \
+    tags/logo_icon.svg \
+    tags/uos.svg
