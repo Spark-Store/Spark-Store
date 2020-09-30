@@ -47,6 +47,9 @@ public:
     void setTheme(bool,QColor);
     DTitlebar* getTitlebar();
 
+    static void sendNotification(const QString &message, const int msTimeout = 5000, const QString &icon = "spark-store");
+    static void sendNotification(const char *message, const int msTimeout = 5000, const QString &icon = "spark-store");
+
 private slots:
 
     void httpFinished();

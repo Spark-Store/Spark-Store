@@ -170,7 +170,7 @@
          </size>
         </property>
         <property name="toolTip">
-         <string>回到分类</string>
+         <string>Back to category</string>
         </property>
         <property name="text">
          <string/>
@@ -287,7 +287,7 @@
          </size>
         </property>
         <property name="toolTip">
-         <string>重新加载</string>
+         <string>Reload</string>
         </property>
         <property name="text">
          <string/>
@@ -377,7 +377,7 @@
           <number>0</number>
          </property>
          <property name="text">
-          <string>The List is empty now.Go and Download some software!</string>
+          <string>The list is currently empty. Go and download some softwares!</string>
          </property>
          <property name="alignment">
           <set>Qt::AlignCenter</set>
@@ -409,7 +409,7 @@
           <enum>Qt::NoFocus</enum>
          </property>
          <property name="text">
-          <string>打开文件夹</string>
+          <string>Open download directory</string>
          </property>
         </widget>
        </item>
@@ -454,8 +454,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>903</width>
-            <height>849</height>
+            <width>889</width>
+            <height>854</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_17">
@@ -880,7 +880,7 @@
               <item>
                <widget class="QLabel" name="label_more">
                 <property name="text">
-                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;由社区爱好者开发的软件商店&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;An app store developed by community enthusiasts&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                 </property>
                 <property name="alignment">
                  <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
@@ -919,7 +919,7 @@
                  </font>
                 </property>
                 <property name="text">
-                 <string>ScreenShots</string>
+                 <string>Screenshots</string>
                 </property>
                </widget>
               </item>
@@ -936,8 +936,8 @@
                   <rect>
                    <x>0</x>
                    <y>0</y>
-                   <width>869</width>
-                   <height>325</height>
+                   <width>851</width>
+                   <height>323</height>
                   </rect>
                  </property>
                  <layout class="QHBoxLayout" name="horizontalLayout_4">
@@ -1066,8 +1066,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>738</width>
-            <height>896</height>
+            <width>889</width>
+            <height>858</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_23">

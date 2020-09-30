@@ -31,6 +31,7 @@ int main(int argc, char *argv[])
     dialog.setCompanyLogo(QPixmap(":/Logo-Spark.png"));
     dialog.setWebsiteName(QObject::tr("The Spark Project"));
     dialog.setWebsiteLink("https://gitee.com/deepin-community-store");
+
     Widget w;
     QDesktopWidget *s=DApplication::desktop();
     int d_w=s->width();
