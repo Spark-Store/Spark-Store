@@ -15,7 +15,7 @@
     <message>
         <location filename="../main.cpp" line="16"/>
         <source>We publish this program under GPL V3</source>
-        <translation>本程序按GPL v3开源</translation>
+        <translation type="unfinished">本程序按GPL V3开源</translation>
     </message>
     <message>
         <location filename="../main.cpp" line="17"/>
@@ -31,12 +31,12 @@
     <message>
         <location filename="../main.cpp" line="24"/>
         <source>&lt;span style=&apos; font-size:10pt;font-weight:60;&apos;&gt;An appstore powered by deepin community&lt;/span&gt;&lt;br/&gt;&lt;a href=&apos;https://www.spark-app.store/&apos;&gt;https://www.spark-app.store&lt;/a&gt;&lt;br/&gt;&lt;span style=&apos; font-size:12pt;&apos;&gt;Spark developers&lt;/span&gt;</source>
-        <translation>&lt;span style=&apos; font-size:10pt;font-weight:60;&apos;&gt;由 Deepin 社区驱动的一款第三方应用商店&lt;/span&gt;&lt;br/&gt;&lt;a href=&apos;https://www.spark-app.store/&apos;&gt;https://www.spark-app.store&lt;/a&gt;&lt;br/&gt;&lt;span style=&apos; font-size:12pt;&apos;&gt;Spark developers&lt;/span&gt;</translation>
+        <translation type="unfinished">&lt;span style=&apos; font-size:10pt;font-weight:60;&apos;&gt;deepin 社区驱动的一款第三方应用商店&lt;/span&gt;&lt;br/&gt;&lt;a href=&apos;https://www.spark-app.store/&apos;&gt;https://www.spark-app.store&lt;/a&gt;&lt;br/&gt;&lt;span style=&apos; font-size:12pt;&apos;&gt;Spark developers&lt;/span&gt;</translation>
     </message>
     <message>
         <location filename="../main.cpp" line="32"/>
         <source>The Spark Project</source>
-        <translation></translation>
+        <translation>星火项目组</translation>
     </message>
 </context>
 <context>
@@ -161,7 +161,7 @@
         <location filename="../widget.ui" line="702"/>
         <location filename="../widget.ui" line="705"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;This app is developed by community user,we give this tag to honor those who contribute to the Linux Ecology&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;这款应用是社区开发者开发的，我们为社区开发者颁发这款勋章以表彰他们对Linux生态的贡献&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../widget.ui" line="708"/>
@@ -172,13 +172,13 @@
         <location filename="../widget.ui" line="721"/>
         <location filename="../widget.ui" line="724"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Capable to Ubuntu 20.04&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;支持Ubuntu 20.04&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../widget.ui" line="740"/>
         <location filename="../widget.ui" line="743"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Capable to deepin 20&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;支持deepin 20&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../widget.ui" line="746"/>
@@ -189,13 +189,13 @@
         <location filename="../widget.ui" line="759"/>
         <location filename="../widget.ui" line="762"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Capable to UOS home 20&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;支持UOS家庭版 20&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../widget.ui" line="778"/>
         <location filename="../widget.ui" line="781"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;This is a  DTK5 app,which means it would have better effect on Deepin Desktop Environment&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;这是一款DTK5应用，请使用深度桌面环境来获得最完美的体验&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../widget.ui" line="784"/>
@@ -206,7 +206,7 @@
         <location filename="../widget.ui" line="810"/>
         <location filename="../widget.ui" line="813"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;A deepin-wine5 app.If you are using ubuntu or other non-deepin distro,you should deploy deepin-wine5 by your self.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;这是一款deepin-wine5应用，如果你并没有在使用深度系列发行版（比如您在使用ubuntu），你需要自行配置deepin-wine5环境&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../widget.ui" line="816"/>
@@ -217,7 +217,7 @@
         <location filename="../widget.ui" line="829"/>
         <location filename="../widget.ui" line="832"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;An Appimage to deb app.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;这是一款Appimage转制应用.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../widget.ui" line="835"/>
@@ -377,7 +377,7 @@
     <message>
         <location filename="../widget.cpp" line="152"/>
         <source>Submit App</source>
-        <translation>软件投稿</translation>
+        <translation>投递应用</translation>
     </message>
     <message>
         <location filename="../widget.cpp" line="153"/>
@@ -393,7 +393,7 @@
         <location filename="../widget.cpp" line="297"/>
         <location filename="../widget.cpp" line="305"/>
         <source>Spark\ Store</source>
-        <translation>星火商店</translation>
+        <translation type="unfinished">星火应用商店</translation>
     </message>
     <message>
         <location filename="../widget.cpp" line="478"/>
@@ -449,12 +449,12 @@
     <message>
         <location filename="../widget.cpp" line="612"/>
         <source>Failed to get the name to the file to be downloaded.</source>
-        <translation>获取要下载的文件名失败</translation>
+        <translation>获取安装包文件名失败</translation>
     </message>
     <message>
         <location filename="../widget.cpp" line="660"/>
         <source>Spark store could only process spk:// links for now. The search feature is coming soon!</source>
-        <translation>目前仅支持商店专用链接的打开，搜索功能正在开发，请期待以后的版本！</translation>
+        <translation type="unfinished">目前仅支持商店专用链接的打开，搜索功能正在开发，请期待以后的版本！</translation>
     </message>
     <message>
         <location filename="../widget.cpp" line="780"/>
@@ -507,7 +507,7 @@
     <message>
         <location filename="../downloadlist.ui" line="106"/>
         <source>Name</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">软件名</translation>
     </message>
     <message>
         <location filename="../downloadlist.ui" line="189"/>
@@ -527,12 +527,12 @@
     <message>
         <location filename="../downloadlist.ui" line="278"/>
         <source>Info</source>
-        <translation>详细</translation>
+        <translation type="unfinished">详情</translation>
     </message>
     <message>
         <location filename="../downloadlist.cpp" line="24"/>
         <source>dpkg</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">ssinstall</translation>
     </message>
     <message>
         <location filename="../downloadlist.cpp" line="25"/>
@@ -542,7 +542,7 @@
     <message>
         <location filename="../downloadlist.cpp" line="26"/>
         <source>deepin deb installer</source>
-        <translation>深度安装器</translation>
+        <translation type="unfinished">深度软件包安装器</translation>
     </message>
     <message>
         <location filename="../downloadlist.cpp" line="55"/>
@@ -577,7 +577,7 @@
     <message>
         <location filename="../downloadlist.cpp" line="176"/>
         <source>Retry</source>
-        <translation>重试重试</translation>
+        <translation>重试</translation>
     </message>
     <message>
         <location filename="../downloadlist.cpp" line="177"/>
@@ -587,7 +587,7 @@
     <message>
         <location filename="../downloadlist.cpp" line="181"/>
         <source>dpkg progress had been aborted，you can retry installation</source>
-        <translation>dpkg 安装被中止，可重新安装</translation>
+        <translation>安装被中止，可重新安装</translation>
     </message>
     <message>
         <location filename="../downloadlist.cpp" line="203"/>
