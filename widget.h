@@ -10,6 +10,7 @@
 #include <QJsonObject>
 #include <QProcess>
 #include <QFuture>
+#include <QFutureWatcher>
 #include <QToolButton>
 #include <QTimer>
 #include <DSettings>
@@ -63,24 +64,17 @@ private slots:
     void on_pushButton_uninstall_clicked();
     void on_pushButton_clear_clicked();
     void on_pushButton_website_clicked();
-
     void on_pushButton_clicked();
-
     void on_btn_openDir_clicked();
-
     void on_stackedWidget_currentChanged(int arg1);
-
     void on_webEngineView_urlChanged(const QUrl &arg1);
-
     void on_webEngineView_loadStarted();
-
     void on_webEngineView_loadProgress(int progress);
-
     void on_webEngineView_loadFinished(bool arg1);
-
     void on_pushButton_refresh_clicked();
+    void on_pushButton_translate_clicked();
 
-  public:
+public:
 
     QUrl url;
 
@@ -123,6 +117,7 @@ private:
     long size2=0;
     QPixmap screen[5];
     QFuture<void> load;
+    QFutureWatcher<void> watchScreenshotLoad;
     QTimer download_speed;
     QString type_name;
     QColor main_color;

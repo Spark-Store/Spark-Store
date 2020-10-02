@@ -18,6 +18,7 @@
 #include <QIcon>
 #include <QGraphicsOpacityEffect>
 #include <QDesktopServices>
+#include <QMessageBox>
 #include <DSettings>
 #include <DSettingsOption>
 #include <DSettingsDialog>
@@ -160,7 +161,6 @@ void Widget::initUI()
     connect(actionSubmission, &QAction::triggered, this,
             [=](){QDesktopServices::openUrl(QUrl("https://upload.spark-app.store/"));});
     connect(setting,&QAction::triggered,this,&Widget::opensetting);
-
 
     // 初始化菜单数组
     left_list[0]=ui->menu_main;
@@ -462,9 +462,11 @@ int Widget::loadappinfo(QUrl arg1)
 
     //　重置UI状态
     ui->pushButton_uninstall->hide();
+    ui->pushButton_website->setEnabled(false);
+    ui->pushButton->setEnabled(false);
+    ui->pushButton_translate->setEnabled(false);
     ui->label_show->setText("Loading...");
     ui->label_show->show();
-    ui->pushButton_website->hide();
 
     QProcess get_json;
     QDir dir("/tmp");
@@ -561,6 +563,9 @@ int Widget::loadappinfo(QUrl arg1)
           QPixmap appicon(QString::fromUtf8(TMP_PATH)+"/icon.png");
           ui->label_appicon->setPixmap(appicon);
           ui->pushButton_download->setEnabled(true);
+          ui->pushButton->setEnabled(true);
+          ui->pushButton_translate->setEnabled(true);
+          ui->pushButton_website->setEnabled(true);
         }
         else
           sendNotification(tr("Failed to load application icon."));
@@ -575,9 +580,11 @@ int Widget::loadappinfo(QUrl arg1)
         label_screen[4]=ui->screen_4;
         for (int i=0;i<5;i++) {
             QString cmd = "curl -o screen_"+QString::number(i+1)+".png "+urladdress+"screen_"+QString::number(i+1)+".png";
+            get_json.terminate();
             get_json.start(cmd);
             get_json.waitForFinished();
-            if(screen[i].load("screen_"+QString::number(i+1)+".png")){
+            bool s = screen[i].load("screen_"+QString::number(i+1)+".png");
+            if(s){
                 label_screen[i]->setImage(screen[i]);
                 label_screen[i]->show();
                 switch(i){  // 故意为之，为了清除多余截图
@@ -978,7 +985,6 @@ void Widget::on_webEngineView_urlChanged(const QUrl &arg1)
         qDebug()<<"https://demo-one-vert.vercel.app/"+type_name+"/"+pname;
         load.cancel();//打开并发加载线程前关闭正在执行的线程
         load = QtConcurrent::run([=](){
-
             int loadresult = loadappinfo(arg1);
         });
     }
@@ -1009,4 +1015,17 @@ void Widget::on_webEngineView_loadFinished(bool arg1)
         m_loaderror->show();
     }
 
+}
+
+void Widget::on_pushButton_translate_clicked()
+{
+    if(QMessageBox::information(nullptr, tr("Information for Contributors"),
+                                tr("Currently the translation contribution is limited to English, "
+                                   "and you will be redirected to our Gitee repository at which you are "
+                                   "supposed to be creating pull requests to contribute app info "
+                                   "translations.\n\nClick yes to continue."),
+                                QMessageBox::StandardButton::Yes | QMessageBox::StandardButton::No)
+            == QMessageBox::Yes)
+        QDesktopServices::openUrl("https://gitee.com/deepin-community-store/json/tree/master/store/" +
+                                  type_name + '/' + pkgName);
 }

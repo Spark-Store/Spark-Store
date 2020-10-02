@@ -216,12 +216,15 @@
         <property name="text">
          <string>Home  </string>
         </property>
+        <property name="flat">
+         <bool>false</bool>
+        </property>
        </widget>
       </item>
       <item row="7" column="0" colspan="6">
        <widget class="QPushButton" name="menu_photo">
         <property name="text">
-         <string>Graphic</string>
+         <string>Graphics</string>
         </property>
        </widget>
       </item>
@@ -453,9 +456,9 @@
           <property name="geometry">
            <rect>
             <x>0</x>
-            <y>0</y>
-            <width>903</width>
-            <height>849</height>
+            <y>-90</y>
+            <width>889</width>
+            <height>854</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_17">
@@ -474,6 +477,45 @@
               <bool>true</bool>
              </property>
              <layout class="QGridLayout" name="gridLayout">
+              <item row="3" column="0">
+               <spacer name="horizontalSpacer">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeType">
+                 <enum>QSizePolicy::Maximum</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>70</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+              <item row="3" column="2">
+               <spacer name="horizontalSpacer_2">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeType">
+                 <enum>QSizePolicy::Maximum</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>60</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+              <item row="5" column="1">
+               <widget class="QPushButton" name="pushButton_download">
+                <property name="text">
+                 <string>Install</string>
+                </property>
+               </widget>
+              </item>
               <item row="0" column="3" colspan="2">
                <widget class="QLabel" name="label_appname">
                 <property name="font">
@@ -487,7 +529,7 @@
                 </property>
                </widget>
               </item>
-              <item row="3" column="3" rowspan="5" colspan="7">
+              <item row="3" column="3" rowspan="5" colspan="8">
                <widget class="QLabel" name="label_info">
                 <property name="font">
                  <font>
@@ -533,7 +575,7 @@
                 </property>
                </widget>
               </item>
-              <item row="0" column="9">
+              <item row="0" column="10">
                <spacer name="horizontalSpacer_6">
                 <property name="orientation">
                  <enum>Qt::Horizontal</enum>
@@ -545,45 +587,6 @@
                  </size>
                 </property>
                </spacer>
-              </item>
-              <item row="3" column="2">
-               <spacer name="horizontalSpacer_2">
-                <property name="orientation">
-                 <enum>Qt::Horizontal</enum>
-                </property>
-                <property name="sizeType">
-                 <enum>QSizePolicy::Maximum</enum>
-                </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>60</width>
-                  <height>20</height>
-                 </size>
-                </property>
-               </spacer>
-              </item>
-              <item row="3" column="0">
-               <spacer name="horizontalSpacer">
-                <property name="orientation">
-                 <enum>Qt::Horizontal</enum>
-                </property>
-                <property name="sizeType">
-                 <enum>QSizePolicy::Maximum</enum>
-                </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>70</width>
-                  <height>20</height>
-                 </size>
-                </property>
-               </spacer>
-              </item>
-              <item row="5" column="1">
-               <widget class="QPushButton" name="pushButton_download">
-                <property name="text">
-                 <string>Install</string>
-                </property>
-               </widget>
               </item>
               <item row="7" column="1" rowspan="2">
                <spacer name="verticalSpacer_2">
@@ -669,7 +672,14 @@
                 </property>
                </spacer>
               </item>
-              <item row="1" column="3" colspan="7">
+              <item row="0" column="8">
+               <widget class="QPushButton" name="pushButton">
+                <property name="text">
+                 <string>Share</string>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="3" colspan="8">
                <widget class="QWidget" name="widget" native="true">
                 <property name="minimumSize">
                  <size>
@@ -852,10 +862,10 @@
                 </layout>
                </widget>
               </item>
-              <item row="0" column="8">
-               <widget class="QPushButton" name="pushButton">
+              <item row="0" column="9">
+               <widget class="QPushButton" name="pushButton_translate">
                 <property name="text">
-                 <string>Share</string>
+                 <string>Contribute translation</string>
                 </property>
                </widget>
               </item>
@@ -936,8 +946,8 @@
                   <rect>
                    <x>0</x>
                    <y>0</y>
-                   <width>869</width>
-                   <height>325</height>
+                   <width>851</width>
+                   <height>323</height>
                   </rect>
                  </property>
                  <layout class="QHBoxLayout" name="horizontalLayout_4">
@@ -1066,8 +1076,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>738</width>
-            <height>896</height>
+            <width>743</width>
+            <height>902</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_23">
