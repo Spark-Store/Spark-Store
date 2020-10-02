@@ -574,7 +574,8 @@ int Widget::loadappinfo(QUrl arg1)
         label_screen[3]=ui->screen_3;
         label_screen[4]=ui->screen_4;
         for (int i=0;i<5;i++) {
-            get_json.start("curl -o screen_"+QString::number(i+1)+".png "+urladdress+"screen_"+QString::number(i+1)+".png");
+            QString cmd = "curl -o screen_"+QString::number(i+1)+".png "+urladdress+"screen_"+QString::number(i+1)+".png";
+            get_json.start(cmd);
             get_json.waitForFinished();
             if(screen[i].load("screen_"+QString::number(i+1)+".png")){
                 label_screen[i]->setImage(screen[i]);
@@ -673,6 +674,7 @@ void Widget::httpReadyRead()
 
 void Widget::updateDataReadProgress(qint64 bytesRead, qint64 totalBytes)
 {
+    if(totalBytes <= 0) return;
     download_list[nowDownload-1].setMax(10000); // 最大值
     download_list[nowDownload-1].setValue((bytesRead*10000)/totalBytes);    // 当前值
     download_size=bytesRead;
@@ -778,38 +780,65 @@ void Widget::on_pushButton_updateApt_clicked()
     QtConcurrent::run([=](){
        ui->pushButton_updateApt->setEnabled(false);
        ui->label_aptserver->setText(tr("Updating, please wait..."));
-       std::fstream sourcesList;
+
+       std::fstream sourcesList, policy, update;
        QDir tmpdir("/tmp");
+       auto tmpPath = QString::fromUtf8(TMP_PATH).toStdString();
+       bool unknownError = true;
+
        tmpdir.mkpath("spark-store");
-       sourcesList.open(QString::fromUtf8(TMP_PATH).toStdString()+"/sparkstore.list",std::ios::out);
-       if(sourcesList){
-           sourcesList<<"deb [by-hash=force] ";
-           sourcesList<<QString::fromUtf8(ui->comboBox_server->currentText().toUtf8()).toStdString();
-           sourcesList<<" /";
-           std::fstream update;
-           update.open(QString::fromUtf8(TMP_PATH).toStdString()+"/update.sh",std::ios::out);
-           update<<"#!/bin/sh\n";
-           update<<"mv "+QString::fromUtf8(TMP_PATH).toStdString()+"/sparkstore.list /etc/apt/sources.list.d/sparkstore.list && apt update";
-           update.close();
-           system("chmod +x "+QString::fromUtf8(TMP_PATH).toUtf8()+"/update.sh");
-           QProcess runupdate;
-           runupdate.start("pkexec "+QString::fromUtf8(TMP_PATH)+"/update.sh");
-           runupdate.waitForFinished();
-           QString error=QString::fromStdString(runupdate.readAllStandardError().toStdString());
-           QStringList everyError=error.split("\n");
-           bool haveError=false;
-           for (int i=0;i<everyError.size();i++) {
-               if(everyError[i].left(2)=="E:"){
-                   haveError=true;
+       sourcesList.open(tmpPath + "/sparkstore.list", std::ios::out);
+       //policy.open(tmpPath + "/sparkstore", std::ios::out);
+       // 商店已经下架会替换系统库的包，优先级policy弃用
+
+       if(sourcesList /*&& policy*/) {
+           auto serverAddr = ui->comboBox_server->currentText();
+
+           sourcesList << "deb [by-hash=force] ";
+           sourcesList << serverAddr.toUtf8().toStdString();
+           sourcesList << " /";
+           sourcesList.close();
+
+           /*
+           policy << "Package: *\n"
+                     "Pin: origin *" << serverAddr.mid(serverAddr.indexOf('.')).toUtf8().toStdString() << "\n"
+                     "Pin-Priority: 90"; // 降低星火源的优先级，防止从星火安装已存在的系统包，破坏依赖
+           policy.close();
+           */
+
+           update.open(tmpPath + "/update.sh",std::ios::out);
+           if(update) {
+               unknownError = false;
+               update << "#!/bin/sh\n"
+                         "mv " + tmpPath + "/sparkstore.list /etc/apt/sources.list.d/sparkstore.list && "
+//                         "mv " + tmpPath + "/sparkstore /etc/apt/preferences.d/sparkstore && "
+                         "apt update";
+               update.close();
+
+               system(("chmod +x " + tmpPath + "/update.sh").c_str());
+               QProcess runupdate;
+               runupdate.start(QString::fromStdString("pkexec " + tmpPath + "/update.sh"));
+               runupdate.waitForFinished();
+               QString error = runupdate.readAllStandardError();
+
+               QStringList everyError = error.split("\n");
+               bool haveError = false;
+               for (int i=0; i < everyError.size(); i++) {
+                   if(everyError[i].left(2) == "E:") {
+                       haveError = true;
+                   }
+               }
+
+               if(!haveError) {
+                   ui->label_aptserver->setText("deb [by-hash=force] " + ui->comboBox_server->currentText().toUtf8() + " /");
+               } else {
+                   ui->label_aptserver->setText(tr("Apt has reported an error. Please use apt update in terminal to locate the problem."));
                }
            }
-           if(!haveError){
-               ui->label_aptserver->setText("deb [by-hash=force] "+ui->comboBox_server->currentText().toUtf8()+" /");
-           }else {
-               ui->label_aptserver->setText(tr("Apt has reported an error. Please use apt update in terminal to locate the problem."));
-           }
-       }else {
-           ui->label_aptserver->setText(tr("Unknown server error!"));
+       }
+
+       if(unknownError) {
+           ui->label_aptserver->setText(tr("Unknown error!"));
        }
 
        ui->pushButton_updateApt->setEnabled(true);
