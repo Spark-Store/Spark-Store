@@ -150,7 +150,7 @@
       <item row="11" column="0" colspan="6">
        <widget class="QPushButton" name="menu_dev">
         <property name="text">
-         <string>Coding</string>
+         <string>Development</string>
         </property>
        </widget>
       </item>
@@ -214,14 +214,14 @@
          <string notr="true"/>
         </property>
         <property name="text">
-         <string>FrontPage</string>
+         <string>Home  </string>
         </property>
        </widget>
       </item>
       <item row="7" column="0" colspan="6">
        <widget class="QPushButton" name="menu_photo">
         <property name="text">
-         <string>Images</string>
+         <string>Graphic</string>
         </property>
        </widget>
       </item>
@@ -235,7 +235,7 @@
       <item row="4" column="0" colspan="6">
        <widget class="QPushButton" name="menu_chat">
         <property name="text">
-         <string>Chatting</string>
+         <string>Communication</string>
         </property>
        </widget>
       </item>
@@ -454,8 +454,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>889</width>
-            <height>854</height>
+            <width>903</width>
+            <height>849</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_17">
@@ -936,8 +936,8 @@
                   <rect>
                    <x>0</x>
                    <y>0</y>
-                   <width>851</width>
-                   <height>323</height>
+                   <width>869</width>
+                   <height>325</height>
                   </rect>
                  </property>
                  <layout class="QHBoxLayout" name="horizontalLayout_4">
@@ -1066,8 +1066,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>889</width>
-            <height>858</height>
+            <width>738</width>
+            <height>896</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_23">
