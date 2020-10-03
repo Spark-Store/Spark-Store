@@ -18,7 +18,7 @@
 #include <QIcon>
 #include <QGraphicsOpacityEffect>
 #include <QDesktopServices>
-#include <QMessageBox>
+#include <DDialog>
 #include <DSettings>
 #include <DSettingsOption>
 #include <DSettingsDialog>
@@ -1019,13 +1019,15 @@ void Widget::on_webEngineView_loadFinished(bool arg1)
 
 void Widget::on_pushButton_translate_clicked()
 {
-    if(QMessageBox::information(nullptr, tr("Information for Contributors"),
-                                tr("Currently the translation contribution is limited to English, "
-                                   "and you will be redirected to our Gitee repository at which you are "
-                                   "supposed to be creating pull requests to contribute app info "
-                                   "translations.\n\nClick yes to continue."),
-                                QMessageBox::StandardButton::Yes | QMessageBox::StandardButton::No)
-            == QMessageBox::Yes)
+    DDialog tipDialog;
+    tipDialog.setWordWrapMessage(true);
+    tipDialog.addButtons({ tr("Yes"), tr("No") });
+    tipDialog.setTitle(tr("Information for Contributors"));
+    tipDialog.setMessage(tr("Currently the translation contribution is limited to English,\n"
+                            "and you will be redirected to our Gitee repository at which you are\n"
+                            "supposed to be creating pull requests to contribute app info\n"
+                            "translations.\n\nClick yes to continue."));
+    if(!tipDialog.exec())
         QDesktopServices::openUrl("https://gitee.com/deepin-community-store/json/tree/master/store/" +
                                   type_name + '/' + pkgName);
 }
