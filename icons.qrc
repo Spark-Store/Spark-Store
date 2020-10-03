@@ -59,5 +59,8 @@
         <file>tags/community.png</file>
         <file>tags/ubuntu-small.png</file>
         <file>tags/ubuntu.png</file>
+        <file>tags/dwine5-small.png</file>
+        <file>tags/dwine5.svg</file>
+        <file>tags/dwine2-small.png</file>
     </qresource>
 </RCC>
