@@ -18,9 +18,8 @@
         <translation>本程序按GPL V3开源</translation>
     </message>
     <message>
-        <location filename="../main.cpp" line="17"/>
         <source>Version 2.0+2</source>
-        <translation>版本： 2.0+2</translation>
+        <translation type="vanished">版本： 2.0+2</translation>
     </message>
     <message>
         <location filename="../main.cpp" line="19"/>
@@ -259,7 +258,7 @@
     <message>
         <location filename="../widget.ui" line="874"/>
         <source>Contribute translation</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">贡献翻译</translation>
     </message>
     <message>
         <location filename="../widget.ui" line="892"/>

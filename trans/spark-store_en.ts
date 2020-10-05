@@ -18,11 +18,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../main.cpp" line="17"/>
-        <source>Version 2.0+2</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../main.cpp" line="19"/>
         <location filename="../main.cpp" line="20"/>
         <source>https://gitee.com/deepin-community-store/spark-store</source>
