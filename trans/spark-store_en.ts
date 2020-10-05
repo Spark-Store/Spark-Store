@@ -498,7 +498,8 @@
 and you will be redirected to our Gitee repository at which you are
 supposed to be creating pull requests to contribute app info
 translations.
-
+Tips:You can simply click the file to edit to create a flat pull request without create a full pull request
+Tips:You can use github account to login to Gitee
 Click yes to continue.</source>
         <translation type="unfinished"></translation>
     </message>
