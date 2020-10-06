@@ -9,6 +9,7 @@ QT       += core gui network concurrent webenginewidgets
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TRANSLATIONS = ./trans/spark-store_en.ts \
                ./trans/spark-store_zh_CN.ts
+               ./trans/spark-store_fr.ts\
 
 CONFIG += link_pkgconfig
 PKGCONFIG += dtkwidget
