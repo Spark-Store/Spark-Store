@@ -33,14 +33,16 @@ SOURCES += main.cpp\
     downloadlist.cpp \
     image_show.cpp \
     big_image.cpp \
-    progressload.cpp
+    progressload.cpp \
+    workerthreads.cpp
 
 HEADERS  += \
     widget.h \
     downloadlist.h \
     image_show.h \
     big_image.h \
-    progressload.h
+    progressload.h \
+    workerthreads.h
 
 
 

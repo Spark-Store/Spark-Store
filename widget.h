@@ -21,6 +21,9 @@
 #include <DTitlebar>
 #include <DSearchEdit>
 #include <progressload.h>
+#include "workerthreads.h"
+#include "image_show.h"
+
 #define LIST_MAX 99 //一次最多下载数量
 #define TMP_PATH "/tmp/spark-store"
 
@@ -56,6 +59,17 @@ private slots:
     void httpFinished();
     void httpReadyRead();
     void updateDataReadProgress(qint64,qint64);
+
+    // SpkAppInfoLoaderThread的槽函数
+    void sltAppinfoResetUi();
+    void sltAppinfoTags(QStringList *tagList);
+    void sltAppinfoDetails(QString *name, QString *details, QString *info,
+                                 QString *website, QString *packageName,
+                                 QUrl *fileUrl, bool isInstalled);
+    void sltAppinfoIcon(QPixmap *icon);
+    void sltAppinfoScreenshot(QPixmap *picture, int index);
+    void sltAppinfoFinish();
+
     void on_pushButton_download_clicked();
     void on_pushButton_return_clicked();
     void on_comboBox_server_currentIndexChanged(const QString &arg1);
@@ -124,6 +138,9 @@ private:
     int foot;
     DSearchEdit *searchEdit=new DSearchEdit;
     DTitlebar *titlebar;
+
+    QList<image_show*> label_screen;
+    SpkAppInfoLoaderThread appinfoLoadThread;
 
 };
 

@@ -57,6 +57,13 @@ Widget::Widget(DBlurEffectWidget *parent) :
     connect(ui->menu_download,&DPushButton::clicked,[=](){Widget::chooseLeftMenu(13);});
     // connect((ui->titlebar))
 
+    connect(&appinfoLoadThread, SIGNAL(requestResetUi()), this, SLOT(sltAppinfoResetUi()), Qt::ConnectionType::BlockingQueuedConnection);
+    connect(&appinfoLoadThread, &SpkAppInfoLoaderThread::requestSetTags, this, &Widget::sltAppinfoTags, Qt::ConnectionType::BlockingQueuedConnection);
+    connect(&appinfoLoadThread, &SpkAppInfoLoaderThread::requestSetAppInformation, this, &Widget::sltAppinfoDetails, Qt::ConnectionType::BlockingQueuedConnection);
+    connect(&appinfoLoadThread, &SpkAppInfoLoaderThread::finishedIconLoad, this, &Widget::sltAppinfoIcon, Qt::ConnectionType::BlockingQueuedConnection);
+    connect(&appinfoLoadThread, &SpkAppInfoLoaderThread::finishedScreenshotLoad, this, &Widget::sltAppinfoScreenshot, Qt::ConnectionType::BlockingQueuedConnection);
+    connect(&appinfoLoadThread, &SpkAppInfoLoaderThread::finishAllLoading, this, &Widget::sltAppinfoFinish, Qt::ConnectionType::BlockingQueuedConnection);
+
     // 搜索事件
     connect(searchEdit,&DSearchEdit::editingFinished,this,[=](){
         QString searchtext=searchEdit->text();
@@ -125,6 +132,9 @@ void Widget::initUI()
     ui->line1_widget->setStyleSheet("background-color:#808080");
     ui->icon->setPixmap(QIcon::fromTheme("spark-store").pixmap(36,36));
     ui->titlebar->setFixedHeight(50);
+
+    label_screen << ui->screen_0 << ui->screen_1 << ui->screen_2 << ui->screen_3 << ui->screen_4;
+
 
     // 初始化分界线
     QGraphicsOpacityEffect *opacityEffect_1=new QGraphicsOpacityEffect;
@@ -201,9 +211,9 @@ void Widget::initConfig()
     QSettings readConfig(QDir::homePath()+"/.config/spark-store/config.ini",QSettings::IniFormat);
     if(readConfig.value("server/choose").toString()!=""){
         ui->comboBox_server->setCurrentText(readConfig.value("server/choose").toString());
-        serverUrl=readConfig.value("server/choose").toString();
+        appinfoLoadThread.setServer(serverUrl=readConfig.value("server/choose").toString());
     }else {
-        serverUrl="http://sucdn.jerrywang.top/";  // 默认URL
+        appinfoLoadThread.setServer(serverUrl="http://sucdn.jerrywang.top/");  // 默认URL
     }
     configCanSave=true;   //　防止触发保存配置信号
     menuUrl[0]=serverUrl + "store/#/";
@@ -223,13 +233,13 @@ void Widget::initConfig()
 
 
     //web控件初始化
-//    ui->webView->page()->setLinkDelegationPolicy(QWebPage::DelegateAllLinks);   //用来激活接受linkClicked信号
-//    ui->webView->page()->settings()->setAttribute(QWebSettings::JavascriptEnabled,true);
+    //    ui->webView->page()->setLinkDelegationPolicy(QWebPage::DelegateAllLinks);   //用来激活接受linkClicked信号
+    //    ui->webView->page()->settings()->setAttribute(QWebSettings::JavascriptEnabled,true);
     ui->webfoot->hide();
 
     //初始化首页
     ui->webEngineView->setUrl(menuUrl[0]);
-//    ui->webEngineView->setUrl(menuUrl[1]);
+    //    ui->webEngineView->setUrl(menuUrl[1]);
 
     //给下载列表赋值到数组，方便调用
     for (int i =0; i<LIST_MAX;i++){
@@ -261,7 +271,7 @@ void Widget::setTheme(bool isDark,QColor color)
         ui->btn_openDir->setStyleSheet("color:#8B91A1;background-color:#2E2F30;border:0px");
         ui->webfoot->setStyleSheet("background-color:#252525");
         ui->label->setStyleSheet("background-color:#252525");
-//        ui->scrollArea->setStyleSheet("background-color:#252525");
+        //        ui->scrollArea->setStyleSheet("background-color:#252525");
         ui->label_show->setStyleSheet("background-color:#252525");
         ui->pushButton_return->setIcon(QIcon(":/icons/icons/category_active_dark.svg"));
         ui->pushButton_refresh->setIcon(QIcon(":/icons/icons/refresh-page-dark.svg"));
@@ -272,7 +282,7 @@ void Widget::setTheme(bool isDark,QColor color)
         ui->webfoot->setStyleSheet("background-color:#FFFFFF");
         ui->btn_openDir->setStyleSheet("color:#505050;background-color:#FBFBFB;border:0px");
         ui->label->setStyleSheet("background-color:#FFFFFF");
-//        ui->scrollArea->setStyleSheet("background-color:#F8F8F8");
+        //        ui->scrollArea->setStyleSheet("background-color:#F8F8F8");
         ui->label_show->setStyleSheet("background-color:#F8F8F8");
         ui->pushButton_return->setIcon(QIcon(":/icons/icons/category_active.svg"));
         ui->pushButton_refresh->setIcon(QIcon(":/icons/icons/refresh-page.svg"));
@@ -288,23 +298,23 @@ void Widget::setTheme(bool isDark,QColor color)
 
 DTitlebar* Widget::getTitlebar()
 {
-  return ui->titlebar;
+    return ui->titlebar;
 }
 
 void Widget::sendNotification(const QString &message, const int msTimeout, const QString &icon)
 {
-  system((QString("notify-send --icon=%1 --expire-time=%2 --app-name=").arg(icon).arg(msTimeout) +
-          tr("Spark\\ Store") +
-          " '" + message + "'"
-         ).toUtf8());
+    system((QString("notify-send --icon=%1 --expire-time=%2 --app-name=").arg(icon).arg(msTimeout) +
+            tr("Spark\\ Store") +
+            " '" + message + "'"
+            ).toUtf8());
 }
 
 void Widget::sendNotification(const char *message, const int msTimeout, const QString &icon)
 {
-  system((QString("notify-send --icon=%1 --expire-time=%2 --app-name=").arg(icon).arg(msTimeout) +
-          tr("Spark\\ Store") +
-          " '" + message + "'"
-         ).toUtf8());
+    system((QString("notify-send --icon=%1 --expire-time=%2 --app-name=").arg(icon).arg(msTimeout) +
+            tr("Spark\\ Store") +
+            " '" + message + "'"
+            ).toUtf8());
 }
 
 void Widget::updateUI()
@@ -477,7 +487,7 @@ int Widget::loadappinfo(QUrl arg1)
     get_json.waitForFinished();
     if(get_json.exitCode())
     {
-      sendNotification(tr("Failed to download app info. Please check internet connection."));
+        sendNotification(tr("Failed to download app info. Please check internet connection."));
     }
 
     QFile app_json("app.json");
@@ -560,25 +570,21 @@ int Widget::loadappinfo(QUrl arg1)
         get_json.start("curl -o icon.png "+urladdress+"icon.png");
         get_json.waitForFinished();
         if(!get_json.exitCode()) {
-          QPixmap appicon(QString::fromUtf8(TMP_PATH)+"/icon.png");
-          ui->label_appicon->setPixmap(appicon);
-          ui->pushButton_download->setEnabled(true);
-          ui->pushButton->setEnabled(true);
-          ui->pushButton_translate->setEnabled(true);
-          ui->pushButton_website->setEnabled(true);
+            QPixmap appicon(QString::fromUtf8(TMP_PATH)+"/icon.png");
+            ui->label_appicon->setPixmap(appicon);
+            ui->pushButton_download->setEnabled(true);
+            ui->pushButton->setEnabled(true);
+            ui->pushButton_translate->setEnabled(true);
+            ui->pushButton_website->setEnabled(true);
         }
         else
-          sendNotification(tr("Failed to load application icon."));
+            sendNotification(tr("Failed to load application icon."));
 
 
         // 截图展示加载
-        image_show *label_screen[5];
-        label_screen[0]=ui->screen_0;
-        label_screen[1]=ui->screen_1;
-        label_screen[2]=ui->screen_2;
-        label_screen[3]=ui->screen_3;
-        label_screen[4]=ui->screen_4;
-        for (int i=0;i<5;i++) {
+        QList<image_show*> label_screen;
+        label_screen << ui->screen_0 << ui->screen_1 << ui->screen_2 << ui->screen_3 << ui->screen_4;
+        for (int i = 0; i < 5; i++) {
             QString cmd = "curl -o screen_"+QString::number(i+1)+".png "+urladdress+"screen_"+QString::number(i+1)+".png";
             get_json.terminate();
             get_json.start(cmd);
@@ -587,6 +593,7 @@ int Widget::loadappinfo(QUrl arg1)
             if(s){
                 label_screen[i]->setImage(screen[i]);
                 label_screen[i]->show();
+                /*
                 switch(i){  // 故意为之，为了清除多余截图
                 case 0:
                     label_screen[1]->hide();
@@ -596,7 +603,8 @@ int Widget::loadappinfo(QUrl arg1)
                     label_screen[3]->hide();
                 case 3:
                     label_screen[4]->hide();
-                }
+
+                }*/
             }else{
                 QFile::remove("screen_"+QString::number(i+1)+".png");
                 break;
@@ -691,6 +699,111 @@ void Widget::updateDataReadProgress(qint64 bytesRead, qint64 totalBytes)
     }
 }
 
+void Widget::sltAppinfoResetUi()
+{
+    //　先隐藏详情页负责显示截图的label
+    ui->screen_0->hide();
+    ui->screen_1->hide();
+    ui->screen_2->hide();
+    ui->screen_3->hide();
+    ui->screen_4->hide();
+    ui->label_appicon->clear();
+    ui->tag_community->hide();
+    ui->tag_ubuntu->hide();
+    ui->tag_deepin->hide();
+    ui->tag_uos->hide();
+    ui->tag_dtk5->hide();
+    ui->tag_dwine2->hide();
+    ui->tag_dwine5->hide();
+    ui->tag_a2d->hide();
+
+    //　重置UI状态
+    ui->pushButton_uninstall->hide();
+    ui->pushButton_website->setEnabled(false);
+    ui->pushButton->setEnabled(false);
+    ui->pushButton_translate->setEnabled(false);
+    ui->label_show->setText("Loading...");
+    ui->label_show->show();
+}
+
+void Widget::sltAppinfoTags(QStringList *tagList)
+{
+    foreach (const QString &tag, *tagList) {
+        if(tag=="community")
+            ui->tag_community->show();
+        else if(tag=="ubuntu")
+            ui->tag_ubuntu->show();
+        else if(tag=="deepin")
+            ui->tag_deepin->show();
+        else if(tag=="uos")
+            ui->tag_uos->show();
+        else if(tag=="dtk5")
+            ui->tag_dtk5->show();
+        else if(tag=="dwine2")
+            ui->tag_dwine2->show();
+        else if(tag=="dwine5")
+            ui->tag_dwine5->show();
+        else if(tag=="a2d")
+            ui->tag_a2d->show();
+    }
+}
+
+void Widget::sltAppinfoDetails(QString *name, QString *details, QString *info,
+                               QString *website, QString *packageName, QUrl *fileUrl,
+                               bool isInstalled)
+{
+    ui->label_appname->setText(appName = *name);
+    ui->label_appname->show();
+    ui->label_info->setText(*details);
+    ui->label_info->show();
+    ui->label_more->setText(*info);
+    ui->label_more->show();
+    pkgName = *packageName;
+    url = *fileUrl;
+    appweb = *website;
+    if(isInstalled){
+        ui->pushButton_download->setText(tr("Reinstall"));
+        ui->pushButton_uninstall->show();
+    }else {
+        ui->pushButton_download->setText(tr("Install"));
+    }
+}
+
+void Widget::sltAppinfoIcon(QPixmap *icon)
+{
+    ui->label_appicon->setPixmap(*icon);
+    ui->label_appicon->show();
+    ui->pushButton_download->setEnabled(true);
+    ui->pushButton->setEnabled(true);
+    ui->pushButton_translate->setEnabled(true);
+    ui->pushButton_website->setEnabled(true);
+}
+
+void Widget::sltAppinfoScreenshot(QPixmap *picture, int index)
+{
+    if(picture != nullptr) {
+        screen[index] = *picture;
+        label_screen[index]->setImage(*picture);
+        label_screen[index]->show();
+        switch(index) {  // 故意为之，为了清除多余截图
+        case 0:
+            label_screen[1]->hide();
+        case 1:
+            label_screen[2]->hide();
+        case 2:
+            label_screen[3]->hide();
+        case 3:
+            label_screen[4]->hide();
+        }
+    }
+}
+
+void Widget::sltAppinfoFinish()
+{
+    ui->label_show->setText("");
+    ui->label_show->hide();
+}
+
 void Widget::httpFinished() // 完成下载
 {
     file->flush();
@@ -727,6 +840,7 @@ void Widget::on_pushButton_return_clicked()
     // chooseLeftMenu(13);
     //     return;
     // }
+    appinfoLoadThread.requestInterruption();
     chooseLeftMenu(nowMenu);
     // if(themeIsDark){
     //     QString darkurl=menuUrl[nowMenu].toString();
@@ -746,13 +860,14 @@ void Widget::on_pushButton_return_clicked()
 void Widget::on_pushButton_refresh_clicked()
 {
     if(ui->stackedWidget->currentIndex() == 2) //如果在详情页面要重新触发UrlChanged
-      emit ui->webEngineView->urlChanged(ui->webEngineView->url());
+        emit ui->webEngineView->urlChanged(ui->webEngineView->url());
     else
-      ui->webEngineView->reload();
+        ui->webEngineView->reload();
 }
 
 void Widget::on_comboBox_server_currentIndexChanged(const QString &arg1)
 {
+    appinfoLoadThread.setServer(arg1); // 服务器信息更新
     if(configCanSave){
         ui->label_setting1->show();
         QSettings *setConfig=new QSettings(QDir::homePath()+"/.config/spark-store/config.ini",QSettings::IniFormat);
@@ -785,70 +900,70 @@ void Widget::on_pushButton_updateServer_clicked()
 void Widget::on_pushButton_updateApt_clicked()
 {
     QtConcurrent::run([=](){
-       ui->pushButton_updateApt->setEnabled(false);
-       ui->label_aptserver->setText(tr("Updating, please wait..."));
+        ui->pushButton_updateApt->setEnabled(false);
+        ui->label_aptserver->setText(tr("Updating, please wait..."));
 
-       std::fstream sourcesList, policy, update;
-       QDir tmpdir("/tmp");
-       auto tmpPath = QString::fromUtf8(TMP_PATH).toStdString();
-       bool unknownError = true;
+        std::fstream sourcesList, policy, update;
+        QDir tmpdir("/tmp");
+        auto tmpPath = QString::fromUtf8(TMP_PATH).toStdString();
+        bool unknownError = true;
 
-       tmpdir.mkpath("spark-store");
-       sourcesList.open(tmpPath + "/sparkstore.list", std::ios::out);
-       //policy.open(tmpPath + "/sparkstore", std::ios::out);
-       // 商店已经下架会替换系统库的包，优先级policy弃用
+        tmpdir.mkpath("spark-store");
+        sourcesList.open(tmpPath + "/sparkstore.list", std::ios::out);
+        //policy.open(tmpPath + "/sparkstore", std::ios::out);
+        // 商店已经下架会替换系统库的包，优先级policy弃用
 
-       if(sourcesList /*&& policy*/) {
-           auto serverAddr = ui->comboBox_server->currentText();
+        if(sourcesList /*&& policy*/) {
+            auto serverAddr = ui->comboBox_server->currentText();
 
-           sourcesList << "deb [by-hash=force] ";
-           sourcesList << serverAddr.toUtf8().toStdString();
-           sourcesList << " /";
-           sourcesList.close();
+            sourcesList << "deb [by-hash=force] ";
+            sourcesList << serverAddr.toUtf8().toStdString();
+            sourcesList << " /";
+            sourcesList.close();
 
-           /*
+            /*
            policy << "Package: *\n"
                      "Pin: origin *" << serverAddr.mid(serverAddr.indexOf('.')).toUtf8().toStdString() << "\n"
                      "Pin-Priority: 90"; // 降低星火源的优先级，防止从星火安装已存在的系统包，破坏依赖
            policy.close();
            */
 
-           update.open(tmpPath + "/update.sh",std::ios::out);
-           if(update) {
-               unknownError = false;
-               update << "#!/bin/sh\n"
-                         "mv " + tmpPath + "/sparkstore.list /etc/apt/sources.list.d/sparkstore.list && "
-//                         "mv " + tmpPath + "/sparkstore /etc/apt/preferences.d/sparkstore && "
-                         "apt update";
-               update.close();
+            update.open(tmpPath + "/update.sh",std::ios::out);
+            if(update) {
+                unknownError = false;
+                update << "#!/bin/sh\n"
+                          "mv " + tmpPath + "/sparkstore.list /etc/apt/sources.list.d/sparkstore.list && "
+                          //                         "mv " + tmpPath + "/sparkstore /etc/apt/preferences.d/sparkstore && "
+                          "apt update";
+                update.close();
 
-               system(("chmod +x " + tmpPath + "/update.sh").c_str());
-               QProcess runupdate;
-               runupdate.start(QString::fromStdString("pkexec " + tmpPath + "/update.sh"));
-               runupdate.waitForFinished();
-               QString error = runupdate.readAllStandardError();
+                system(("chmod +x " + tmpPath + "/update.sh").c_str());
+                QProcess runupdate;
+                runupdate.start(QString::fromStdString("pkexec " + tmpPath + "/update.sh"));
+                runupdate.waitForFinished();
+                QString error = runupdate.readAllStandardError();
 
-               QStringList everyError = error.split("\n");
-               bool haveError = false;
-               for (int i=0; i < everyError.size(); i++) {
-                   if(everyError[i].left(2) == "E:") {
-                       haveError = true;
-                   }
-               }
+                QStringList everyError = error.split("\n");
+                bool haveError = false;
+                for (int i=0; i < everyError.size(); i++) {
+                    if(everyError[i].left(2) == "E:") {
+                        haveError = true;
+                    }
+                }
 
-               if(!haveError) {
-                   ui->label_aptserver->setText("deb [by-hash=force] " + ui->comboBox_server->currentText().toUtf8() + " /");
-               } else {
-                   ui->label_aptserver->setText(tr("Apt has reported an error. Please use apt update in terminal to locate the problem."));
-               }
-           }
-       }
+                if(!haveError) {
+                    ui->label_aptserver->setText("deb [by-hash=force] " + ui->comboBox_server->currentText().toUtf8() + " /");
+                } else {
+                    ui->label_aptserver->setText(tr("Apt has reported an error. Please use apt update in terminal to locate the problem."));
+                }
+            }
+        }
 
-       if(unknownError) {
-           ui->label_aptserver->setText(tr("Unknown error!"));
-       }
+        if(unknownError) {
+            ui->label_aptserver->setText(tr("Unknown error!"));
+        }
 
-       ui->pushButton_updateApt->setEnabled(true);
+        ui->pushButton_updateApt->setEnabled(true);
     });
 }
 
@@ -983,10 +1098,16 @@ void Widget::on_webEngineView_urlChanged(const QUrl &arg1)
         ui->pushButton_download->setEnabled(false);
         ui->stackedWidget->setCurrentIndex(2);
         qDebug()<<"https://demo-one-vert.vercel.app/"+type_name+"/"+pname;
+        /*
         load.cancel();//打开并发加载线程前关闭正在执行的线程
         load = QtConcurrent::run([=](){
             int loadresult = loadappinfo(arg1);
         });
+        */
+        appinfoLoadThread.requestInterruption();
+        appinfoLoadThread.wait(100);
+        appinfoLoadThread.setUrl(arg1);
+        appinfoLoadThread.start();
     }
 }
 
@@ -1009,7 +1130,7 @@ void Widget::on_webEngineView_loadProgress(int progress)
 void Widget::on_webEngineView_loadFinished(bool arg1)
 {
     if(arg1){
-         m_loadweb->setValue(0);
+        m_loadweb->setValue(0);
     }else {
         m_loadweb->setValue(0);
         m_loaderror->show();

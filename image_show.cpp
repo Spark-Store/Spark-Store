@@ -18,7 +18,6 @@ image_show::image_show(QWidget *parent) : QWidget(parent)
 
 void image_show::setImage(QPixmap image)
 {
-
     QImage screen0;
     screen0=image.toImage();
 //    QPainter painter(&screen0);
