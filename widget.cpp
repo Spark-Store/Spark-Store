@@ -1147,7 +1147,10 @@ void Widget::on_pushButton_translate_clicked()
     tipDialog.setMessage(tr("Currently the translation contribution is limited to English,\n"
                             "and you will be redirected to our Gitee repository at which you are\n"
                             "supposed to be creating pull requests to contribute app info\n"
-                            "translations.\n\nClick yes to continue."));
+                            "translations.\n"
+                            "Tips:You can simply click the file to edit to create a flat pull request without create a full pull request\n"
+                            "Tips:You can use github account to login to Gitee"
+                            "\nClick yes to continue."));
     if(!tipDialog.exec())
         QDesktopServices::openUrl("https://gitee.com/deepin-community-store/json/tree/master/store/" +
                                   type_name + '/' + pkgName);

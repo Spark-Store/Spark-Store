@@ -18,9 +18,8 @@
         <translation>本程序按GPL V3开源</translation>
     </message>
     <message>
-        <location filename="../main.cpp" line="17"/>
         <source>Version 2.0+2</source>
-        <translation>版本： 2.0+2</translation>
+        <translation type="vanished">版本： 2.0+2</translation>
     </message>
     <message>
         <location filename="../main.cpp" line="19"/>
@@ -259,7 +258,7 @@
     <message>
         <location filename="../widget.ui" line="874"/>
         <source>Contribute translation</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">贡献翻译</translation>
     </message>
     <message>
         <location filename="../widget.ui" line="892"/>
@@ -519,11 +518,29 @@
 and you will be redirected to our Gitee repository at which you are
 supposed to be creating pull requests to contribute app info
 translations.
-
+Tips:You can simply click the file to edit to create a flat pull request without create a full pull request
+Tips:You can use github account to login to Gitee
 Click yes to continue.</source>
         <translation type="unfinished">目前商店仅支持应用程序英文详细信息的贡献。
 在你确认后你会被导向到我们的 Gitee 页面，
 请在此创建 Pull Request 以进行翻译贡献。
+备注：你可以直接在页面编辑以快速创建轻量级pr
+你也可以使用github账户直接登陆Gitee
+
+单击“是”以继续。.</translation>
+    </message>
+    <message>
+        <source>Currently the translation contribution is limited to English,
+and you will be redirected to our Gitee repository at which you are
+supposed to be creating pull requests to contribute app info
+translations.
+
+Click yes to continue.</source>
+        <translation type="obsolete">目前商店仅支持应用程序英文详细信息的贡献。
+在你确认后你会被导向到我们的 Gitee 页面，
+请在此创建 Pull Request 以进行翻译贡献。
+备注：你可以直接在页面编辑以快速创建轻量级pr
+你也可以使用github账户直接登陆Gitee
 
 单击“是”以继续。.</translation>
     </message>

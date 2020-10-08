@@ -14,7 +14,7 @@ int main(int argc, char *argv[])
     a.loadTranslator();//载入翻译
     a.setAboutDialog(&dialog);
     dialog.setLicense(QObject::tr("We publish this program under GPL V3"));
-    dialog.setVersion(DApplication::buildVersion(QObject::tr("Version 2.0+2")));
+    dialog.setVersion(DApplication::buildVersion("Version 2.0.2.3"));
     dialog.setAcknowledgementVisible(true);
     dialog.setAcknowledgementLink(QObject::tr("https://gitee.com/deepin-community-store/spark-store"));
     a.setApplicationAcknowledgementPage(QObject::tr("https://gitee.com/deepin-community-store/spark-store"));
