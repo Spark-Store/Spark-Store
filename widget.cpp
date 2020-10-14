@@ -111,11 +111,13 @@ Widget::Widget(DBlurEffectWidget *parent) :
         }
     });
 
-
+    notify_init(tr("Spark\\ Store").toLocal8Bit());
 }
 
 Widget::~Widget()
 {
+    notify_uninit();
+
     delete ui;
     qDebug()<<"exit";
     DApplication::quit();
