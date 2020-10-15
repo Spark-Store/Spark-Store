@@ -1,3 +1,4 @@
+#include <libnotify/notify.h>
 #include "widget.h"
 #include "ui_widget.h"
 #include <QDebug>
@@ -110,11 +111,13 @@ Widget::Widget(DBlurEffectWidget *parent) :
         }
     });
 
-
+    notify_init(tr("Spark\\ Store").toLocal8Bit());
 }
 
 Widget::~Widget()
 {
+    notify_uninit();
+
     delete ui;
     qDebug()<<"exit";
     DApplication::quit();
@@ -301,20 +304,32 @@ DTitlebar* Widget::getTitlebar()
     return ui->titlebar;
 }
 
+static NotifyNotification *_notify = nullptr;
+
 void Widget::sendNotification(const QString &message, const int msTimeout, const QString &icon)
 {
-    system((QString("notify-send --icon=%1 --expire-time=%2 --app-name=").arg(icon).arg(msTimeout) +
-            tr("Spark\\ Store") +
-            " '" + message + "'"
-            ).toUtf8());
+    if(_notify == nullptr)
+    {
+        _notify = notify_notification_new(tr("Spark\\ Store").toLocal8Bit(), message.toLocal8Bit(), icon.toLocal8Bit());
+        notify_notification_set_timeout(_notify, msTimeout);
+    }
+    else
+        notify_notification_update(_notify, tr("Spark\\ Store").toLocal8Bit(), message.toLocal8Bit(), icon.toLocal8Bit());
+
+    notify_notification_show(_notify, nullptr);
 }
 
 void Widget::sendNotification(const char *message, const int msTimeout, const QString &icon)
 {
-    system((QString("notify-send --icon=%1 --expire-time=%2 --app-name=").arg(icon).arg(msTimeout) +
-            tr("Spark\\ Store") +
-            " '" + message + "'"
-            ).toUtf8());
+    if(_notify == nullptr)
+    {
+        _notify = notify_notification_new(tr("Spark\\ Store").toLocal8Bit(), message, icon.toLocal8Bit());
+        notify_notification_set_timeout(_notify, msTimeout);
+    }
+    else
+        notify_notification_update(_notify, tr("Spark\\ Store").toLocal8Bit(), message, icon.toLocal8Bit());
+
+    notify_notification_show(_notify, nullptr);
 }
 
 void Widget::updateUI()

@@ -12,7 +12,7 @@ TRANSLATIONS = ./trans/spark-store_en.ts \
                ./trans/spark-store_fr.ts\
 
 CONFIG += link_pkgconfig
-PKGCONFIG += dtkwidget
+PKGCONFIG += dtkwidget glib-2.0 gdk-pixbuf-2.0 libnotify
 
 TARGET = spark-store
 TEMPLATE = app
