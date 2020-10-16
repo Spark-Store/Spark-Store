@@ -54,7 +54,7 @@ http://dcstore.spark-app.store/
 Deepin V20/UOS 系统下, 安装依赖
 
 ```shell
-sudo apt install qt5-default libdtkcore-dev libdtkwidget-dev qtwebengine5-dev
+sudo apt install qt5-default libdtkcore-dev libdtkwidget-dev qtwebengine5-dev libnotify-dev
 ```
 
 ```shell
