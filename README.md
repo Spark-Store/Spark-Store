@@ -32,9 +32,8 @@ http://dcstore.spark-app.store/
 
 例如:
 
-[spk://abcdefg/network/firefox-zh](spk://abcdefg/network/firefox-zh)
+[spk://abcdefg/games/store.spark-app.hmcl](spk://abcdefg/games/store.spark-app.hmcl)
 
-[spk://higklmn/network/firefox-zh](spk://higklmn/network/firefox-zh)
 
 可选的web分类：
 
