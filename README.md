@@ -224,7 +224,7 @@ void SpkAppInfoLoaderThread::run()
 ```
 
 
-**应用下载**
+**应用下载**		
 Widget::on_pushButton_download_clicked() 是点击下载的安装方法。     
 最终使用的是 `QNetwrokAccessManager` 进行GET请求获取数据写入文件。             
 ```cpp
