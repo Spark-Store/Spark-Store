@@ -988,7 +988,7 @@ void Widget::on_pushButton_uninstall_clicked()
         ui->pushButton_download->setEnabled(false);
         ui->pushButton_uninstall->setEnabled(false);
         QProcess uninstall;
-        uninstall.start("pkexec apt purge -y "+pkgName);
+        uninstall.start("pkexec apt purge -y "+pkgName.toLower());
         uninstall.waitForFinished();
         ui->pushButton_download->setEnabled(true);
         ui->pushButton_download->setText("Install");
