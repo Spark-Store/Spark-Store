@@ -13,6 +13,9 @@
 #include <QFutureWatcher>
 #include <QToolButton>
 #include <QTimer>
+
+#include <QFontDatabase>
+
 #include <DSettings>
 #include <DBlurEffectWidget>
 #include <DSpinner>
@@ -104,7 +107,7 @@ public:
     QString appweb;
     bool themeIsDark;
 
-
+    QFont font;
 
 private:
     void initUI();

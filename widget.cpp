@@ -175,6 +175,13 @@ void Widget::initUI()
             [=](){QDesktopServices::openUrl(QUrl("https://upload.spark-app.store/"));});
     connect(setting,&QAction::triggered,this,&Widget::opensetting);
 
+    // 载入自定义字体
+    int loadedFontID = QFontDatabase::addApplicationFont(":/fonts/fonts/华康少女字体.ttf");
+    QStringList loadedFontFamilies = QFontDatabase::applicationFontFamilies(loadedFontID);
+    if(!loadedFontFamilies.isEmpty())
+        font = loadedFontFamilies.at(0);
+    DApplication::setFont(font);    //  测试全局字体设置效果
+
     // 初始化菜单数组
     left_list[0]=ui->menu_main;
     left_list[1]=ui->menu_network;
@@ -366,7 +373,17 @@ void Widget::updateUI()
         left_list[13]->setIcon(QIcon(":/icons/icons/downloads-symbolic.svg"));
     }
     for (int i=0;i<14;i++) {
-        left_list[i]->setFont(QFont("",11));
+        // 这里的刷新 UI 的时候字体被清空了，所以以前设置老是不生效......哪位大佬写的 BUG，记得认领一下
+        // 此处 @shenmo ，这个真不是官方的锅，RC 版本之后应该是修过系统 BUG 了......
+
+        // left_list[i]->setFont(QFont("",11));
+
+        // 设置临时字体大小并载入自定义字体
+        QFont temp = font;
+        temp.setPixelSize(15);
+
+        left_list[i]->setFont(temp);
+
         left_list[i]->setFixedHeight(38);
         if(themeIsDark){
             left_list[i]->setStyleSheet("color:#FFFFFF;border:0px");
