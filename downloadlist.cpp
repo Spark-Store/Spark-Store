@@ -122,7 +122,7 @@ void downloadlist::install(int t)
         ui->pushButton_install->hide();
         ui->widget_spinner->show();
         qDebug()<<"/tmp/spark-store/"+ui->label_filename->text().toUtf8();
-        ui->label_2->setText(tr("Installing..."));
+        ui->label_2->setText(tr("Installing"));
         QtConcurrent::run([=](){
             QProcess installer;
             if(!reinstall){

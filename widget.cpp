@@ -180,7 +180,9 @@ void Widget::initUI()
     QStringList loadedFontFamilies = QFontDatabase::applicationFontFamilies(loadedFontID);
     if(!loadedFontFamilies.isEmpty())
         font = loadedFontFamilies.at(0);
-    DApplication::setFont(font);    //  测试全局字体设置效果
+    /* 全局字体设置
+     * DApplication::setFont(font);
+     */
 
     // 初始化菜单数组
     left_list[0]=ui->menu_main;
@@ -373,26 +375,32 @@ void Widget::updateUI()
         left_list[13]->setIcon(QIcon(":/icons/icons/downloads-symbolic.svg"));
     }
     for (int i=0;i<14;i++) {
-        // 这里的刷新 UI 的时候字体被清空了，所以以前设置老是不生效......哪位大佬写的 BUG，记得认领一下
-        // 此处 @shenmo ，这个真不是官方的锅，RC 版本之后应该是修过系统 BUG 了......
 
-        // left_list[i]->setFont(QFont("",11));
-
-        // 设置临时字体大小并载入自定义字体
-        QFont temp = font;
-        temp.setPixelSize(15);
-
-        left_list[i]->setFont(temp);
+        /* 设置左侧菜单字体
+         * QFont temp = font;
+         * temp.setPixelSize(15);
+         * left_list[i]->setFont(temp);
+         */
 
         left_list[i]->setFixedHeight(38);
         if(themeIsDark){
-            left_list[i]->setStyleSheet("color:#FFFFFF;border:0px");
+            // 中文环境菜单文字居中，其他则左对齐
+            if(QLocale::system().name() == "zh_CN")
+                left_list[i]->setStyleSheet("color:#FFFFFF;border:0px;");
+            else
+                left_list[i]->setStyleSheet("color:#FFFFFF;border:0px;text-align:left;padding-left:15px;");
         }else {
-            left_list[i]->setStyleSheet("color:#252525;border:0px");
+            if(QLocale::system().name() == "zh_CN")
+                left_list[i]->setStyleSheet("color:#252525;border:0px;");
+            else
+                left_list[i]->setStyleSheet("color:#252525;border:0px;text-align:left;padding-left:15px;");
         }
     }
 
-    left_list[nowMenu]->setStyleSheet("color:#FFFFFF;background-color:"+main_color.name()+";border-radius:8;border:0px");
+    if(QLocale::system().name() == "zh_CN")
+        left_list[nowMenu]->setStyleSheet("color:#FFFFFF;background-color:"+main_color.name()+";border-radius:8;border:0px;");
+    else
+        left_list[nowMenu]->setStyleSheet("color:#FFFFFF;background-color:"+main_color.name()+";border-radius:8;border:0px;text-align:left;padding-left:15px;");
     switch (nowMenu) {
     case 0:
         left_list[0]->setIcon(QIcon(":/icons/icons/homepage_dark.svg"));
@@ -445,7 +453,10 @@ void Widget::chooseLeftMenu(int index)
     nowMenu=index;
 
     updateUI();
-    left_list[index]->setStyleSheet("color:#FFFFFF;background-color:"+main_color.name()+";border-radius:8;border:0px");
+    if(QLocale::system().name() == "zh_CN")
+        left_list[index]->setStyleSheet("color:#FFFFFF;background-color:"+main_color.name()+";border-radius:8;border:0px;");
+    else
+        left_list[index]->setStyleSheet("color:#FFFFFF;background-color:"+main_color.name()+";border-radius:8;border:0px;text-align:left;padding-left:15px;");
     if(index<=12){
         if(themeIsDark){
             QString darkurl=menuUrl[index].toString();

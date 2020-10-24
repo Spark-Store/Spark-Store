@@ -105,7 +105,7 @@ Nous sommes nés pour le changement.</translation>
     <message>
         <location filename="../widget.ui" line="242"/>
         <source>网络应用</source>
-        <translation type="unfinished">Réseau</translation>
+        <translation>Réseau</translation>
     </message>
     <message>
         <location filename="../widget.ui" line="313"/>
@@ -172,17 +172,17 @@ Nous sommes nés pour le changement.</translation>
     <message>
         <location filename="../widget.ui" line="808"/>
         <source>详细介绍</source>
-        <translation type="unfinished">Détails</translation>
+        <translation>Détails</translation>
     </message>
     <message>
         <location filename="../widget.ui" line="815"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;由社区爱好者开发的软件商店&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;magasin de logiciels développé par des passionnés de la communauté&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;magasin de logiciels développé par des passionnés de la communauté&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../widget.ui" line="854"/>
         <source>软件截图</source>
-        <translation>Captures d'écran</translation>
+        <translation>Captures d&apos;écran</translation>
     </message>
     <message>
         <location filename="../widget.ui" line="1017"/>
@@ -192,7 +192,7 @@ Nous sommes nés pour le changement.</translation>
     <message>
         <location filename="../widget.ui" line="1033"/>
         <source>线路选择：</source>
-        <translation type="unfinished">Choisissez</translation>
+        <translation>Choisissez: </translation>
     </message>
     <message>
         <location filename="../widget.ui" line="1056"/>
@@ -207,7 +207,7 @@ Nous sommes nés pour le changement.</translation>
     <message>
         <location filename="../widget.ui" line="1098"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;源服务器的作用是保证软件更新，并且支持使用apt工具获取软件。通常我们更建议你使用第一个线路作为更新源，一般是最稳定的。&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Le rôle du serveur source est de s'assurer que le logiciel est mis à jour et prend en charge l'utilisation de l'outil apt pour obtenir le logiciel. Nous préférons généralement que vous utilisiez la première ligne comme source de mise à jour, qui est généralement la plus stable. &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Le rôle du serveur source est de s&apos;assurer que le logiciel est mis à jour et prend en charge l&apos;utilisation de l&apos;outil apt pour obtenir le logiciel. Nous préférons généralement que vous utilisiez la première ligne comme source de mise à jour, qui est généralement la plus stable. &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../widget.ui" line="1108"/>
@@ -217,12 +217,12 @@ Nous sommes nés pour le changement.</translation>
     <message>
         <location filename="../widget.ui" line="1115"/>
         <source>更新源服务器：</source>
-        <translation type="unfinished">Source APT</translation>
+        <translation>Source APT: </translation>
     </message>
     <message>
         <location filename="../widget.ui" line="1135"/>
         <source>服务器</source>
-        <translation type="unfinished">serveur</translation>
+        <translation>serveur</translation>
     </message>
     <message>
         <location filename="../widget.ui" line="1156"/>
@@ -237,12 +237,12 @@ Nous sommes nés pour le changement.</translation>
     <message>
         <location filename="../widget.ui" line="1189"/>
         <source>因为这个目录位于/tmp下，所以即使你不手动清空的话，其也将在系统重启时自动清空。</source>
-        <translation>Étant donné que ce répertoire se trouve sous /tmp, même si vous ne l'effacez pas manuellement, il sera effacé automatiquement au redémarrage du système.</translation>
+        <translation>Étant donné que ce répertoire se trouve sous /tmp, même si vous ne l&apos;effacez pas manuellement, il sera effacé automatiquement au redémarrage du système.</translation>
     </message>
     <message>
         <location filename="../widget.ui" line="1202"/>
         <source>目录大小：</source>
-        <translation type="unfinished">Taille: </translation>
+        <translation>Taille: </translation>
     </message>
     <message>
         <location filename="../widget.ui" line="1209"/>
@@ -252,17 +252,17 @@ Nous sommes nés pour le changement.</translation>
     <message>
         <location filename="../widget.ui" line="1216"/>
         <source>目录位置：/tmp/spark-store</source>
-        <translation type="unfinished">Emplacement:/tmp/spark-store</translation>
+        <translation>Emplacement:/tmp/spark-store</translation>
     </message>
     <message>
         <location filename="../widget.ui" line="1237"/>
         <source>关于我们</source>
-        <translation type="unfinished">À propos de nous</translation>
+        <translation>À propos de nous</translation>
     </message>
     <message>
         <location filename="../widget.ui" line="1244"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;我们并不是官方团队，和你一样，我们也只是众多Linux/deepin系统爱好者和用户之中的一员，我们开发并且运营这个“Spark应用商店”，是为了让社区的朋友们一起分享好用的软件，或者一起参与开发，让大家都用到最新的，最优秀的软件。&lt;/p&gt;&lt;p&gt;我们并没有因此盈利，所有开发和维护人员都不会获得报酬，我们的主要支出大部分依赖于社区对我们的捐助，很感谢大家，这部分捐助让我们并不需要耗费太多精力去担心资金问题。&lt;/p&gt;&lt;p&gt;我们的服务和开发的软件都是免费供给大家使用，交流，学习的，但是在您的使用过程中一定要遵守当地的法律法规，否则出现任何问题和我们无关。&lt;/p&gt;&lt;p&gt;如果商店中任何一部分有侵犯您权益的行为，请告知我们&amp;lt;jifengshenmo@outlook.com&amp;gt;，我们会第一时间删除侵权内容。&lt;/p&gt;&lt;p&gt;如果你也想参与我们，不管是参与开发，设计，投递还是投稿作品，我们都欢迎你的加入。&lt;/p&gt;&lt;p&gt;QQ群：872690351&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Nous ne sommes pas l'équipe officielle, tout comme vous, nous ne sommes qu'un des nombreux passionnés et utilisateurs de systèmes Linux / deepin, nous développons et gérons le "Spark Store"! ", est de rassembler la communauté pour partager des logiciels utiles, ou pour participer au développement ensemble, afin que nous utilisions tous les derniers et meilleurs logiciels. &lt;/p&gt;&lt;p&gt; Nous n'en tirons aucun profit, tous les développeurs et mainteneurs ne sont pas payés, et nous comptons sur les dons de la communauté pour la plupart de nos dépenses, dont nous sommes reconnaissants et qui nous permettent de ne pas dépenser trop d'énergie se soucier du financement. &lt;/p&gt;&lt;p&gt;Notre service et nos logiciels sont gratuits pour tout le monde à utiliser, à communiquer et à apprendre, mais vous devez vous conformer aux lois et réglementations locales dans le processus de votre utilisation, sinon tout problème n'a rien à voir avec nous. &lt;/p&gt;&lt;p&gt;Si une partie du magasin enfreint vos droits, veuillez nous en informer &amp;lt;jifengshenmo@outlook.com&amp;gt; nous retirerons le contenu en infraction dès que possible. &lt;/p&gt;&lt;p&gt;Si vous souhaitez également vous impliquer avec nous, que vous soyez impliqué dans le développement, la conception, le pitching ou la soumission de travaux, nous vous invitons à nous rejoindre. &lt;/p&gt;&lt;p&gt;QQ group:872690351&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Nous ne sommes pas l&apos;équipe officielle, tout comme vous, nous ne sommes qu&apos;un des nombreux passionnés et utilisateurs de systèmes Linux / deepin, nous développons et gérons le &quot;Spark Store&quot;! &quot;, est de rassembler la communauté pour partager des logiciels utiles, ou pour participer au développement ensemble, afin que nous utilisions tous les derniers et meilleurs logiciels. &lt;/p&gt;&lt;p&gt; Nous n&apos;en tirons aucun profit, tous les développeurs et mainteneurs ne sont pas payés, et nous comptons sur les dons de la communauté pour la plupart de nos dépenses, dont nous sommes reconnaissants et qui nous permettent de ne pas dépenser trop d&apos;énergie se soucier du financement. &lt;/p&gt;&lt;p&gt;Notre service et nos logiciels sont gratuits pour tout le monde à utiliser, à communiquer et à apprendre, mais vous devez vous conformer aux lois et réglementations locales dans le processus de votre utilisation, sinon tout problème n&apos;a rien à voir avec nous. &lt;/p&gt;&lt;p&gt;Si une partie du magasin enfreint vos droits, veuillez nous en informer &amp;lt;jifengshenmo@outlook.com&amp;gt; nous retirerons le contenu en infraction dès que possible. &lt;/p&gt;&lt;p&gt;Si vous souhaitez également vous impliquer avec nous, que vous soyez impliqué dans le développement, la conception, le pitching ou la soumission de travaux, nous vous invitons à nous rejoindre. &lt;/p&gt;&lt;p&gt;QQ group:872690351&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
 </context>
 <context>

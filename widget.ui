@@ -64,14 +64,14 @@
       <item row="6" column="0" colspan="6">
        <widget class="QPushButton" name="menu_video">
         <property name="text">
-         <string>Videos</string>
+         <string>Video</string>
         </property>
        </widget>
       </item>
       <item row="16" column="0" colspan="6">
        <widget class="QPushButton" name="menu_download">
         <property name="text">
-         <string>Download List</string>
+         <string>Download</string>
         </property>
        </widget>
       </item>
@@ -197,7 +197,7 @@
       <item row="10" column="0" colspan="6">
        <widget class="QPushButton" name="menu_read">
         <property name="text">
-         <string>Translate</string>
+         <string>Reading</string>
         </property>
        </widget>
       </item>
@@ -214,7 +214,7 @@
          <string notr="true"/>
         </property>
         <property name="text">
-         <string>Home  </string>
+         <string>Home</string>
         </property>
         <property name="flat">
          <bool>false</bool>
@@ -238,7 +238,7 @@
       <item row="4" column="0" colspan="6">
        <widget class="QPushButton" name="menu_chat">
         <property name="text">
-         <string>Communication</string>
+         <string>Chat</string>
         </property>
        </widget>
       </item>
@@ -313,7 +313,7 @@
       <number>0</number>
      </property>
      <property name="currentIndex">
-      <number>2</number>
+      <number>3</number>
      </property>
      <widget class="QWidget" name="page">
       <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -457,7 +457,7 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>903</width>
+            <width>889</width>
             <height>849</height>
            </rect>
           </property>
@@ -952,8 +952,8 @@
                   <rect>
                    <x>0</x>
                    <y>0</y>
-                   <width>869</width>
-                   <height>325</height>
+                   <width>851</width>
+                   <height>326</height>
                   </rect>
                  </property>
                  <layout class="QHBoxLayout" name="horizontalLayout_4">
@@ -1082,8 +1082,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>738</width>
-            <height>896</height>
+            <width>889</width>
+            <height>812</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_23">
@@ -1150,7 +1150,7 @@
                     </size>
                    </property>
                    <property name="text">
-                    <string>Take effect when restart </string>
+                    <string>Take effect when restart</string>
                    </property>
                   </widget>
                  </item>

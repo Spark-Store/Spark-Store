@@ -13,13 +13,13 @@ int main(int argc, char *argv[])
     a.loadTranslator();//载入翻译
 
     a.setOrganizationName("spark-union");
-    a.setApplicationVersion(DApplication::buildVersion("2.0.2.4"));
+    a.setApplicationVersion(DApplication::buildVersion("2.0.2.5"));
     a.setApplicationAcknowledgementPage("https://gitee.com/deepin-community-store/spark-store");
     a.setProductIcon(QIcon::fromTheme("spark-store"));  //设置Logo
 
     a.setProductName(QLabel::tr("Spark Store"));
     a.setApplicationDescription(QObject::tr("<span style=' font-size:10pt;font-weight:60;'>An appstore powered by deepin community</span><br/>""<a href='https://www.spark-app.store/'>https://www.spark-app.store</a><br/>""<span style=' font-size:12pt;'>Spark developers</span><br/>We publish this program under GPL V3"));
-    a.setApplicationName("Spark应用商店"); //只有在这儿修改窗口标题才有效
+    a.setApplicationName(QLabel::tr("Spark Store")); //只有在这儿修改窗口标题才有效
     Widget w;
     QDesktopWidget *s=DApplication::desktop();
 /*
