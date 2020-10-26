@@ -7,11 +7,8 @@
 QT       += core gui network concurrent webenginewidgets
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
-TRANSLATIONS = ./trans/spark-store_en.ts \
-               ./trans/spark-store_zh_CN.ts
-               ./trans/spark-store_fr.ts\
 
-CONFIG += link_pkgconfig
+CONFIG += c++11 link_pkgconfig
 PKGCONFIG += dtkwidget glib-2.0 gdk-pixbuf-2.0 libnotify
 
 TARGET = spark-store
@@ -28,7 +25,6 @@ DEFINES += QT_DEPRECATED_WARNINGS
 # You can also select to disable deprecated APIs only up to a certain version of Qt.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
-
 SOURCES += main.cpp\
     widget.cpp \
     downloadlist.cpp \
@@ -44,10 +40,6 @@ HEADERS  += \
     big_image.h \
     progressload.h \
     workerthreads.h
-
-
-
-CONFIG += c++11
 
 FORMS += \
     widget.ui \
@@ -70,3 +62,7 @@ DISTFILES += \
     tags/deepin.svg \
     tags/logo_icon.svg \
     tags/uos.svg
+
+TRANSLATIONS = ./trans/spark-store_en.ts \
+               ./trans/spark-store_zh_CN.ts
+               ./trans/spark-store_fr.ts\

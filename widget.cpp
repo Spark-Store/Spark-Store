@@ -73,7 +73,6 @@ Widget::Widget(DBlurEffectWidget *parent) :
             searchApp(searchtext);
         }
         searchEdit->clearEdit();
-
     });
 
     connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged, this, [=](DGuiApplicationHelper::ColorType themeType) {
@@ -138,7 +137,6 @@ void Widget::initUI()
 
     label_screen << ui->screen_0 << ui->screen_1 << ui->screen_2 << ui->screen_3 << ui->screen_4;
 
-
     // 初始化分界线
     QGraphicsOpacityEffect *opacityEffect_1=new QGraphicsOpacityEffect;
     opacityEffect_1->setOpacity(0.1);
@@ -171,9 +169,10 @@ void Widget::initUI()
     menu->addAction(setting);
     menu->addAction(actionSubmission);
     titlebar->setMenu(menu);
-    connect(actionSubmission, &QAction::triggered, this,
-            [=](){QDesktopServices::openUrl(QUrl("https://upload.spark-app.store/"));});
-    connect(setting,&QAction::triggered,this,&Widget::opensetting);
+    connect(actionSubmission, &QAction::triggered, this, [ = ] () {
+        QDesktopServices::openUrl(QUrl("https://upload.spark-app.store/"));
+    });
+    connect(setting, &QAction::triggered, this, &Widget::opensetting);
 
     // 载入自定义字体
     int loadedFontID = QFontDatabase::addApplicationFont(":/fonts/fonts/华康少女字体.ttf");
@@ -200,9 +199,7 @@ void Widget::initUI()
     left_list[12]=ui->menu_other;
     left_list[13]=ui->menu_download;
 
-
     ui->label_show->hide();
-
 }
 
 void Widget::initConfig()
@@ -283,7 +280,7 @@ void Widget::setTheme(bool isDark,QColor color)
         ui->btn_openDir->setStyleSheet("color:#8B91A1;background-color:#2E2F30;border:0px");
         ui->webfoot->setStyleSheet("background-color:#252525");
         ui->label->setStyleSheet("background-color:#252525");
-        //        ui->scrollArea->setStyleSheet("background-color:#252525");
+        // ui->scrollArea->setStyleSheet("background-color:#252525");
         ui->label_show->setStyleSheet("background-color:#252525");
         ui->pushButton_return->setIcon(QIcon(":/icons/icons/category_active_dark.svg"));
         ui->pushButton_refresh->setIcon(QIcon(":/icons/icons/refresh-page-dark.svg"));
@@ -294,7 +291,7 @@ void Widget::setTheme(bool isDark,QColor color)
         ui->webfoot->setStyleSheet("background-color:#FFFFFF");
         ui->btn_openDir->setStyleSheet("color:#505050;background-color:#FBFBFB;border:0px");
         ui->label->setStyleSheet("background-color:#FFFFFF");
-        //        ui->scrollArea->setStyleSheet("background-color:#F8F8F8");
+        // ui->scrollArea->setStyleSheet("background-color:#F8F8F8");
         ui->label_show->setStyleSheet("background-color:#F8F8F8");
         ui->pushButton_return->setIcon(QIcon(":/icons/icons/category_active.svg"));
         ui->pushButton_refresh->setIcon(QIcon(":/icons/icons/refresh-page.svg"));

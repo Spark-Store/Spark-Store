@@ -4,8 +4,8 @@
 <context>
     <name>QLabel</name>
     <message>
-        <location filename="../main.cpp" line="20"/>
-        <location filename="../main.cpp" line="22"/>
+        <location filename="../main.cpp" line="21"/>
+        <location filename="../main.cpp" line="28"/>
         <source>Spark Store</source>
         <translation>Spark 应用商店</translation>
     </message>
@@ -13,25 +13,27 @@
 <context>
     <name>QObject</name>
     <message>
+        <location filename="../main.cpp" line="18"/>
         <source>We publish this program under GPL V3</source>
-        <translation type="vanished">本程序按GPL V3开源</translation>
+        <translation>本程序按GPL V3开源</translation>
     </message>
     <message>
         <source>Version 2.0+2</source>
         <translation type="vanished">版本： 2.0+2</translation>
     </message>
     <message>
+        <location filename="../main.cpp" line="22"/>
         <source>&lt;span style=&apos; font-size:10pt;font-weight:60;&apos;&gt;An appstore powered by deepin community&lt;/span&gt;&lt;br/&gt;&lt;a href=&apos;https://www.spark-app.store/&apos;&gt;https://www.spark-app.store&lt;/a&gt;&lt;br/&gt;&lt;span style=&apos; font-size:12pt;&apos;&gt;Spark developers&lt;/span&gt;</source>
-        <translation type="vanished">&lt;span style=&apos; font-size:10pt;font-weight:60;&apos;&gt;deepin 社区驱动的一款第三方应用商店&lt;/span&gt;&lt;br/&gt;&lt;a href=&apos;https://www.spark-app.store/&apos;&gt;https://www.spark-app.store&lt;/a&gt;&lt;br/&gt;&lt;span style=&apos; font-size:12pt;&apos;&gt;Spark developers&lt;/span&gt;</translation>
+        <translation>&lt;span style=&apos; font-size:10pt;font-weight:60;&apos;&gt;deepin 社区驱动的一款第三方应用商店&lt;/span&gt;&lt;br/&gt;&lt;a href=&apos;https://www.spark-app.store/&apos;&gt;https://www.spark-app.store&lt;/a&gt;&lt;br/&gt;&lt;span style=&apos; font-size:12pt;&apos;&gt;Spark developers&lt;/span&gt;</translation>
     </message>
     <message>
+        <location filename="../main.cpp" line="30"/>
         <source>The Spark Project</source>
-        <translation type="vanished">星火项目组</translation>
+        <translation>星火项目组</translation>
     </message>
     <message>
-        <location filename="../main.cpp" line="21"/>
         <source>&lt;span style=&apos; font-size:10pt;font-weight:60;&apos;&gt;An appstore powered by deepin community&lt;/span&gt;&lt;br/&gt;&lt;a href=&apos;https://www.spark-app.store/&apos;&gt;https://www.spark-app.store&lt;/a&gt;&lt;br/&gt;&lt;span style=&apos; font-size:12pt;&apos;&gt;Spark developers&lt;/span&gt;&lt;br/&gt;We publish this program under GPL V3</source>
-        <translation>&lt;span style=&apos; font-size:10pt;font-weight:60;&apos;&gt;一款由 深度社区 出品的应用商店&lt;/span&gt;&lt;br/&gt;&quot;&quot;&lt;a href=&apos;https://www.spark-app.store/&apos;&gt;https://www.spark-app.store&lt;/a&gt;&lt;br/&gt;&quot;&quot;&lt;span style=&apos; font-size:12pt;&apos;&gt;星火开发者联盟&lt;/span&gt;&lt;br/&gt;本程序遵循 GPL V3 协议发布</translation>
+        <translation type="vanished">&lt;span style=&apos; font-size:10pt;font-weight:60;&apos;&gt;一款由 深度社区 出品的应用商店&lt;/span&gt;&lt;br/&gt;&quot;&quot;&lt;a href=&apos;https://www.spark-app.store/&apos;&gt;https://www.spark-app.store&lt;/a&gt;&lt;br/&gt;&quot;&quot;&lt;span style=&apos; font-size:12pt;&apos;&gt;星火开发者联盟&lt;/span&gt;&lt;br/&gt;本程序遵循 GPL V3 协议发布</translation>
     </message>
 </context>
 <context>
@@ -179,8 +181,8 @@
     </message>
     <message>
         <location filename="../widget.ui" line="515"/>
-        <location filename="../widget.cpp" line="589"/>
-        <location filename="../widget.cpp" line="811"/>
+        <location filename="../widget.cpp" line="586"/>
+        <location filename="../widget.cpp" line="808"/>
         <source>Install</source>
         <translation>安装</translation>
     </message>
@@ -460,133 +462,133 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widget.cpp" line="159"/>
+        <location filename="../widget.cpp" line="157"/>
         <source>Spark Store</source>
         <translation>Spark 应用商店</translation>
     </message>
     <message>
-        <location filename="../widget.cpp" line="160"/>
+        <location filename="../widget.cpp" line="158"/>
         <source>Search or enter spk://</source>
         <translation>搜索或打开链接</translation>
     </message>
     <message>
-        <location filename="../widget.cpp" line="166"/>
+        <location filename="../widget.cpp" line="164"/>
         <source>Submit App</source>
         <translation>投递应用</translation>
     </message>
     <message>
-        <location filename="../widget.cpp" line="167"/>
+        <location filename="../widget.cpp" line="165"/>
         <source>Settings</source>
         <translation>设置</translation>
     </message>
     <message>
-        <location filename="../widget.cpp" line="267"/>
+        <location filename="../widget.cpp" line="264"/>
         <source>Not Exist</source>
         <translation>不存在</translation>
     </message>
     <message>
-        <location filename="../widget.cpp" line="114"/>
-        <location filename="../widget.cpp" line="322"/>
-        <location filename="../widget.cpp" line="326"/>
-        <location filename="../widget.cpp" line="335"/>
-        <location filename="../widget.cpp" line="339"/>
+        <location filename="../widget.cpp" line="113"/>
+        <location filename="../widget.cpp" line="319"/>
+        <location filename="../widget.cpp" line="323"/>
+        <location filename="../widget.cpp" line="332"/>
+        <location filename="../widget.cpp" line="336"/>
         <source>Spark\ Store</source>
         <translation>星火应用商店</translation>
     </message>
     <message>
-        <location filename="../widget.cpp" line="533"/>
+        <location filename="../widget.cpp" line="530"/>
         <source>Failed to download app info. Please check internet connection.</source>
         <translation>下载应用程序详细信息失败，请检查网络连接。</translation>
     </message>
     <message>
-        <location filename="../widget.cpp" line="563"/>
+        <location filename="../widget.cpp" line="560"/>
         <source>PkgName: </source>
         <translation>包名： </translation>
     </message>
     <message>
-        <location filename="../widget.cpp" line="564"/>
+        <location filename="../widget.cpp" line="561"/>
         <source>Version: </source>
         <translation>版本： </translation>
     </message>
     <message>
-        <location filename="../widget.cpp" line="566"/>
+        <location filename="../widget.cpp" line="563"/>
         <source>Author: </source>
         <translation>作者： </translation>
     </message>
     <message>
-        <location filename="../widget.cpp" line="570"/>
+        <location filename="../widget.cpp" line="567"/>
         <source>Official Site: </source>
         <translation>官网： </translation>
     </message>
     <message>
-        <location filename="../widget.cpp" line="574"/>
+        <location filename="../widget.cpp" line="571"/>
         <source>Contributor: </source>
         <translation>投稿者： </translation>
     </message>
     <message>
-        <location filename="../widget.cpp" line="575"/>
+        <location filename="../widget.cpp" line="572"/>
         <source>Update Time: </source>
         <translation>更新时间： </translation>
     </message>
     <message>
-        <location filename="../widget.cpp" line="576"/>
+        <location filename="../widget.cpp" line="573"/>
         <source>Installed Size: </source>
         <translation>大小： </translation>
     </message>
     <message>
-        <location filename="../widget.cpp" line="585"/>
-        <location filename="../widget.cpp" line="696"/>
-        <location filename="../widget.cpp" line="808"/>
+        <location filename="../widget.cpp" line="582"/>
+        <location filename="../widget.cpp" line="693"/>
+        <location filename="../widget.cpp" line="805"/>
         <source>Reinstall</source>
         <translation>重新安装</translation>
     </message>
     <message>
-        <location filename="../widget.cpp" line="624"/>
+        <location filename="../widget.cpp" line="621"/>
         <source>Failed to load application icon.</source>
         <translation>加载应用程序图标失败。</translation>
     </message>
     <message>
-        <location filename="../widget.cpp" line="671"/>
+        <location filename="../widget.cpp" line="668"/>
         <source>Failed to get the name to the file to be downloaded.</source>
         <translation>获取安装包文件名失败。</translation>
     </message>
     <message>
-        <location filename="../widget.cpp" line="719"/>
+        <location filename="../widget.cpp" line="716"/>
         <source>Spark store could only process spk:// links for now. The search feature is coming soon!</source>
         <translation>目前仅支持商店专用链接的打开，搜索功能正在开发，请期待以后的版本！</translation>
     </message>
     <message>
-        <location filename="../widget.cpp" line="947"/>
+        <location filename="../widget.cpp" line="944"/>
         <source>Updating, please wait...</source>
         <translation>正在更新，请稍候……</translation>
     </message>
     <message>
-        <location filename="../widget.cpp" line="1000"/>
+        <location filename="../widget.cpp" line="997"/>
         <source>Apt has reported an error. Please use apt update in terminal to locate the problem.</source>
         <translation>更新中发生错误，请在终端使用apt update来查看错误原因。</translation>
     </message>
     <message>
-        <location filename="../widget.cpp" line="1006"/>
+        <location filename="../widget.cpp" line="1003"/>
         <source>Unknown error!</source>
         <translation>未知错误！</translation>
     </message>
     <message>
-        <location filename="../widget.cpp" line="1188"/>
+        <location filename="../widget.cpp" line="1185"/>
         <source>Yes</source>
         <translation>是</translation>
     </message>
     <message>
-        <location filename="../widget.cpp" line="1188"/>
+        <location filename="../widget.cpp" line="1185"/>
         <source>No</source>
         <translation>否</translation>
     </message>
     <message>
-        <location filename="../widget.cpp" line="1189"/>
+        <location filename="../widget.cpp" line="1186"/>
         <source>Information for Contributors</source>
         <translation>贡献者须知</translation>
     </message>
     <message>
-        <location filename="../widget.cpp" line="1190"/>
+        <location filename="../widget.cpp" line="1187"/>
         <source>Currently the translation contribution is limited to English,
 and you will be redirected to our Gitee repository at which you are
 supposed to be creating pull requests to contribute app info
@@ -622,17 +624,17 @@ Click yes to continue.</source>
         <translation type="vanished">服务器未知错误</translation>
     </message>
     <message>
-        <location filename="../widget.cpp" line="1026"/>
+        <location filename="../widget.cpp" line="1023"/>
         <source>Uninstall succeeded</source>
         <translation>卸载成功</translation>
     </message>
     <message>
-        <location filename="../widget.cpp" line="1040"/>
+        <location filename="../widget.cpp" line="1037"/>
         <source>Temporary cache was cleaned</source>
         <translation>缓存目录已清空</translation>
     </message>
     <message>
-        <location filename="../widget.cpp" line="1107"/>
+        <location filename="../widget.cpp" line="1104"/>
         <source>The URL has been copied to the clipboard</source>
         <translation>链接已复制到剪贴板</translation>
     </message>

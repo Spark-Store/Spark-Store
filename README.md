@@ -7,7 +7,7 @@
 
 我们创建了这个应用商店，广泛收录大家需要的软件包，搜集优质小工具，主动适配wine应用，存放到储存库供大家获取
 
-我们支持：deepin 20 ; ubuntu 20.04LTS ;UOS Home 20
+我们支持：Deepin 20 ; Ubuntu 20.04 LTS ; UOS Home 20
 
 希望看到这里的人也可以加入我们的队伍，开发或者投递应用都很欢迎，共同构建Linux应用生态
 
@@ -43,13 +43,13 @@ http://dcstore.spark-app.store/
 | 社交沟通 | chat           |
 | 音乐欣赏 | music          |
 | 视频播放 | video          |
-| 图形图像 | image_graphics |
+| 图形图像 | graphics       |
 | 游戏娱乐 | games          |
 | 办公学习 | office         |
 | 阅读翻译 | reading        |
 | 编程开发 | development    |
 | 系统工具 | tools          |
-| 主题美化 | themes         |
+| 主题美化 | beautify       |
 | 其他应用 | others         |
 
 
@@ -360,7 +360,3 @@ void Widget::sendNotification(const QString &message, const int msTimeout, const
     notify_notification_show(_notify, nullptr);
 }
 ```
-
-
-
-
