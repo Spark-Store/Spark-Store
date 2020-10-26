@@ -3,32 +3,21 @@
 #include <QDesktopWidget>
 #include <widget.h>
 #include <QTranslator>
+#include <DAboutDialog>
 DWIDGET_USE_NAMESPACE
 int main(int argc, char *argv[])
 {
     DApplication::loadDXcbPlugin();  //让bar处在标题栏中
     DApplication a(argc, argv);
-    //DAboutDialog dialog;
+    DAboutDialog dialog;
     a.setAttribute(Qt::AA_UseHighDpiPixmaps);
     a.loadTranslator();//载入翻译
-
-    a.setOrganizationName("spark-union");
-    a.setApplicationVersion(DApplication::buildVersion("2.0.2.4"));
-    a.setApplicationAcknowledgementPage("https://gitee.com/deepin-community-store/spark-store");
-    a.setProductIcon(QIcon::fromTheme("spark-store"));  //设置Logo
-
-    a.setProductName(QLabel::tr("Spark Store"));
-    a.setApplicationDescription(QObject::tr("<span style=' font-size:10pt;font-weight:60;'>An appstore powered by deepin community</span><br/>""<a href='https://www.spark-app.store/'>https://www.spark-app.store</a><br/>""<span style=' font-size:12pt;'>Spark developers</span><br/>We publish this program under GPL V3"));
-    a.setApplicationName("Spark应用商店"); //只有在这儿修改窗口标题才有效
-    Widget w;
-    QDesktopWidget *s=DApplication::desktop();
-/*
-	a.setAboutDialog(&dialog);
+    a.setAboutDialog(&dialog);
     dialog.setLicense(QObject::tr("We publish this program under GPL V3"));
-    dialog.setVersion(DApplication::buildVersion("Version 2.0.2.3"));
+    dialog.setVersion(DApplication::buildVersion("Version 2.0.2.5"));
     dialog.setAcknowledgementVisible(true);
     dialog.setAcknowledgementLink(QObject::tr("https://gitee.com/deepin-community-store/spark-store"));
-    //a.setApplicationAcknowledgementPage(QObject::tr("https://gitee.com/deepin-community-store/spark-store"));
+    a.setApplicationAcknowledgementPage(QObject::tr("https://gitee.com/deepin-community-store/spark-store"));
     dialog.setProductIcon(QIcon::fromTheme("spark-store"));  //设置Logo
     dialog.setProductName(QLabel::tr("Spark Store"));
     //dialog.setDescription(QLabel::tr("An appstore powered by deepin community\n We born for change"));
@@ -45,8 +34,7 @@ int main(int argc, char *argv[])
 
     Widget w;
     QDesktopWidget *s=DApplication::desktop();
-  */
-	int d_w=s->width();
+    int d_w=s->width();
     int d_h=s->height();
     if(d_w<=1366){
         w.setMinimumWidth(925);
@@ -80,3 +68,4 @@ int main(int argc, char *argv[])
 
     return a.exec();
 }
+

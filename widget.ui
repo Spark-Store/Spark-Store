@@ -211,7 +211,7 @@
       <item row="2" column="0" colspan="6">
        <widget class="QPushButton" name="menu_main">
         <property name="styleSheet">
-         <string notr="true"/>
+         <string notr="true">font: 11pt &quot;Zeniq&quot;;</string>
         </property>
         <property name="text">
          <string>Home  </string>
