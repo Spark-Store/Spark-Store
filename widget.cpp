@@ -175,6 +175,15 @@ void Widget::initUI()
             [=](){QDesktopServices::openUrl(QUrl("https://upload.spark-app.store/"));});
     connect(setting,&QAction::triggered,this,&Widget::opensetting);
 
+    // 载入自定义字体
+    int loadedFontID = QFontDatabase::addApplicationFont(":/fonts/fonts/华康少女字体.ttf");
+    QStringList loadedFontFamilies = QFontDatabase::applicationFontFamilies(loadedFontID);
+    if(!loadedFontFamilies.isEmpty())
+        font = loadedFontFamilies.at(0);
+    /* 全局字体设置
+     * DApplication::setFont(font);
+     */
+
     // 初始化菜单数组
     left_list[0]=ui->menu_main;
     left_list[1]=ui->menu_network;
@@ -366,16 +375,32 @@ void Widget::updateUI()
         left_list[13]->setIcon(QIcon(":/icons/icons/downloads-symbolic.svg"));
     }
     for (int i=0;i<14;i++) {
-        left_list[i]->setFont(QFont("",11));
+
+        /* 设置左侧菜单字体
+         * QFont temp = font;
+         * temp.setPixelSize(15);
+         * left_list[i]->setFont(temp);
+         */
+
         left_list[i]->setFixedHeight(38);
         if(themeIsDark){
-            left_list[i]->setStyleSheet("color:#FFFFFF;border:0px");
+            // 中文环境菜单文字居中，其他则左对齐
+            if(QLocale::system().name() == "zh_CN")
+                left_list[i]->setStyleSheet("color:#FFFFFF;border:0px;");
+            else
+                left_list[i]->setStyleSheet("color:#FFFFFF;border:0px;text-align:left;padding-left:15px;");
         }else {
-            left_list[i]->setStyleSheet("color:#252525;border:0px");
+            if(QLocale::system().name() == "zh_CN")
+                left_list[i]->setStyleSheet("color:#252525;border:0px;");
+            else
+                left_list[i]->setStyleSheet("color:#252525;border:0px;text-align:left;padding-left:15px;");
         }
     }
 
-    left_list[nowMenu]->setStyleSheet("color:#FFFFFF;background-color:"+main_color.name()+";border-radius:8;border:0px");
+    if(QLocale::system().name() == "zh_CN")
+        left_list[nowMenu]->setStyleSheet("color:#FFFFFF;background-color:"+main_color.name()+";border-radius:8;border:0px;");
+    else
+        left_list[nowMenu]->setStyleSheet("color:#FFFFFF;background-color:"+main_color.name()+";border-radius:8;border:0px;text-align:left;padding-left:15px;");
     switch (nowMenu) {
     case 0:
         left_list[0]->setIcon(QIcon(":/icons/icons/homepage_dark.svg"));
@@ -428,7 +453,10 @@ void Widget::chooseLeftMenu(int index)
     nowMenu=index;
 
     updateUI();
-    left_list[index]->setStyleSheet("color:#FFFFFF;background-color:"+main_color.name()+";border-radius:8;border:0px");
+    if(QLocale::system().name() == "zh_CN")
+        left_list[index]->setStyleSheet("color:#FFFFFF;background-color:"+main_color.name()+";border-radius:8;border:0px;");
+    else
+        left_list[index]->setStyleSheet("color:#FFFFFF;background-color:"+main_color.name()+";border-radius:8;border:0px;text-align:left;padding-left:15px;");
     if(index<=12){
         if(themeIsDark){
             QString darkurl=menuUrl[index].toString();
@@ -988,7 +1016,7 @@ void Widget::on_pushButton_uninstall_clicked()
         ui->pushButton_download->setEnabled(false);
         ui->pushButton_uninstall->setEnabled(false);
         QProcess uninstall;
-        uninstall.start("pkexec apt purge -y "+pkgName);
+        uninstall.start("pkexec apt purge -y "+pkgName.toLower());
         uninstall.waitForFinished();
         ui->pushButton_download->setEnabled(true);
         ui->pushButton_download->setText("Install");

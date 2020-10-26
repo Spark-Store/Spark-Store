@@ -4,8 +4,8 @@
 <context>
     <name>QLabel</name>
     <message>
+        <location filename="../main.cpp" line="20"/>
         <location filename="../main.cpp" line="22"/>
-        <location filename="../main.cpp" line="30"/>
         <source>Spark Store</source>
         <translation type="unfinished"></translation>
     </message>
@@ -13,24 +13,56 @@
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../main.cpp" line="16"/>
-        <source>We publish this program under GPL V3</source>
+        <location filename="../main.cpp" line="21"/>
+        <source>&lt;span style=&apos; font-size:10pt;font-weight:60;&apos;&gt;An appstore powered by deepin community&lt;/span&gt;&lt;br/&gt;&lt;a href=&apos;https://www.spark-app.store/&apos;&gt;https://www.spark-app.store&lt;/a&gt;&lt;br/&gt;&lt;span style=&apos; font-size:12pt;&apos;&gt;Spark developers&lt;/span&gt;&lt;br/&gt;We publish this program under GPL V3</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>SpkAppInfoLoaderThread</name>
+    <message>
+        <location filename="../workerthreads.cpp" line="25"/>
+        <source>Failed to download app info. Please check internet connection.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../main.cpp" line="19"/>
-        <location filename="../main.cpp" line="20"/>
-        <source>https://gitee.com/deepin-community-store/spark-store</source>
+        <location filename="../workerthreads.cpp" line="53"/>
+        <source>PkgName: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../main.cpp" line="24"/>
-        <source>&lt;span style=&apos; font-size:10pt;font-weight:60;&apos;&gt;An appstore powered by deepin community&lt;/span&gt;&lt;br/&gt;&lt;a href=&apos;https://www.spark-app.store/&apos;&gt;https://www.spark-app.store&lt;/a&gt;&lt;br/&gt;&lt;span style=&apos; font-size:12pt;&apos;&gt;Spark developers&lt;/span&gt;</source>
+        <location filename="../workerthreads.cpp" line="54"/>
+        <source>Version: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../main.cpp" line="32"/>
-        <source>The Spark Project</source>
+        <location filename="../workerthreads.cpp" line="56"/>
+        <source>Author: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../workerthreads.cpp" line="60"/>
+        <source>Official Site: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../workerthreads.cpp" line="64"/>
+        <source>Contributor: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../workerthreads.cpp" line="65"/>
+        <source>Update Time: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../workerthreads.cpp" line="66"/>
+        <source>Installed Size: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../workerthreads.cpp" line="95"/>
+        <source>Failed to load application icon.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -44,16 +76,6 @@
     <message>
         <location filename="../widget.ui" line="52"/>
         <source>background-color:#FFFFFF</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../widget.ui" line="67"/>
-        <source>Videos</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../widget.ui" line="74"/>
-        <source>Download List</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -77,11 +99,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widget.ui" line="200"/>
-        <source>Translate</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../widget.ui" line="207"/>
         <source>Others</source>
         <translation type="unfinished"></translation>
@@ -89,11 +106,6 @@
     <message>
         <location filename="../widget.ui" line="234"/>
         <source>Games</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../widget.ui" line="248"/>
-        <source>Network</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -108,7 +120,8 @@
     </message>
     <message>
         <location filename="../widget.ui" line="515"/>
-        <location filename="../widget.cpp" line="536"/>
+        <location filename="../widget.cpp" line="589"/>
+        <location filename="../widget.cpp" line="811"/>
         <source>Install</source>
         <translation type="unfinished"></translation>
     </message>
@@ -156,8 +169,28 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../widget.ui" line="67"/>
+        <source>Video</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../widget.ui" line="74"/>
+        <source>Download</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../widget.ui" line="173"/>
         <source>Back to category</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../widget.ui" line="200"/>
+        <source>Reading</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../widget.ui" line="241"/>
+        <source>Chat</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -226,7 +259,7 @@
     </message>
     <message>
         <location filename="../widget.ui" line="217"/>
-        <source>Home  </source>
+        <source>Home</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -235,8 +268,8 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widget.ui" line="241"/>
-        <source>Communication</source>
+        <location filename="../widget.ui" line="248"/>
+        <source>Network</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -288,11 +321,6 @@
     <message>
         <location filename="../widget.ui" line="1140"/>
         <source>Refresh</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../widget.ui" line="1153"/>
-        <source>Take effect when restart </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -366,134 +394,143 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../widget.ui" line="1153"/>
+        <source>Take effect when restart</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../widget.ui" line="1293"/>
         <source>0B</source>
         <translation type="unfinished">0B</translation>
     </message>
     <message>
-        <location filename="../widget.cpp" line="146"/>
+        <location filename="../widget.cpp" line="159"/>
         <source>Spark Store</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widget.cpp" line="147"/>
+        <location filename="../widget.cpp" line="160"/>
         <source>Search or enter spk://</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widget.cpp" line="153"/>
+        <location filename="../widget.cpp" line="166"/>
         <source>Submit App</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widget.cpp" line="154"/>
+        <location filename="../widget.cpp" line="167"/>
         <source>Settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widget.cpp" line="245"/>
+        <location filename="../widget.cpp" line="267"/>
         <source>Not Exist</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widget.cpp" line="297"/>
-        <location filename="../widget.cpp" line="305"/>
+        <location filename="../widget.cpp" line="114"/>
+        <location filename="../widget.cpp" line="322"/>
+        <location filename="../widget.cpp" line="326"/>
+        <location filename="../widget.cpp" line="335"/>
+        <location filename="../widget.cpp" line="339"/>
         <source>Spark\ Store</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widget.cpp" line="480"/>
+        <location filename="../widget.cpp" line="533"/>
         <source>Failed to download app info. Please check internet connection.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widget.cpp" line="510"/>
+        <location filename="../widget.cpp" line="563"/>
         <source>PkgName: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widget.cpp" line="511"/>
+        <location filename="../widget.cpp" line="564"/>
         <source>Version: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widget.cpp" line="513"/>
+        <location filename="../widget.cpp" line="566"/>
         <source>Author: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widget.cpp" line="517"/>
+        <location filename="../widget.cpp" line="570"/>
         <source>Official Site: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widget.cpp" line="521"/>
+        <location filename="../widget.cpp" line="574"/>
         <source>Contributor: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widget.cpp" line="522"/>
+        <location filename="../widget.cpp" line="575"/>
         <source>Update Time: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widget.cpp" line="523"/>
+        <location filename="../widget.cpp" line="576"/>
         <source>Installed Size: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widget.cpp" line="532"/>
-        <location filename="../widget.cpp" line="645"/>
+        <location filename="../widget.cpp" line="585"/>
+        <location filename="../widget.cpp" line="696"/>
+        <location filename="../widget.cpp" line="808"/>
         <source>Reinstall</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widget.cpp" line="571"/>
+        <location filename="../widget.cpp" line="624"/>
         <source>Failed to load application icon.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widget.cpp" line="620"/>
+        <location filename="../widget.cpp" line="671"/>
         <source>Failed to get the name to the file to be downloaded.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widget.cpp" line="668"/>
+        <location filename="../widget.cpp" line="719"/>
         <source>Spark store could only process spk:// links for now. The search feature is coming soon!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widget.cpp" line="789"/>
+        <location filename="../widget.cpp" line="947"/>
         <source>Updating, please wait...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widget.cpp" line="842"/>
+        <location filename="../widget.cpp" line="1000"/>
         <source>Apt has reported an error. Please use apt update in terminal to locate the problem.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widget.cpp" line="848"/>
+        <location filename="../widget.cpp" line="1006"/>
         <source>Unknown error!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widget.cpp" line="1024"/>
+        <location filename="../widget.cpp" line="1188"/>
         <source>Yes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widget.cpp" line="1024"/>
+        <location filename="../widget.cpp" line="1188"/>
         <source>No</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widget.cpp" line="1025"/>
+        <location filename="../widget.cpp" line="1189"/>
         <source>Information for Contributors</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widget.cpp" line="1026"/>
+        <location filename="../widget.cpp" line="1190"/>
         <source>Currently the translation contribution is limited to English,
 and you will be redirected to our Gitee repository at which you are
 supposed to be creating pull requests to contribute app info
@@ -504,17 +541,17 @@ Click yes to continue.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widget.cpp" line="868"/>
+        <location filename="../widget.cpp" line="1026"/>
         <source>Uninstall succeeded</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widget.cpp" line="882"/>
+        <location filename="../widget.cpp" line="1040"/>
         <source>Temporary cache was cleaned</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widget.cpp" line="949"/>
+        <location filename="../widget.cpp" line="1107"/>
         <source>The URL has been copied to the clipboard</source>
         <translation type="unfinished"></translation>
     </message>
@@ -598,7 +635,7 @@ Click yes to continue.</source>
     </message>
     <message>
         <location filename="../downloadlist.cpp" line="125"/>
-        <source>Installing...</source>
+        <source>Installing</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
