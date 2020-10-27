@@ -133,6 +133,30 @@ void Widget::openUrl(QUrl u)
 }
 
 ```
+**tags处理方式**
+```cpp
+// widget.cpp
+QString tags=json["Tags"].toString(); //Read the Tags
+        QStringList tagList=tags.split(";");
+        for (int i=0;i<tagList.size();i++) {
+            if(tagList[i]=="community")
+                ui->tag_community->show();//Tags icon shows like this
+            if(tagList[i]=="ubuntu")
+                ui->tag_ubuntu->show();
+            if(tagList[i]=="deepin")
+                ui->tag_deepin->show();
+            if(tagList[i]=="uos")
+                ui->tag_uos->show();
+            if(tagList[i]=="dtk5")
+                ui->tag_dtk5->show();
+            if(tagList[i]=="dwine2")
+                ui->tag_dwine2->show();
+            if(tagList[i]=="dwine5")
+                ui->tag_dwine5->show();
+            if(tagList[i]=="a2d")
+                ui->tag_a2d->show();
+        }
+```cpp
 
 **Widget 初始化**
 ```cpp
