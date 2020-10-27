@@ -134,6 +134,8 @@ void Widget::openUrl(QUrl u)
 
 ```
 ## Tags处理方式
+
+** Tags处理方式**
 ```cpp
 // widget.cpp
 QString tags=json["Tags"].toString(); //Read the Tags
