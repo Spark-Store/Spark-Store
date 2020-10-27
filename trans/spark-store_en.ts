@@ -4,8 +4,8 @@
 <context>
     <name>QLabel</name>
     <message>
-        <location filename="../main.cpp" line="21"/>
-        <location filename="../main.cpp" line="28"/>
+        <location filename="../main.cpp" line="37"/>
+        <location filename="../main.cpp" line="41"/>
         <source>Spark Store</source>
         <translation type="unfinished"></translation>
     </message>
@@ -13,18 +13,8 @@
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../main.cpp" line="18"/>
-        <source>We publish this program under GPL V3</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../main.cpp" line="22"/>
-        <source>&lt;span style=&apos; font-size:10pt;font-weight:60;&apos;&gt;An appstore powered by deepin community&lt;/span&gt;&lt;br/&gt;&lt;a href=&apos;https://www.spark-app.store/&apos;&gt;https://www.spark-app.store&lt;/a&gt;&lt;br/&gt;&lt;span style=&apos; font-size:12pt;&apos;&gt;Spark developers&lt;/span&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../main.cpp" line="30"/>
-        <source>The Spark Project</source>
+        <location filename="../main.cpp" line="45"/>
+        <source>&lt;span style=&apos;font-size:10pt;font-weight:60;&apos;&gt;An appstore powered by deepin community&lt;/span&gt;&lt;br/&gt;&lt;a href=&apos;https://www.spark-app.store/&apos;&gt;https://www.spark-app.store&lt;/a&gt;&lt;br/&gt;&lt;span style=&apos;font-size:12pt;&apos;&gt;Spark developers&lt;/span&gt;&lt;br/&gt;&lt;br/&gt;Published under GPL V3</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

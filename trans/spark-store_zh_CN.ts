@@ -4,8 +4,8 @@
 <context>
     <name>QLabel</name>
     <message>
-        <location filename="../main.cpp" line="21"/>
-        <location filename="../main.cpp" line="28"/>
+        <location filename="../main.cpp" line="37"/>
+        <location filename="../main.cpp" line="41"/>
         <source>Spark Store</source>
         <translation>Spark 应用商店</translation>
     </message>
@@ -13,27 +13,29 @@
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../main.cpp" line="18"/>
         <source>We publish this program under GPL V3</source>
-        <translation>本程序按GPL V3开源</translation>
+        <translation type="vanished">本程序按GPL V3开源</translation>
     </message>
     <message>
         <source>Version 2.0+2</source>
         <translation type="vanished">版本： 2.0+2</translation>
     </message>
     <message>
-        <location filename="../main.cpp" line="22"/>
         <source>&lt;span style=&apos; font-size:10pt;font-weight:60;&apos;&gt;An appstore powered by deepin community&lt;/span&gt;&lt;br/&gt;&lt;a href=&apos;https://www.spark-app.store/&apos;&gt;https://www.spark-app.store&lt;/a&gt;&lt;br/&gt;&lt;span style=&apos; font-size:12pt;&apos;&gt;Spark developers&lt;/span&gt;</source>
-        <translation>&lt;span style=&apos; font-size:10pt;font-weight:60;&apos;&gt;deepin 社区驱动的一款第三方应用商店&lt;/span&gt;&lt;br/&gt;&lt;a href=&apos;https://www.spark-app.store/&apos;&gt;https://www.spark-app.store&lt;/a&gt;&lt;br/&gt;&lt;span style=&apos; font-size:12pt;&apos;&gt;Spark developers&lt;/span&gt;</translation>
+        <translation type="vanished">&lt;span style=&apos; font-size:10pt;font-weight:60;&apos;&gt;deepin 社区驱动的一款第三方应用商店&lt;/span&gt;&lt;br/&gt;&lt;a href=&apos;https://www.spark-app.store/&apos;&gt;https://www.spark-app.store&lt;/a&gt;&lt;br/&gt;&lt;span style=&apos; font-size:12pt;&apos;&gt;Spark developers&lt;/span&gt;</translation>
     </message>
     <message>
-        <location filename="../main.cpp" line="30"/>
         <source>The Spark Project</source>
-        <translation>星火项目组</translation>
+        <translation type="vanished">星火项目组</translation>
     </message>
     <message>
         <source>&lt;span style=&apos; font-size:10pt;font-weight:60;&apos;&gt;An appstore powered by deepin community&lt;/span&gt;&lt;br/&gt;&lt;a href=&apos;https://www.spark-app.store/&apos;&gt;https://www.spark-app.store&lt;/a&gt;&lt;br/&gt;&lt;span style=&apos; font-size:12pt;&apos;&gt;Spark developers&lt;/span&gt;&lt;br/&gt;We publish this program under GPL V3</source>
         <translation type="vanished">&lt;span style=&apos; font-size:10pt;font-weight:60;&apos;&gt;一款由 深度社区 出品的应用商店&lt;/span&gt;&lt;br/&gt;&quot;&quot;&lt;a href=&apos;https://www.spark-app.store/&apos;&gt;https://www.spark-app.store&lt;/a&gt;&lt;br/&gt;&quot;&quot;&lt;span style=&apos; font-size:12pt;&apos;&gt;星火开发者联盟&lt;/span&gt;&lt;br/&gt;本程序遵循 GPL V3 协议发布</translation>
+    </message>
+    <message>
+        <location filename="../main.cpp" line="45"/>
+        <source>&lt;span style=&apos;font-size:10pt;font-weight:60;&apos;&gt;An appstore powered by deepin community&lt;/span&gt;&lt;br/&gt;&lt;a href=&apos;https://www.spark-app.store/&apos;&gt;https://www.spark-app.store&lt;/a&gt;&lt;br/&gt;&lt;span style=&apos;font-size:12pt;&apos;&gt;Spark developers&lt;/span&gt;&lt;br/&gt;&lt;br/&gt;Published under GPL V3</source>
+        <translation>&lt;span style=&apos;font-size:10pt;font-weight:60;&apos;&gt;由 Deepin 社区出品的应用商店&lt;/span&gt;&lt;br/&gt;&lt;a href=&apos;https://www.spark-app.store/&apos;&gt;https://www.spark-app.store&lt;/a&gt;&lt;br/&gt;&lt;span style=&apos;font-size:12pt;&apos;&gt;星火商店开发组&lt;/span&gt;&lt;br/&gt;&lt;br/&gt;遵循 GPL V3 协议发布</translation>
     </message>
 </context>
 <context>
