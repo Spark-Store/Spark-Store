@@ -133,9 +133,7 @@ void Widget::openUrl(QUrl u)
 }
 
 ```
-## Tags处理方式
-
-**Tags处理方式**
+**tags处理方式**
 ```cpp
 // widget.cpp
 QString tags=json["Tags"].toString(); //Read the Tags
@@ -158,7 +156,7 @@ QString tags=json["Tags"].toString(); //Read the Tags
             if(tagList[i]=="a2d")
                 ui->tag_a2d->show();
         }
-```
+```cpp
 
 **Widget 初始化**
 ```cpp
