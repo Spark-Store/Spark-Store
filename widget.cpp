@@ -29,7 +29,10 @@
 #include <DApplication>
 #include <DGuiApplicationHelper>
 #include <QPushButton>
+#include "HttpClient.h"
+
 DWIDGET_USE_NAMESPACE
+
 
 Widget::Widget(DBlurEffectWidget *parent) :
     DBlurEffectWidget(parent),
@@ -41,6 +44,8 @@ Widget::Widget(DBlurEffectWidget *parent) :
     manager = new QNetworkAccessManager(this);//下载管理
     m_loadweb=ui->progressload;
     m_loadweb->show();
+
+    httpClient = new AeaQt::HttpClient;
 
     connect(ui->menu_main,&QPushButton::clicked,[=](){Widget::chooseLeftMenu(0);});
     connect(ui->menu_network,&QPushButton::clicked,[=](){Widget::chooseLeftMenu(1);});
@@ -710,12 +715,26 @@ void Widget::startRequest(QUrl url)
 
 void Widget::searchApp(QString text)
 {
+    qDebug() << "测试，我的输出是否被调用了，啊啊啊啊";
     if(text.left(6)=="spk://"){
         openUrl(text);
     }else {
-        sendNotification(tr("Spark store could only process spk:// links for now. The search feature is coming soon!"));
+        // sendNotification(tr("Spark store could only process spk:// links for now. The search feature is coming soon!"));
         // ui->webView->setUrl(QUrl("http://www.baidu.com/s?wd="+text));//这东西对接百度
         // ui->stackedWidget->setCurrentIndex(0);
+        // 关键字搜索处理
+        httpClient->get("http://192.168.0.102:8000/appinfo/search")
+            .header("content-type", "application/json")
+            .queryParam("keyword", text)
+            .onResponse([](QByteArray result) {
+                qDebug() << "请求结果" << result;
+            })
+            .onError([](QString errorStr) {
+                qDebug()  << "请求出错：" << errorStr;
+            })
+            .timeout(10 * 1000)
+            .exec();
+
     }
 }
 

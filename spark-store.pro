@@ -66,3 +66,7 @@ DISTFILES += \
 TRANSLATIONS = ./trans/spark-store_en.ts \
                ./trans/spark-store_zh_CN.ts
                ./trans/spark-store_fr.ts\
+
+DEFINES += QT_APP_DEBUG
+include(./third-party/QtNetworkService/QtNetworkService.pri)
+

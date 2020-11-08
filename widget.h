@@ -36,6 +36,9 @@ class Widget;
 }
 
 
+namespace AeaQt {
+    class HttpClient;
+}
 
 class Widget : public DBlurEffectWidget
 {
@@ -145,6 +148,7 @@ private:
     QList<image_show*> label_screen;
     SpkAppInfoLoaderThread appinfoLoadThread;
 
+    AeaQt::HttpClient *httpClient;
 };
 
 #endif // WIDGET_H
