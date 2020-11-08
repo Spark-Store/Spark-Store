@@ -715,7 +715,6 @@ void Widget::startRequest(QUrl url)
 
 void Widget::searchApp(QString text)
 {
-    qDebug() << "测试，我的输出是否被调用了，啊啊啊啊";
     if(text.left(6)=="spk://"){
         openUrl(text);
     }else {
@@ -727,7 +726,12 @@ void Widget::searchApp(QString text)
             .header("content-type", "application/json")
             .queryParam("keyword", text)
             .onResponse([](QByteArray result) {
-                qDebug() << "请求结果" << result;
+                auto json = QJsonDocument::fromJson(result).array();
+                if (json.empty()) {
+                    qDebug() << "搜索不到相关应用！";
+                    return;
+                }
+                // TODO 展示应用
             })
             .onError([](QString errorStr) {
                 qDebug()  << "请求出错：" << errorStr;

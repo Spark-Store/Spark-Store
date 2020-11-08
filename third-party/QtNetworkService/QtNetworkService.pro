@@ -11,6 +11,8 @@ CONFIG += c++11
 #CONFIG += QT_APP_MODE
 DEFINES += QT_APP_DEBUG
 
+QT += network
+
 CONFIG += staticlib
 TEMPLATE = lib
 unix:TARGET = $$OUT_PWD/Lib/QtNetworkService
