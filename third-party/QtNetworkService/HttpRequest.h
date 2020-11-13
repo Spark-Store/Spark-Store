@@ -19,15 +19,15 @@ LISCENSE: MIT
 namespace AeaQt {
 
 #ifdef QT_APP_DEBUG
-#define debugger qDebug().noquote().nospace() \
+#define log_debugger qDebug().noquote().nospace() \
                           << "[AeaQt::Network] Debug: -> " \
                           << "function: " << __func__ << "; " \
                           << "line: " << __LINE__ << "; "
 #else
-#define debug QString()
+#define log_debugger QString()
 #endif
 
-#define warning qWarning().noquote().nospace() \
+#define log_warning qWarning().noquote().nospace() \
                            << "[AeaQt::Network] Warning: -> " \
                            << "function: " << __func__ << "; " \
                            << "line: " << __LINE__ << "; "

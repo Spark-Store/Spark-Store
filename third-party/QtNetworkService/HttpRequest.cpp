@@ -118,17 +118,17 @@ HttpRequest &HttpRequest::body(const QVariant &body)
             m_body = QJsonDocument(QJsonObject::fromVariantMap(body.toMap())).toJson();
         }
         else {
-            warning << "This is not data in JSON format(QVariantMap or QJsonObject).";
+            log_warning << "This is not data in JSON format(QVariantMap or QJsonObject).";
             m_body = QByteArray();
             // warning output
         }
     }
     else {
         m_body = QByteArray();
-        warning << "Disable body.";
+        log_warning << "Disable body.";
     }
 
-    debugger << "Body Content:" << m_body;
+    log_debugger << "Body Content:" << m_body;
     return *this;
 }
 #endif
@@ -211,9 +211,9 @@ HttpResponse *HttpRequest::exec()
         sendBuffer->setData(m_body);
     }
 
-    debugger << "Http Client info: ";
-    debugger << "Type: " << s_httpOperation[m_op];
-    debugger << "Url: " << m_networkRequest.url().toString();
+    log_debugger << "Http Client info: ";
+    log_debugger << "Type: " << s_httpOperation[m_op];
+    log_debugger << "Url: " << m_networkRequest.url().toString();
     QString headers;
     for (int i = 0; i < m_networkRequest.rawHeaderList().count(); i++) {
         QString each = m_networkRequest.rawHeaderList().at(i);
@@ -221,8 +221,8 @@ HttpResponse *HttpRequest::exec()
         headers += QString("%1: %2;").arg(each)
                                      .arg(header);
     }
-    debugger << "Header: " << headers;
-    debugger << "Send buffer(Body):\r\n" << m_body;
+    log_debugger << "Header: " << headers;
+    log_debugger << "Send buffer(Body):\r\n" << m_body;
 
     reply = m_httpService->createRequest(m_op, m_networkRequest, sendBuffer);
 

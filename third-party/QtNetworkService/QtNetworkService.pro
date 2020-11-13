@@ -13,8 +13,8 @@ DEFINES += QT_APP_DEBUG
 
 QT += network
 
-CONFIG += staticlib
 TEMPLATE = lib
+CONFIG += staticlib
 unix:TARGET = $$OUT_PWD/Lib/QtNetworkService
 
 win32: {

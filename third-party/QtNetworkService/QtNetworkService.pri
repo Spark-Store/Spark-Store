@@ -11,5 +11,5 @@ INCLUDEPATH += $$PWD/
 QT += network
 
 !CONFIG(QT_APP_MODE) {
-    LIBS += -L$$OUT_PWD/Lib -lQtNetworkService
+    LIBS += -L$$OUT_PWD/../third-party/QtNetworkService/Lib -lQtNetworkService
 }
