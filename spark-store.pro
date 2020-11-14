@@ -64,5 +64,5 @@ DISTFILES += \
     tags/uos.svg
 
 TRANSLATIONS = ./trans/spark-store_en.ts \
-               ./trans/spark-store_zh_CN.ts
-               ./trans/spark-store_fr.ts\
+               ./trans/spark-store_zh_CN.ts \
+               ./trans/spark-store_fr.ts

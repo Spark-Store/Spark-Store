@@ -250,7 +250,7 @@
     <message>
         <location filename="../widget.ui" line="678"/>
         <source>Share</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Spk share link</translation>
     </message>
     <message>
         <location filename="../widget.ui" line="153"/>

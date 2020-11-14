@@ -283,7 +283,7 @@
     <message>
         <location filename="../widget.ui" line="678"/>
         <source>Share</source>
-        <translation>分享</translation>
+        <translation type="unfinished">Spk分享链接</translation>
     </message>
     <message>
         <location filename="../widget.ui" line="153"/>
@@ -322,7 +322,7 @@
     <message>
         <location filename="../widget.ui" line="874"/>
         <source>Contribute translation</source>
-        <translation>贡献翻译</translation>
+        <translation type="unfinished">贡献翻译/应用反馈</translation>
     </message>
     <message>
         <location filename="../widget.ui" line="892"/>
