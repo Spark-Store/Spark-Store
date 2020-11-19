@@ -38,7 +38,7 @@ int main(int argc, char *argv[])
     a.setProductIcon(QIcon::fromTheme("spark-store"));  //设置Logo
     a.setOrganizationName("spark-union");
     a.setOrganizationDomain("https://www.deepinos.org/");
-    a.setApplicationName(QLabel::tr("Spark Store"));
+    a.setApplicationName("Spark Store");    //不需要翻译，否则 ~/.local/share/ 下文件夹名称也被翻译为中文
     a.setApplicationVersion(DApplication::buildVersion("2.0.2.5"));
     a.setApplicationAcknowledgementPage("https://gitee.com/deepin-community-store/spark-store");
     a.setApplicationDescription(

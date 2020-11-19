@@ -5,7 +5,6 @@
     <name>QLabel</name>
     <message>
         <location filename="../main.cpp" line="37"/>
-        <location filename="../main.cpp" line="41"/>
         <source>Spark Store</source>
         <translation>Spark 应用商店</translation>
     </message>
@@ -283,7 +282,7 @@
     <message>
         <location filename="../widget.ui" line="678"/>
         <source>Share</source>
-        <translation type="unfinished">Spk分享链接</translation>
+        <translation>Spk分享链接</translation>
     </message>
     <message>
         <location filename="../widget.ui" line="153"/>
@@ -322,7 +321,7 @@
     <message>
         <location filename="../widget.ui" line="874"/>
         <source>Contribute translation</source>
-        <translation type="unfinished">贡献翻译/应用反馈</translation>
+        <translation>贡献翻译/应用反馈</translation>
     </message>
     <message>
         <location filename="../widget.ui" line="892"/>

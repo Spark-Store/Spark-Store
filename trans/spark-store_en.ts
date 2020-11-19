@@ -5,7 +5,6 @@
     <name>QLabel</name>
     <message>
         <location filename="../main.cpp" line="37"/>
-        <location filename="../main.cpp" line="41"/>
         <source>Spark Store</source>
         <translation type="unfinished"></translation>
     </message>
