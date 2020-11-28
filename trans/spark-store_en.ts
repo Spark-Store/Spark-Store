@@ -5,7 +5,6 @@
     <name>QLabel</name>
     <message>
         <location filename="../main.cpp" line="37"/>
-        <location filename="../main.cpp" line="41"/>
         <source>Spark Store</source>
         <translation type="unfinished"></translation>
     </message>
@@ -250,7 +249,7 @@
     <message>
         <location filename="../widget.ui" line="678"/>
         <source>Share</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Spk share link</translation>
     </message>
     <message>
         <location filename="../widget.ui" line="153"/>
