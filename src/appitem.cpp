@@ -43,6 +43,7 @@ void AppItem::setUrl(QString url)
 
 void AppItem::mousePressEvent(QMouseEvent *event)
 {
+    Q_UNUSED(event);
     emit clicked(QUrl(m_url));
 }
 
@@ -62,6 +63,7 @@ void AppItem::downloadIcon(QString icon)
         reqManager->deleteLater();
         QPixmap pixmap;
         pixmap.loadFromData(reply->readAll());
+        pixmap = pixmap.scaled(78, 78, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
         if (reply->error() == QNetworkReply::NoError) {
             QMetaObject::invokeMethod(this, "loadIcon", Qt::QueuedConnection,
                                       Q_ARG(QPixmap, pixmap));
