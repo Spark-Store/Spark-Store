@@ -13,6 +13,7 @@
 #include <QFutureWatcher>
 #include <QToolButton>
 #include <QTimer>
+#include <QJsonArray>
 
 #include <QFontDatabase>
 
@@ -35,6 +36,8 @@ namespace Ui {
 class Widget;
 }
 
+
+class FlowLayout;
 
 namespace AeaQt {
     class HttpClient;
@@ -75,6 +78,8 @@ private slots:
     void sltAppinfoIcon(QPixmap *icon);
     void sltAppinfoScreenshot(QPixmap *picture, int index);
     void sltAppinfoFinish();
+
+    void displaySearchApp(QJsonArray array); // 展示搜索的APP信息
 
     void on_pushButton_download_clicked();
     void on_pushButton_return_clicked();
@@ -149,6 +154,7 @@ private:
     SpkAppInfoLoaderThread appinfoLoadThread;
 
     AeaQt::HttpClient *httpClient;
+    FlowLayout *applist_grid;
 };
 
 #endif // WIDGET_H

@@ -32,6 +32,7 @@ SOURCES += main.cpp\
     image_show.cpp \
     big_image.cpp \
     progressload.cpp \
+    flowlayout.cpp \
     workerthreads.cpp
 
 HEADERS  += \
@@ -41,6 +42,7 @@ HEADERS  += \
     image_show.h \
     big_image.h \
     progressload.h \
+    flowlayout.h \
     workerthreads.h
 
 FORMS += \

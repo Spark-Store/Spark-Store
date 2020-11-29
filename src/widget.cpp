@@ -9,8 +9,8 @@
 #include <fstream>
 #include <QDir>
 #include <QProcess>
-#include <QJsonDocument>
 #include <QFile>
+#include <QJsonDocument>
 #include <QJsonObject>
 #include <QByteArray>
 #include <QPixmap>
@@ -30,6 +30,8 @@
 #include <DGuiApplicationHelper>
 #include <QPushButton>
 #include "HttpClient.h"
+#include "appitem.h"
+#include "flowlayout.h"
 
 DWIDGET_USE_NAMESPACE
 
@@ -205,6 +207,9 @@ void Widget::initUI()
     left_list[13]=ui->menu_download;
 
     ui->label_show->hide();
+
+    // 搜索列表页
+    applist_grid = new FlowLayout;
 }
 
 void Widget::initConfig()
@@ -722,24 +727,63 @@ void Widget::searchApp(QString text)
         // ui->webView->setUrl(QUrl("http://www.baidu.com/s?wd="+text));//这东西对接百度
         // ui->stackedWidget->setCurrentIndex(0);
         // 关键字搜索处理
-        httpClient->get("http://192.168.0.102:8000/appinfo/search")
+        httpClient->get("http://192.168.0.103:8000/appinfo/search")
             .header("content-type", "application/json")
             .queryParam("keyword", text)
-            .onResponse([](QByteArray result) {
+            .onResponse([this](QByteArray result) {
                 auto json = QJsonDocument::fromJson(result).array();
                 if (json.empty()) {
                     qDebug() << "搜索不到相关应用！";
+                    sendNotification(tr("Not found relative App!"));
                     return;
                 }
                 // TODO 展示应用
+                qDebug() << json;
+                displaySearchApp(json);
+
             })
             .onError([](QString errorStr) {
                 qDebug()  << "请求出错：" << errorStr;
             })
             .timeout(10 * 1000)
             .exec();
-
     }
+}
+
+
+/**
+ * @brief 展示搜索的APP信息
+ */
+void Widget::displaySearchApp(QJsonArray array)
+{
+    ui->stackedWidget->setCurrentIndex(4);
+
+    // 清除原有的搜索结果
+    QLayoutItem *item;
+    while ((item = applist_grid->takeAt(0)) != nullptr) {
+        item->widget()->disconnect();
+        delete item->widget();
+        delete  item;
+    }
+    item = nullptr;
+
+    for(int i = 0; i < array.size(); i++)
+    {
+         QJsonObject appInfo = array.at(i).toObject();
+         AppItem *appItem = new AppItem(this);
+         QString url = QString("spk://store/%1/%2")
+            .arg(appInfo["category_slug"].toString())
+            .arg(appInfo["pkgname"].toString());
+         appItem->setTitle(appInfo["name"].toString());
+         appItem->setDescription(appInfo["more"].toString());
+         appItem->setIcon(appInfo["icon"].toString());
+         appItem->setUrl(url);
+         applist_grid->addWidget(appItem);
+         qDebug() << "应用链接为：" << url;
+         connect(appItem, &AppItem::clicked, this, &Widget::openUrl);
+    }
+    ui->applist_scrollarea->widget()->setLayout(applist_grid);
+    qDebug() << "显示结果了吗？？？？喵喵喵";
 }
 
 void Widget::httpReadyRead()
