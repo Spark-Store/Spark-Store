@@ -312,7 +312,6 @@ void Widget::setTheme(bool isDark,QColor color)
     if(ui->stackedWidget->currentIndex()==0){
         chooseLeftMenu(nowMenu);
     }
-
 }
 
 DTitlebar* Widget::getTitlebar()

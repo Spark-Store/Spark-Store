@@ -5,6 +5,7 @@
 #include <QNetworkReply>
 #include <QNetworkRequest>
 #include <QEventLoop>
+#include <QPainter>
 
 AppItem::AppItem(QWidget *parent) :
     QWidget(parent),
@@ -63,6 +64,7 @@ void AppItem::downloadIcon(QString icon)
         reqManager->deleteLater();
         QPixmap pixmap;
         pixmap.loadFromData(reply->readAll());
+        qDebug() << "图标下载完毕：" << pixmap;
         pixmap = pixmap.scaled(78, 78, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
         if (reply->error() == QNetworkReply::NoError) {
             QMetaObject::invokeMethod(this, "loadIcon", Qt::QueuedConnection,
@@ -73,6 +75,7 @@ void AppItem::downloadIcon(QString icon)
 
 void AppItem::loadIcon(QPixmap pic)
 {
-    qDebug() << pic;
     ui->lbl_icon->setPixmap(pic);
 }
+
+
