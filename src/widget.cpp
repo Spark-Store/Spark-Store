@@ -725,6 +725,7 @@ void Widget::searchApp(QString text)
         // sendNotification(tr("Spark store could only process spk:// links for now. The search feature is coming soon!"));
         // ui->webView->setUrl(QUrl("http://www.baidu.com/s?wd="+text));//这东西对接百度
         // ui->stackedWidget->setCurrentIndex(0);
+
         // 关键字搜索处理
         httpClient->get("http://192.168.0.103:8000/appinfo/search")
             .header("content-type", "application/json")
@@ -743,6 +744,7 @@ void Widget::searchApp(QString text)
             })
             .onError([](QString errorStr) {
                 qDebug()  << "请求出错：" << errorStr;
+                sendNotification(QString("请求出错：%1").arg(errorStr));
             })
             .timeout(10 * 1000)
             .exec();

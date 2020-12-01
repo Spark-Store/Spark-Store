@@ -6,12 +6,20 @@
 #include <QNetworkRequest>
 #include <QEventLoop>
 #include <QPainter>
+#include <QGraphicsDropShadowEffect>
 
 AppItem::AppItem(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::AppItem)
 {
     ui->setupUi(this);
+
+//    auto shadow = new QGraphicsDropShadowEffect();
+//    shadow->setXOffset(0);
+//    shadow->setYOffset(1);
+//    shadow->setBlurRadius(2);
+//    shadow->setColor(QColor::fromRgba(qRgba(0, 0, 0, 180)));
+//    ui->container->setGraphicsEffect(shadow);
 }
 
 AppItem::~AppItem()
@@ -28,13 +36,19 @@ void AppItem::setTitle(QString title)
 void AppItem::setDescription(QString description)
 {
     m_description = description;
-    ui->lbl_desc->setText(description);
+    QString elidedText = ui->lbl_desc->fontMetrics().elidedText(
+                description, Qt::ElideRight,
+                ui->lbl_desc->width(), Qt::TextShowMnemonic);
+    ui->lbl_desc->setText(elidedText);
+    ui->lbl_desc->setAlignment(Qt::AlignTop);
 }
 
 void AppItem::setIcon(QString icon)
 {
     m_icon = icon;
-    downloadIcon(icon);
+    if (!icon.isEmpty()) {
+        downloadIcon(icon);
+    }
 }
 
 void AppItem::setUrl(QString url)
@@ -65,6 +79,7 @@ void AppItem::downloadIcon(QString icon)
         QPixmap pixmap;
         pixmap.loadFromData(reply->readAll());
         qDebug() << "图标下载完毕：" << pixmap;
+        qDebug() << icon <<  "响应有报错吗？" << reply->errorString();
         pixmap = pixmap.scaled(78, 78, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
         if (reply->error() == QNetworkReply::NoError) {
             QMetaObject::invokeMethod(this, "loadIcon", Qt::QueuedConnection,
