@@ -727,7 +727,7 @@ void Widget::searchApp(QString text)
         // ui->stackedWidget->setCurrentIndex(0);
 
         // 关键字搜索处理
-        httpClient->get("http://192.168.0.103:8000/appinfo/search")
+        httpClient->get("http://spark-store-api.metanoia1989.com/appinfo/search")
             .header("content-type", "application/json")
             .queryParam("keyword", text)
             .onResponse([this](QByteArray result) {
