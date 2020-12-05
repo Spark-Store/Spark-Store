@@ -78,12 +78,12 @@ void AppItem::downloadIcon(QString icon)
         reqManager->deleteLater();
         QPixmap pixmap;
         pixmap.loadFromData(reply->readAll());
-        qDebug() << "图标下载完毕：" << pixmap;
-        qDebug() << icon <<  "响应有报错吗？" << reply->errorString();
         pixmap = pixmap.scaled(78, 78, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
         if (reply->error() == QNetworkReply::NoError) {
             QMetaObject::invokeMethod(this, "loadIcon", Qt::QueuedConnection,
                                       Q_ARG(QPixmap, pixmap));
+        } else {
+        qDebug() << reply->errorString();
         }
     });
 }

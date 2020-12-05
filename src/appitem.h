@@ -37,7 +37,6 @@ private:
     QString m_title;
     QString m_description;
     QString m_icon;
-    QString m_pkgname;
     QString m_url;
 };
 

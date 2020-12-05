@@ -727,7 +727,7 @@ void Widget::searchApp(QString text)
         // ui->stackedWidget->setCurrentIndex(0);
 
         // 关键字搜索处理
-        httpClient->get("http://spark-store-api.metanoia1989.com/appinfo/search")
+        httpClient->get("http://search.deepinos.org.cn/appinfo/search")
             .header("content-type", "application/json")
             .queryParam("keyword", text)
             .onResponse([this](QByteArray result) {
@@ -737,8 +737,6 @@ void Widget::searchApp(QString text)
                     sendNotification(tr("Not found relative App!"));
                     return;
                 }
-                // TODO 展示应用
-                qDebug() << json;
                 displaySearchApp(json);
 
             })
