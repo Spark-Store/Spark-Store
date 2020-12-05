@@ -1,5 +1,4 @@
-[![Fork me on Gitee](https://gitee.com/deepin-community-store/spark-store/widgets/widget_5.svg?color=undefined)](https://gitee.com/deepin-community-store/spark-store)
-#  星火应用商店[![star](https://gitee.com/deepin-community-store/spark-store/badge/star.svg?theme=dark)](https://gitee.com/deepin-community-store/spark-store/stargazers)
+#  星火应用商店
 
 
 众所周知，国内的Linux应用比较少，wine应用难以获取，优质工具分散在民间各大论坛，无法形成合力，难以改善生态

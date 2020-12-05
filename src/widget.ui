@@ -345,7 +345,7 @@
       <number>0</number>
      </property>
      <property name="currentIndex">
-      <number>3</number>
+      <number>4</number>
      </property>
      <widget class="QWidget" name="page">
       <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -365,11 +365,11 @@
         <number>0</number>
        </property>
        <item>
-        <widget class="QWebEngineView" name="webEngineView" native="true">
+        <widget class="QWebEngineView" name="webEngineView">
          <property name="contextMenuPolicy">
           <enum>Qt::DefaultContextMenu</enum>
          </property>
-         <property name="url" stdset="0">
+         <property name="url">
           <url>
            <string>about:blank</string>
           </url>
@@ -489,8 +489,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>886</width>
-            <height>865</height>
+            <width>889</width>
+            <height>854</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_17">
@@ -984,8 +984,8 @@
                   <rect>
                    <x>0</x>
                    <y>0</y>
-                   <width>840</width>
-                   <height>318</height>
+                   <width>851</width>
+                   <height>323</height>
                   </rect>
                  </property>
                  <layout class="QHBoxLayout" name="horizontalLayout_4">
@@ -1114,8 +1114,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>886</width>
-            <height>921</height>
+            <width>889</width>
+            <height>858</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_23">
@@ -1388,8 +1388,26 @@
      </widget>
      <widget class="QWidget" name="applist_page">
       <layout class="QVBoxLayout" name="verticalLayout_3">
+       <property name="spacing">
+        <number>0</number>
+       </property>
+       <property name="leftMargin">
+        <number>0</number>
+       </property>
+       <property name="topMargin">
+        <number>0</number>
+       </property>
+       <property name="rightMargin">
+        <number>0</number>
+       </property>
+       <property name="bottomMargin">
+        <number>0</number>
+       </property>
        <item>
         <widget class="QScrollArea" name="applist_scrollarea">
+         <property name="enabled">
+          <bool>true</bool>
+         </property>
          <property name="frameShape">
           <enum>QFrame::NoFrame</enum>
          </property>
@@ -1401,8 +1419,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>881</width>
-            <height>659</height>
+            <width>903</width>
+            <height>681</height>
            </rect>
           </property>
          </widget>

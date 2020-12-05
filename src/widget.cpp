@@ -79,7 +79,7 @@ Widget::Widget(DBlurEffectWidget *parent) :
             qDebug()<<searchEdit->text();
             searchApp(searchtext);
         }
-        searchEdit->clearEdit();
+        this->setFocus();
     });
 
     connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged, this, [=](DGuiApplicationHelper::ColorType themeType) {
@@ -721,10 +721,15 @@ void Widget::searchApp(QString text)
 {
     if(text.left(6)=="spk://"){
         openUrl(text);
+        searchEdit->clearEdit();
     }else {
         // sendNotification(tr("Spark store could only process spk:// links for now. The search feature is coming soon!"));
         // ui->webView->setUrl(QUrl("http://www.baidu.com/s?wd="+text));//这东西对接百度
         // ui->stackedWidget->setCurrentIndex(0);
+
+        // 禁止同时进行多次搜索
+        if(!mutex.tryLock())
+            return;
 
         // 关键字搜索处理
         httpClient->get("http://search.deepinos.org.cn/appinfo/search")
@@ -733,22 +738,23 @@ void Widget::searchApp(QString text)
             .onResponse([this](QByteArray result) {
                 auto json = QJsonDocument::fromJson(result).array();
                 if (json.empty()) {
-                    qDebug() << "搜索不到相关应用！";
-                    sendNotification(tr("Not found relative App!"));
+                    qDebug() << "相关应用未找到！";
+                    sendNotification(tr("Relative apps Not Found!"));
+                    mutex.unlock();
                     return;
                 }
                 displaySearchApp(json);
-
             })
-            .onError([](QString errorStr) {
+            .onError([this](QString errorStr) {
                 qDebug()  << "请求出错：" << errorStr;
-                sendNotification(QString("请求出错：%1").arg(errorStr));
+                sendNotification(QString(tr("Request Error: %1")).arg(errorStr));
+                mutex.unlock();
+                return;
             })
             .timeout(10 * 1000)
             .exec();
     }
 }
-
 
 /**
  * @brief 展示搜索的APP信息
@@ -762,7 +768,7 @@ void Widget::displaySearchApp(QJsonArray array)
     while ((item = applist_grid->takeAt(0)) != nullptr) {
         item->widget()->disconnect();
         delete item->widget();
-        delete  item;
+        delete item;
     }
     item = nullptr;
 
@@ -780,9 +786,23 @@ void Widget::displaySearchApp(QJsonArray array)
          applist_grid->addWidget(appItem);
          qDebug() << "应用链接为：" << url;
          connect(appItem, &AppItem::clicked, this, &Widget::openUrl);
+         connect(appItem, &AppItem::finished, this, [=](){
+             count++;
+             downloadIconsFinished(array.size());
+         });
     }
     ui->applist_scrollarea->widget()->setLayout(applist_grid);
     qDebug() << "显示结果了吗？？？？喵喵喵";
+}
+
+void Widget::downloadIconsFinished(int arraysize)
+{
+    // 当前搜索列表图标全部加载完成后才允许下一次搜索
+    if(count == arraysize)
+    {
+        count = 0;
+        mutex.unlock();
+    }
 }
 
 void Widget::httpReadyRead()
