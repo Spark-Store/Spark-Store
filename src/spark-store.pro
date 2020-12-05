@@ -26,43 +26,52 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += main.cpp\
+    appitem.cpp \
     widget.cpp \
     downloadlist.cpp \
     image_show.cpp \
     big_image.cpp \
     progressload.cpp \
+    flowlayout.cpp \
     workerthreads.cpp
 
 HEADERS  += \
+    appitem.h \
     widget.h \
     downloadlist.h \
     image_show.h \
     big_image.h \
     progressload.h \
+    flowlayout.h \
     workerthreads.h
 
 FORMS += \
+    appitem.ui \
     widget.ui \
     downloadlist.ui
 
 RESOURCES += \
-    icons.qrc
+    ../assets/icons.qrc
 
 DISTFILES += \
-    tags/a2d-small.png \
-    tags/a2d.png \
-    tags/community-small.png \
-    tags/community.png \
-    tags/deepin-small.png \
-    tags/dtk-small.png \
-    tags/ubuntu-small.png \
-    tags/ubuntu.png \
-    tags/uos-small.png \
-    tags/community.svg \
-    tags/deepin.svg \
-    tags/logo_icon.svg \
-    tags/uos.svg
+    ../assets/tags/a2d-small.png \
+    ../assets/tags/a2d.png \
+    ../assets/tags/community-small.png \
+    ../assets/tags/community.png \
+    ../assets/tags/deepin-small.png \
+    ../assets/tags/dtk-small.png \
+    ../assets/tags/ubuntu-small.png \
+    ../assets/tags/ubuntu.png \
+    ../assets/tags/uos-small.png \
+    ../assets/tags/community.svg \
+    ../assets/tags/deepin.svg \
+    ../assets/tags/logo_icon.svg \
+    ../assets/tags/uos.svg
 
-TRANSLATIONS = ./trans/spark-store_en.ts \
-               ./trans/spark-store_zh_CN.ts \
-               ./trans/spark-store_fr.ts
+TRANSLATIONS = ../trans/spark-store_en.ts \
+               ../trans/spark-store_zh_CN.ts
+               ../trans/spark-store_fr.ts\
+
+DEFINES += QT_APP_DEBUG
+include(../third-party/QtNetworkService/QtNetworkService.pri)
+

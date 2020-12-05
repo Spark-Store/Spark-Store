@@ -4,6 +4,8 @@
 #include <widget.h>
 #include <QTranslator>
 #include <DAboutDialog>
+#include "appitem.h"
+
 DWIDGET_USE_NAMESPACE
 int main(int argc, char *argv[])
 {

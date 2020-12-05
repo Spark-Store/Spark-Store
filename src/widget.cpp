@@ -9,8 +9,8 @@
 #include <fstream>
 #include <QDir>
 #include <QProcess>
-#include <QJsonDocument>
 #include <QFile>
+#include <QJsonDocument>
 #include <QJsonObject>
 #include <QByteArray>
 #include <QPixmap>
@@ -29,7 +29,12 @@
 #include <DApplication>
 #include <DGuiApplicationHelper>
 #include <QPushButton>
+#include "HttpClient.h"
+#include "appitem.h"
+#include "flowlayout.h"
+
 DWIDGET_USE_NAMESPACE
+
 
 Widget::Widget(DBlurEffectWidget *parent) :
     DBlurEffectWidget(parent),
@@ -41,6 +46,8 @@ Widget::Widget(DBlurEffectWidget *parent) :
     manager = new QNetworkAccessManager(this);//下载管理
     m_loadweb=ui->progressload;
     m_loadweb->show();
+
+    httpClient = new AeaQt::HttpClient;
 
     connect(ui->menu_main,&QPushButton::clicked,[=](){Widget::chooseLeftMenu(0);});
     connect(ui->menu_network,&QPushButton::clicked,[=](){Widget::chooseLeftMenu(1);});
@@ -200,6 +207,9 @@ void Widget::initUI()
     left_list[13]=ui->menu_download;
 
     ui->label_show->hide();
+
+    // 搜索列表页
+    applist_grid = new FlowLayout;
 }
 
 void Widget::initConfig()
@@ -302,7 +312,6 @@ void Widget::setTheme(bool isDark,QColor color)
     if(ui->stackedWidget->currentIndex()==0){
         chooseLeftMenu(nowMenu);
     }
-
 }
 
 DTitlebar* Widget::getTitlebar()
@@ -713,10 +722,67 @@ void Widget::searchApp(QString text)
     if(text.left(6)=="spk://"){
         openUrl(text);
     }else {
-        sendNotification(tr("Spark store could only process spk:// links for now. The search feature is coming soon!"));
+        // sendNotification(tr("Spark store could only process spk:// links for now. The search feature is coming soon!"));
         // ui->webView->setUrl(QUrl("http://www.baidu.com/s?wd="+text));//这东西对接百度
         // ui->stackedWidget->setCurrentIndex(0);
+
+        // 关键字搜索处理
+        httpClient->get("http://search.deepinos.org.cn/appinfo/search")
+            .header("content-type", "application/json")
+            .queryParam("keyword", text)
+            .onResponse([this](QByteArray result) {
+                auto json = QJsonDocument::fromJson(result).array();
+                if (json.empty()) {
+                    qDebug() << "搜索不到相关应用！";
+                    sendNotification(tr("Not found relative App!"));
+                    return;
+                }
+                displaySearchApp(json);
+
+            })
+            .onError([](QString errorStr) {
+                qDebug()  << "请求出错：" << errorStr;
+                sendNotification(QString("请求出错：%1").arg(errorStr));
+            })
+            .timeout(10 * 1000)
+            .exec();
     }
+}
+
+
+/**
+ * @brief 展示搜索的APP信息
+ */
+void Widget::displaySearchApp(QJsonArray array)
+{
+    ui->stackedWidget->setCurrentIndex(4);
+
+    // 清除原有的搜索结果
+    QLayoutItem *item;
+    while ((item = applist_grid->takeAt(0)) != nullptr) {
+        item->widget()->disconnect();
+        delete item->widget();
+        delete  item;
+    }
+    item = nullptr;
+
+    for(int i = 0; i < array.size(); i++)
+    {
+         QJsonObject appInfo = array.at(i).toObject();
+         AppItem *appItem = new AppItem(this);
+         QString url = QString("spk://store/%1/%2")
+            .arg(appInfo["category_slug"].toString())
+            .arg(appInfo["pkgname"].toString());
+         appItem->setTitle(appInfo["name"].toString());
+         appItem->setDescription(appInfo["more"].toString());
+         appItem->setIcon(appInfo["icon"].toString());
+         appItem->setUrl(url);
+         applist_grid->addWidget(appItem);
+         qDebug() << "应用链接为：" << url;
+         connect(appItem, &AppItem::clicked, this, &Widget::openUrl);
+    }
+    ui->applist_scrollarea->widget()->setLayout(applist_grid);
+    qDebug() << "显示结果了吗？？？？喵喵喵";
 }
 
 void Widget::httpReadyRead()

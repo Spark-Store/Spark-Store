@@ -34,18 +34,18 @@
         <file>icons/refresh-page.svg</file>
     </qresource>
     <qresource prefix="/">
-        <file>Logo-Spark.png</file>
-        <file>big_image.cpp</file>
-        <file>big_image.h</file>
-        <file>downloadlist.cpp</file>
-        <file>downloadlist.h</file>
-        <file>image_show.cpp</file>
-        <file>image_show.h</file>
-        <file>main.cpp</file>
-        <file>progressload.cpp</file>
-        <file>progressload.h</file>
-        <file>widget.cpp</file>
-        <file>widget.h</file>
+        <file>../Logo-Spark.png</file>
+        <file>../src/big_image.cpp</file>
+        <file>../src/big_image.h</file>
+        <file>../src/downloadlist.cpp</file>
+        <file>../src/downloadlist.h</file>
+        <file>../src/image_show.cpp</file>
+        <file>../src/image_show.h</file>
+        <file>../src/main.cpp</file>
+        <file>../src/progressload.cpp</file>
+        <file>../src/progressload.h</file>
+        <file>../src/widget.cpp</file>
+        <file>../src/widget.h</file>
         <file>tags/a2d.png</file>
         <file>tags/community.svg</file>
         <file>tags/deepin.svg</file>
