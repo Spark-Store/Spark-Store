@@ -484,6 +484,11 @@ void Widget::chooseLeftMenu(int index)
     }else if (index==13) {
         ui->stackedWidget->setCurrentIndex(1);
     }
+
+    // 菜单切换时，清除搜索栏的内容
+    if (!searchEdit->text().isEmpty()) {
+        searchEdit->clear();
+    }
 }
 
 void Widget::setfoot(int h)
@@ -732,7 +737,7 @@ void Widget::searchApp(QString text)
             return;
 
         // 关键字搜索处理
-        httpClient->get("http://search.deepinos.org.cn/appinfo/search")
+        httpClient->get("https://search.deepinos.org.cn/appinfo/search")
             .header("content-type", "application/json")
             .queryParam("keyword", text)
             .onResponse([this](QByteArray result) {
@@ -803,7 +808,6 @@ void Widget::downloadIconsFinished(int arraysize)
         mutex.unlock();
     }
     ui->applist_scrollarea->widget()->setLayout(applist_grid);
-    qDebug() << "显示结果了吗？？？？喵喵喵";
 }
 
 void Widget::httpReadyRead()
@@ -968,7 +972,10 @@ void Widget::on_pushButton_return_clicked()
     //     return;
     // }
     appinfoLoadThread.requestInterruption();
-    chooseLeftMenu(nowMenu);
+    ui->stackedWidget->setCurrentIndex(0);
+    // TODO 添加 QWebEngineViewHistory 实现上一页功能
+
+    // chooseLeftMenu(nowMenu);
     // if(themeIsDark){
     //     QString darkurl=menuUrl[nowMenu].toString();
     //     QStringList tmp=darkurl.split("/");
