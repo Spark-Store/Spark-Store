@@ -26,6 +26,7 @@ protected:
 
 signals:
     void clicked(QUrl url);
+    void finished();
 
 public slots:
     void downloadIcon(QString icon);

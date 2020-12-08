@@ -74,6 +74,7 @@ void AppItem::downloadIcon(QString icon)
         QNetworkReply *reply = reqManager->get(QNetworkRequest(url));
         QEventLoop loop;
         connect(reply, &QNetworkReply::finished, &loop, &QEventLoop::quit);
+        connect(reply, &QNetworkReply::finished, this, [=] () { emit finished(); });
         loop.exec();
         reqManager->deleteLater();
         QPixmap pixmap;

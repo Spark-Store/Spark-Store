@@ -14,8 +14,8 @@
 #include <QToolButton>
 #include <QTimer>
 #include <QJsonArray>
-
 #include <QFontDatabase>
+#include <QMutex>
 
 #include <DSettings>
 #include <DBlurEffectWidget>
@@ -80,6 +80,7 @@ private slots:
     void sltAppinfoFinish();
 
     void displaySearchApp(QJsonArray array); // 展示搜索的APP信息
+    void downloadIconsFinished(int arraysize); // 当前搜索列表图标是否下载完成
 
     void on_pushButton_download_clicked();
     void on_pushButton_return_clicked();
@@ -149,6 +150,9 @@ private:
     int foot;
     DSearchEdit *searchEdit=new DSearchEdit;
     DTitlebar *titlebar;
+
+    int count = 0;  // 记录当前搜索列表下载图标完成的个数
+    QMutex mutex;   // 禁止多次搜索事件同时发生
 
     QList<image_show*> label_screen;
     SpkAppInfoLoaderThread appinfoLoadThread;
