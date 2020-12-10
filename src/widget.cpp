@@ -73,7 +73,8 @@ Widget::Widget(DBlurEffectWidget *parent) :
     connect(&appinfoLoadThread, &SpkAppInfoLoaderThread::finishAllLoading, this, &Widget::sltAppinfoFinish, Qt::ConnectionType::BlockingQueuedConnection);
 
     // 搜索事件
-    connect(searchEdit,&DSearchEdit::editingFinished,this,[=](){
+    connect(searchEdit,&DSearchEdit::returnPressed ,this,[=](){
+        qDebug() << "触发了搜索，呜啦啦啦!";
         QString searchtext=searchEdit->text();
         if(searchtext!=""){
             qDebug()<<searchEdit->text();
@@ -458,6 +459,11 @@ void Widget::chooseLeftMenu(int index)
 {
     nowMenu=index;
 
+    // 菜单切换时，清除搜索栏的内容
+    if (!searchEdit->text().isEmpty()) {
+        searchEdit->clear();
+    }
+
     updateUI();
     if(QLocale::system().name() == "zh_CN")
         left_list[index]->setStyleSheet("color:#FFFFFF;background-color:"+main_color.name()+";border-radius:8;border:0px;");
@@ -485,10 +491,6 @@ void Widget::chooseLeftMenu(int index)
         ui->stackedWidget->setCurrentIndex(1);
     }
 
-    // 菜单切换时，清除搜索栏的内容
-    if (!searchEdit->text().isEmpty()) {
-        searchEdit->clear();
-    }
 }
 
 void Widget::setfoot(int h)
@@ -972,8 +974,15 @@ void Widget::on_pushButton_return_clicked()
     //     return;
     // }
     appinfoLoadThread.requestInterruption();
-    ui->webEngineView->back();
-    ui->stackedWidget->setCurrentIndex(0);
+
+    // 检测是否是从搜索页面进入到应用详情页的，根据搜索栏是否有关键词判断
+    if (searchEdit->text().isEmpty()) {
+        ui->webEngineView->back();
+        ui->stackedWidget->setCurrentIndex(0);
+    } else {
+        ui->stackedWidget->setCurrentIndex(4);
+    }
+
 
     // chooseLeftMenu(nowMenu);
     // if(themeIsDark){
@@ -1180,7 +1189,8 @@ void Widget::opensetting()
 void Widget::openUrl(QUrl u)
 {
     QString app=serverUrl + "store"+u.path()+"/app.json";
-    ui->webEngineView->setUrl(app);
+//    ui->webEngineView->setUrl(app);
+    emit ui->webEngineView->urlChanged(app);
 }
 
 void Widget::on_pushButton_website_clicked()
