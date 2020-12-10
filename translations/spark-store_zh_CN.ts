@@ -700,9 +700,13 @@ Click yes to continue.</source>
         <translation>详情</translation>
     </message>
     <message>
-        <location filename="../src/downloadlist.cpp" line="24"/>
         <source>dpkg</source>
-        <translation>dpkg</translation>
+        <translation type="vanished">dpkg</translation>
+    </message>
+    <message>
+        <location filename="../src/downloadlist.cpp" line="24"/>
+        <source>Spark Store App Installer</source>
+        <translation type="unfinished">星火内置安装器</translation>
     </message>
     <message>
         <location filename="../src/downloadlist.cpp" line="25"/>

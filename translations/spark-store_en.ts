@@ -612,7 +612,7 @@ Click yes to continue.</source>
     </message>
     <message>
         <location filename="../src/downloadlist.cpp" line="24"/>
-        <source>dpkg</source>
+        <source>Spark Store App Installer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
