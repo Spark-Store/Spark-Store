@@ -972,8 +972,8 @@ void Widget::on_pushButton_return_clicked()
     //     return;
     // }
     appinfoLoadThread.requestInterruption();
+    ui->webEngineView->back();
     ui->stackedWidget->setCurrentIndex(0);
-    // TODO 添加 QWebEngineViewHistory 实现上一页功能
 
     // chooseLeftMenu(nowMenu);
     // if(themeIsDark){
