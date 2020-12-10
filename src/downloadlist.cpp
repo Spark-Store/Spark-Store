@@ -21,12 +21,12 @@ downloadlist::downloadlist(QWidget *parent) :
     ui->pushButton_3->hide();
     ui->widget_spinner->start();
     ui->widget_spinner->hide();
-    action_dpkg->setText(tr("dpkg"));
+    action_dpkg->setText(tr("Spark Store App Installer"));
     action_gdebi->setText(tr("gdebi"));
     action_deepin->setText(tr("deepin deb installer"));
-    connect(action_dpkg,&QAction::triggered,[=](){downloadlist::install(1);});
-    connect(action_gdebi,&QAction::triggered,[=](){downloadlist::install(0);});
-    connect(action_deepin,&QAction::triggered,[=](){downloadlist::install(2);});
+    connect(action_dpkg,&QAction::triggered,[=](){downloadlist::install(0);});
+    connect(action_gdebi,&QAction::triggered,[=](){downloadlist::install(2);});
+    connect(action_deepin,&QAction::triggered,[=](){downloadlist::install(1);});
     menu_install->addAction(action_gdebi);
     //ssinstall命令存在时再加入该选项
     QFile ssinstall("/bin/ssinstall");
