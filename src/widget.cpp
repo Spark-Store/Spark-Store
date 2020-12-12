@@ -73,7 +73,8 @@ Widget::Widget(DBlurEffectWidget *parent) :
     connect(&appinfoLoadThread, &SpkAppInfoLoaderThread::finishAllLoading, this, &Widget::sltAppinfoFinish, Qt::ConnectionType::BlockingQueuedConnection);
 
     // 搜索事件
-    connect(searchEdit,&DSearchEdit::editingFinished,this,[=](){
+    connect(searchEdit,&DSearchEdit::returnPressed ,this,[=](){
+        qDebug() << "触发了搜索，呜啦啦啦!";
         QString searchtext=searchEdit->text();
         if(searchtext!=""){
             qDebug()<<searchEdit->text();
@@ -458,6 +459,11 @@ void Widget::chooseLeftMenu(int index)
 {
     nowMenu=index;
 
+    // 菜单切换时，清除搜索栏的内容
+    if (!searchEdit->text().isEmpty()) {
+        searchEdit->clear();
+    }
+
     updateUI();
     if(QLocale::system().name() == "zh_CN")
         left_list[index]->setStyleSheet("color:#FFFFFF;background-color:"+main_color.name()+";border-radius:8;border:0px;");
@@ -484,6 +490,7 @@ void Widget::chooseLeftMenu(int index)
     }else if (index==13) {
         ui->stackedWidget->setCurrentIndex(1);
     }
+
 }
 
 void Widget::setfoot(int h)
@@ -732,7 +739,7 @@ void Widget::searchApp(QString text)
             return;
 
         // 关键字搜索处理
-        httpClient->get("http://search.deepinos.org.cn/appinfo/search")
+        httpClient->get("https://search.deepinos.org.cn/appinfo/search")
             .header("content-type", "application/json")
             .queryParam("keyword", text)
             .onResponse([this](QByteArray result) {
@@ -792,7 +799,6 @@ void Widget::displaySearchApp(QJsonArray array)
          });
     }
     ui->applist_scrollarea->widget()->setLayout(applist_grid);
-    qDebug() << "显示结果了吗？？？？喵喵喵";
 }
 
 void Widget::downloadIconsFinished(int arraysize)
@@ -803,6 +809,7 @@ void Widget::downloadIconsFinished(int arraysize)
         count = 0;
         mutex.unlock();
     }
+    ui->applist_scrollarea->widget()->setLayout(applist_grid);
 }
 
 void Widget::httpReadyRead()
@@ -967,7 +974,17 @@ void Widget::on_pushButton_return_clicked()
     //     return;
     // }
     appinfoLoadThread.requestInterruption();
-    chooseLeftMenu(nowMenu);
+
+    // 检测是否是从搜索页面进入到应用详情页的，根据搜索栏是否有关键词判断
+    if (searchEdit->text().isEmpty()) {
+        ui->webEngineView->back();
+        ui->stackedWidget->setCurrentIndex(0);
+    } else {
+        ui->stackedWidget->setCurrentIndex(4);
+    }
+
+
+    // chooseLeftMenu(nowMenu);
     // if(themeIsDark){
     //     QString darkurl=menuUrl[nowMenu].toString();
     //     QStringList tmp=darkurl.split("/");
@@ -1172,7 +1189,8 @@ void Widget::opensetting()
 void Widget::openUrl(QUrl u)
 {
     QString app=serverUrl + "store"+u.path()+"/app.json";
-    ui->webEngineView->setUrl(app);
+//    ui->webEngineView->setUrl(app);
+    emit ui->webEngineView->urlChanged(app);
 }
 
 void Widget::on_pushButton_website_clicked()

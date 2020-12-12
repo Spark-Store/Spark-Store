@@ -365,11 +365,11 @@
         <number>0</number>
        </property>
        <item>
-        <widget class="QWebEngineView" name="webEngineView">
+        <widget class="QWebEngineView" name="webEngineView" native="true">
          <property name="contextMenuPolicy">
           <enum>Qt::DefaultContextMenu</enum>
          </property>
-         <property name="url">
+         <property name="url" stdset="0">
           <url>
            <string>about:blank</string>
           </url>
