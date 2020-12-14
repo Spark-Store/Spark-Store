@@ -127,8 +127,8 @@
     </message>
     <message>
         <location filename="../src/widget.ui" line="547"/>
-        <location filename="../src/widget.cpp" line="595"/>
-        <location filename="../src/widget.cpp" line="894"/>
+        <location filename="../src/widget.cpp" line="602"/>
+        <location filename="../src/widget.cpp" line="901"/>
         <source>Install</source>
         <translation type="unfinished"></translation>
     </message>
@@ -411,128 +411,128 @@
         <translation type="unfinished">0B</translation>
     </message>
     <message>
-        <location filename="../src/widget.cpp" line="164"/>
+        <location filename="../src/widget.cpp" line="165"/>
         <source>Spark Store</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widget.cpp" line="165"/>
+        <location filename="../src/widget.cpp" line="166"/>
         <source>Search or enter spk://</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widget.cpp" line="171"/>
+        <location filename="../src/widget.cpp" line="172"/>
         <source>Submit App</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widget.cpp" line="172"/>
+        <location filename="../src/widget.cpp" line="173"/>
         <source>Settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widget.cpp" line="274"/>
+        <location filename="../src/widget.cpp" line="275"/>
         <source>Not Exist</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widget.cpp" line="120"/>
-        <location filename="../src/widget.cpp" line="328"/>
-        <location filename="../src/widget.cpp" line="332"/>
-        <location filename="../src/widget.cpp" line="341"/>
-        <location filename="../src/widget.cpp" line="345"/>
+        <location filename="../src/widget.cpp" line="121"/>
+        <location filename="../src/widget.cpp" line="329"/>
+        <location filename="../src/widget.cpp" line="333"/>
+        <location filename="../src/widget.cpp" line="342"/>
+        <location filename="../src/widget.cpp" line="346"/>
         <source>Spark\ Store</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widget.cpp" line="539"/>
+        <location filename="../src/widget.cpp" line="546"/>
         <source>Failed to download app info. Please check internet connection.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widget.cpp" line="569"/>
+        <location filename="../src/widget.cpp" line="576"/>
         <source>PkgName: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widget.cpp" line="570"/>
+        <location filename="../src/widget.cpp" line="577"/>
         <source>Version: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widget.cpp" line="572"/>
+        <location filename="../src/widget.cpp" line="579"/>
         <source>Author: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widget.cpp" line="576"/>
+        <location filename="../src/widget.cpp" line="583"/>
         <source>Official Site: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widget.cpp" line="580"/>
+        <location filename="../src/widget.cpp" line="587"/>
         <source>Contributor: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widget.cpp" line="581"/>
+        <location filename="../src/widget.cpp" line="588"/>
         <source>Update Time: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widget.cpp" line="582"/>
+        <location filename="../src/widget.cpp" line="589"/>
         <source>Installed Size: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widget.cpp" line="591"/>
-        <location filename="../src/widget.cpp" line="702"/>
-        <location filename="../src/widget.cpp" line="891"/>
+        <location filename="../src/widget.cpp" line="598"/>
+        <location filename="../src/widget.cpp" line="709"/>
+        <location filename="../src/widget.cpp" line="898"/>
         <source>Reinstall</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widget.cpp" line="630"/>
+        <location filename="../src/widget.cpp" line="637"/>
         <source>Failed to load application icon.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widget.cpp" line="677"/>
+        <location filename="../src/widget.cpp" line="684"/>
         <source>Failed to get the name to the file to be downloaded.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widget.cpp" line="1030"/>
+        <location filename="../src/widget.cpp" line="1047"/>
         <source>Updating, please wait...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widget.cpp" line="1083"/>
+        <location filename="../src/widget.cpp" line="1100"/>
         <source>Apt has reported an error. Please use apt update in terminal to locate the problem.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widget.cpp" line="1089"/>
+        <location filename="../src/widget.cpp" line="1106"/>
         <source>Unknown error!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widget.cpp" line="1271"/>
+        <location filename="../src/widget.cpp" line="1289"/>
         <source>Yes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widget.cpp" line="1271"/>
+        <location filename="../src/widget.cpp" line="1289"/>
         <source>No</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widget.cpp" line="1272"/>
+        <location filename="../src/widget.cpp" line="1290"/>
         <source>Information for Contributors</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widget.cpp" line="1273"/>
+        <location filename="../src/widget.cpp" line="1291"/>
         <source>Currently the translation contribution is limited to English,
 and you will be redirected to our Gitee repository at which you are
 supposed to be creating pull requests to contribute app info
@@ -543,27 +543,27 @@ Click yes to continue.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widget.cpp" line="1109"/>
+        <location filename="../src/widget.cpp" line="1126"/>
         <source>Uninstall succeeded</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widget.cpp" line="742"/>
+        <location filename="../src/widget.cpp" line="749"/>
         <source>Relative apps Not Found!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widget.cpp" line="750"/>
+        <location filename="../src/widget.cpp" line="757"/>
         <source>Request Error: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widget.cpp" line="1123"/>
+        <location filename="../src/widget.cpp" line="1140"/>
         <source>Temporary cache was cleaned</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widget.cpp" line="1190"/>
+        <location filename="../src/widget.cpp" line="1208"/>
         <source>The URL has been copied to the clipboard</source>
         <translation type="unfinished"></translation>
     </message>
@@ -626,52 +626,52 @@ Click yes to continue.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/downloadlist.cpp" line="55"/>
+        <location filename="../src/downloadlist.cpp" line="57"/>
         <source>Downloaded, waiting to install</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/downloadlist.cpp" line="80"/>
+        <location filename="../src/downloadlist.cpp" line="82"/>
         <source>Failed to download %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/downloadlist.cpp" line="82"/>
+        <location filename="../src/downloadlist.cpp" line="84"/>
         <source>Download Failed，Check Your Connection</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/downloadlist.cpp" line="92"/>
+        <location filename="../src/downloadlist.cpp" line="94"/>
         <source>Finished downloading %1, awaiting to install</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/downloadlist.cpp" line="125"/>
+        <location filename="../src/downloadlist.cpp" line="127"/>
         <source>Installing</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/downloadlist.cpp" line="172"/>
+        <location filename="../src/downloadlist.cpp" line="174"/>
         <source>Finish</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/downloadlist.cpp" line="176"/>
+        <location filename="../src/downloadlist.cpp" line="178"/>
         <source>Retry</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/downloadlist.cpp" line="177"/>
+        <location filename="../src/downloadlist.cpp" line="179"/>
         <source>Error happened in dpkg progress , you can try it again</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/downloadlist.cpp" line="181"/>
+        <location filename="../src/downloadlist.cpp" line="183"/>
         <source>dpkg progress had been aborted，you can retry installation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/downloadlist.cpp" line="203"/>
+        <location filename="../src/downloadlist.cpp" line="205"/>
         <source>Download canceled</source>
         <translation type="unfinished"></translation>
     </message>

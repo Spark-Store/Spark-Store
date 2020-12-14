@@ -25,21 +25,23 @@ downloadlist::downloadlist(QWidget *parent) :
     action_gdebi->setText(tr("gdebi"));
     action_deepin->setText(tr("deepin deb installer"));
     connect(action_dpkg,&QAction::triggered,[=](){downloadlist::install(0);});
-    connect(action_gdebi,&QAction::triggered,[=](){downloadlist::install(2);});
     connect(action_deepin,&QAction::triggered,[=](){downloadlist::install(1);});
-    menu_install->addAction(action_gdebi);
+    connect(action_gdebi,&QAction::triggered,[=](){downloadlist::install(2);});
+
     //ssinstall命令存在时再加入该选项
     QFile ssinstall("/bin/ssinstall");
     ssinstall.open(QIODevice::ReadOnly);
     if(ssinstall.isOpen()){
         menu_install->addAction(action_dpkg);
     }
+
     QFile deepin("/bin/deepin-deb-installer");
     deepin.open(QIODevice::ReadOnly);
     if(deepin.isOpen()){
         menu_install->addAction(action_deepin);
     }
 
+    menu_install->addAction(action_gdebi);
 }
 
 downloadlist::~downloadlist()
@@ -128,25 +130,25 @@ void downloadlist::install(int t)
             if(!reinstall){
                 switch (t) {
                 case 0:
-                    installer.start("pkexec gdebi -n /tmp/spark-store/"+ui->label_filename->text().toUtf8());
-                    break;
-                case 1:
                     installer.start("pkexec ssinstall /tmp/spark-store/"+ui->label_filename->text().toUtf8());
                     break;
-                case 2:
+                case 1:
                     installer.start("deepin-deb-installer /tmp/spark-store/"+ui->label_filename->text().toUtf8());
+                    break;
+                case 2:
+                    installer.start("pkexec gdebi -n /tmp/spark-store/"+ui->label_filename->text().toUtf8());
                     break;
                 }
             }else {
                 switch (t) {
                 case 0:
-                    installer.start("pkexec gdebi -n /tmp/spark-store/"+ui->label_filename->text().toUtf8());
-                    break;
-                case 1:
                     installer.start("pkexec ssinstall /tmp/spark-store/"+ui->label_filename->text().toUtf8());
                     break;
-                case 2:
+                case 1:
                     installer.start("deepin-deb-installer /tmp/spark-store/"+ui->label_filename->text().toUtf8());
+                    break;
+                case 2:
+                    installer.start("pkexec gdebi -n /tmp/spark-store/"+ui->label_filename->text().toUtf8());
                     break;
                 }
             }
