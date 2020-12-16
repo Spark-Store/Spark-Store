@@ -29,13 +29,13 @@ downloadlist::downloadlist(QWidget *parent) :
     connect(action_gdebi,&QAction::triggered,[=](){downloadlist::install(2);});
 
     //ssinstall命令存在时再加入该选项
-    QFile ssinstall("/bin/ssinstall");
+    QFile ssinstall("/usr/local/bin/ssinstall");
     ssinstall.open(QIODevice::ReadOnly);
     if(ssinstall.isOpen()){
         menu_install->addAction(action_dpkg);
     }
 
-    QFile deepin("/bin/deepin-deb-installer");
+    QFile deepin("/usr/bin/deepin-deb-installer");
     deepin.open(QIODevice::ReadOnly);
     if(deepin.isOpen()){
         menu_install->addAction(action_deepin);
