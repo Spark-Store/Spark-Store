@@ -28,13 +28,13 @@
 #include <QClipboard>
 #include <DApplication>
 #include <DGuiApplicationHelper>
+#include <DStyle>
 #include <QPushButton>
 #include "HttpClient.h"
 #include "appitem.h"
 #include "flowlayout.h"
 
 DWIDGET_USE_NAMESPACE
-
 
 Widget::Widget(DBlurEffectWidget *parent) :
     DBlurEffectWidget(parent),
@@ -73,11 +73,13 @@ Widget::Widget(DBlurEffectWidget *parent) :
     connect(&appinfoLoadThread, &SpkAppInfoLoaderThread::finishAllLoading, this, &Widget::sltAppinfoFinish, Qt::ConnectionType::BlockingQueuedConnection);
 
     // 搜索事件
-    connect(searchEdit,&DSearchEdit::returnPressed ,this,[=](){
+    connect(searchEdit, &DSearchEdit::returnPressed, this, [=]()
+    {
         qDebug() << "触发了搜索，呜啦啦啦!";
-        QString searchtext=searchEdit->text();
-        if(searchtext!=""){
-            qDebug()<<searchEdit->text();
+        QString searchtext = searchEdit->text();
+        if(searchtext != "")
+        {
+            qDebug() << searchEdit->text();
             searchApp(searchtext);
         }
         this->setFocus();
@@ -211,6 +213,12 @@ void Widget::initUI()
 
     // 搜索列表页
     applist_grid = new FlowLayout;
+    main = new QHBoxLayout;
+    main->setAlignment(Qt::AlignHCenter);
+    main->setMargin(0);
+    main->addWidget(spinner);
+    ui->applist_scrollAreaWidget->setLayout(main);
+    spinner->setFixedSize(80, 80);
 }
 
 void Widget::initConfig()
@@ -293,7 +301,7 @@ void Widget::setTheme(bool isDark,QColor color)
         ui->label->setStyleSheet("background-color:#252525");
         // ui->scrollArea->setStyleSheet("background-color:#252525");
         ui->label_show->setStyleSheet("background-color:#252525");
-        ui->pushButton_return->setIcon(QIcon(":/icons/icons/category_active_dark.svg"));
+        ui->pushButton_return->setIcon(DStyle().standardIcon(DStyle::SP_ArrowLeft));
         ui->pushButton_refresh->setIcon(QIcon(":/icons/icons/refresh-page-dark.svg"));
     }else {
         // 亮色模式
@@ -304,7 +312,7 @@ void Widget::setTheme(bool isDark,QColor color)
         ui->label->setStyleSheet("background-color:#FFFFFF");
         // ui->scrollArea->setStyleSheet("background-color:#F8F8F8");
         ui->label_show->setStyleSheet("background-color:#F8F8F8");
-        ui->pushButton_return->setIcon(QIcon(":/icons/icons/category_active.svg"));
+        ui->pushButton_return->setIcon(DStyle().standardIcon(DStyle::SP_ArrowLeft));
         ui->pushButton_refresh->setIcon(QIcon(":/icons/icons/refresh-page.svg"));
     }
     main_color=color;
@@ -729,7 +737,7 @@ void Widget::searchApp(QString text)
     if(text.left(6)=="spk://"){
         openUrl(text);
         searchEdit->clearEdit();
-    }else {
+    } else {
         // sendNotification(tr("Spark store could only process spk:// links for now. The search feature is coming soon!"));
         // ui->webView->setUrl(QUrl("http://www.baidu.com/s?wd="+text));//这东西对接百度
         // ui->stackedWidget->setCurrentIndex(0);
@@ -771,34 +779,43 @@ void Widget::displaySearchApp(QJsonArray array)
     ui->stackedWidget->setCurrentIndex(4);
 
     // 清除原有的搜索结果
-    QLayoutItem *item;
+    QLayoutItem *item = nullptr;
     while ((item = applist_grid->takeAt(0)) != nullptr) {
+        applist_grid->removeWidget(item->widget());
         item->widget()->disconnect();
-        delete item->widget();
+        item->widget()->setParent(nullptr);
         delete item;
     }
-    item = nullptr;
+
+    main->removeItem(applist_grid);
+    spinner->show();
+    spinner->start();
 
     for(int i = 0; i < array.size(); i++)
     {
-         QJsonObject appInfo = array.at(i).toObject();
-         AppItem *appItem = new AppItem(this);
-         QString url = QString("spk://store/%1/%2")
-            .arg(appInfo["category_slug"].toString())
-            .arg(appInfo["pkgname"].toString());
-         appItem->setTitle(appInfo["name"].toString());
-         appItem->setDescription(appInfo["more"].toString());
-         appItem->setIcon(appInfo["icon"].toString());
-         appItem->setUrl(url);
-         applist_grid->addWidget(appItem);
-         qDebug() << "应用链接为：" << url;
-         connect(appItem, &AppItem::clicked, this, &Widget::openUrl);
-         connect(appItem, &AppItem::finished, this, [=](){
-             count++;
-             downloadIconsFinished(array.size());
-         });
+        QJsonObject appInfo = array.at(i).toObject();
+        AppItem *appItem = new AppItem(this);
+        QString url = QString("spk://store/%1/%2")
+                .arg(appInfo["category_slug"].toString())
+                .arg(appInfo["pkgname"].toString());
+        appItem->setTitle(appInfo["name"].toString());
+        appItem->setDescription(appInfo["more"].toString());
+        appItem->setIcon(appInfo["icon"].toString());
+        appItem->setUrl(url);
+        applist_grid->addWidget(appItem);
+        qDebug() << "应用链接为：" << url;
+        connect(appItem, &AppItem::clicked, this, &Widget::openUrl);
+
+        connect(appItem, &AppItem::clicked, this, [=]()
+        {
+            prePage = ui->stackedWidget->currentIndex();
+        });
+
+        connect(appItem, &AppItem::finished, this, [=](){
+            count++;
+            downloadIconsFinished(array.size());
+        });
     }
-    ui->applist_scrollarea->widget()->setLayout(applist_grid);
 }
 
 void Widget::downloadIconsFinished(int arraysize)
@@ -806,10 +823,12 @@ void Widget::downloadIconsFinished(int arraysize)
     // 当前搜索列表图标全部加载完成后才允许下一次搜索
     if(count == arraysize)
     {
+        spinner->stop();
+        spinner->hide();
+        main->addLayout(applist_grid, 1);
         count = 0;
         mutex.unlock();
     }
-    ui->applist_scrollarea->widget()->setLayout(applist_grid);
 }
 
 void Widget::httpReadyRead()
@@ -968,36 +987,42 @@ void Widget::httpFinished() // 完成下载
 
 void Widget::on_pushButton_return_clicked()
 {
-    // ui->stackedWidget->setCurrentIndex(0);
-    // if(nowMenu==13){
-    // chooseLeftMenu(13);
-    //     return;
-    // }
     appinfoLoadThread.requestInterruption();
 
     // 检测是否是从搜索页面进入到应用详情页的，根据搜索栏是否有关键词判断
-    if (searchEdit->text().isEmpty()) {
-        ui->webEngineView->back();
-        ui->stackedWidget->setCurrentIndex(0);
-    } else {
-        ui->stackedWidget->setCurrentIndex(4);
+    if (searchEdit->text().isEmpty())
+    {
+        if(ui->stackedWidget->currentIndex() == 2)
+        {
+            ui->webEngineView->back();
+            ui->stackedWidget->setCurrentIndex(0);
+        }
+        else
+        {
+            ui->stackedWidget->setCurrentIndex(prePage);
+        }
     }
+    else
+    {
+        if (ui->stackedWidget->currentIndex() == 4)
+        {
+            searchEdit->clear();
+            chooseLeftMenu(nowMenu);
+        }
+        else if(ui->stackedWidget->currentIndex() == 2)
+        {
+            ui->stackedWidget->setCurrentIndex(4);
+        }
+        else
+        {
+            ui->stackedWidget->setCurrentIndex(prePage);
+        }
 
-
-    // chooseLeftMenu(nowMenu);
-    // if(themeIsDark){
-    //     QString darkurl=menuUrl[nowMenu].toString();
-    //     QStringList tmp=darkurl.split("/");
-    //     darkurl.clear();
-    //     for (int i=0;i<tmp.size()-1;i++) {
-    //         darkurl+=tmp[i]+"/";
-    //     }
-    //     darkurl+="dark"+tmp[tmp.size()-1];
-    //     ui->webView->setUrl(darkurl);
-    //     qDebug()<<darkurl;
-    // }else {
-    //     ui->webView->setUrl(menuUrl[nowMenu]);
-    // }
+        if(ui->stackedWidget->currentIndex() == 4)
+        {
+            searchApp(searchEdit->text());
+        }
+    }
 }
 
 void Widget::on_pushButton_refresh_clicked()
@@ -1183,6 +1208,7 @@ void Widget::opensetting()
         tmp_size_str=QString::number(0.01*int(100*(tmp_size/(1024*1024*1024))))+"GB";
     }
     ui->tmp_size_ui->setText(tmp_size_str);
+    prePage = ui->stackedWidget->currentIndex();
     ui->stackedWidget->setCurrentIndex(3);
 }
 
@@ -1234,6 +1260,7 @@ void Widget::on_webEngineView_urlChanged(const QUrl &arg1)
     }
     //如果是app.json就打开详情页
     if(arg1.path().right(8)=="app.json"){
+        prePage = ui->stackedWidget->currentIndex();
         load.cancel();//打开并发加载线程前关闭正在执行的线程
         m_loadweb->setValue(0);
         ui->label_more->setText("");//清空详情介绍

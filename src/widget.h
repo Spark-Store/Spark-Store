@@ -2,6 +2,7 @@
 #define WIDGET_H
 
 #include <QWidget>
+#include <QLabel>
 #include <QUrl>
 #include <QFile>
 #include <QNetworkReply>
@@ -21,7 +22,7 @@
 #include <DBlurEffectWidget>
 #include <DSpinner>
 #include <DWaterProgress>
-#include <QLabel>
+#include <DSpinner>
 #include <DTitlebar>
 #include <DSearchEdit>
 #include <progressload.h>
@@ -138,6 +139,7 @@ private:
     bool configCanSave=false;
     bool isBusy=false;
     int nowMenu=0; //定位当前菜单
+    int prePage=0; //定位前一个页面
     long download_size=0;
     long size1=0;
     long size2=0;
@@ -148,8 +150,9 @@ private:
     QString type_name;
     QColor main_color;
     int foot;
-    DSearchEdit *searchEdit=new DSearchEdit;
+    DSearchEdit *searchEdit = new DSearchEdit;
     DTitlebar *titlebar;
+    DSpinner *spinner = new DSpinner;
 
     int count = 0;  // 记录当前搜索列表下载图标完成的个数
     QMutex mutex;   // 禁止多次搜索事件同时发生
@@ -159,6 +162,7 @@ private:
 
     AeaQt::HttpClient *httpClient;
     FlowLayout *applist_grid;
+    QHBoxLayout *main;
 };
 
 #endif // WIDGET_H
