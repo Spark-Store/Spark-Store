@@ -365,11 +365,11 @@
         <number>0</number>
        </property>
        <item>
-        <widget class="QWebEngineView" name="webEngineView" native="true">
+        <widget class="QWebEngineView" name="webEngineView">
          <property name="contextMenuPolicy">
           <enum>Qt::DefaultContextMenu</enum>
          </property>
-         <property name="url" stdset="0">
+         <property name="url">
           <url>
            <string>about:blank</string>
           </url>
@@ -489,7 +489,7 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>889</width>
+            <width>606</width>
             <height>854</height>
            </rect>
           </property>
@@ -984,7 +984,7 @@
                   <rect>
                    <x>0</x>
                    <y>0</y>
-                   <width>851</width>
+                   <width>568</width>
                    <height>323</height>
                   </rect>
                  </property>
@@ -1114,8 +1114,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>889</width>
-            <height>858</height>
+            <width>743</width>
+            <height>902</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_23">
