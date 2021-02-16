@@ -33,6 +33,7 @@
 #include "HttpClient.h"
 #include "appitem.h"
 #include "flowlayout.h"
+#include "downloadworker.h"
 
 DWIDGET_USE_NAMESPACE
 
@@ -48,6 +49,8 @@ Widget::Widget(DBlurEffectWidget *parent) :
     m_loadweb->show();
 
     httpClient = new AeaQt::HttpClient;
+    // 并发下载
+    downloadController = new DownloadController(this);
 
     connect(ui->menu_main,&QPushButton::clicked,[=](){Widget::chooseLeftMenu(0);});
     connect(ui->menu_network,&QPushButton::clicked,[=](){Widget::chooseLeftMenu(1);});
@@ -71,6 +74,7 @@ Widget::Widget(DBlurEffectWidget *parent) :
     connect(&appinfoLoadThread, &SpkAppInfoLoaderThread::finishedIconLoad, this, &Widget::sltAppinfoIcon, Qt::ConnectionType::BlockingQueuedConnection);
     connect(&appinfoLoadThread, &SpkAppInfoLoaderThread::finishedScreenshotLoad, this, &Widget::sltAppinfoScreenshot, Qt::ConnectionType::BlockingQueuedConnection);
     connect(&appinfoLoadThread, &SpkAppInfoLoaderThread::finishAllLoading, this, &Widget::sltAppinfoFinish, Qt::ConnectionType::BlockingQueuedConnection);
+
 
     // 搜索事件
     connect(searchEdit, &DSearchEdit::returnPressed, this, [=]()
@@ -705,31 +709,41 @@ void Widget::on_pushButton_download_clicked()
     system("cp icon.png icon_"+QString::number(allDownload-1).toUtf8()+".png");
     download_list[allDownload-1].seticon(icon);
     if(!isBusy){
-        file = new QFile(fileName);
-        if(!file->open(QIODevice::WriteOnly)){
-            delete file;
-            file = nullptr;
-            return ;
-        }
+//        file = new QFile(fileName);
+//        if(!file->open(QIODevice::WriteOnly)){
+//            delete file;
+//            file = nullptr;
+//            return ;
+//        }
+
         nowDownload+=1;
-        startRequest(urList.at(nowDownload-1)); // 进行链接请求
+
+        startRequest(urList.at(nowDownload-1), fileName); // 进行链接请求
     }
     if(ui->pushButton_download->text()==tr("Reinstall")){
         download_list[allDownload-1].reinstall=true;
     }
 }
 
-void Widget::startRequest(QUrl url)
+void Widget::startRequest(QUrl url, QString fileName)
 {
     ui->listWidget->show();
     ui->label->hide();
     isBusy=true;
     isdownload=true;
     download_list[allDownload-1].free=false;
-    reply = manager->get(QNetworkRequest(url));
-    connect(reply,SIGNAL(finished()),this,SLOT(httpFinished()));
-    connect(reply,SIGNAL(readyRead()),this,SLOT(httpReadyRead()));
-    connect(reply,SIGNAL(downloadProgress(qint64,qint64)),this,SLOT(updateDataReadProgress(qint64,qint64)));
+
+//    reply = manager->get(QNetworkRequest(url));
+//    connect(reply,SIGNAL(finished()),this,SLOT(httpFinished()));
+//    connect(reply,SIGNAL(readyRead()),this,SLOT(httpReadyRead()));
+//    connect(reply,SIGNAL(downloadProgress(qint64,qint64)),this,SLOT(updateDataReadProgress(qint64,qint64)));
+    connect(downloadController, &DownloadController::downloadProcess, this, &Widget::updateDataReadProgress);
+    connect(downloadController, &DownloadController::downloadFinished, this, &Widget::httpFinished);
+    connect(downloadController, &DownloadController::errorOccur, [this](QString msg){
+        this->sendNotification(msg);
+    });
+    downloadController->setFilename(fileName);
+    downloadController->startDownload(url.toString());
 }
 
 void Widget::searchApp(QString text)
@@ -846,6 +860,8 @@ void Widget::updateDataReadProgress(qint64 bytesRead, qint64 totalBytes)
     download_list[nowDownload-1].setValue((bytesRead*10000)/totalBytes);    // 当前值
     download_size=bytesRead;
     if(download_list[nowDownload-1].close){ // 随时检测下载是否被取消
+        downloadController->disconnect();
+        downloadController->stopDownload();
         download_list[nowDownload-1].closeDownload();
         httpFinished();
     }
@@ -958,12 +974,12 @@ void Widget::sltAppinfoFinish()
 
 void Widget::httpFinished() // 完成下载
 {
-    file->flush();
-    file->close();
-    reply->deleteLater();
-    reply = nullptr;
-    delete file;
-    file = nullptr;
+//    file->flush();
+//    file->close();
+//    reply->deleteLater();
+//    reply = nullptr;
+//    delete file;
+//    file = nullptr;
     isdownload=false;
     isBusy=false;
     download_list[nowDownload-1].readyInstall();
@@ -974,14 +990,14 @@ void Widget::httpFinished() // 完成下载
             nowDownload+=1;
         }
         QString fileName=download_list[nowDownload-1].getName();
-        file = new QFile(fileName);
-        if(!file->open(QIODevice::WriteOnly))
-        {
-            delete file;
-            file = nullptr;
-            return ;
-        }
-        startRequest(urList.at(nowDownload-1));
+//        file = new QFile(fileName);
+//        if(!file->open(QIODevice::WriteOnly))
+//        {
+//            delete file;
+//            file = nullptr;
+//            return ;
+//        }
+        startRequest(urList.at(nowDownload-1), fileName);
     }
 }
 
@@ -1269,6 +1285,7 @@ void Widget::on_webEngineView_urlChanged(const QUrl &arg1)
         ui->pushButton_download->setEnabled(false);
         ui->stackedWidget->setCurrentIndex(2);
         qDebug()<<"https://demo-one-vert.vercel.app/"+type_name+"/"+pname;
+        qDebug()<< "链接地址：" << arg1;
         /*
         load.cancel();//打开并发加载线程前关闭正在执行的线程
         load = QtConcurrent::run([=](){

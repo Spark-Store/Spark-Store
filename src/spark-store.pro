@@ -27,6 +27,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += main.cpp\
     appitem.cpp \
+    downloadworker.cpp \
     widget.cpp \
     downloadlist.cpp \
     image_show.cpp \
@@ -37,6 +38,7 @@ SOURCES += main.cpp\
 
 HEADERS  += \
     appitem.h \
+    downloadworker.h \
     widget.h \
     downloadlist.h \
     image_show.h \
