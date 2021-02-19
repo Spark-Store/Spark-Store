@@ -50,6 +50,7 @@ public:
     void startDownload(const QString &url);
     void stopDownload();
     qint64 getFileSize(const QString& url);
+    QString replaceDomain(const QString& url, const QString domain);
 
 public slots:    
     void handleProcess();
@@ -68,6 +69,7 @@ private:
     QFile *file;
     QList<DownloadWorker*> workers;
     int finish = 0;
+    QVector<QString> domains;
 };
 
 #endif // FILEDOWNLOADWORKER_H

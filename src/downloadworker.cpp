@@ -6,6 +6,7 @@
 #include <QNetworkReply>
 #include <QDebug>
 #include <QThread>
+#include <QRegularExpression>
 
 DownloadWorker::DownloadWorker(QObject *parent)
 {
@@ -87,7 +88,14 @@ void DownloadWorker::handleProcess(qint64, qint64)
 
 DownloadController::DownloadController(QObject *parent)
 {
-    this->threadNum = QThread::idealThreadCount() > 4 ? 4 : QThread::idealThreadCount();
+    domains = {
+        "sucdn1.jerrywang.top",
+        "sucdn2.jerrywang.top",
+        "sucdn3.jerrywang.top",
+        "sucdn4.jerrywang.top",
+        "sucdn5.jerrywang.top"
+    };
+    this->threadNum =  domains.size() > 6 ? 6 : domains.size();
 }
 
 DownloadController::~DownloadController()
@@ -151,8 +159,9 @@ void DownloadController::startDownload(const QString &url)
         qDebug() << QString("第%1个下载请求：%2-%3").arg(i).arg(ranges.at(i).first).arg(ranges.at(i).second);
         auto worker = new DownloadWorker(this);
         auto range = ranges.at(i);
+        QString chunkUrl = replaceDomain(url, domains.at(i));
         worker->setIdentifier(i);
-        worker->setParamter(url, range, file);
+        worker->setParamter(chunkUrl, range, file);
         workers.append(worker);
         connect(worker, &DownloadWorker::downloadProcess, this, &DownloadController::handleProcess);
         connect(worker, &DownloadWorker::workFinished, this, &DownloadController::chunkDownloadFinish);
@@ -230,5 +239,14 @@ qint64 DownloadController::getFileSize(const QString& url)
     qDebug() << "文件大小为：" << fileSize;
     reply->deleteLater();
     return fileSize;
+}
+
+QString DownloadController::replaceDomain(const QString& url, const QString domain)
+{
+    QRegularExpression regex(R"((?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z0-9][a-z0-9-]{0,61}[a-z0-9])");
+    if (regex.match(url).hasMatch()) {
+        return QString(url).replace(regex.match(url).captured(), domain);
+    }
+    return url;
 }
 
