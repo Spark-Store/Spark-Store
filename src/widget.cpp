@@ -478,6 +478,7 @@ void Widget::chooseLeftMenu(int index)
     else
         left_list[index]->setStyleSheet("color:#FFFFFF;background-color:"+main_color.name()+";border-radius:8;border:0px;text-align:left;padding-left:15px;");
     if(index<=12){
+        /*
         if(themeIsDark){
             QString darkurl=menuUrl[index].toString();
             QStringList tmp=darkurl.split("/");
@@ -495,6 +496,68 @@ void Widget::chooseLeftMenu(int index)
         }
 
         ui->stackedWidget->setCurrentIndex(0);
+        */
+        QNetworkAccessManager *manager = new QNetworkAccessManager;
+        QUrl url("https://store.deepinos.org/api/application/get_application_list");
+        QByteArray array(QString("{\"type_id\":%1}").arg(index).toUtf8());
+        QNetworkRequest request(url);
+        request.setAttribute(QNetworkRequest::FollowRedirectsAttribute, true);
+        request.setHeader(QNetworkRequest::ContentTypeHeader, QVariant("application/json"));
+        QNetworkReply *reply = manager->post(request, array);
+        QEventLoop ev;
+        connect(reply, SIGNAL(finished()), &ev, SLOT(quit()));
+        ev.exec(QEventLoop::ExcludeUserInputEvents);
+        if (reply->error() == QNetworkReply::NoError)
+        {
+            QByteArray ba = reply->readAll();
+            QJsonParseError parseJsonErr;
+            QJsonDocument jsonDoc = QJsonDocument::fromJson(ba, &parseJsonErr);
+            if (parseJsonErr.error == QJsonParseError::NoError)
+            {
+                if (jsonDoc.isObject())
+                {
+                    QJsonObject jsonObj = jsonDoc.object();
+                    if (jsonObj.contains("error"))
+                    {
+                        qDebug() << "error:" << jsonObj["error"];
+                    }
+                    else
+                    {
+                        jsonObj = jsonObj.value(QStringLiteral("data")).toObject();
+
+                        if(jsonObj.contains(QStringLiteral("data")))
+                        {
+                            QJsonValue jsonValue = jsonObj.value(QStringLiteral("data"));
+                            if(jsonValue.isArray())
+                            {
+                                QJsonArray jsonArray = jsonValue.toArray();
+                                foreach(const QJsonValue &jsonValue, jsonArray)
+                                {
+                                    QJsonObject app = jsonValue.toObject();
+                                    int id = app["application_id"].toInt();
+                                    QString pkgname = app["package"].toString();
+                                    QString appname_zh = app["application_name_zh"].toString();
+                                    int size = app["size"].toInt();
+                                    qDebug() << "id = " << id << "  package = " << pkgname << "  appname = " << appname_zh << "  size = " << size;
+                                }
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    qDebug() << "error, should be json object";
+                }
+            }
+            else
+            {
+                qDebug() << "error:" << parseJsonErr.errorString();
+            }
+        }
+        else
+        {
+            qDebug() << "error:" << reply->errorString();
+        }
     }else if (index==13) {
         ui->stackedWidget->setCurrentIndex(1);
     }
