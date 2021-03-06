@@ -16,6 +16,7 @@ void SpkAppInfoLoaderThread::run()
     httpClient->get(targetUrl.toString())
         .header("content-type", "application/json")
         .onResponse([this](QByteArray json_array) {
+            qDebug() << "请求应用信息 " << json_array;
             QString urladdress, deatils, more, packagename, appweb;
             bool isInstalled;
 
@@ -83,7 +84,8 @@ void SpkAppInfoLoaderThread::run()
                 .onError([this](QString errorStr) {
                     Widget::sendNotification(tr("Failed to load application icon."));
                 })
-                .timeout(10 * 100)
+                .block()
+                .timeout(5 * 100)
                 .exec(); 
 
 
@@ -103,27 +105,23 @@ void SpkAppInfoLoaderThread::run()
                         qDebug() << "截图下载失败";
 //                        Widget::sendNotification(tr("Failed to load application screenshot."));
                     })
-                    .timeout(10 * 100)
+                    .block()
+                    .timeout(4 * 100)
                     .exec(); 
             }
             emit finishAllLoading();
 
+            httpClient->deleteLater();
         })
         .onError([](QString errorStr) {
             Widget::sendNotification(tr("Failed to download app info. Please check internet connection."));
         })
-        .timeout(10 * 100)
+        .timeout(5 * 100)
+        .block()
         .exec(); 
 
 }
 
-SpkAppInfoLoaderThread::~SpkAppInfoLoaderThread()
-{
-    if (httpClient) {
-        httpClient->deleteLater();
-        httpClient = nullptr;
-    }
-}
 
 void SpkAppInfoLoaderThread::setUrl(const QUrl &url)
 {

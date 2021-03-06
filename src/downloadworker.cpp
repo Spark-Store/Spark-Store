@@ -7,6 +7,8 @@
 #include <QDebug>
 #include <QThread>
 #include <QRegularExpression>
+#include <QFileInfo>
+#include <QDir>
 
 DownloadWorker::DownloadWorker(QObject *parent)
 {
@@ -49,19 +51,22 @@ void DownloadWorker::doWork()
             }
         });
         connect(reply, &QNetworkReply::finished, mgr, &QNetworkAccessManager::deleteLater);
-        connect(reply, &QNetworkReply::finished, reply, &QNetworkReply::deleteLater);
         connect(reply, &QNetworkReply::readyRead, this, &DownloadWorker::dataReady);
         connect(reply, &QNetworkReply::finished, this, &DownloadWorker::slotFinish);
         connect(reply, &QNetworkReply::downloadProgress, this, &DownloadWorker::handleProcess);
+//        connect(reply, &QNetworkReply::finished, reply, &QNetworkReply::deleteLater);
+        connect(reply, &QNetworkReply::finished, this, &DownloadWorker::doStop);
 
 }
 
 void DownloadWorker::doStop()
 {
-    reply->disconnect();
-    reply->aboutToClose();
-    reply->deleteLater();
-    reply = nullptr;
+    if (reply) {
+        reply->disconnect();
+        reply->aboutToClose();
+        reply->deleteLater();
+        reply = nullptr;
+    }
 }
 
 void DownloadWorker::dataReady()
@@ -95,17 +100,19 @@ DownloadController::DownloadController(QObject *parent)
         "sucdn4.jerrywang.top",
         "sucdn5.jerrywang.top"
     };
-    this->threadNum =  domains.size() > 6 ? 6 : domains.size();
+    this->threadNum =  domains.size() > 4 ? 4 : domains.size();
 }
 
 DownloadController::~DownloadController()
 {
-    for(int i = 0; i < workers.size(); i++) {
-        workers.at(i)->doStop();
-        workers.at(i)->disconnect();
-        workers.at(i)->deleteLater();
+    if (workers.size() > 0) {
+        for(int i = 0; i < workers.size(); i++) {
+            workers.at(i)->doStop();
+            workers.at(i)->disconnect();
+            workers.at(i)->deleteLater();
+        }
+        workers.clear();
     }
-    workers.clear();
 }
 
 void DownloadController::setFilename(QString filename)
@@ -123,6 +130,10 @@ void DownloadController::setThreadNum(int threadNum)
  */
 void DownloadController::startDownload(const QString &url)
 {
+
+
+    finish = 0;
+
     // 下载任务等分，计算每个线程的下载数据
     fileSize = getFileSize(url);
     if (fileSize == 0) {
@@ -141,8 +152,10 @@ void DownloadController::startDownload(const QString &url)
     ranges[threadNum-1].second = fileSize; // 余数部分加入最后一个
 
     // 打开文件
+    QDir tmpdir("/tmp/spark-store");
     file = new QFile;
-    file->setFileName(filename);
+    file->setFileName(tmpdir.absoluteFilePath(filename));
+
     if (file->exists())
         file->remove();
     if (!file->open(QIODevice::WriteOnly)) {
@@ -180,7 +193,9 @@ void DownloadController::stopDownload()
         workers.at(i)->deleteLater();
     }
     workers.clear();
-//    file->flush();
+
+    qDebug() << "文件下载路径：" << QFileInfo(file->fileName()).absoluteFilePath();
+    file->flush();
     file->close();
     delete file;
     file = nullptr;
@@ -200,17 +215,9 @@ void DownloadController::handleProcess()
 void DownloadController::chunkDownloadFinish()
 {
     finish++;
+    qDebug() << QString("已下载了%1块，共%2块！！！").arg(finish).arg(threadNum);
     if (finish == threadNum) {
-        file->flush();
-        file->close();
-        delete file;
-        file = nullptr;
-        for(int i = 0; i < workers.size(); i++) {
-            workers.at(i)->doStop();
-            workers.at(i)->disconnect();
-            workers.at(i)->deleteLater();
-        }
-        workers.clear();
+        stopDownload();
         emit downloadFinished();
     }
 }

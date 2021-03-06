@@ -566,10 +566,6 @@ void Widget::startRequest(QUrl url, QString fileName)
     isdownload=true;
     download_list[allDownload-1].free=false;
 
-//    reply = manager->get(QNetworkRequest(url));
-//    connect(reply,SIGNAL(finished()),this,SLOT(httpFinished()));
-//    connect(reply,SIGNAL(readyRead()),this,SLOT(httpReadyRead()));
-//    connect(reply,SIGNAL(downloadProgress(qint64,qint64)),this,SLOT(updateDataReadProgress(qint64,qint64)));
     connect(downloadController, &DownloadController::downloadProcess, this, &Widget::updateDataReadProgress);
     connect(downloadController, &DownloadController::downloadFinished, this, &Widget::httpFinished);
     connect(downloadController, &DownloadController::errorOccur, [this](QString msg){
@@ -807,12 +803,6 @@ void Widget::sltAppinfoFinish()
 
 void Widget::httpFinished() // 完成下载
 {
-//    file->flush();
-//    file->close();
-//    reply->deleteLater();
-//    reply = nullptr;
-//    delete file;
-//    file = nullptr;
     isdownload=false;
     isBusy=false;
     download_list[nowDownload-1].readyInstall();
@@ -823,13 +813,6 @@ void Widget::httpFinished() // 完成下载
             nowDownload+=1;
         }
         QString fileName=download_list[nowDownload-1].getName();
-//        file = new QFile(fileName);
-//        if(!file->open(QIODevice::WriteOnly))
-//        {
-//            delete file;
-//            file = nullptr;
-//            return ;
-//        }
         startRequest(urList.at(nowDownload-1), fileName);
     }
 }

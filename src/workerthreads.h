@@ -17,7 +17,6 @@ class SpkAppInfoLoaderThread Q_DECL_FINAL : public QThread
 public:
     //explicit SpkAppInfoLoaderThread() = default;
     void run() Q_DECL_OVERRIDE;
-    ~SpkAppInfoLoaderThread();
 public slots:
     void setUrl(const QUrl &url);
     void setServer(const QString &server);
