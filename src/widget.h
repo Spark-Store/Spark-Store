@@ -123,7 +123,6 @@ public:
 private:
     void initUI();
     void initConfig();
-    int loadappinfo(QUrl);
     void chooseLeftMenu(int index);
     void setfoot(int);
     void updatefoot();
