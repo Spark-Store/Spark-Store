@@ -94,11 +94,11 @@ void DownloadWorker::handleProcess(qint64, qint64)
 DownloadController::DownloadController(QObject *parent)
 {
     domains = {
-        "sucdn1.jerrywang.top",
-        "sucdn2.jerrywang.top",
-        "sucdn3.jerrywang.top",
-        "sucdn4.jerrywang.top",
-        "sucdn5.jerrywang.top"
+        "d1.store.deepinos.org.cn",
+        "d2.store.deepinos.org.cn",
+        "d3.store.deepinos.org.cn",
+        "d4.store.deepinos.org.cn",
+        "d5.store.deepinos.org.cn"
     };
     this->threadNum =  domains.size() > 4 ? 4 : domains.size();
 }
