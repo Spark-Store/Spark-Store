@@ -33,6 +33,7 @@
 #include "HttpClient.h"
 #include "appitem.h"
 #include "flowlayout.h"
+#include "downloadworker.h"
 
 DWIDGET_USE_NAMESPACE
 
@@ -48,6 +49,8 @@ Widget::Widget(DBlurEffectWidget *parent) :
     m_loadweb->show();
 
     httpClient = new AeaQt::HttpClient;
+    // 并发下载
+    downloadController = new DownloadController(this);
 
     connect(ui->menu_main,&QPushButton::clicked,[=](){Widget::chooseLeftMenu(0);});
     connect(ui->menu_network,&QPushButton::clicked,[=](){Widget::chooseLeftMenu(1);});
@@ -71,6 +74,7 @@ Widget::Widget(DBlurEffectWidget *parent) :
     connect(&appinfoLoadThread, &SpkAppInfoLoaderThread::finishedIconLoad, this, &Widget::sltAppinfoIcon, Qt::ConnectionType::BlockingQueuedConnection);
     connect(&appinfoLoadThread, &SpkAppInfoLoaderThread::finishedScreenshotLoad, this, &Widget::sltAppinfoScreenshot, Qt::ConnectionType::BlockingQueuedConnection);
     connect(&appinfoLoadThread, &SpkAppInfoLoaderThread::finishAllLoading, this, &Widget::sltAppinfoFinish, Qt::ConnectionType::BlockingQueuedConnection);
+
 
     // 搜索事件
     connect(searchEdit, &DSearchEdit::returnPressed, this, [=]()
@@ -127,6 +131,7 @@ Widget::~Widget()
 {
     notify_uninit();
 
+//    delete httpFinished;
     delete ui;
     qDebug()<<"exit";
     DApplication::quit();
@@ -231,8 +236,15 @@ void Widget::initConfig()
         while (getline(serverList,lineTmp)) {
             ui->comboBox_server->addItem(QString::fromStdString(lineTmp));
         }
+        for(int i = 0; i < ui->comboBox_server->count(); i++)
+        {
+            if(ui->comboBox_server->itemText(i) == "开发者模式 Dev only")
+            {
+                ui->comboBox_server->model()->setData(ui->comboBox_server->model()->index(i, 0), QVariant(0), Qt::UserRole - 1);
+            }
+        }
     }else {
-        ui->comboBox_server->addItem("http://sucdn.jerrywang.top/");
+        ui->comboBox_server->addItem("https://d.store.deepinos.org.cn/");
     }
 
     // 读取服务器URL并初始化菜单项的链接
@@ -241,7 +253,7 @@ void Widget::initConfig()
         ui->comboBox_server->setCurrentText(readConfig.value("server/choose").toString());
         appinfoLoadThread.setServer(serverUrl=readConfig.value("server/choose").toString());
     }else {
-        appinfoLoadThread.setServer(serverUrl="http://sucdn.jerrywang.top/");  // 默认URL
+        appinfoLoadThread.setServer(serverUrl="https://d.store.deenos.org.cn/");  // 默认URL
     }
     configCanSave=true;   //　防止触发保存配置信号
     menuUrl[0]=serverUrl + "store/#/";
@@ -266,8 +278,8 @@ void Widget::initConfig()
     ui->webfoot->hide();
 
     //初始化首页
-    ui->webEngineView->setUrl(menuUrl[0]);
-    //    ui->webEngineView->setUrl(menuUrl[1]);
+    chooseLeftMenu(0);
+    // ui->webEngineView->setUrl(menuUrl[0]);
 
     //给下载列表赋值到数组，方便调用
     for (int i =0; i<LIST_MAX;i++){
@@ -512,174 +524,6 @@ void Widget::updatefoot()
     ui->webfoot->setFixedHeight(allh-foot);
 }
 
-int Widget::loadappinfo(QUrl arg1)
-{
-    if(arg1.isEmpty()){
-        return 1;
-    }
-
-    //　先隐藏详情页负责显示截图的label
-    ui->screen_0->hide();
-    ui->screen_1->hide();
-    ui->screen_2->hide();
-    ui->screen_3->hide();
-    ui->screen_4->hide();
-    ui->label_appicon->clear();
-    ui->tag_community->hide();
-    ui->tag_ubuntu->hide();
-    ui->tag_deepin->hide();
-    ui->tag_uos->hide();
-    ui->tag_dtk5->hide();
-    ui->tag_dwine2->hide();
-    ui->tag_dwine5->hide();
-    ui->tag_a2d->hide();
-
-    //　重置UI状态
-    ui->pushButton_uninstall->hide();
-    ui->pushButton_website->setEnabled(false);
-    ui->pushButton->setEnabled(false);
-    ui->pushButton_translate->setEnabled(false);
-    ui->label_show->setText("Loading...");
-    ui->label_show->show();
-
-    QProcess get_json;
-    QDir dir("/tmp");
-    dir.mkdir("spark-store");
-    QDir::setCurrent("/tmp/spark-store");
-
-    get_json.start("curl -o app.json "+arg1.toString());
-    get_json.waitForFinished();
-    if(get_json.exitCode())
-    {
-        sendNotification(tr("Failed to download app info. Please check internet connection."));
-    }
-
-    QFile app_json("app.json");
-    if(app_json.open(QIODevice::ReadOnly)){
-        // 成功得到json文件
-        QByteArray json_array=app_json.readAll();
-        // 将路径转化为相应源的下载路径
-        urladdress=arg1.toString().left(arg1.toString().length()-8);
-        QStringList downloadurl=urladdress.split("/");
-        urladdress=ui->comboBox_server->currentText();
-        QString deburl=urladdress;
-        deburl=deburl.left(urladdress.length()-1);
-        urladdress="https://cdn.jsdelivr.net/gh/Jerrywang959/jsonpng@master/"; // 使用图片专用服务器请保留这行，删除后将使用源服务器
-        urladdress=urladdress.left(urladdress.length()-1);
-
-        for (int i=3;i<downloadurl.size();i++) {
-            urladdress+="/"+downloadurl[i];
-            deburl+="/"+downloadurl[i];
-        }
-        // 路径转化完成
-        QJsonObject json= QJsonDocument::fromJson(json_array).object();
-        appName = json["Name"].toString();
-        url=deburl + json["Filename"].toString();
-        qDebug()<<url;
-        ui->label_appname->setText(appName);
-        system("rm -r *.png");
-        ui->label_show->show();
-        // 软件信息加载
-        QString info;
-        info= tr("PkgName: ")+json["Pkgname"].toString()+"\n";
-        info+=tr("Version: ")+json["Version"].toString()+"\n";
-        if(json["Author"].toString()!="" && json["Author"].toString()!=" "){
-            info+=tr("Author: ")+json["Author"].toString()+"\n";
-        }
-
-        if(json["Website"].toString()!="" && json["Website"].toString()!=" "){
-            info+=tr("Official Site: ")+json["Website"].toString()+"\n";
-            ui->pushButton_website->show();
-            appweb=json["Website"].toString();
-        }
-        info+=tr("Contributor: ")+json["Contributor"].toString()+"\n";
-        info+=tr("Update Time: ")+json["Update"].toString()+"\n";
-        info+=tr("Installed Size: ")+json["Size"].toString()+"\n";
-        ui->label_info->setText(info);
-        ui->label_more->setText(json["More"].toString());
-        QProcess isInstall;
-        pkgName=json["Pkgname"].toString();
-        isInstall.start("dpkg -s "+json["Pkgname"].toString());
-        isInstall.waitForFinished();
-        int error=QString::fromStdString(isInstall.readAllStandardError().toStdString()).length();
-        if(error==0){
-            ui->pushButton_download->setText(tr("Reinstall"));
-            ui->pushButton_uninstall->show();
-
-        }else {
-            ui->pushButton_download->setText(tr("Install"));
-        }
-        //tag加载
-        QString tags=json["Tags"].toString();
-        QStringList tagList=tags.split(";");
-        for (int i=0;i<tagList.size();i++) {
-            if(tagList[i]=="community")
-                ui->tag_community->show();
-            if(tagList[i]=="ubuntu")
-                ui->tag_ubuntu->show();
-            if(tagList[i]=="deepin")
-                ui->tag_deepin->show();
-            if(tagList[i]=="uos")
-                ui->tag_uos->show();
-            if(tagList[i]=="dtk5")
-                ui->tag_dtk5->show();
-            if(tagList[i]=="dwine2")
-                ui->tag_dwine2->show();
-            if(tagList[i]=="dwine5")
-                ui->tag_dwine5->show();
-            if(tagList[i]=="a2d")
-                ui->tag_a2d->show();
-        }
-        // 图标加载
-        get_json.start("curl -o icon.png "+urladdress+"icon.png");
-        get_json.waitForFinished();
-        if(!get_json.exitCode()) {
-            QPixmap appicon(QString::fromUtf8(TMP_PATH)+"/icon.png");
-            ui->label_appicon->setPixmap(appicon);
-            ui->pushButton_download->setEnabled(true);
-            ui->pushButton->setEnabled(true);
-            ui->pushButton_translate->setEnabled(true);
-            ui->pushButton_website->setEnabled(true);
-        }
-        else
-            sendNotification(tr("Failed to load application icon."));
-
-
-        // 截图展示加载
-        QList<image_show*> label_screen;
-        label_screen << ui->screen_0 << ui->screen_1 << ui->screen_2 << ui->screen_3 << ui->screen_4;
-        for (int i = 0; i < 5; i++) {
-            QString cmd = "curl -o screen_"+QString::number(i+1)+".png "+urladdress+"screen_"+QString::number(i+1)+".png";
-            get_json.terminate();
-            get_json.start(cmd);
-            get_json.waitForFinished();
-            bool s = screen[i].load("screen_"+QString::number(i+1)+".png");
-            if(s){
-                label_screen[i]->setImage(screen[i]);
-                label_screen[i]->show();
-                /*
-                switch(i){  // 故意为之，为了清除多余截图
-                case 0:
-                    label_screen[1]->hide();
-                case 1:
-                    label_screen[2]->hide();
-                case 2:
-                    label_screen[3]->hide();
-                case 3:
-                    label_screen[4]->hide();
-
-                }*/
-            }else{
-                QFile::remove("screen_"+QString::number(i+1)+".png");
-                break;
-            }
-        }
-        ui->label_show->setText("");
-        ui->label_show->hide();
-    }
-    return 0;
-}
-
 void Widget::on_pushButton_download_clicked()
 {
     chooseLeftMenu(13);
@@ -705,31 +549,37 @@ void Widget::on_pushButton_download_clicked()
     system("cp icon.png icon_"+QString::number(allDownload-1).toUtf8()+".png");
     download_list[allDownload-1].seticon(icon);
     if(!isBusy){
-        file = new QFile(fileName);
-        if(!file->open(QIODevice::WriteOnly)){
-            delete file;
-            file = nullptr;
-            return ;
-        }
+//        file = new QFile(fileName);
+//        if(!file->open(QIODevice::WriteOnly)){
+//            delete file;
+//            file = nullptr;
+//            return ;
+//        }
+
         nowDownload+=1;
-        startRequest(urList.at(nowDownload-1)); // 进行链接请求
+
+        startRequest(urList.at(nowDownload-1), fileName); // 进行链接请求
     }
     if(ui->pushButton_download->text()==tr("Reinstall")){
         download_list[allDownload-1].reinstall=true;
     }
 }
 
-void Widget::startRequest(QUrl url)
+void Widget::startRequest(QUrl url, QString fileName)
 {
     ui->listWidget->show();
     ui->label->hide();
     isBusy=true;
     isdownload=true;
     download_list[allDownload-1].free=false;
-    reply = manager->get(QNetworkRequest(url));
-    connect(reply,SIGNAL(finished()),this,SLOT(httpFinished()));
-    connect(reply,SIGNAL(readyRead()),this,SLOT(httpReadyRead()));
-    connect(reply,SIGNAL(downloadProgress(qint64,qint64)),this,SLOT(updateDataReadProgress(qint64,qint64)));
+
+    connect(downloadController, &DownloadController::downloadProcess, this, &Widget::updateDataReadProgress);
+    connect(downloadController, &DownloadController::downloadFinished, this, &Widget::httpFinished);
+    connect(downloadController, &DownloadController::errorOccur, [this](QString msg){
+        this->sendNotification(msg);
+    });
+    downloadController->setFilename(fileName);
+    downloadController->startDownload(url.toString());
 }
 
 void Widget::searchApp(QString text)
@@ -846,6 +696,8 @@ void Widget::updateDataReadProgress(qint64 bytesRead, qint64 totalBytes)
     download_list[nowDownload-1].setValue((bytesRead*10000)/totalBytes);    // 当前值
     download_size=bytesRead;
     if(download_list[nowDownload-1].close){ // 随时检测下载是否被取消
+        downloadController->disconnect();
+        downloadController->stopDownload();
         download_list[nowDownload-1].closeDownload();
         httpFinished();
     }
@@ -958,12 +810,6 @@ void Widget::sltAppinfoFinish()
 
 void Widget::httpFinished() // 完成下载
 {
-    file->flush();
-    file->close();
-    reply->deleteLater();
-    reply = nullptr;
-    delete file;
-    file = nullptr;
     isdownload=false;
     isBusy=false;
     download_list[nowDownload-1].readyInstall();
@@ -974,14 +820,7 @@ void Widget::httpFinished() // 完成下载
             nowDownload+=1;
         }
         QString fileName=download_list[nowDownload-1].getName();
-        file = new QFile(fileName);
-        if(!file->open(QIODevice::WriteOnly))
-        {
-            delete file;
-            file = nullptr;
-            return ;
-        }
-        startRequest(urList.at(nowDownload-1));
+        startRequest(urList.at(nowDownload-1), fileName);
     }
 }
 
@@ -1049,7 +888,7 @@ void Widget::on_pushButton_updateServer_clicked()
         ui->pushButton_updateServer->setEnabled(false);
         ui->comboBox_server->clear();
         QFile::remove(QDir::homePath().toUtf8()+"/.config/spark-store/server.list");
-        system("curl -o "+QDir::homePath().toUtf8()+"/.config/spark-store/server.list http://dcstore.shenmo.tech/store/server.list");
+        system("curl -o "+QDir::homePath().toUtf8()+"/.config/spark-store/server.list https://d.store.deepinos.org.cn/store/server.list");
         std::fstream server;
         server.open(QDir::homePath().toUtf8()+"/.config/spark-store/server.list",std::ios::in);
         std::string lineTmp;
@@ -1058,10 +897,18 @@ void Widget::on_pushButton_updateServer_clicked()
                 ui->comboBox_server->addItem(QString::fromStdString(lineTmp));
             }
         }else {
-            ui->comboBox_server->addItem("http://sucdn.jerrywang.top/");
+            ui->comboBox_server->addItem("https://d.store.deepinos.org.cn/");
         }
         ui->pushButton_updateServer->setEnabled(true);
         ui->comboBox_server->setCurrentIndex(0);
+
+        for(int i = 0; i < ui->comboBox_server->count(); i++)
+        {
+            if(ui->comboBox_server->itemText(i) == "开发者模式 Dev only")
+            {
+                ui->comboBox_server->model()->setData(ui->comboBox_server->model()->index(i, 0), QVariant(0), Qt::UserRole - 1);
+            }
+        }
     });
 }
 
@@ -1269,6 +1116,7 @@ void Widget::on_webEngineView_urlChanged(const QUrl &arg1)
         ui->pushButton_download->setEnabled(false);
         ui->stackedWidget->setCurrentIndex(2);
         qDebug()<<"https://demo-one-vert.vercel.app/"+type_name+"/"+pname;
+        qDebug()<< "链接地址：" << arg1;
         /*
         load.cancel();//打开并发加载线程前关闭正在执行的线程
         load = QtConcurrent::run([=](){

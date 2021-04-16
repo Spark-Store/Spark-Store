@@ -6,6 +6,11 @@
 #include <QUrl>
 #include <QProcess>
 
+
+namespace AeaQt {
+    class HttpClient;
+}
+
 class SpkAppInfoLoaderThread Q_DECL_FINAL : public QThread
 {
     Q_OBJECT
@@ -31,6 +36,8 @@ private:
     QString serverUrl;
     bool finishedDownload = false;
     int downloaderRetval = 0;
+
+    AeaQt::HttpClient *httpClient;
 };
 
 #endif // WORKERTHREADS_H

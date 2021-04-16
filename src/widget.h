@@ -39,6 +39,7 @@ class Widget;
 
 
 class FlowLayout;
+class DownloadController;
 
 namespace AeaQt {
     class HttpClient;
@@ -51,7 +52,7 @@ class Widget : public DBlurEffectWidget
 public:
     explicit Widget(DBlurEffectWidget *parent = nullptr);
     ~Widget();
-    void startRequest(QUrl url);
+    void startRequest(QUrl url, QString fileName);
     void searchApp(QString);
     int nowDownload=0;
     int allDownload=0;
@@ -122,7 +123,6 @@ public:
 private:
     void initUI();
     void initConfig();
-    int loadappinfo(QUrl);
     void chooseLeftMenu(int index);
     void setfoot(int);
     void updatefoot();
@@ -163,6 +163,7 @@ private:
     AeaQt::HttpClient *httpClient;
     FlowLayout *applist_grid;
     QHBoxLayout *main;
+    DownloadController *downloadController;
 };
 
 #endif // WIDGET_H
