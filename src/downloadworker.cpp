@@ -100,7 +100,7 @@ DownloadController::DownloadController(QObject *parent)
         "d4.store.deepinos.org.cn",
         "d5.store.deepinos.org.cn"
     };
-    this->threadNum =  domains.size() > 4 ? 4 : domains.size();
+    this->threadNum =  domains.size() > 5 ? 5 : domains.size();
 }
 
 DownloadController::~DownloadController()
