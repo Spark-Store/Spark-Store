@@ -881,7 +881,7 @@ void Widget::on_pushButton_updateServer_clicked()
         ui->pushButton_updateServer->setEnabled(false);
         ui->comboBox_server->clear();
         QFile::remove(QDir::homePath().toUtf8()+"/.config/spark-store/server.list");
-        system("curl -o "+QDir::homePath().toUtf8()+"/.config/spark-store/server.list http://dcstore.shenmo.tech/store/server.list");
+        system("curl -o "+QDir::homePath().toUtf8()+"/.config/spark-store/server.list https://d.store.deepinos.org.cn/store/server.list");
         std::fstream server;
         server.open(QDir::homePath().toUtf8()+"/.config/spark-store/server.list",std::ios::in);
         std::string lineTmp;
