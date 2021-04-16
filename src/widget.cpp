@@ -236,6 +236,13 @@ void Widget::initConfig()
         while (getline(serverList,lineTmp)) {
             ui->comboBox_server->addItem(QString::fromStdString(lineTmp));
         }
+        for(int i = 0; i < ui->comboBox_server->count(); i++)
+        {
+            if(ui->comboBox_server->itemText(i) == "开发者模式 Dev only")
+            {
+                ui->comboBox_server->model()->setData(ui->comboBox_server->model()->index(i, 0), QVariant(0), Qt::UserRole - 1);
+            }
+        }
     }else {
         ui->comboBox_server->addItem("https://d.store.deepinos.org.cn/");
     }
@@ -271,8 +278,8 @@ void Widget::initConfig()
     ui->webfoot->hide();
 
     //初始化首页
-    ui->webEngineView->setUrl(menuUrl[0]);
-    //    ui->webEngineView->setUrl(menuUrl[1]);
+    chooseLeftMenu(0);
+    // ui->webEngineView->setUrl(menuUrl[0]);
 
     //给下载列表赋值到数组，方便调用
     for (int i =0; i<LIST_MAX;i++){
@@ -894,6 +901,14 @@ void Widget::on_pushButton_updateServer_clicked()
         }
         ui->pushButton_updateServer->setEnabled(true);
         ui->comboBox_server->setCurrentIndex(0);
+
+        for(int i = 0; i < ui->comboBox_server->count(); i++)
+        {
+            if(ui->comboBox_server->itemText(i) == "开发者模式 Dev only")
+            {
+                ui->comboBox_server->model()->setData(ui->comboBox_server->model()->index(i, 0), QVariant(0), Qt::UserRole - 1);
+            }
+        }
     });
 }
 
