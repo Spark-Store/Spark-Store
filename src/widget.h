@@ -2,12 +2,10 @@
 #define WIDGET_H
 
 #include <QWidget>
-#include <QLabel>
-#include <QUrl>
 #include <QFile>
 #include <QNetworkReply>
 #include <QNetworkAccessManager>
-#include <downloadlist.h>
+
 #include <QJsonObject>
 #include <QProcess>
 #include <QFuture>
@@ -18,40 +16,42 @@
 #include <QFontDatabase>
 #include <QMutex>
 
-#include <DSettings>
 #include <DBlurEffectWidget>
-#include <DSpinner>
-#include <DWaterProgress>
-#include <DSpinner>
 #include <DTitlebar>
 #include <DSearchEdit>
-#include <progressload.h>
-#include "workerthreads.h"
-#include "image_show.h"
+#include <DSettings>
+#include <DSpinner>
+#include <DWaterProgress>
 
-#define LIST_MAX 99 //一次最多下载数量
+#include "image_show.h"
+#include "downloadlist.h"
+#include "progressload.h"
+#include "workerthreads.h"
+
+#define LIST_MAX 99 // 一次最多下载数量
 #define TMP_PATH "/tmp/spark-store"
 
 DWIDGET_USE_NAMESPACE
+
 namespace Ui {
 class Widget;
 }
-
 
 class FlowLayout;
 class DownloadController;
 
 namespace AeaQt {
-    class HttpClient;
+class HttpClient;
 }
 
 class Widget : public DBlurEffectWidget
 {
-
     Q_OBJECT
+
 public:
     explicit Widget(DBlurEffectWidget *parent = nullptr);
     ~Widget();
+
     void startRequest(QUrl url, QString fileName);
     void searchApp(QString);
     int nowDownload=0;
@@ -103,7 +103,6 @@ private slots:
     void on_pushButton_translate_clicked();
 
 public:
-
     QUrl url;
 
     downloadlist download_list[LIST_MAX];

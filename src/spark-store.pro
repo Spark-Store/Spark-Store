@@ -8,9 +8,6 @@ QT       += core gui network concurrent webenginewidgets
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-CONFIG += c++11 link_pkgconfig
-PKGCONFIG += dtkwidget glib-2.0 gdk-pixbuf-2.0 libnotify
-
 TARGET = spark-store
 TEMPLATE = app
 
@@ -25,35 +22,42 @@ DEFINES += QT_DEPRECATED_WARNINGS
 # You can also select to disable deprecated APIs only up to a certain version of Qt.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
+DEFINES += QT_APP_DEBUG
+include(../third-party/QtNetworkService/QtNetworkService.pri)
+
+CONFIG += c++11 link_pkgconfig
+PKGCONFIG += dtkwidget glib-2.0 gdk-pixbuf-2.0 libnotify
+
 # 禁止输出 qWarning / qDebug 信息
 CONFIG(release, debug|release): DEFINES += QT_NO_WARNING_OUTPUT QT_NO_DEBUG_OUTPUT
 
-SOURCES += main.cpp\
+SOURCES += \
     appitem.cpp \
-    downloadworker.cpp \
-    widget.cpp \
-    downloadlist.cpp \
-    image_show.cpp \
     big_image.cpp \
-    progressload.cpp \
+    downloadlist.cpp \
+    downloadworker.cpp \
     flowlayout.cpp \
+    image_show.cpp \
+    main.cpp \
+    progressload.cpp \
+    widget.cpp \
     workerthreads.cpp
 
-HEADERS  += \
+HEADERS += \
     appitem.h \
-    downloadworker.h \
-    widget.h \
-    downloadlist.h \
-    image_show.h \
     big_image.h \
-    progressload.h \
+    downloadlist.h \
+    downloadworker.h \
     flowlayout.h \
+    image_show.h \
+    progressload.h \
+    widget.h \
     workerthreads.h
 
 FORMS += \
     appitem.ui \
-    widget.ui \
-    downloadlist.ui
+    downloadlist.ui \
+    widget.ui
 
 RESOURCES += \
     ../assets/icons.qrc
@@ -73,10 +77,7 @@ DISTFILES += \
     ../assets/tags/logo_icon.svg \
     ../assets/tags/uos.svg
 
-TRANSLATIONS = ../translations/spark-store_en.ts \
-               ../translations/spark-store_zh_CN.ts
-               ../translations/spark-store_fr.ts\
-
-DEFINES += QT_APP_DEBUG
-include(../third-party/QtNetworkService/QtNetworkService.pri)
-
+TRANSLATIONS += \
+    ../translations/spark-store_en.ts \
+    ../translations/spark-store_fr.ts \
+    ../translations/spark-store_zh_CN.ts

@@ -1,38 +1,35 @@
+#include <fstream>
 #include <libnotify/notify.h>
+
 #include "widget.h"
 #include "ui_widget.h"
-#include <QDebug>
-#include <QFileInfo>
-#include <QNetworkReply>
-#include <QNetworkAccessManager>
+
 #include <QVBoxLayout>
-#include <fstream>
-#include <QDir>
-#include <QProcess>
-#include <QFile>
+#include <QClipboard>
 #include <QJsonDocument>
 #include <QJsonObject>
-#include <QByteArray>
-#include <QPixmap>
-#include <QtConcurrent> // 并发
-#include <QSettings>
-#include <QIcon>
-#include <QGraphicsOpacityEffect>
+#include <QFile>
+#include <QFileInfo>
+#include <QDir>
 #include <QDesktopServices>
-#include <DDialog>
-#include <DSettings>
-#include <DSettingsOption>
-#include <DSettingsDialog>
-#include "image_show.h"
-#include <DBlurEffectWidget>
-#include <QClipboard>
+#include <QNetworkReply>
+#include <QNetworkAccessManager>
+#include <QProcess>
+#include <QSettings>
+#include <QGraphicsOpacityEffect>
+#include <QtConcurrent> // 并发
+
 #include <DApplication>
 #include <DGuiApplicationHelper>
+#include <DDialog>
+#include <DSettingsDialog>
+#include <DSettingsOption>
 #include <DStyle>
-#include <QPushButton>
-#include "HttpClient.h"
+
 #include "appitem.h"
 #include "flowlayout.h"
+
+#include "HttpClient.h"
 #include "downloadworker.h"
 
 DWIDGET_USE_NAMESPACE
@@ -42,31 +39,31 @@ Widget::Widget(DBlurEffectWidget *parent) :
     ui(new Ui::Widget)
 {
     ui->setupUi(this);
+
     initUI();
     initConfig();
-    manager = new QNetworkAccessManager(this);//下载管理
+
+    manager = new QNetworkAccessManager(this);  // 下载管理
     m_loadweb=ui->progressload;
     m_loadweb->show();
 
     httpClient = new AeaQt::HttpClient;
-    // 并发下载
-    downloadController = new DownloadController(this);
+    downloadController = new DownloadController(this);  // 并发下载
 
-    connect(ui->menu_main,&QPushButton::clicked,[=](){Widget::chooseLeftMenu(0);});
-    connect(ui->menu_network,&QPushButton::clicked,[=](){Widget::chooseLeftMenu(1);});
-    connect(ui->menu_chat,&QPushButton::clicked,[=](){Widget::chooseLeftMenu(2);});
-    connect(ui->menu_music,&QPushButton::clicked,[=](){Widget::chooseLeftMenu(3);});
-    connect(ui->menu_video,&QPushButton::clicked,[=](){Widget::chooseLeftMenu(4);});
-    connect(ui->menu_photo,&QPushButton::clicked,[=](){Widget::chooseLeftMenu(5);});
-    connect(ui->menu_game,&QPushButton::clicked,[=](){Widget::chooseLeftMenu(6);});
-    connect(ui->menu_office,&QPushButton::clicked,[=](){Widget::chooseLeftMenu(7);});
-    connect(ui->menu_read,&QPushButton::clicked,[=](){Widget::chooseLeftMenu(8);});
-    connect(ui->menu_dev,&QPushButton::clicked,[=](){Widget::chooseLeftMenu(9);});
-    connect(ui->menu_system,&QPushButton::clicked,[=](){Widget::chooseLeftMenu(10);});
-    connect(ui->menu_theme,&QPushButton::clicked,[=](){Widget::chooseLeftMenu(11);});
-    connect(ui->menu_other,&QPushButton::clicked,[=](){Widget::chooseLeftMenu(12);});
-    connect(ui->menu_download,&QPushButton::clicked,[=](){Widget::chooseLeftMenu(13);});
-    // connect((ui->titlebar))
+    connect(ui->menu_main, &QPushButton::clicked, this, [=](){Widget::chooseLeftMenu(0);});
+    connect(ui->menu_network, &QPushButton::clicked, this, [=](){Widget::chooseLeftMenu(1);});
+    connect(ui->menu_chat, &QPushButton::clicked, this, [=](){Widget::chooseLeftMenu(2);});
+    connect(ui->menu_music, &QPushButton::clicked, this, [=](){Widget::chooseLeftMenu(3);});
+    connect(ui->menu_video, &QPushButton::clicked, this, [=](){Widget::chooseLeftMenu(4);});
+    connect(ui->menu_photo, &QPushButton::clicked, this, [=](){Widget::chooseLeftMenu(5);});
+    connect(ui->menu_game, &QPushButton::clicked, this, [=](){Widget::chooseLeftMenu(6);});
+    connect(ui->menu_office, &QPushButton::clicked, this, [=](){Widget::chooseLeftMenu(7);});
+    connect(ui->menu_read, &QPushButton::clicked, this, [=](){Widget::chooseLeftMenu(8);});
+    connect(ui->menu_dev, &QPushButton::clicked, this, [=](){Widget::chooseLeftMenu(9);});
+    connect(ui->menu_system, &QPushButton::clicked, this, [=](){Widget::chooseLeftMenu(10);});
+    connect(ui->menu_theme, &QPushButton::clicked, this, [=](){Widget::chooseLeftMenu(11);});
+    connect(ui->menu_other, &QPushButton::clicked, this, [=](){Widget::chooseLeftMenu(12);});
+    connect(ui->menu_download, &QPushButton::clicked, this, [=](){Widget::chooseLeftMenu(13);});
 
     connect(&appinfoLoadThread, SIGNAL(requestResetUi()), this, SLOT(sltAppinfoResetUi()), Qt::ConnectionType::BlockingQueuedConnection);
     connect(&appinfoLoadThread, &SpkAppInfoLoaderThread::requestSetTags, this, &Widget::sltAppinfoTags, Qt::ConnectionType::BlockingQueuedConnection);
@@ -75,13 +72,12 @@ Widget::Widget(DBlurEffectWidget *parent) :
     connect(&appinfoLoadThread, &SpkAppInfoLoaderThread::finishedScreenshotLoad, this, &Widget::sltAppinfoScreenshot, Qt::ConnectionType::BlockingQueuedConnection);
     connect(&appinfoLoadThread, &SpkAppInfoLoaderThread::finishAllLoading, this, &Widget::sltAppinfoFinish, Qt::ConnectionType::BlockingQueuedConnection);
 
-
     // 搜索事件
     connect(searchEdit, &DSearchEdit::returnPressed, this, [=]()
     {
         qDebug() << "触发了搜索，呜啦啦啦!";
         QString searchtext = searchEdit->text();
-        if(searchtext != "")
+        if(!searchtext.isEmpty())
         {
             qDebug() << searchEdit->text();
             searchApp(searchtext);
@@ -89,38 +85,53 @@ Widget::Widget(DBlurEffectWidget *parent) :
         this->setFocus();
     });
 
-    connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged, this, [=](DGuiApplicationHelper::ColorType themeType) {
+    connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged, this, [=](DGuiApplicationHelper::ColorType themeType)
+    {
+        // 获取系统活动色
         QColor main_color;
-        main_color=DGuiApplicationHelper::instance()->applicationPalette().highlight().color();
-        if(themeType==DGuiApplicationHelper::DarkType){
-            qDebug()<<"Dark";
-            setTheme(true,main_color);
-        }else {
-            qDebug()<<"Light";
-            setTheme(false,main_color);
+        main_color = DGuiApplicationHelper::instance()->applicationPalette().highlight().color();
+
+        if(themeType == DGuiApplicationHelper::DarkType)
+        {
+            qDebug() << "Dark";
+            setTheme(true, main_color);
+        }
+        else
+        {
+            qDebug() << "Light";
+            setTheme(false, main_color);
         }
     });
 
     // 计算显示下载速度
     download_speed.setInterval(1000);
     download_speed.start();
-    connect(&download_speed,&QTimer::timeout,[=](){
-        if(isdownload){
-            size1=download_size;
+    connect(&download_speed,&QTimer::timeout,[=]()
+    {
+        if(isdownload)
+        {
+            size1 = download_size;
             QString theSpeed;
             double bspeed;
-            bspeed=size1-size2;
-            if(bspeed<1024){
-                theSpeed=QString::number(bspeed)+"B/s";
-            }else if (bspeed<(1024*1024)) {
-                theSpeed=QString::number(0.01*int(100*(bspeed/1024)))+"KB/s";
-            }else if (bspeed<(1024*1024*1024)) {
-                theSpeed=QString::number(0.01*int(100*(bspeed/(1024*1024))))+"MB/s";
-            }else {
-                theSpeed=QString::number(0.01*int(100*(bspeed/(1024*1024*1024))))+"GB/s";
+            bspeed = size1 - size2;
+            if(bspeed < 1024)
+            {
+                theSpeed = QString::number(bspeed) + "B/s";
             }
-            download_list[nowDownload-1].setSpeed(theSpeed);
-            size2=download_size;
+            else if(bspeed < 1024 * 1024)
+            {
+                theSpeed = QString::number(0.01 * int(100 * (bspeed / 1024))) + "KB/s";
+            }
+            else if(bspeed < 1024 * 1024 * 1024)
+            {
+                theSpeed = QString::number(0.01 * int(100 * (bspeed / (1024 * 1024)))) + "MB/s";
+            }
+            else
+            {
+                theSpeed = QString::number(0.01 * int(100 * (bspeed / (1024 * 1024 * 1024)))) + "GB/s";
+            }
+            download_list[nowDownload - 1].setSpeed(theSpeed);
+            size2 = download_size;
         }
     });
 
@@ -131,9 +142,10 @@ Widget::~Widget()
 {
     notify_uninit();
 
-//    delete httpFinished;
+    // delete httpFinished;
     delete ui;
-    qDebug()<<"exit";
+
+    qDebug() << "exit";
     DApplication::quit();
 }
 
@@ -153,20 +165,20 @@ void Widget::initUI()
     label_screen << ui->screen_0 << ui->screen_1 << ui->screen_2 << ui->screen_3 << ui->screen_4;
 
     // 初始化分界线
-    QGraphicsOpacityEffect *opacityEffect_1=new QGraphicsOpacityEffect;
+    QGraphicsOpacityEffect *opacityEffect_1 = new QGraphicsOpacityEffect;
     opacityEffect_1->setOpacity(0.1);
     ui->line1_widget->setGraphicsEffect(opacityEffect_1);
 
     // 搜索框
-    QWidget *w_titlebar=new QWidget;
-    QHBoxLayout *ly_titlebar=new QHBoxLayout;
+    QWidget *w_titlebar = new QWidget;
+    QHBoxLayout *ly_titlebar = new QHBoxLayout;
     w_titlebar->setLayout(ly_titlebar);
     // ly_titlebar->addWidget(ui->pushButton_return);
     ly_titlebar->addStretch();
     ly_titlebar->addSpacing(50);
     ly_titlebar->addWidget(searchEdit);
     ly_titlebar->addStretch();
-    titlebar=ui->titlebar;
+    titlebar = ui->titlebar;
     titlebar->setCustomWidget(w_titlebar);
     // titlebar->setIcon(QIcon::fromTheme("spark-store"));
     titlebar->setTitle(tr("Spark Store"));
@@ -177,23 +189,23 @@ void Widget::initUI()
 
     // 添加菜单项
     QAction *actionSubmission = new QAction(tr("Submit App"), this);
-    QAction *setting=new QAction(tr("Settings"));
+    QAction *setting = new QAction(tr("Settings"));
 
-    QMenu *menu=new QMenu;
-
+    QMenu *menu = new QMenu;
     menu->addAction(setting);
     menu->addAction(actionSubmission);
     titlebar->setMenu(menu);
-    connect(actionSubmission, &QAction::triggered, this, [ = ] () {
-        QDesktopServices::openUrl(QUrl("https://upload.spark-app.store/"));
-    });
+
+    connect(actionSubmission, &QAction::triggered, this, [=](){QDesktopServices::openUrl(QUrl("https://upload.spark-app.store/"));});
     connect(setting, &QAction::triggered, this, &Widget::opensetting);
 
     // 载入自定义字体
     int loadedFontID = QFontDatabase::addApplicationFont(":/fonts/fonts/华康少女字体.ttf");
     QStringList loadedFontFamilies = QFontDatabase::applicationFontFamilies(loadedFontID);
     if(!loadedFontFamilies.isEmpty())
+    {
         font = loadedFontFamilies.at(0);
+    }
     /* 全局字体设置
      * DApplication::setFont(font);
      */
@@ -230,10 +242,12 @@ void Widget::initConfig()
 {
     // 读取服务器列表并初始化
     std::fstream serverList;
-    serverList.open(QDir::homePath().toUtf8()+"/.config/spark-store/server.list",std::ios::in);
+    serverList.open(QDir::homePath().toUtf8() + "/.config/spark-store/server.list", std::ios::in);
     std::string lineTmp;
-    if(serverList){
-        while (getline(serverList,lineTmp)) {
+    if(serverList)
+    {
+        while(getline(serverList, lineTmp))
+        {
             ui->comboBox_server->addItem(QString::fromStdString(lineTmp));
         }
         for(int i = 0; i < ui->comboBox_server->count(); i++)
@@ -243,55 +257,64 @@ void Widget::initConfig()
                 ui->comboBox_server->model()->setData(ui->comboBox_server->model()->index(i, 0), QVariant(0), Qt::UserRole - 1);
             }
         }
-    }else {
+    }
+    else
+    {
         ui->comboBox_server->addItem("https://d.store.deepinos.org.cn/");
     }
 
     // 读取服务器URL并初始化菜单项的链接
-    QSettings readConfig(QDir::homePath()+"/.config/spark-store/config.ini",QSettings::IniFormat);
-    if(readConfig.value("server/choose").toString()!=""){
+    QSettings readConfig(QDir::homePath() + "/.config/spark-store/config.ini", QSettings::IniFormat);
+    if(!readConfig.value("server/choose").toString().isEmpty())
+    {
         ui->comboBox_server->setCurrentText(readConfig.value("server/choose").toString());
-        appinfoLoadThread.setServer(serverUrl=readConfig.value("server/choose").toString());
-    }else {
-        appinfoLoadThread.setServer(serverUrl="https://d.store.deenos.org.cn/");  // 默认URL
+        appinfoLoadThread.setServer(serverUrl = readConfig.value("server/choose").toString());
     }
-    configCanSave=true;   //　防止触发保存配置信号
-    menuUrl[0]=serverUrl + "store/#/";
-    // menuUrl[0]="http://127.0.0.1:8000/#/darkprogramming";
-    menuUrl[1]=serverUrl + "store/#/network";
-    menuUrl[2]=serverUrl + "store/#/relations";
-    menuUrl[3]=serverUrl + "store/#/musicandsound";
-    menuUrl[4]=serverUrl + "store/#/videos";
-    menuUrl[5]=serverUrl + "store/#/photos";
-    menuUrl[6]=serverUrl + "store/#/games";
-    menuUrl[7]=serverUrl + "store/#/office";
-    menuUrl[8]=serverUrl + "store/#/reading";
-    menuUrl[9]=serverUrl + "store/#/programming";
-    menuUrl[10]=serverUrl + "store/#/tools";
-    menuUrl[11]=serverUrl + "store/#/themes";
-    menuUrl[12]=serverUrl + "store/#/others";
+    else
+    {
+        appinfoLoadThread.setServer(serverUrl = "https://d.store.deenos.org.cn/");  // 默认URL
+    }
+    configCanSave = true;   //　防止触发保存配置信号
 
+    // menuUrl[0] = "http://127.0.0.1:8000/#/darkprogramming";
+    menuUrl[0] = serverUrl + "store/#/";
+    menuUrl[1] = serverUrl + "store/#/network";
+    menuUrl[2] = serverUrl + "store/#/relations";
+    menuUrl[3] = serverUrl + "store/#/musicandsound";
+    menuUrl[4] = serverUrl + "store/#/videos";
+    menuUrl[5] = serverUrl + "store/#/photos";
+    menuUrl[6] = serverUrl + "store/#/games";
+    menuUrl[7] = serverUrl + "store/#/office";
+    menuUrl[8] = serverUrl + "store/#/reading";
+    menuUrl[9] = serverUrl + "store/#/programming";
+    menuUrl[10] = serverUrl + "store/#/tools";
+    menuUrl[11] = serverUrl + "store/#/themes";
+    menuUrl[12] = serverUrl + "store/#/others";
 
-    //web控件初始化
-    //    ui->webView->page()->setLinkDelegationPolicy(QWebPage::DelegateAllLinks);   //用来激活接受linkClicked信号
-    //    ui->webView->page()->settings()->setAttribute(QWebSettings::JavascriptEnabled,true);
+    // web控件初始化
+    // ui->webView->page()->setLinkDelegationPolicy(QWebPage::DelegateAllLinks);    // 用来激活接受 linkClicked 信号
+    // ui->webView->page()->settings()->setAttribute(QWebSettings::JavascriptEnabled,true);
     ui->webfoot->hide();
 
     //初始化首页
-    chooseLeftMenu(0);
     // ui->webEngineView->setUrl(menuUrl[0]);
+    chooseLeftMenu(0);
 
     //给下载列表赋值到数组，方便调用
-    for (int i =0; i<LIST_MAX;i++){
-        download_list[i].num=i;
+    for(int i = 0; i < LIST_MAX; i++)
+    {
+        download_list[i].num = i;
     }
 
     // 初始化apt源显示
     QFile aptserver("/etc/apt/sources.list.d/sparkstore.list");
     aptserver.open(QIODevice::ReadOnly);
-    if(aptserver.isOpen()){
+    if(aptserver.isOpen())
+    {
         ui->label_aptserver->setText(aptserver.readAll());
-    }else {
+    }
+    else
+    {
         ui->label_aptserver->setText(tr("Not Exist"));
     }
     aptserver.close();
@@ -301,36 +324,44 @@ void Widget::initConfig()
     dir.mkdir("spark-store");
 }
 
-void Widget::setTheme(bool isDark,QColor color)
+void Widget::setTheme(bool isDark, QColor color)
 {
     // 菜单图标
-    if(isDark){
+    if(isDark)
+    {
         // 黑色模式
-        themeIsDark=true;
+        themeIsDark = true;
         ui->webEngineView->setStyleSheet("background-color:#282828");
-        ui->btn_openDir->setStyleSheet("color:#8B91A1;background-color:#2E2F30;border:0px");
+        ui->btn_openDir->setStyleSheet("color: #8B91A1; background-color: #2E2F30; border: 0px");
         ui->webfoot->setStyleSheet("background-color:#252525");
         ui->label->setStyleSheet("background-color:#252525");
         // ui->scrollArea->setStyleSheet("background-color:#252525");
         ui->label_show->setStyleSheet("background-color:#252525");
         ui->pushButton_return->setIcon(DStyle().standardIcon(DStyle::SP_ArrowLeft));
         ui->pushButton_refresh->setIcon(QIcon(":/icons/icons/refresh-page-dark.svg"));
-    }else {
+    }
+    else
+    {
         // 亮色模式
-        themeIsDark=false;
+        themeIsDark = false;
         ui->webEngineView->setStyleSheet("background-color:#FFFFFF");
         ui->webfoot->setStyleSheet("background-color:#FFFFFF");
-        ui->btn_openDir->setStyleSheet("color:#505050;background-color:#FBFBFB;border:0px");
+        ui->btn_openDir->setStyleSheet("color: #505050; background-color: #FBFBFB; border: 0px");
         ui->label->setStyleSheet("background-color:#FFFFFF");
         // ui->scrollArea->setStyleSheet("background-color:#F8F8F8");
         ui->label_show->setStyleSheet("background-color:#F8F8F8");
         ui->pushButton_return->setIcon(DStyle().standardIcon(DStyle::SP_ArrowLeft));
         ui->pushButton_refresh->setIcon(QIcon(":/icons/icons/refresh-page.svg"));
     }
-    main_color=color;
-    m_loadweb->setTheme(themeIsDark,color);
+
+    // 刷新系统活动色
+    main_color = color;
+    m_loadweb->setTheme(themeIsDark, color);
     updateUI();
-    if(ui->stackedWidget->currentIndex()==0){
+
+    // 刷新首页主题颜色
+    if(ui->stackedWidget->currentIndex() == 0)
+    {
         chooseLeftMenu(nowMenu);
     }
 }
@@ -350,7 +381,9 @@ void Widget::sendNotification(const QString &message, const int msTimeout, const
         notify_notification_set_timeout(_notify, msTimeout);
     }
     else
+    {
         notify_notification_update(_notify, tr("Spark\\ Store").toLocal8Bit(), message.toLocal8Bit(), icon.toLocal8Bit());
+    }
 
     notify_notification_show(_notify, nullptr);
 }
@@ -363,14 +396,17 @@ void Widget::sendNotification(const char *message, const int msTimeout, const QS
         notify_notification_set_timeout(_notify, msTimeout);
     }
     else
+    {
         notify_notification_update(_notify, tr("Spark\\ Store").toLocal8Bit(), message, icon.toLocal8Bit());
+    }
 
     notify_notification_show(_notify, nullptr);
 }
 
 void Widget::updateUI()
 {
-    if(themeIsDark){
+    if(themeIsDark)
+    {
         left_list[0]->setIcon(QIcon(":/icons/icons/homepage_dark.svg"));
         left_list[1]->setIcon(QIcon(":/icons/icons/category_network_dark.svg"));
         left_list[2]->setIcon(QIcon(":/icons/icons/category_chat_dark.svg"));
@@ -385,7 +421,9 @@ void Widget::updateUI()
         left_list[11]->setIcon(QIcon(":/icons/icons/theme-symbolic_dark.svg"));
         left_list[12]->setIcon(QIcon(":/icons/icons/category_others_dark.svg"));
         left_list[13]->setIcon(QIcon(":/icons/icons/downloads-symbolic_dark.svg"));
-    }else {
+    }
+    else
+    {
         left_list[0]->setIcon(QIcon(":/icons/icons/homepage.svg"));
         left_list[1]->setIcon(QIcon(":/icons/icons/category_network.svg"));
         left_list[2]->setIcon(QIcon(":/icons/icons/category_chat.svg"));
@@ -401,8 +439,9 @@ void Widget::updateUI()
         left_list[12]->setIcon(QIcon(":/icons/icons/category_others.svg"));
         left_list[13]->setIcon(QIcon(":/icons/icons/downloads-symbolic.svg"));
     }
-    for (int i=0;i<14;i++) {
 
+    for(int i = 0; i < 14; i++)
+    {
         /* 设置左侧菜单字体
          * QFont temp = font;
          * temp.setPixelSize(15);
@@ -410,25 +449,42 @@ void Widget::updateUI()
          */
 
         left_list[i]->setFixedHeight(38);
-        if(themeIsDark){
+        if(themeIsDark)
+        {
             // 中文环境菜单文字居中，其他则左对齐
             if(QLocale::system().name() == "zh_CN")
-                left_list[i]->setStyleSheet("color:#FFFFFF;border:0px;");
+            {
+                left_list[i]->setStyleSheet("color: #FFFFFF; border: 0px;");
+            }
             else
-                left_list[i]->setStyleSheet("color:#FFFFFF;border:0px;text-align:left;padding-left:15px;");
-        }else {
+            {
+                left_list[i]->setStyleSheet("color: #FFFFFF; border: 0px; text-align: left; padding-left: 15px;");
+            }
+        }
+        else
+        {
             if(QLocale::system().name() == "zh_CN")
-                left_list[i]->setStyleSheet("color:#252525;border:0px;");
+            {
+                left_list[i]->setStyleSheet("color: #252525; border: 0px;");
+            }
             else
-                left_list[i]->setStyleSheet("color:#252525;border:0px;text-align:left;padding-left:15px;");
+            {
+                left_list[i]->setStyleSheet("color: #252525; border: 0px; text-align: left; padding-left: 15px;");
+            }
         }
     }
 
     if(QLocale::system().name() == "zh_CN")
-        left_list[nowMenu]->setStyleSheet("color:#FFFFFF;background-color:"+main_color.name()+";border-radius:8;border:0px;");
+    {
+        left_list[nowMenu]->setStyleSheet("color: #FFFFFF; background-color: " + main_color.name() + "; border-radius: 8; border: 0px;");
+    }
     else
-        left_list[nowMenu]->setStyleSheet("color:#FFFFFF;background-color:"+main_color.name()+";border-radius:8;border:0px;text-align:left;padding-left:15px;");
-    switch (nowMenu) {
+    {
+        left_list[nowMenu]->setStyleSheet("color: #FFFFFF; background-color: " + main_color.name() + "; border-radius: 8; border: 0px; text-align: left; padding-left: 15px;");
+    }
+
+    switch (nowMenu)
+    {
     case 0:
         left_list[0]->setIcon(QIcon(":/icons/icons/homepage_dark.svg"));
         break;
@@ -477,91 +533,114 @@ void Widget::updateUI()
 // 菜单切换逻辑
 void Widget::chooseLeftMenu(int index)
 {
-    nowMenu=index;
+    nowMenu = index;
 
     // 菜单切换时，清除搜索栏的内容
-    if (!searchEdit->text().isEmpty()) {
+    if(!searchEdit->text().isEmpty())
+    {
         searchEdit->clear();
     }
 
     updateUI();
+
+    /*
     if(QLocale::system().name() == "zh_CN")
-        left_list[index]->setStyleSheet("color:#FFFFFF;background-color:"+main_color.name()+";border-radius:8;border:0px;");
+    {
+        left_list[index]->setStyleSheet("color: #FFFFFF; background-color: " + main_color.name() + "; border-radius: 8; border: 0px;");
+    }
     else
-        left_list[index]->setStyleSheet("color:#FFFFFF;background-color:"+main_color.name()+";border-radius:8;border:0px;text-align:left;padding-left:15px;");
-    if(index<=12){
-        if(themeIsDark){
-            QString darkurl=menuUrl[index].toString();
-            QStringList tmp=darkurl.split("/");
+    {
+        left_list[index]->setStyleSheet("color: #FFFFFF; background-color: " + main_color.name() + "; border-radius: 8; border: 0px; text-align: left; padding-left: 15px;");
+    }
+    */
+
+    if(index <= 12)
+    {
+        if(themeIsDark)
+        {
+            QString darkurl = menuUrl[index].toString();
+            QStringList list = darkurl.split("/");
             darkurl.clear();
-            for (int i=0;i<tmp.size()-1;i++) {
-                darkurl+=tmp[i]+"/";
+            for(int i = 0; i < list.size() - 1; i++)
+            {
+                darkurl += list[i] + "/";
             }
-            darkurl+="dark"+tmp[tmp.size()-1];
+            darkurl += "dark" + list[list.size() - 1];
             ui->webEngineView->setUrl(darkurl);
-            qDebug()<<darkurl;
-
-        }else {
+            qDebug() << darkurl;
+        }
+        else
+        {
             ui->webEngineView->setUrl(menuUrl[index]);
-
         }
 
         ui->stackedWidget->setCurrentIndex(0);
-    }else if (index==13) {
+    }
+    else
+    {
         ui->stackedWidget->setCurrentIndex(1);
     }
-
 }
 
 void Widget::setfoot(int h)
 {
-    foot=h;
+    foot = h;
 }
 
 void Widget::updatefoot()
 {
-    int allh=ui->stackedWidget->height();
-    ui->webfoot->setFixedHeight(allh-foot);
+    int allh = ui->stackedWidget->height();
+    ui->webfoot->setFixedHeight(allh - foot);
 }
 
 void Widget::on_pushButton_download_clicked()
 {
     chooseLeftMenu(13);
-    allDownload+=1;
+
+    allDownload += 1;
+
     QFileInfo info(url.path());
     QString fileName(info.fileName());  // 获取文件名
-    download_list[allDownload-1].pkgName=pkgName;
+    download_list[allDownload - 1].pkgName = pkgName;
     if(fileName.isEmpty())
     {
         sendNotification(tr("Failed to get the name to the file to be downloaded."));
         return;
     }
-    download_list[allDownload-1].setParent(ui->listWidget);
-    QListWidgetItem *item=new QListWidgetItem(ui->listWidget);
-    item->setSizeHint(download_list[allDownload-1].size());
+
+    download_list[allDownload - 1].setParent(ui->listWidget);
+    QListWidgetItem *item = new QListWidgetItem(ui->listWidget);
+    item->setSizeHint(download_list[allDownload - 1].size());
     item->setFlags(item->flags() & ~Qt::ItemIsEnabled & ~Qt::ItemIsSelectable);
-    ui->listWidget->setItemWidget(item,&download_list[allDownload-1]);
+    ui->listWidget->setItemWidget(item, &download_list[allDownload - 1]);
     urList.append(url);
-    download_list[allDownload-1].setName(appName);
-    download_list[allDownload-1].setFileName(fileName);
+    download_list[allDownload - 1].setName(appName);
+    download_list[allDownload - 1].setFileName(fileName);
+
     QPixmap icon;
     icon.load("icon.png");
-    system("cp icon.png icon_"+QString::number(allDownload-1).toUtf8()+".png");
-    download_list[allDownload-1].seticon(icon);
-    if(!isBusy){
-//        file = new QFile(fileName);
-//        if(!file->open(QIODevice::WriteOnly)){
-//            delete file;
-//            file = nullptr;
-//            return ;
-//        }
+    system("cp icon.png icon_" + QString::number(allDownload - 1).toUtf8() + ".png");
+    download_list[allDownload - 1].seticon(icon);
 
-        nowDownload+=1;
+    if(!isBusy)
+    {
+        /*
+        file = new QFile(fileName);
+        if(!file->open(QIODevice::WriteOnly))
+        {
+            delete file;
+            file = nullptr;
+            return;
+        }
+        */
 
-        startRequest(urList.at(nowDownload-1), fileName); // 进行链接请求
+        nowDownload += 1;
+        startRequest(urList.at(nowDownload - 1), fileName);     // 进行链接请求
     }
-    if(ui->pushButton_download->text()==tr("Reinstall")){
-        download_list[allDownload-1].reinstall=true;
+
+    if(ui->pushButton_download->text() == tr("Reinstall"))
+    {
+        download_list[allDownload - 1].reinstall = true;
     }
 }
 
@@ -569,55 +648,61 @@ void Widget::startRequest(QUrl url, QString fileName)
 {
     ui->listWidget->show();
     ui->label->hide();
-    isBusy=true;
-    isdownload=true;
-    download_list[allDownload-1].free=false;
+    isBusy = true;
+    isdownload = true;
+    download_list[allDownload - 1].free = false;
 
     connect(downloadController, &DownloadController::downloadProcess, this, &Widget::updateDataReadProgress);
     connect(downloadController, &DownloadController::downloadFinished, this, &Widget::httpFinished);
-    connect(downloadController, &DownloadController::errorOccur, [this](QString msg){
-        this->sendNotification(msg);
-    });
+    connect(downloadController, &DownloadController::errorOccur, this, [=](QString msg){this->sendNotification(msg);});
     downloadController->setFilename(fileName);
     downloadController->startDownload(url.toString());
 }
 
 void Widget::searchApp(QString text)
 {
-    if(text.left(6)=="spk://"){
+    if(text.left(6) == "spk://")
+    {
         openUrl(text);
         searchEdit->clearEdit();
-    } else {
+    }
+    else
+    {
         // sendNotification(tr("Spark store could only process spk:// links for now. The search feature is coming soon!"));
-        // ui->webView->setUrl(QUrl("http://www.baidu.com/s?wd="+text));//这东西对接百度
+        // ui->webView->setUrl(QUrl("http://www.baidu.com/s?wd="+text));    // 这东西对接百度
         // ui->stackedWidget->setCurrentIndex(0);
 
         // 禁止同时进行多次搜索
         if(!mutex.tryLock())
+        {
             return;
+        }
 
         // 关键字搜索处理
         httpClient->get("https://search.deepinos.org.cn/appinfo/search")
-            .header("content-type", "application/json")
-            .queryParam("keyword", text)
-            .onResponse([this](QByteArray result) {
-                auto json = QJsonDocument::fromJson(result).array();
-                if (json.empty()) {
-                    qDebug() << "相关应用未找到！";
-                    sendNotification(tr("Relative apps Not Found!"));
-                    mutex.unlock();
-                    return;
-                }
-                displaySearchApp(json);
-            })
-            .onError([this](QString errorStr) {
-                qDebug()  << "请求出错：" << errorStr;
-                sendNotification(QString(tr("Request Error: %1")).arg(errorStr));
+                .header("content-type", "application/json")
+                .queryParam("keyword", text)
+                .onResponse([this](QByteArray result)
+        {
+            auto json = QJsonDocument::fromJson(result).array();
+            if (json.empty())
+            {
+                qDebug() << "相关应用未找到！";
+                sendNotification(tr("Relative apps Not Found!"));
                 mutex.unlock();
                 return;
-            })
-            .timeout(10 * 1000)
-            .exec();
+            }
+            displaySearchApp(json);
+        })
+        .onError([this](QString errorStr)
+        {
+            qDebug()  << "请求出错：" << errorStr;
+            sendNotification(QString(tr("Request Error: %1")).arg(errorStr));
+            mutex.unlock();
+            return;
+        })
+        .timeout(10 * 1000)
+                .exec();
     }
 }
 
@@ -630,7 +715,8 @@ void Widget::displaySearchApp(QJsonArray array)
 
     // 清除原有的搜索结果
     QLayoutItem *item = nullptr;
-    while ((item = applist_grid->takeAt(0)) != nullptr) {
+    while((item = applist_grid->takeAt(0)) != nullptr)
+    {
         applist_grid->removeWidget(item->widget());
         item->widget()->disconnect();
         item->widget()->setParent(nullptr);
@@ -654,14 +740,11 @@ void Widget::displaySearchApp(QJsonArray array)
         appItem->setUrl(url);
         applist_grid->addWidget(appItem);
         qDebug() << "应用链接为：" << url;
+
         connect(appItem, &AppItem::clicked, this, &Widget::openUrl);
-
-        connect(appItem, &AppItem::clicked, this, [=]()
+        connect(appItem, &AppItem::clicked, this, [=](){prePage = ui->stackedWidget->currentIndex();});
+        connect(appItem, &AppItem::finished, this, [=]()
         {
-            prePage = ui->stackedWidget->currentIndex();
-        });
-
-        connect(appItem, &AppItem::finished, this, [=](){
             count++;
             downloadIconsFinished(array.size());
         });
@@ -691,21 +774,27 @@ void Widget::httpReadyRead()
 
 void Widget::updateDataReadProgress(qint64 bytesRead, qint64 totalBytes)
 {
-    if(totalBytes <= 0) return;
-    download_list[nowDownload-1].setMax(10000); // 最大值
-    download_list[nowDownload-1].setValue((bytesRead*10000)/totalBytes);    // 当前值
-    download_size=bytesRead;
-    if(download_list[nowDownload-1].close){ // 随时检测下载是否被取消
+    if(totalBytes <= 0)
+    {
+        return;
+    }
+
+    download_list[nowDownload - 1].setMax(10000);   // 最大值
+    download_list[nowDownload - 1].setValue((bytesRead * 10000) / totalBytes);  // 当前值
+    download_size = bytesRead;
+    if(download_list[nowDownload - 1].close)
+    {
+        // 随时检测下载是否被取消
         downloadController->disconnect();
         downloadController->stopDownload();
-        download_list[nowDownload-1].closeDownload();
+        download_list[nowDownload - 1].closeDownload();
         httpFinished();
     }
 }
 
 void Widget::sltAppinfoResetUi()
 {
-    //　先隐藏详情页负责显示截图的label
+    // 先隐藏详情页负责显示截图的 label
     ui->screen_0->hide();
     ui->screen_1->hide();
     ui->screen_2->hide();
@@ -732,23 +821,40 @@ void Widget::sltAppinfoResetUi()
 
 void Widget::sltAppinfoTags(QStringList *tagList)
 {
-    foreach (const QString &tag, *tagList) {
+    foreach(const QString &tag, *tagList)
+    {
         if(tag=="community")
+        {
             ui->tag_community->show();
+        }
         else if(tag=="ubuntu")
+        {
             ui->tag_ubuntu->show();
+        }
         else if(tag=="deepin")
+        {
             ui->tag_deepin->show();
+        }
         else if(tag=="uos")
+        {
             ui->tag_uos->show();
+        }
         else if(tag=="dtk5")
+        {
             ui->tag_dtk5->show();
+        }
         else if(tag=="dwine2")
+        {
             ui->tag_dwine2->show();
+        }
         else if(tag=="dwine5")
+        {
             ui->tag_dwine5->show();
+        }
         else if(tag=="a2d")
+        {
             ui->tag_a2d->show();
+        }
     }
 }
 
@@ -762,13 +868,18 @@ void Widget::sltAppinfoDetails(QString *name, QString *details, QString *info,
     ui->label_info->show();
     ui->label_more->setText(*info);
     ui->label_more->show();
+
     pkgName = *packageName;
     url = *fileUrl;
     appweb = *website;
-    if(isInstalled){
+
+    if(isInstalled)
+    {
         ui->pushButton_download->setText(tr("Reinstall"));
         ui->pushButton_uninstall->show();
-    }else {
+    }
+    else
+    {
         ui->pushButton_download->setText(tr("Install"));
     }
 }
@@ -785,11 +896,15 @@ void Widget::sltAppinfoIcon(QPixmap *icon)
 
 void Widget::sltAppinfoScreenshot(QPixmap *picture, int index)
 {
-    if(picture != nullptr) {
+    if(picture != nullptr)
+    {
         screen[index] = *picture;
         label_screen[index]->setImage(*picture);
         label_screen[index]->show();
-        switch(index) {  // 故意为之，为了清除多余截图
+
+        switch(index)
+        {
+        // 故意为之，为了清除多余截图
         case 0:
             label_screen[1]->hide();
         case 1:
@@ -810,16 +925,19 @@ void Widget::sltAppinfoFinish()
 
 void Widget::httpFinished() // 完成下载
 {
-    isdownload=false;
-    isBusy=false;
-    download_list[nowDownload-1].readyInstall();
-    download_list[nowDownload-1].free=true;
-    if(nowDownload<allDownload){    // 如果有排队则下载下一个
-        nowDownload+=1;
-        while (download_list[nowDownload-1].close) {
-            nowDownload+=1;
+    isdownload = false;
+    isBusy = false;
+    download_list[nowDownload - 1].readyInstall();
+    download_list[nowDownload - 1].free = true;
+    if(nowDownload < allDownload)
+    {
+        // 如果有排队则下载下一个
+        nowDownload += 1;
+        while(download_list[nowDownload - 1].close)
+        {
+            nowDownload += 1;
         }
-        QString fileName=download_list[nowDownload-1].getName();
+        QString fileName = download_list[nowDownload - 1].getName();
         startRequest(urList.at(nowDownload-1), fileName);
     }
 }
@@ -866,39 +984,53 @@ void Widget::on_pushButton_return_clicked()
 
 void Widget::on_pushButton_refresh_clicked()
 {
-    if(ui->stackedWidget->currentIndex() == 2) //如果在详情页面要重新触发UrlChanged
+    // 如果在详情页面要重新触发 UrlChanged
+    if(ui->stackedWidget->currentIndex() == 2)
+    {
         emit ui->webEngineView->urlChanged(ui->webEngineView->url());
+    }
     else
+    {
         ui->webEngineView->reload();
+    }
 }
 
 void Widget::on_comboBox_server_currentIndexChanged(const QString &arg1)
 {
-    appinfoLoadThread.setServer(arg1); // 服务器信息更新
-    if(configCanSave){
+    appinfoLoadThread.setServer(arg1);  // 服务器信息更新
+
+    if(configCanSave)
+    {
         ui->label_setting1->show();
-        QSettings *setConfig=new QSettings(QDir::homePath()+"/.config/spark-store/config.ini",QSettings::IniFormat);
-        setConfig->setValue("server/choose",arg1);
+        QSettings *setConfig = new QSettings(QDir::homePath() + "/.config/spark-store/config.ini", QSettings::IniFormat);
+        setConfig->setValue("server/choose", arg1);
     }
 }
 
 void Widget::on_pushButton_updateServer_clicked()
 {
-    QtConcurrent::run([=](){
+    QtConcurrent::run([=]()
+    {
         ui->pushButton_updateServer->setEnabled(false);
         ui->comboBox_server->clear();
-        QFile::remove(QDir::homePath().toUtf8()+"/.config/spark-store/server.list");
-        system("curl -o "+QDir::homePath().toUtf8()+"/.config/spark-store/server.list https://d.store.deepinos.org.cn/store/server.list");
+
+        QFile::remove(QDir::homePath().toUtf8() + "/.config/spark-store/server.list");
+        system("curl -o " + QDir::homePath().toUtf8() + "/.config/spark-store/server.list https://d.store.deepinos.org.cn/store/server.list");
         std::fstream server;
-        server.open(QDir::homePath().toUtf8()+"/.config/spark-store/server.list",std::ios::in);
+        server.open(QDir::homePath().toUtf8() + "/.config/spark-store/server.list", std::ios::in);
         std::string lineTmp;
-        if(server){
-            while (getline(server,lineTmp)) {
+        if(server)
+        {
+            while(getline(server, lineTmp))
+            {
                 ui->comboBox_server->addItem(QString::fromStdString(lineTmp));
             }
-        }else {
+        }
+        else
+        {
             ui->comboBox_server->addItem("https://d.store.deepinos.org.cn/");
         }
+
         ui->pushButton_updateServer->setEnabled(true);
         ui->comboBox_server->setCurrentIndex(0);
 
@@ -914,7 +1046,8 @@ void Widget::on_pushButton_updateServer_clicked()
 
 void Widget::on_pushButton_updateApt_clicked()
 {
-    QtConcurrent::run([=](){
+    QtConcurrent::run([=]()
+    {
         ui->pushButton_updateApt->setEnabled(false);
         ui->label_aptserver->setText(tr("Updating, please wait..."));
 
@@ -925,10 +1058,11 @@ void Widget::on_pushButton_updateApt_clicked()
 
         tmpdir.mkpath("spark-store");
         sourcesList.open(tmpPath + "/sparkstore.list", std::ios::out);
-        //policy.open(tmpPath + "/sparkstore", std::ios::out);
-        // 商店已经下架会替换系统库的包，优先级policy弃用
+        // 商店已经下架会替换系统库的包，优先级 policy 弃用
+        // policy.open(tmpPath + "/sparkstore", std::ios::out);
 
-        if(sourcesList /*&& policy*/) {
+        if(sourcesList /*&& policy*/)
+        {
             auto serverAddr = ui->comboBox_server->currentText();
 
             sourcesList << "deb [by-hash=force] ";
@@ -937,44 +1071,52 @@ void Widget::on_pushButton_updateApt_clicked()
             sourcesList.close();
 
             /*
-           policy << "Package: *\n"
-                     "Pin: origin *" << serverAddr.mid(serverAddr.indexOf('.')).toUtf8().toStdString() << "\n"
-                     "Pin-Priority: 90"; // 降低星火源的优先级，防止从星火安装已存在的系统包，破坏依赖
-           policy.close();
+             * policy << "Package: *\n" << "Pin: origin *" <<
+             * serverAddr.mid(serverAddr.indexOf('.')).toUtf8().toStdString() << "\n" <<
+             * "Pin-Priority: 90"; // 降低星火源的优先级，防止从星火安装已存在的系统包，破坏依赖
+             * policy.close();
            */
 
-            update.open(tmpPath + "/update.sh",std::ios::out);
-            if(update) {
+            update.open(tmpPath + "/update.sh", std::ios::out);
+            if(update)
+            {
                 unknownError = false;
-                update << "#!/bin/sh\n"
-                          "mv " + tmpPath + "/sparkstore.list /etc/apt/sources.list.d/sparkstore.list && "
-                          //                         "mv " + tmpPath + "/sparkstore /etc/apt/preferences.d/sparkstore && "
+                update << "#!/bin/sh\n" <<
+                          "mv " + tmpPath + "/sparkstore.list /etc/apt/sources.list.d/sparkstore.list && " <<
+                          // "mv " + tmpPath + "/sparkstore /etc/apt/preferences.d/sparkstore && " <<
                           "apt update";
                 update.close();
 
                 system(("chmod +x " + tmpPath + "/update.sh").c_str());
+
                 QProcess runupdate;
-                runupdate.start(QString::fromStdString("pkexec " + tmpPath + "/update.sh"));
+                runupdate.start(QString::fromStdString("pkexec " + tmpPath + "/update.sh"), QStringList());
                 runupdate.waitForFinished();
                 QString error = runupdate.readAllStandardError();
 
                 QStringList everyError = error.split("\n");
                 bool haveError = false;
-                for (int i=0; i < everyError.size(); i++) {
-                    if(everyError[i].left(2) == "E:") {
+                for(int i = 0; i < everyError.size(); i++)
+                {
+                    if(everyError[i].left(2) == "E:")
+                    {
                         haveError = true;
                     }
                 }
 
-                if(!haveError) {
+                if(!haveError)
+                {
                     ui->label_aptserver->setText("deb [by-hash=force] " + ui->comboBox_server->currentText().toUtf8() + " /");
-                } else {
+                }
+                else
+                {
                     ui->label_aptserver->setText(tr("Apt has reported an error. Please use apt update in terminal to locate the problem."));
                 }
             }
         }
 
-        if(unknownError) {
+        if(unknownError)
+        {
             ui->label_aptserver->setText(tr("Unknown error!"));
         }
 
@@ -984,16 +1126,20 @@ void Widget::on_pushButton_updateApt_clicked()
 
 void Widget::on_pushButton_uninstall_clicked()
 {
-    QtConcurrent::run([=](){
+    QtConcurrent::run([=]()
+    {
         ui->pushButton_download->setEnabled(false);
         ui->pushButton_uninstall->setEnabled(false);
+
         QProcess uninstall;
-        uninstall.start("pkexec apt purge -y "+pkgName.toLower());
+        uninstall.start("pkexec apt purge -y " + pkgName.toLower(), QStringList());
         uninstall.waitForFinished();
+
         ui->pushButton_download->setEnabled(true);
         ui->pushButton_download->setText("Install");
         ui->pushButton_uninstall->hide();
         ui->pushButton_uninstall->setEnabled(true);
+
         updatesEnabled();
         sendNotification(tr("Uninstall succeeded"));
     });
@@ -1001,14 +1147,18 @@ void Widget::on_pushButton_uninstall_clicked()
 
 void Widget::on_pushButton_clear_clicked()  // 清空临时缓存目录
 {
-    QtConcurrent::run([=](){
+    QtConcurrent::run([=]()
+    {
         ui->pushButton_clear->setEnabled(false);
+
         QDir tmpdir("/tmp/spark-store");
         tmpdir.setFilter(QDir::Files);
-        int quantity=int(tmpdir.count());
-        for (int i=0;i<quantity;i++) {
+        int quantity = int(tmpdir.count());
+        for(int i = 0; i < quantity; i++)
+        {
             tmpdir.remove(tmpdir[i]);
         }
+
         sendNotification(tr("Temporary cache was cleaned"));
         ui->pushButton_clear->setEnabled(true);
         Widget::opensetting();
@@ -1019,16 +1169,16 @@ quint64 Widget::dirFileSize(const QString &path)
 {
     QDir dir(path);
     quint64 size = 0;
-    // dir.entryInfoList(QDir::Files)返回文件信息
+    // dir.entryInfoList(QDir::Files);  // 返回文件信息
     foreach(QFileInfo fileInfo, dir.entryInfoList(QDir::Files))
     {
         // 计算文件大小
         size += quint64(fileInfo.size());
     }
-    // dir.entryList(QDir::Dirs|QDir::NoDotAndDotDot)返回所有子目录，并进行过滤
+    // dir.entryList(QDir::Dirs|QDir::NoDotAndDotDot);  // 返回所有子目录，并进行过滤
     foreach(QString subDir, dir.entryList(QDir::Dirs | QDir::NoDotAndDotDot))
     {
-        // 若存在子目录，则递归调用dirFileSize()函数
+        // 若存在子目录，则递归调用 dirFileSize() 函数
         size += dirFileSize(path + QDir::separator() + subDir);
     }
     return size;
@@ -1037,32 +1187,44 @@ quint64 Widget::dirFileSize(const QString &path)
 void Widget::opensetting()
 {
     // 防止下载时文件被删除
-    if(isdownload){
+    if(isdownload)
+    {
         ui->pushButton_clear->setEnabled(false);
-    }else {
+    }
+    else
+    {
         ui->pushButton_clear->setEnabled(true);
     }
+
     // 显示缓存占用空间
-    quint64 tmp_size=dirFileSize(QString::fromUtf8(TMP_PATH));
+    quint64 tmp_size = dirFileSize(QString::fromUtf8(TMP_PATH));
     QString tmp_size_str;
-    if(tmp_size<1024){
-        tmp_size_str=QString::number(tmp_size)+"B";
-    }else if (tmp_size<(1024*1024)) {
-        tmp_size_str=QString::number(0.01*int(100*(tmp_size/1024)))+"KB";
-    }else if (tmp_size<(1024*1024*1024)) {
-        tmp_size_str=QString::number(0.01*int(100*(tmp_size/(1024*1024))))+"MB";
-    }else {
-        tmp_size_str=QString::number(0.01*int(100*(tmp_size/(1024*1024*1024))))+"GB";
+    if(tmp_size < 1024)
+    {
+        tmp_size_str = QString::number(tmp_size) + "B";
     }
+    else if(tmp_size < (1024 * 1024))
+    {
+        tmp_size_str = QString::number(0.01 * int(100 * (tmp_size / 1024))) + "KB";
+    }
+    else if(tmp_size<(1024*1024*1024))
+    {
+        tmp_size_str = QString::number(0.01 * int(100 * (tmp_size / (1024 * 1024)))) + "MB";
+    }
+    else
+    {
+        tmp_size_str = QString::number(0.01 * int(100 * (tmp_size / (1024 * 1024 * 1024)))) + "GB";
+    }
+
     ui->tmp_size_ui->setText(tmp_size_str);
     prePage = ui->stackedWidget->currentIndex();
     ui->stackedWidget->setCurrentIndex(3);
 }
 
-void Widget::openUrl(QUrl u)
+void Widget::openUrl(QUrl url)
 {
-    QString app=serverUrl + "store"+u.path()+"/app.json";
-//    ui->webEngineView->setUrl(app);
+    QString app = serverUrl + "store" + url.path() + "/app.json";
+    // ui->webEngineView->setUrl(app);
     emit ui->webEngineView->urlChanged(app);
 }
 
@@ -1074,9 +1236,10 @@ void Widget::on_pushButton_website_clicked()
 void Widget::on_pushButton_clicked()
 {
     QString share_url;
-    share_url="spk://store/"+type_name+"/"+pkgName;
-    qDebug()<<"Share"<<share_url;
-    QClipboard *clipboard=QApplication::clipboard();
+    share_url = "spk://store/" + type_name + "/" + pkgName;
+    qDebug() << "Share" << share_url;
+
+    QClipboard *clipboard = QApplication::clipboard();
     clipboard->setText(share_url);
     sendNotification(tr("The URL has been copied to the clipboard"));
 }
@@ -1088,10 +1251,13 @@ void Widget::on_btn_openDir_clicked()
 
 void Widget::on_stackedWidget_currentChanged(int arg1)
 {
-    qDebug()<<arg1;
-    if(arg1==0 || arg1==1){
+    qDebug() << arg1;
+    if(arg1 == 0 || arg1 == 1)
+    {
         ui->pushButton_return->setEnabled(false);
-    }else {
+    }
+    else
+    {
         ui->pushButton_return->setEnabled(true);
     }
 }
@@ -1099,27 +1265,33 @@ void Widget::on_stackedWidget_currentChanged(int arg1)
 void Widget::on_webEngineView_urlChanged(const QUrl &arg1)
 {
     //分析出服务器中的分类名称
-    QStringList url_=arg1.path().split("/");
+    QStringList url_ = arg1.path().split("/");
     QString pname;
-    if(url_.size()>3){
-        type_name=url_[2];
-        pname=url_[3];
+    if(url_.size() > 3)
+    {
+        type_name = url_[2];
+        pname = url_[3];
     }
     //如果是app.json就打开详情页
-    if(arg1.path().right(8)=="app.json"){
+    if(arg1.path().right(8) == "app.json")
+    {
         prePage = ui->stackedWidget->currentIndex();
-        load.cancel();//打开并发加载线程前关闭正在执行的线程
+
+        load.cancel();  // 打开并发加载线程前关闭正在执行的线程
         m_loadweb->setValue(0);
-        ui->label_more->setText("");//清空详情介绍
-        ui->label_info->setText("");
-        ui->label_appname->setText("");
+
+        ui->label_more->clear();    // 清空详情介绍
+        ui->label_info->clear();
+        ui->label_appname->clear();
         ui->pushButton_download->setEnabled(false);
         ui->stackedWidget->setCurrentIndex(2);
-        qDebug()<<"https://demo-one-vert.vercel.app/"+type_name+"/"+pname;
-        qDebug()<< "链接地址：" << arg1;
+        qDebug() << "https://demo-one-vert.vercel.app/" + type_name + "/" + pname;
+        qDebug() << "链接地址：" << arg1;
+
         /*
-        load.cancel();//打开并发加载线程前关闭正在执行的线程
-        load = QtConcurrent::run([=](){
+        load.cancel();  // 打开并发加载线程前关闭正在执行的线程
+        load = QtConcurrent::run([=]()
+        {
             int loadresult = loadappinfo(arg1);
         });
         */
@@ -1141,20 +1313,23 @@ void Widget::on_webEngineView_loadStarted()
 void Widget::on_webEngineView_loadProgress(int progress)
 {
     m_loadweb->setValue(progress);
-    if(progress>=90){
+    if(progress >= 90)
+    {
         m_loadweb->setValue(0);
     }
 }
 
 void Widget::on_webEngineView_loadFinished(bool arg1)
 {
-    if(arg1){
+    if(arg1)
+    {
         m_loadweb->setValue(0);
-    }else {
+    }
+    else
+    {
         m_loadweb->setValue(0);
         m_loaderror->show();
     }
-
 }
 
 void Widget::on_pushButton_translate_clicked()
@@ -1170,7 +1345,9 @@ void Widget::on_pushButton_translate_clicked()
                             "Tips:You can simply click the file to edit to create a flat pull request without create a full pull request\n"
                             "Tips:You can use github account to login to Gitee"
                             "\nClick yes to continue."));
+
     if(!tipDialog.exec())
-        QDesktopServices::openUrl("https://gitee.com/deepin-community-store/json/tree/master/store/" +
-                                  type_name + '/' + pkgName);
+    {
+        QDesktopServices::openUrl("https://gitee.com/deepin-community-store/json/tree/master/store/" + type_name + '/' + pkgName);
+    }
 }
