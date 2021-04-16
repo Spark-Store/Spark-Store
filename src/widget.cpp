@@ -237,7 +237,7 @@ void Widget::initConfig()
             ui->comboBox_server->addItem(QString::fromStdString(lineTmp));
         }
     }else {
-        ui->comboBox_server->addItem("http://sucdn.jerrywang.top/");
+        ui->comboBox_server->addItem("https://d.store.deepinos.org.cn/");
     }
 
     // 读取服务器URL并初始化菜单项的链接
@@ -246,7 +246,7 @@ void Widget::initConfig()
         ui->comboBox_server->setCurrentText(readConfig.value("server/choose").toString());
         appinfoLoadThread.setServer(serverUrl=readConfig.value("server/choose").toString());
     }else {
-        appinfoLoadThread.setServer(serverUrl="http://sucdn.jerrywang.top/");  // 默认URL
+        appinfoLoadThread.setServer(serverUrl="https://d.store.deenos.org.cn/");  // 默认URL
     }
     configCanSave=true;   //　防止触发保存配置信号
     menuUrl[0]=serverUrl + "store/#/";
@@ -890,7 +890,7 @@ void Widget::on_pushButton_updateServer_clicked()
                 ui->comboBox_server->addItem(QString::fromStdString(lineTmp));
             }
         }else {
-            ui->comboBox_server->addItem("http://sucdn.jerrywang.top/");
+            ui->comboBox_server->addItem("https://d.store.deepinos.org.cn/");
         }
         ui->pushButton_updateServer->setEnabled(true);
         ui->comboBox_server->setCurrentIndex(0);
