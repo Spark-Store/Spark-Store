@@ -14,12 +14,12 @@ AppItem::AppItem(QWidget *parent) :
 {
     ui->setupUi(this);
 
-//    auto shadow = new QGraphicsDropShadowEffect();
-//    shadow->setXOffset(0);
-//    shadow->setYOffset(1);
-//    shadow->setBlurRadius(2);
-//    shadow->setColor(QColor::fromRgba(qRgba(0, 0, 0, 180)));
-//    ui->container->setGraphicsEffect(shadow);
+    // auto shadow = new QGraphicsDropShadowEffect();
+    // shadow->setXOffset(0);
+    // shadow->setYOffset(1);
+    // shadow->setBlurRadius(2);
+    // shadow->setColor(QColor::fromRgba(qRgba(0, 0, 0, 180)));
+    // ui->container->setGraphicsEffect(shadow);
 }
 
 AppItem::~AppItem()
@@ -46,7 +46,8 @@ void AppItem::setDescription(QString description)
 void AppItem::setIcon(QString icon)
 {
     m_icon = icon;
-    if (!icon.isEmpty()) {
+    if(!icon.isEmpty())
+    {
         downloadIcon(icon);
     }
 }
@@ -58,7 +59,8 @@ void AppItem::setUrl(QString url)
 
 void AppItem::mousePressEvent(QMouseEvent *event)
 {
-    Q_UNUSED(event);
+    Q_UNUSED(event)
+
     emit clicked(QUrl(m_url));
 }
 
@@ -68,8 +70,10 @@ void AppItem::mousePressEvent(QMouseEvent *event)
  */
 void AppItem::downloadIcon(QString icon)
 {
-    QtConcurrent::run([=](){
+    QtConcurrent::run([=]()
+    {
         auto reqManager = new QNetworkAccessManager();
+
         QUrl url(icon);
         QNetworkReply *reply = reqManager->get(QNetworkRequest(url));
         QEventLoop loop;
@@ -77,14 +81,17 @@ void AppItem::downloadIcon(QString icon)
         connect(reply, &QNetworkReply::finished, this, [=] () { emit finished(); });
         loop.exec();
         reqManager->deleteLater();
+
         QPixmap pixmap;
         pixmap.loadFromData(reply->readAll());
         pixmap = pixmap.scaled(78, 78, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
-        if (reply->error() == QNetworkReply::NoError) {
-            QMetaObject::invokeMethod(this, "loadIcon", Qt::QueuedConnection,
-                                      Q_ARG(QPixmap, pixmap));
-        } else {
-        qDebug() << reply->errorString();
+        if (reply->error() == QNetworkReply::NoError)
+        {
+            QMetaObject::invokeMethod(this, "loadIcon", Qt::QueuedConnection, Q_ARG(QPixmap, pixmap));
+        }
+        else
+        {
+            qDebug() << reply->errorString();
         }
     });
 }
@@ -93,5 +100,3 @@ void AppItem::loadIcon(QPixmap pic)
 {
     ui->lbl_icon->setPixmap(pic);
 }
-
-

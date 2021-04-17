@@ -14,7 +14,7 @@ class AppItem : public QWidget
 
 public:
     explicit AppItem(QWidget *parent = nullptr);
-    ~AppItem();
+    ~AppItem() override;
 
     void setTitle(QString title);
     void setDescription(QString description);
@@ -24,14 +24,6 @@ public:
 protected:
     void mousePressEvent(QMouseEvent *event) override;
 
-signals:
-    void clicked(QUrl url);
-    void finished();
-
-public slots:
-    void downloadIcon(QString icon);
-    void loadIcon(QPixmap pic);
-
 private:
     Ui::AppItem *ui;
 
@@ -39,6 +31,15 @@ private:
     QString m_description;
     QString m_icon;
     QString m_url;
+
+public slots:
+    void downloadIcon(QString icon);
+    void loadIcon(QPixmap pic);
+
+signals:
+    void clicked(QUrl url);
+    void finished();
+
 };
 
 #endif // APPITEM_H

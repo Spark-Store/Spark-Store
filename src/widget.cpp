@@ -65,6 +65,24 @@ Widget::Widget(DBlurEffectWidget *parent) :
     connect(ui->menu_other, &QPushButton::clicked, this, [=](){Widget::chooseLeftMenu(12);});
     connect(ui->menu_download, &QPushButton::clicked, this, [=](){Widget::chooseLeftMenu(13);});
 
+    connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged, this, [=](DGuiApplicationHelper::ColorType themeType)
+    {
+        // 获取系统活动色
+        QColor main_color;
+        main_color = DGuiApplicationHelper::instance()->applicationPalette().highlight().color();
+
+        if(themeType == DGuiApplicationHelper::DarkType)
+        {
+            qDebug() << "Dark";
+            setTheme(true, main_color);
+        }
+        else
+        {
+            qDebug() << "Light";
+            setTheme(false, main_color);
+        }
+    });
+
     connect(&appinfoLoadThread, SIGNAL(requestResetUi()), this, SLOT(sltAppinfoResetUi()), Qt::ConnectionType::BlockingQueuedConnection);
     connect(&appinfoLoadThread, &SpkAppInfoLoaderThread::requestSetTags, this, &Widget::sltAppinfoTags, Qt::ConnectionType::BlockingQueuedConnection);
     connect(&appinfoLoadThread, &SpkAppInfoLoaderThread::requestSetAppInformation, this, &Widget::sltAppinfoDetails, Qt::ConnectionType::BlockingQueuedConnection);
@@ -83,24 +101,6 @@ Widget::Widget(DBlurEffectWidget *parent) :
             searchApp(searchtext);
         }
         this->setFocus();
-    });
-
-    connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged, this, [=](DGuiApplicationHelper::ColorType themeType)
-    {
-        // 获取系统活动色
-        QColor main_color;
-        main_color = DGuiApplicationHelper::instance()->applicationPalette().highlight().color();
-
-        if(themeType == DGuiApplicationHelper::DarkType)
-        {
-            qDebug() << "Dark";
-            setTheme(true, main_color);
-        }
-        else
-        {
-            qDebug() << "Light";
-            setTheme(false, main_color);
-        }
     });
 
     // 计算显示下载速度
@@ -236,6 +236,16 @@ void Widget::initUI()
     main->addWidget(spinner);
     ui->applist_scrollAreaWidget->setLayout(main);
     spinner->setFixedSize(80, 80);
+
+    // 初始化主题颜色
+    if(DGuiApplicationHelper::instance()->themeType() == DGuiApplicationHelper::DarkType)
+    {
+        themeIsDark = true;
+    }
+    else
+    {
+        themeIsDark = false;
+    }
 }
 
 void Widget::initConfig()
@@ -296,17 +306,17 @@ void Widget::initConfig()
     // ui->webView->page()->settings()->setAttribute(QWebSettings::JavascriptEnabled,true);
     ui->webfoot->hide();
 
-    //初始化首页
+    // 初始化首页
     // ui->webEngineView->setUrl(menuUrl[0]);
     chooseLeftMenu(0);
 
-    //给下载列表赋值到数组，方便调用
+    // 给下载列表赋值到数组，方便调用
     for(int i = 0; i < LIST_MAX; i++)
     {
         download_list[i].num = i;
     }
 
-    // 初始化apt源显示
+    // 初始化 apt 源显示
     QFile aptserver("/etc/apt/sources.list.d/sparkstore.list");
     aptserver.open(QIODevice::ReadOnly);
     if(aptserver.isOpen())
@@ -542,17 +552,6 @@ void Widget::chooseLeftMenu(int index)
     }
 
     updateUI();
-
-    /*
-    if(QLocale::system().name() == "zh_CN")
-    {
-        left_list[index]->setStyleSheet("color: #FFFFFF; background-color: " + main_color.name() + "; border-radius: 8; border: 0px;");
-    }
-    else
-    {
-        left_list[index]->setStyleSheet("color: #FFFFFF; background-color: " + main_color.name() + "; border-radius: 8; border: 0px; text-align: left; padding-left: 15px;");
-    }
-    */
 
     if(index <= 12)
     {
@@ -810,7 +809,7 @@ void Widget::sltAppinfoResetUi()
     ui->tag_dwine5->hide();
     ui->tag_a2d->hide();
 
-    //　重置UI状态
+    //　重置 UI 状态
     ui->pushButton_uninstall->hide();
     ui->pushButton_website->setEnabled(false);
     ui->pushButton->setEnabled(false);
@@ -919,7 +918,7 @@ void Widget::sltAppinfoScreenshot(QPixmap *picture, int index)
 
 void Widget::sltAppinfoFinish()
 {
-    ui->label_show->setText("");
+    ui->label_show->clear();
     ui->label_show->hide();
 }
 
@@ -1090,7 +1089,7 @@ void Widget::on_pushButton_updateApt_clicked()
                 system(("chmod +x " + tmpPath + "/update.sh").c_str());
 
                 QProcess runupdate;
-                runupdate.start(QString::fromStdString("pkexec " + tmpPath + "/update.sh"), QStringList());
+                runupdate.start(QString::fromStdString("pkexec " + tmpPath + "/update.sh"));
                 runupdate.waitForFinished();
                 QString error = runupdate.readAllStandardError();
 
@@ -1132,7 +1131,7 @@ void Widget::on_pushButton_uninstall_clicked()
         ui->pushButton_uninstall->setEnabled(false);
 
         QProcess uninstall;
-        uninstall.start("pkexec apt purge -y " + pkgName.toLower(), QStringList());
+        uninstall.start("pkexec apt purge -y " + pkgName.toLower());
         uninstall.waitForFinished();
 
         ui->pushButton_download->setEnabled(true);

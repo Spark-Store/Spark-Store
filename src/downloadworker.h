@@ -9,8 +9,10 @@
 class DownloadWorker : public QObject
 {
     Q_OBJECT
+
 public:
     explicit DownloadWorker(QObject *parent = nullptr);
+
     void setIdentifier(int identifier);
     void setParamter(const QString &url, QPair<qint64, qint64> range, QFile *flle);
     qint64 getReceivedPos();
@@ -22,12 +24,6 @@ public slots:
     void slotFinish();
     void handleProcess(qint64, qint64);
 
-signals:
-    void resultReady(int identifier, QByteArray data);
-    void testSignals();
-    void workFinished();
-    void downloadProcess();
-
 private:
     int identifier;
     QString url;
@@ -37,29 +33,29 @@ private:
     QNetworkReply *reply;
     QNetworkAccessManager *mgr;
     QFile *file;
+
+signals:
+    void resultReady(int identifier, QByteArray data);
+    void testSignals();
+    void workFinished();
+    void downloadProcess();
+
 };
 
 class DownloadController : public QObject
 {
     Q_OBJECT
+
 public:
     explicit DownloadController(QObject *parent = nullptr);
     ~DownloadController();
+
     void setFilename(QString filename);
     void setThreadNum(int threadNum);
     void startDownload(const QString &url);
     void stopDownload();
     qint64 getFileSize(const QString& url);
     QString replaceDomain(const QString& url, const QString domain);
-
-public slots:    
-    void handleProcess();
-    void chunkDownloadFinish();
-
-signals:
-    void errorOccur(const QString& msg);
-    void downloadProcess(qint64, qint64);
-    void downloadFinished();
 
 private:
     int threadNum;
@@ -70,6 +66,16 @@ private:
     QList<DownloadWorker*> workers;
     int finish = 0;
     QVector<QString> domains;
+
+public slots:
+    void handleProcess();
+    void chunkDownloadFinish();
+
+signals:
+    void errorOccur(const QString& msg);
+    void downloadProcess(qint64, qint64);
+    void downloadFinished();
+
 };
 
 #endif // FILEDOWNLOADWORKER_H
