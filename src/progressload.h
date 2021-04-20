@@ -13,7 +13,7 @@ public:
     explicit ProgressLoad(QWidget *parent = nullptr);
 
     void setValue(int v);
-    void setTheme(bool dark,QColor color);
+    void setTheme(bool dark, QColor color);
 
 private:
     QWidget *m_progess;

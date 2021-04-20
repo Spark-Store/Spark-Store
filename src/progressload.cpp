@@ -1,5 +1,7 @@
 #include "progressload.h"
 
+#include <DApplicationHelper>
+
 ProgressLoad::ProgressLoad(QWidget *parent) :
     QWidget(parent),
     m_progess(new QWidget(this)),
@@ -28,13 +30,13 @@ void ProgressLoad::setTheme(bool dark, QColor color)
 {
     if(dark)
     {
-        plt.setColor(QPalette::Background, QColor(28,28,28));
+        plt.setColor(QPalette::Background, QColor(40, 40, 40));
         setAutoFillBackground(true);
         setPalette(plt);
     }
     else
     {
-        plt.setColor(QPalette::Background, QColor(255,255,255));
+        plt.setColor(QPalette::Background, QColor(255, 255, 255));
         setAutoFillBackground(true);
         setPalette(plt);
     }

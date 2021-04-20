@@ -44,8 +44,6 @@ Widget::Widget(DBlurEffectWidget *parent) :
     initConfig();
 
     manager = new QNetworkAccessManager(this);  // 下载管理
-    m_loadweb=ui->progressload;
-    m_loadweb->show();
 
     httpClient = new AeaQt::HttpClient;
     downloadController = new DownloadController(this);  // 并发下载
@@ -68,19 +66,21 @@ Widget::Widget(DBlurEffectWidget *parent) :
     connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged, this, [=](DGuiApplicationHelper::ColorType themeType)
     {
         // 获取系统活动色
-        QColor main_color;
         main_color = DGuiApplicationHelper::instance()->applicationPalette().highlight().color();
 
         if(themeType == DGuiApplicationHelper::DarkType)
         {
             qDebug() << "Dark";
-            setTheme(true, main_color);
+            themeIsDark = true;
         }
-        else
+        else if(themeType == DGuiApplicationHelper::LightType)
         {
             qDebug() << "Light";
-            setTheme(false, main_color);
+            themeIsDark = false;
         }
+
+        // 设置 UI 主题
+        setTheme(themeIsDark, main_color);
     });
 
     connect(&appinfoLoadThread, SIGNAL(requestResetUi()), this, SLOT(sltAppinfoResetUi()), Qt::ConnectionType::BlockingQueuedConnection);
@@ -152,7 +152,7 @@ Widget::~Widget()
 void Widget::initUI()
 {
     // ui初始化
-    setMaskAlpha(220);
+    setMaskAlpha(200);
     ui->webfoot->setFixedHeight(0);
     ui->stackedWidget->setCurrentIndex(0);
     ui->listWidget->hide();
@@ -160,7 +160,9 @@ void Widget::initUI()
     ui->pushButton_uninstall->hide();
     ui->line1_widget->setStyleSheet("background-color:#808080");
     ui->icon->setPixmap(QIcon::fromTheme("spark-store").pixmap(36,36));
-    ui->titlebar->setFixedHeight(50);
+    ui->titlebar->setFixedHeight(48);
+
+    m_loadweb = ui->progressload;
 
     label_screen << ui->screen_0 << ui->screen_1 << ui->screen_2 << ui->screen_3 << ui->screen_4;
 
@@ -196,11 +198,11 @@ void Widget::initUI()
     menu->addAction(actionSubmission);
     titlebar->setMenu(menu);
 
-    connect(actionSubmission, &QAction::triggered, this, [=](){QDesktopServices::openUrl(QUrl("https://upload.spark-app.store/"));});
+    connect(actionSubmission, &QAction::triggered, this, [=]{QDesktopServices::openUrl(QUrl("https://upload.spark-app.store/"));});
     connect(setting, &QAction::triggered, this, &Widget::opensetting);
 
     // 载入自定义字体
-    int loadedFontID = QFontDatabase::addApplicationFont(":/fonts/fonts/华康少女字体.ttf");
+    int loadedFontID = QFontDatabase::addApplicationFont(":/fonts/fonts/hksnzt.ttf");
     QStringList loadedFontFamilies = QFontDatabase::applicationFontFamilies(loadedFontID);
     if(!loadedFontFamilies.isEmpty())
     {
@@ -211,20 +213,20 @@ void Widget::initUI()
      */
 
     // 初始化菜单数组
-    left_list[0]=ui->menu_main;
-    left_list[1]=ui->menu_network;
-    left_list[2]=ui->menu_chat;
-    left_list[3]=ui->menu_music;
-    left_list[4]=ui->menu_video;
-    left_list[5]=ui->menu_photo;
-    left_list[6]=ui->menu_game;
-    left_list[7]=ui->menu_office;
-    left_list[8]=ui->menu_read;
-    left_list[9]=ui->menu_dev;
-    left_list[10]=ui->menu_system;
-    left_list[11]=ui->menu_theme;
-    left_list[12]=ui->menu_other;
-    left_list[13]=ui->menu_download;
+    left_list[0] = ui->menu_main;
+    left_list[1] = ui->menu_network;
+    left_list[2] = ui->menu_chat;
+    left_list[3] = ui->menu_music;
+    left_list[4] = ui->menu_video;
+    left_list[5] = ui->menu_photo;
+    left_list[6] = ui->menu_game;
+    left_list[7] = ui->menu_office;
+    left_list[8] = ui->menu_read;
+    left_list[9] = ui->menu_dev;
+    left_list[10] = ui->menu_system;
+    left_list[11] = ui->menu_theme;
+    left_list[12] = ui->menu_other;
+    left_list[13] = ui->menu_download;
 
     ui->label_show->hide();
 
@@ -237,7 +239,8 @@ void Widget::initUI()
     ui->applist_scrollAreaWidget->setLayout(main);
     spinner->setFixedSize(80, 80);
 
-    // 初始化主题颜色
+    // 初始化系统活动色和主题颜色
+    main_color = DGuiApplicationHelper::instance()->applicationPalette().highlight().color();
     if(DGuiApplicationHelper::instance()->themeType() == DGuiApplicationHelper::DarkType)
     {
         themeIsDark = true;
@@ -246,6 +249,7 @@ void Widget::initUI()
     {
         themeIsDark = false;
     }
+    setTheme(themeIsDark, main_color);
 }
 
 void Widget::initConfig()
@@ -303,7 +307,7 @@ void Widget::initConfig()
 
     // web控件初始化
     // ui->webView->page()->setLinkDelegationPolicy(QWebPage::DelegateAllLinks);    // 用来激活接受 linkClicked 信号
-    // ui->webView->page()->settings()->setAttribute(QWebSettings::JavascriptEnabled,true);
+    // ui->webView->page()->settings()->setAttribute(QWebSettings::JavascriptEnabled, true);
     ui->webfoot->hide();
 
     // 初始化首页
@@ -341,12 +345,12 @@ void Widget::setTheme(bool isDark, QColor color)
     {
         // 黑色模式
         themeIsDark = true;
-        ui->webEngineView->setStyleSheet("background-color:#282828");
-        ui->btn_openDir->setStyleSheet("color: #8B91A1; background-color: #2E2F30; border: 0px");
-        ui->webfoot->setStyleSheet("background-color:#252525");
-        ui->label->setStyleSheet("background-color:#252525");
-        // ui->scrollArea->setStyleSheet("background-color:#252525");
-        ui->label_show->setStyleSheet("background-color:#252525");
+        ui->webEngineView->setStyleSheet("background-color: #252525;");
+        ui->webfoot->setStyleSheet("background-color: #252525;");
+        ui->btn_openDir->setStyleSheet("color: #AFAFAF; background-color: #2C2C2C; border: 0px;");
+        ui->label->setStyleSheet("background-color: #252525;");
+        // ui->scrollArea->setStyleSheet("background-color: #2C2C2C;");
+        ui->label_show->setStyleSheet("background-color: #2C2C2C;");
         ui->pushButton_return->setIcon(DStyle().standardIcon(DStyle::SP_ArrowLeft));
         ui->pushButton_refresh->setIcon(QIcon(":/icons/icons/refresh-page-dark.svg"));
     }
@@ -354,12 +358,12 @@ void Widget::setTheme(bool isDark, QColor color)
     {
         // 亮色模式
         themeIsDark = false;
-        ui->webEngineView->setStyleSheet("background-color:#FFFFFF");
-        ui->webfoot->setStyleSheet("background-color:#FFFFFF");
-        ui->btn_openDir->setStyleSheet("color: #505050; background-color: #FBFBFB; border: 0px");
-        ui->label->setStyleSheet("background-color:#FFFFFF");
-        // ui->scrollArea->setStyleSheet("background-color:#F8F8F8");
-        ui->label_show->setStyleSheet("background-color:#F8F8F8");
+        ui->webEngineView->setStyleSheet("background-color: #FFFFFF;");
+        ui->webfoot->setStyleSheet("background-color: #FFFFFF;");
+        ui->btn_openDir->setStyleSheet("color: #505050; background-color: #F8F8F8; border: 0px;");
+        ui->label->setStyleSheet("background-color: #FFFFFF;");
+        // ui->scrollArea->setStyleSheet("background-color: #F8F8F8;");
+        ui->label_show->setStyleSheet("background-color: #F8F8F8;");
         ui->pushButton_return->setIcon(DStyle().standardIcon(DStyle::SP_ArrowLeft));
         ui->pushButton_refresh->setIcon(QIcon(":/icons/icons/refresh-page.svg"));
     }
@@ -369,7 +373,7 @@ void Widget::setTheme(bool isDark, QColor color)
     m_loadweb->setTheme(themeIsDark, color);
     updateUI();
 
-    // 刷新首页主题颜色
+    // 刷新网页主题颜色
     if(ui->stackedWidget->currentIndex() == 0)
     {
         chooseLeftMenu(nowMenu);
