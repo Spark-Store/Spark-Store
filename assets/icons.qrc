@@ -64,6 +64,6 @@
         <file>tags/dwine2-small.png</file>
     </qresource>
     <qresource prefix="/fonts">
-        <file>fonts/华康少女字体.ttf</file>
+        <file>fonts/hksnzt.ttf</file>
     </qresource>
 </RCC>
