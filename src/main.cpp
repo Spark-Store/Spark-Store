@@ -9,7 +9,7 @@
 DWIDGET_USE_NAMESPACE
 int main(int argc, char *argv[])
 {
-    // DApplication::loadDXcbPlugin();  // 让 bar 处在标题栏中
+    DApplication::loadDXcbPlugin();  // 让 bar 处在标题栏中
     DApplication a(argc, argv);
 
     a.setAttribute(Qt::AA_UseHighDpiPixmaps);
