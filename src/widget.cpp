@@ -286,7 +286,7 @@ void Widget::initConfig()
     }
     else
     {
-        appinfoLoadThread.setServer(serverUrl = "https://d.store.deenos.org.cn/");  // 默认URL
+        appinfoLoadThread.setServer(serverUrl = "https://d.store.deepinos.org.cn/");  // 默认URL
     }
     configCanSave = true;   //　防止触发保存配置信号
 
