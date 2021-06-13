@@ -1,17 +1,13 @@
 #include "image_show.h"
 
-#include <QScreen>  // Qt5 不再建议使用 QDesktopWidget
 #include <QHBoxLayout>
-#include <QPainter>
+#include <QScreen>  // Qt5 不再建议使用 QDesktopWidget
+#include <QGuiApplication>
 
-#include <DDialog>
-#include <DBlurEffectWidget>
-#include <DWidgetUtil>
-#include <DApplication>
-
-DWIDGET_USE_NAMESPACE
-
-image_show::image_show(QWidget *parent) : QWidget(parent)
+image_show::image_show(QWidget *parent) :
+    QWidget(parent),
+    m_dialog(new big_image),
+    m_label(new QLabel)
 {
     QHBoxLayout *layout = new QHBoxLayout;
     layout->addWidget(m_label);
@@ -23,13 +19,12 @@ void image_show::setImage(QPixmap image)
 {
     QImage screen0;
     screen0 = image.toImage();
-    // QPainter painter(&screen0);
     QImage re_screen1;
     QImage re_screen0 = screen0.scaled(QSize(400, 300), Qt::KeepAspectRatio, Qt::SmoothTransformation);
 
     // 获取主屏幕尺寸
-    desktop_w = DApplication::primaryScreen()->geometry().width();
-    desktop_h = DApplication::primaryScreen()->geometry().height();
+    desktop_w = QGuiApplication::primaryScreen()->geometry().width();
+    desktop_h = QGuiApplication::primaryScreen()->geometry().height();
 
     if(screen0.width() > (desktop_w - 20) || screen0.height() > (desktop_h - 20))
     {
@@ -53,5 +48,4 @@ void image_show::mousePressEvent(QMouseEvent *)
     m_dialog->setFixedSize(desktop_w, desktop_h);
 
     m_dialog->move(0,0);
-    // moveToCenter(m_dialog);
 }

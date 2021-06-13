@@ -3,30 +3,30 @@
 
 #include <QWidget>
 #include <QMouseEvent>
-#include <QLabel>
-#include <QPixmap>
-#include <DDialog>
-#include <DBlurEffectWidget>
-#include <big_image.h>
-DWIDGET_USE_NAMESPACE
+
+#include "big_image.h"
+
 class image_show : public QWidget
 {
     Q_OBJECT
+
 public:
     explicit image_show(QWidget *parent = nullptr);
 
-    void setImage(QPixmap);
     int desktop_w;
     int desktop_h;
-private:
-    QLabel *m_label=new QLabel;
-    QPixmap m_image;
-    QLabel image;
-    big_image *m_dialog=new big_image;
-    void mousePressEvent(QMouseEvent *event);
-signals:
 
-public slots:
+    void setImage(QPixmap);
+
+protected:
+    void mousePressEvent(QMouseEvent *event) override;
+
+private:
+    big_image *m_dialog;
+    QLabel *m_label;
+    QLabel image;
+    QPixmap m_image;
+
 };
 
 #endif // IMAGE_SHOW_H

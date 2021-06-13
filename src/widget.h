@@ -54,9 +54,9 @@ public:
 
     void startRequest(QUrl url, QString fileName);
     void searchApp(QString);
-    int nowDownload=0;
-    int allDownload=0;
-    int isdownload=false;
+    int nowDownload = 0;
+    int allDownload = 0;
+    int isdownload = false;
     void opensetting(); //打开设置页面
     void openUrl(QUrl);
     void setTheme(bool,QColor);
@@ -133,15 +133,15 @@ private:
     QPushButton * left_list[15];
     QUrl menuUrl[13];
     ProgressLoad *m_loadweb;
-    QLabel *m_loaderror=new QLabel;
+    QLabel *m_loaderror = new QLabel;
     QString serverUrl;
-    bool configCanSave=false;
-    bool isBusy=false;
-    int nowMenu=0; //定位当前菜单
-    int prePage=0; //定位前一个页面
-    long download_size=0;
-    long size1=0;
-    long size2=0;
+    bool configCanSave = false;
+    bool isBusy = false;
+    int nowMenu = 0;    // 定位当前菜单
+    int prePage = 0;    // 定位前一个页面
+    long download_size = 0;
+    long size1 = 0;
+    long size2 = 0;
     QPixmap screen[5];
     QFuture<void> load;
     QFutureWatcher<void> watchScreenshotLoad;

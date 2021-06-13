@@ -44,8 +44,6 @@ Widget::Widget(DBlurEffectWidget *parent) :
     initConfig();
 
     manager = new QNetworkAccessManager(this);  // 下载管理
-    m_loadweb=ui->progressload;
-    m_loadweb->show();
 
     httpClient = new AeaQt::HttpClient;
     downloadController = new DownloadController(this);  // 并发下载
@@ -65,6 +63,26 @@ Widget::Widget(DBlurEffectWidget *parent) :
     connect(ui->menu_other, &QPushButton::clicked, this, [=](){Widget::chooseLeftMenu(12);});
     connect(ui->menu_download, &QPushButton::clicked, this, [=](){Widget::chooseLeftMenu(13);});
 
+    connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged, this, [=](DGuiApplicationHelper::ColorType themeType)
+    {
+        // 获取系统活动色
+        main_color = DGuiApplicationHelper::instance()->applicationPalette().highlight().color();
+
+        if(themeType == DGuiApplicationHelper::DarkType)
+        {
+            qDebug() << "Dark";
+            themeIsDark = true;
+        }
+        else if(themeType == DGuiApplicationHelper::LightType)
+        {
+            qDebug() << "Light";
+            themeIsDark = false;
+        }
+
+        // 设置 UI 主题
+        setTheme(themeIsDark, main_color);
+    });
+
     connect(&appinfoLoadThread, SIGNAL(requestResetUi()), this, SLOT(sltAppinfoResetUi()), Qt::ConnectionType::BlockingQueuedConnection);
     connect(&appinfoLoadThread, &SpkAppInfoLoaderThread::requestSetTags, this, &Widget::sltAppinfoTags, Qt::ConnectionType::BlockingQueuedConnection);
     connect(&appinfoLoadThread, &SpkAppInfoLoaderThread::requestSetAppInformation, this, &Widget::sltAppinfoDetails, Qt::ConnectionType::BlockingQueuedConnection);
@@ -83,24 +101,6 @@ Widget::Widget(DBlurEffectWidget *parent) :
             searchApp(searchtext);
         }
         this->setFocus();
-    });
-
-    connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged, this, [=](DGuiApplicationHelper::ColorType themeType)
-    {
-        // 获取系统活动色
-        QColor main_color;
-        main_color = DGuiApplicationHelper::instance()->applicationPalette().highlight().color();
-
-        if(themeType == DGuiApplicationHelper::DarkType)
-        {
-            qDebug() << "Dark";
-            setTheme(true, main_color);
-        }
-        else
-        {
-            qDebug() << "Light";
-            setTheme(false, main_color);
-        }
     });
 
     // 计算显示下载速度
@@ -152,7 +152,7 @@ Widget::~Widget()
 void Widget::initUI()
 {
     // ui初始化
-    setMaskAlpha(220);
+    setMaskAlpha(200);
     ui->webfoot->setFixedHeight(0);
     ui->stackedWidget->setCurrentIndex(0);
     ui->listWidget->hide();
@@ -160,7 +160,9 @@ void Widget::initUI()
     ui->pushButton_uninstall->hide();
     ui->line1_widget->setStyleSheet("background-color:#808080");
     ui->icon->setPixmap(QIcon::fromTheme("spark-store").pixmap(36,36));
-    ui->titlebar->setFixedHeight(50);
+    ui->titlebar->setFixedHeight(48);
+
+    m_loadweb = ui->progressload;
 
     label_screen << ui->screen_0 << ui->screen_1 << ui->screen_2 << ui->screen_3 << ui->screen_4;
 
@@ -196,11 +198,11 @@ void Widget::initUI()
     menu->addAction(actionSubmission);
     titlebar->setMenu(menu);
 
-    connect(actionSubmission, &QAction::triggered, this, [=](){QDesktopServices::openUrl(QUrl("https://upload.spark-app.store/"));});
+    connect(actionSubmission, &QAction::triggered, this, [=]{QDesktopServices::openUrl(QUrl("https://upload.spark-app.store/"));});
     connect(setting, &QAction::triggered, this, &Widget::opensetting);
 
     // 载入自定义字体
-    int loadedFontID = QFontDatabase::addApplicationFont(":/fonts/fonts/华康少女字体.ttf");
+    int loadedFontID = QFontDatabase::addApplicationFont(":/fonts/fonts/hksnzt.ttf");
     QStringList loadedFontFamilies = QFontDatabase::applicationFontFamilies(loadedFontID);
     if(!loadedFontFamilies.isEmpty())
     {
@@ -211,20 +213,20 @@ void Widget::initUI()
      */
 
     // 初始化菜单数组
-    left_list[0]=ui->menu_main;
-    left_list[1]=ui->menu_network;
-    left_list[2]=ui->menu_chat;
-    left_list[3]=ui->menu_music;
-    left_list[4]=ui->menu_video;
-    left_list[5]=ui->menu_photo;
-    left_list[6]=ui->menu_game;
-    left_list[7]=ui->menu_office;
-    left_list[8]=ui->menu_read;
-    left_list[9]=ui->menu_dev;
-    left_list[10]=ui->menu_system;
-    left_list[11]=ui->menu_theme;
-    left_list[12]=ui->menu_other;
-    left_list[13]=ui->menu_download;
+    left_list[0] = ui->menu_main;
+    left_list[1] = ui->menu_network;
+    left_list[2] = ui->menu_chat;
+    left_list[3] = ui->menu_music;
+    left_list[4] = ui->menu_video;
+    left_list[5] = ui->menu_photo;
+    left_list[6] = ui->menu_game;
+    left_list[7] = ui->menu_office;
+    left_list[8] = ui->menu_read;
+    left_list[9] = ui->menu_dev;
+    left_list[10] = ui->menu_system;
+    left_list[11] = ui->menu_theme;
+    left_list[12] = ui->menu_other;
+    left_list[13] = ui->menu_download;
 
     ui->label_show->hide();
 
@@ -236,6 +238,18 @@ void Widget::initUI()
     main->addWidget(spinner);
     ui->applist_scrollAreaWidget->setLayout(main);
     spinner->setFixedSize(80, 80);
+
+    // 初始化系统活动色和主题颜色
+    main_color = DGuiApplicationHelper::instance()->applicationPalette().highlight().color();
+    if(DGuiApplicationHelper::instance()->themeType() == DGuiApplicationHelper::DarkType)
+    {
+        themeIsDark = true;
+    }
+    else
+    {
+        themeIsDark = false;
+    }
+    setTheme(themeIsDark, main_color);
 }
 
 void Widget::initConfig()
@@ -293,20 +307,20 @@ void Widget::initConfig()
 
     // web控件初始化
     // ui->webView->page()->setLinkDelegationPolicy(QWebPage::DelegateAllLinks);    // 用来激活接受 linkClicked 信号
-    // ui->webView->page()->settings()->setAttribute(QWebSettings::JavascriptEnabled,true);
+    // ui->webView->page()->settings()->setAttribute(QWebSettings::JavascriptEnabled, true);
     ui->webfoot->hide();
 
-    //初始化首页
+    // 初始化首页
     // ui->webEngineView->setUrl(menuUrl[0]);
     chooseLeftMenu(0);
 
-    //给下载列表赋值到数组，方便调用
+    // 给下载列表赋值到数组，方便调用
     for(int i = 0; i < LIST_MAX; i++)
     {
         download_list[i].num = i;
     }
 
-    // 初始化apt源显示
+    // 初始化 apt 源显示
     QFile aptserver("/etc/apt/sources.list.d/sparkstore.list");
     aptserver.open(QIODevice::ReadOnly);
     if(aptserver.isOpen())
@@ -331,12 +345,12 @@ void Widget::setTheme(bool isDark, QColor color)
     {
         // 黑色模式
         themeIsDark = true;
-        ui->webEngineView->setStyleSheet("background-color:#282828");
-        ui->btn_openDir->setStyleSheet("color: #8B91A1; background-color: #2E2F30; border: 0px");
-        ui->webfoot->setStyleSheet("background-color:#252525");
-        ui->label->setStyleSheet("background-color:#252525");
-        // ui->scrollArea->setStyleSheet("background-color:#252525");
-        ui->label_show->setStyleSheet("background-color:#252525");
+        ui->webEngineView->setStyleSheet("background-color: #252525;");
+        ui->webfoot->setStyleSheet("background-color: #252525;");
+        ui->btn_openDir->setStyleSheet("color: #AFAFAF; background-color: #2C2C2C; border: 0px;");
+        ui->label->setStyleSheet("background-color: #252525;");
+        // ui->scrollArea->setStyleSheet("background-color: #2C2C2C;");
+        ui->label_show->setStyleSheet("background-color: #2C2C2C;");
         ui->pushButton_return->setIcon(DStyle().standardIcon(DStyle::SP_ArrowLeft));
         ui->pushButton_refresh->setIcon(QIcon(":/icons/icons/refresh-page-dark.svg"));
     }
@@ -344,12 +358,12 @@ void Widget::setTheme(bool isDark, QColor color)
     {
         // 亮色模式
         themeIsDark = false;
-        ui->webEngineView->setStyleSheet("background-color:#FFFFFF");
-        ui->webfoot->setStyleSheet("background-color:#FFFFFF");
-        ui->btn_openDir->setStyleSheet("color: #505050; background-color: #FBFBFB; border: 0px");
-        ui->label->setStyleSheet("background-color:#FFFFFF");
-        // ui->scrollArea->setStyleSheet("background-color:#F8F8F8");
-        ui->label_show->setStyleSheet("background-color:#F8F8F8");
+        ui->webEngineView->setStyleSheet("background-color: #FFFFFF;");
+        ui->webfoot->setStyleSheet("background-color: #FFFFFF;");
+        ui->btn_openDir->setStyleSheet("color: #505050; background-color: #F8F8F8; border: 0px;");
+        ui->label->setStyleSheet("background-color: #FFFFFF;");
+        // ui->scrollArea->setStyleSheet("background-color: #F8F8F8;");
+        ui->label_show->setStyleSheet("background-color: #F8F8F8;");
         ui->pushButton_return->setIcon(DStyle().standardIcon(DStyle::SP_ArrowLeft));
         ui->pushButton_refresh->setIcon(QIcon(":/icons/icons/refresh-page.svg"));
     }
@@ -359,7 +373,7 @@ void Widget::setTheme(bool isDark, QColor color)
     m_loadweb->setTheme(themeIsDark, color);
     updateUI();
 
-    // 刷新首页主题颜色
+    // 刷新网页主题颜色
     if(ui->stackedWidget->currentIndex() == 0)
     {
         chooseLeftMenu(nowMenu);
@@ -542,17 +556,6 @@ void Widget::chooseLeftMenu(int index)
     }
 
     updateUI();
-
-    /*
-    if(QLocale::system().name() == "zh_CN")
-    {
-        left_list[index]->setStyleSheet("color: #FFFFFF; background-color: " + main_color.name() + "; border-radius: 8; border: 0px;");
-    }
-    else
-    {
-        left_list[index]->setStyleSheet("color: #FFFFFF; background-color: " + main_color.name() + "; border-radius: 8; border: 0px; text-align: left; padding-left: 15px;");
-    }
-    */
 
     if(index <= 12)
     {
@@ -810,7 +813,7 @@ void Widget::sltAppinfoResetUi()
     ui->tag_dwine5->hide();
     ui->tag_a2d->hide();
 
-    //　重置UI状态
+    //　重置 UI 状态
     ui->pushButton_uninstall->hide();
     ui->pushButton_website->setEnabled(false);
     ui->pushButton->setEnabled(false);
@@ -919,7 +922,7 @@ void Widget::sltAppinfoScreenshot(QPixmap *picture, int index)
 
 void Widget::sltAppinfoFinish()
 {
-    ui->label_show->setText("");
+    ui->label_show->clear();
     ui->label_show->hide();
 }
 
@@ -1132,7 +1135,7 @@ void Widget::on_pushButton_uninstall_clicked()
         ui->pushButton_uninstall->setEnabled(false);
 
         QProcess uninstall;
-        uninstall.start("pkexec apt purge -y " + pkgName.toLower(), QStringList());
+        uninstall.start("pkexec apt purge -y " + pkgName.toLower());
         uninstall.waitForFinished();
 
         ui->pushButton_download->setEnabled(true);
