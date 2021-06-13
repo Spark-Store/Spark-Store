@@ -1093,7 +1093,7 @@ void Widget::on_pushButton_updateApt_clicked()
                 system(("chmod +x " + tmpPath + "/update.sh").c_str());
 
                 QProcess runupdate;
-                runupdate.start(QString::fromStdString("pkexec " + tmpPath + "/update.sh"));
+                runupdate.start(QString::fromStdString("pkexec " + tmpPath + "/update.sh"), QStringList());
                 runupdate.waitForFinished();
                 QString error = runupdate.readAllStandardError();
 
