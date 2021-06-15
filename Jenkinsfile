@@ -9,7 +9,7 @@ pipeline {
 
       }
       steps {
-        sh 'mkdir build && cd build && qmake .. && make '
+        sh 'mkdir build && cd build && cmake .. && make -j'
         archiveArtifacts(artifacts: 'build/src/spark-store', allowEmptyArchive: true, defaultExcludes: true)
       }
     }
