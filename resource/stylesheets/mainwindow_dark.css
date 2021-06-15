@@ -1,0 +1,87 @@
+QWidget
+{
+    background-color: #353535;
+}
+
+QLabel
+{
+    font-size: 16px
+}
+
+QScrollArea
+{
+    border-width: 1px;
+    border-radius: 5px;
+}
+
+QPushButton
+{
+    border-width: 1px;
+    padding: 4px;
+    border-radius: 7px;
+    font-size: 16px;
+    font-weight: 300;
+    border-top-color: #7b7b7b;
+    border-style: solid;
+    background: qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 #6b6b6b, stop:1 #656565)
+}
+
+QPushButton::pressed
+{
+    border-top-color: #656565;
+    border-bottom-color: #7b7b7b;
+    background: qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 #606060, stop:1 #6b6b6b)
+}
+
+QPushButton[objectName=spk_styling_msgboxexpandbtn]
+{
+    border-width: 0px;
+    background-color: #434343
+}
+
+QPushButton[objectName=spk_styling_msgboxexpandbtn]::checked
+{
+    background-color: #0070ff
+}
+
+SpkWindow::!focused
+{
+    background-color: #2c2c2c
+}
+
+SpkTitleBar
+{
+    border-color: #404040;
+}
+
+SpkTitleBarDefaultButton
+{
+    margin: 0px;
+    border-radius: 0px;
+    border-width: 0px;
+    background-color: #353535;
+}
+
+SpkTitleBarDefaultButton:hover
+{
+    background-color: #404040;
+}
+
+SpkTitleBarDefaultButton:pressed
+{
+    background-color: #5e5e5e;
+}
+
+QScrollBar::handle
+{
+    border: 0px;
+    border-radius: 5px;
+    background-color: #606060
+}
+QScrollBar::horizontal{height: 10px}
+QScrollBar::vertical{width:10px}
+
+QScrollBar::handle:hover
+{
+    background-color: #606060
+}

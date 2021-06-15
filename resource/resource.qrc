@@ -1,0 +1,9 @@
+<RCC>
+    <qresource prefix="/stylesheets">
+        <file>stylesheets/mainwindow.css</file>
+        <file>stylesheets/mainwindow_dark.css</file>
+    </qresource>
+    <qresource prefix="/info">
+        <file>lipsum.txt</file>
+    </qresource>
+</RCC>
