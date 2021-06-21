@@ -4,7 +4,7 @@ pipeline {
     stage('build') {
       agent {
         docker {
-          image 'jerry979/dtke:5.11'
+          image 'jerry979/dtke:5.11.1'
         }
 
       }
