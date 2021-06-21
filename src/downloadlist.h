@@ -6,7 +6,7 @@
 #include <QMenu>
 #include <QAction>
 
-#include <DDialog>
+#include <QDialog>
 
 DWIDGET_USE_NAMESPACE
 
@@ -52,7 +52,7 @@ private:
     QAction *action_deepin;
     QAction *action_gdebi;
 
-    DDialog *output_w;
+    QDialog *output_w;
     QTextBrowser *textbrowser;
 
 private slots:
