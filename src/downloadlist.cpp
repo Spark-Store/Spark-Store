@@ -17,7 +17,7 @@ downloadlist::downloadlist(QWidget *parent) :
     action_dpkg(new QAction),
     action_deepin(new QAction),
     action_gdebi(new QAction),
-    output_w(new QDialog),
+    output_w(new DDialog),
     textbrowser(new QTextBrowser)
 {
     ui->setupUi(this);

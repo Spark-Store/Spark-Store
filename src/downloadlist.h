@@ -6,8 +6,9 @@
 #include <QMenu>
 #include <QAction>
 
-#include <QDialog>
+#include <DDialog>
 
+DWIDGET_USE_NAMESPACE
 
 namespace Ui {
 class downloadlist;
@@ -51,7 +52,7 @@ private:
     QAction *action_deepin;
     QAction *action_gdebi;
 
-    QDialog *output_w;
+    DDialog *output_w;
     QTextBrowser *textbrowser;
 
 private slots:
