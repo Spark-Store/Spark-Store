@@ -8,7 +8,6 @@
 
 #include <QDialog>
 
-DWIDGET_USE_NAMESPACE
 
 namespace Ui {
 class downloadlist;
