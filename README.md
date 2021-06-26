@@ -11,7 +11,7 @@
 
 希望看到这里的人也可以加入我们的队伍，开发或者投递应用都很欢迎，共同构建Linux应用生态
 
-### [在这里投稿](http://upload.spark-app.store)
+### [在这里投稿](https://upload.deepinos.org/index)
 
 web页面部分正在开发当中，详情请见[web仓库](https://gitee.com/deepin-community-store/DCSAPP_WEB)
 
