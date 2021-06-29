@@ -118,7 +118,7 @@ void SpkAppInfoLoaderThread::run()
             Widget::sendNotification(tr("Failed to load application icon."));
         })
         .block()
-                .timeout(5 * 100)
+                .timeout(-1)
                 .exec();
 
 
@@ -148,7 +148,7 @@ void SpkAppInfoLoaderThread::run()
                 // Widget::sendNotification(tr("Failed to load application screenshot."));
             })
             .block()
-                    .timeout(4 * 100)
+                    .timeout(-1)
                     .exec();
         }
         emit finishAllLoading();
@@ -161,8 +161,8 @@ void SpkAppInfoLoaderThread::run()
 
         Widget::sendNotification(tr("Failed to download app info. Please check internet connection."));
     })
-    .timeout(5 * 100)
-            .block()
+    .block()
+            .timeout(-1)
             .exec();
 }
 
