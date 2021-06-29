@@ -21,6 +21,7 @@ void SpkAppInfoLoaderThread::run()
         qDebug() << "请求应用信息 " << json_array;
         QString urladdress, deatils, more, packagename, appweb;
         bool isInstalled;
+        bool isUpdated;
 
         // 将路径转化为相应源的下载路径
         urladdress = targetUrl.toString().left(targetUrl.toString().length() - 8);
@@ -70,13 +71,31 @@ void SpkAppInfoLoaderThread::run()
         if(error == 0)
         {
             isInstalled = true;
+
+            QProcess isUpdate;
+            isUpdate.start("dpkg-query --showformat='${Version}' --show " + json["Pkgname"].toString());
+            isUpdate.waitForFinished();
+            QString localVersion = isUpdate.readAllStandardOutput();
+            localVersion.replace("'", "");
+
+            isUpdate.start("dpkg --compare-versions " + localVersion + " ge " + json["Version"].toString());
+            isUpdate.waitForFinished();
+            if(!isUpdate.exitCode())
+            {
+                isUpdated = true;
+            }
+            else
+            {
+                isUpdated = false;
+            }
         }
         else
         {
             isInstalled = false;
+            isUpdated = false;
         }
 
-        emit requestSetAppInformation(&appName, &details, &more, &appweb, &packagename, &fileUrl, isInstalled);
+        emit requestSetAppInformation(&appName, &details, &more, &appweb, &packagename, &fileUrl, isInstalled, isUpdated);
 
         // tag 加载
         QString tags = json["Tags"].toString();

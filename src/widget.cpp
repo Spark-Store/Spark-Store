@@ -198,7 +198,7 @@ void Widget::initUI()
     menu->addAction(actionSubmission);
     titlebar->setMenu(menu);
 
-    connect(actionSubmission, &QAction::triggered, this, [=]{QDesktopServices::openUrl(QUrl("https://upload.spark-app.store/"));});
+    connect(actionSubmission, &QAction::triggered, this, [=]{QDesktopServices::openUrl(QUrl("https://upload.deepinos.org/"));});
     connect(setting, &QAction::triggered, this, &Widget::opensetting);
 
     // 载入自定义字体
@@ -863,7 +863,7 @@ void Widget::sltAppinfoTags(QStringList *tagList)
 
 void Widget::sltAppinfoDetails(QString *name, QString *details, QString *info,
                                QString *website, QString *packageName, QUrl *fileUrl,
-                               bool isInstalled)
+                               bool isInstalled, bool isUpdated)
 {
     ui->label_appname->setText(appName = *name);
     ui->label_appname->show();
@@ -878,8 +878,16 @@ void Widget::sltAppinfoDetails(QString *name, QString *details, QString *info,
 
     if(isInstalled)
     {
-        ui->pushButton_download->setText(tr("Reinstall"));
-        ui->pushButton_uninstall->show();
+        if(isUpdated)
+        {
+            ui->pushButton_download->setText(tr("Reinstall"));
+            ui->pushButton_uninstall->show();
+        }
+        else
+        {
+            ui->pushButton_download->setText(tr("Upgrade"));
+            ui->pushButton_uninstall->show();
+        }
     }
     else
     {

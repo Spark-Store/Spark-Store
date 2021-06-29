@@ -40,7 +40,8 @@ signals:
     void requestSetTags(QStringList *tagList);
     void requestSetAppInformation(QString *name, QString *details, QString *info,
                                   QString *website, QString *packageName,
-                                  QUrl *fileUrl, bool isInstalled);
+                                  QUrl *fileUrl, bool isInstalled,
+                                  bool isUpdated);
     void finishedIconLoad(QPixmap *icon);
     void finishedScreenshotLoad(QPixmap *icon, int index);  // 该信号必须以 BlockingQueued 方式连接
     void finishAllLoading();                                // 该信号必须以 BlockingQueued 方式连接
