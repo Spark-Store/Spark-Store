@@ -1,0 +1,8 @@
+#!/bin/sh
+
+rm /usr/local/bin/spark-store
+rm /usr/local/bin/ssinstall
+
+update-icon-caches /usr/share/icons/hicolor || true
+update-desktop-database /usr/share/applications || true
+update-mime-database /usr/share/mime || true
