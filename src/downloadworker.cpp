@@ -93,6 +93,28 @@ DownloadController::DownloadController(QObject *parent)
 {
     Q_UNUSED(parent)
 
+    // 初始化默认域名
+    domains.clear();
+    domains.append("d.store.deepinos.org.cn");
+
+    QFile serverList(QDir::homePath().toUtf8() + "/.config/spark-store/server.list");
+    if(serverList.open(QFile::ReadOnly))
+    {
+        QStringList list = QString(serverList.readAll()).trimmed().split("\n");
+        qDebug() << list << list.size();
+
+        for (int i = 0; i < list.size(); i++) {
+            if (list.at(i).contains("镜像源 Download only") && i + 1 < list.size()) {
+                for (int j = i + 1; j < list.size(); j++) {
+                    domains.append(list.at(j));
+                }
+                break;
+            }
+        }
+    }
+    qDebug() << domains.size();
+
+    /*
     domains = {
         "d1.store.deepinos.org.cn",
         "d2.store.deepinos.org.cn",
@@ -100,7 +122,8 @@ DownloadController::DownloadController(QObject *parent)
         "d4.store.deepinos.org.cn",
         "d5.store.deepinos.org.cn"
     };
-    this->threadNum = domains.size() > 5 ? 5 : domains.size();
+    */
+    this->threadNum = domains.size();
 }
 
 DownloadController::~DownloadController()

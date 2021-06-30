@@ -270,6 +270,14 @@ void Widget::initConfig()
             {
                 ui->comboBox_server->model()->setData(ui->comboBox_server->model()->index(i, 0), QVariant(0), Qt::UserRole - 1);
             }
+            if(ui->comboBox_server->itemText(i) == "镜像源 Download only")
+            {
+                for(int j = i; j < ui->comboBox_server->count(); j++)
+                {
+                    ui->comboBox_server->model()->setData(ui->comboBox_server->model()->index(j, 0), QVariant(0), Qt::UserRole - 1);
+                }
+                break;
+            }
         }
     }
     else
@@ -1012,7 +1020,7 @@ void Widget::on_comboBox_server_currentIndexChanged(const QString &arg1)
 
     if(configCanSave)
     {
-        ui->label_setting1->show();
+        // ui->label_setting1->show();
         QSettings *setConfig = new QSettings(QDir::homePath() + "/.config/spark-store/config.ini", QSettings::IniFormat);
         setConfig->setValue("server/choose", arg1);
     }
@@ -1050,6 +1058,14 @@ void Widget::on_pushButton_updateServer_clicked()
             if(ui->comboBox_server->itemText(i) == "开发者模式 Dev only")
             {
                 ui->comboBox_server->model()->setData(ui->comboBox_server->model()->index(i, 0), QVariant(0), Qt::UserRole - 1);
+            }
+            if(ui->comboBox_server->itemText(i) == "镜像源 Download only")
+            {
+                for(int j = i; j < ui->comboBox_server->count(); j++)
+                {
+                    ui->comboBox_server->model()->setData(ui->comboBox_server->model()->index(j, 0), QVariant(0), Qt::UserRole - 1);
+                }
+                break;
             }
         }
     });
@@ -1101,7 +1117,7 @@ void Widget::on_pushButton_updateApt_clicked()
                 system(("chmod +x " + tmpPath + "/update.sh").c_str());
 
                 QProcess runupdate;
-                runupdate.start(QString::fromStdString("pkexec " + tmpPath + "/update.sh"), QStringList());
+                runupdate.start("pkexec", QStringList() << QString::fromStdString(tmpPath + "/update.sh"));
                 runupdate.waitForFinished();
                 QString error = runupdate.readAllStandardError();
 
