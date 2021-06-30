@@ -23,7 +23,7 @@ Spark Store est publié sous licence GPL V3
 Nous sommes nés pour le changement.</translation>
     </message>
     <message>
-        <location filename="../src/main.cpp" line="39"/>
+        <location filename="../src/main.cpp" line="40"/>
         <source>Spark Store</source>
         <translation type="unfinished"></translation>
     </message>
@@ -31,7 +31,7 @@ Nous sommes nés pour le changement.</translation>
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../src/main.cpp" line="47"/>
+        <location filename="../src/main.cpp" line="48"/>
         <source>&lt;span style=&apos;font-size:10pt;font-weight:60;&apos;&gt;An appstore powered by deepin community&lt;/span&gt;&lt;br/&gt;&lt;a href=&apos;https://www.spark-app.store/&apos;&gt;https://www.spark-app.store&lt;/a&gt;&lt;br/&gt;&lt;span style=&apos;font-size:12pt;&apos;&gt;Spark developers&lt;/span&gt;&lt;br/&gt;&lt;br/&gt;Published under GPL V3</source>
         <translation type="unfinished"></translation>
     </message>
@@ -188,7 +188,7 @@ Nous sommes nés pour le changement.</translation>
     </message>
     <message>
         <location filename="../src/widget.ui" line="547"/>
-        <location filename="../src/widget.cpp" line="894"/>
+        <location filename="../src/widget.cpp" line="902"/>
         <source>Install</source>
         <translation type="unfinished"></translation>
     </message>
@@ -584,10 +584,10 @@ Nous sommes nés pour le changement.</translation>
     </message>
     <message>
         <location filename="../src/widget.cpp" line="138"/>
-        <location filename="../src/widget.cpp" line="394"/>
-        <location filename="../src/widget.cpp" line="399"/>
-        <location filename="../src/widget.cpp" line="409"/>
-        <location filename="../src/widget.cpp" line="414"/>
+        <location filename="../src/widget.cpp" line="402"/>
+        <location filename="../src/widget.cpp" line="407"/>
+        <location filename="../src/widget.cpp" line="417"/>
+        <location filename="../src/widget.cpp" line="422"/>
         <source>Spark\ Store</source>
         <translation type="unfinished"></translation>
     </message>
@@ -612,83 +612,83 @@ Nous sommes nés pour le changement.</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widget.cpp" line="332"/>
+        <location filename="../src/widget.cpp" line="340"/>
         <source>Not Exist</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widget.cpp" line="644"/>
-        <location filename="../src/widget.cpp" line="883"/>
+        <location filename="../src/widget.cpp" line="652"/>
+        <location filename="../src/widget.cpp" line="891"/>
         <source>Reinstall</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widget.cpp" line="610"/>
+        <location filename="../src/widget.cpp" line="618"/>
         <source>Failed to get the name to the file to be downloaded.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widget.cpp" line="694"/>
+        <location filename="../src/widget.cpp" line="702"/>
         <source>Relative apps Not Found!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widget.cpp" line="703"/>
+        <location filename="../src/widget.cpp" line="711"/>
         <source>Request Error: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widget.cpp" line="888"/>
+        <location filename="../src/widget.cpp" line="896"/>
         <source>Upgrade</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widget.cpp" line="1063"/>
+        <location filename="../src/widget.cpp" line="1079"/>
         <source>Updating, please wait...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widget.cpp" line="1124"/>
+        <location filename="../src/widget.cpp" line="1140"/>
         <source>Apt has reported an error. Please use apt update in terminal to locate the problem.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widget.cpp" line="1131"/>
+        <location filename="../src/widget.cpp" line="1147"/>
         <source>Unknown error!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widget.cpp" line="1155"/>
+        <location filename="../src/widget.cpp" line="1171"/>
         <source>Uninstall succeeded</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widget.cpp" line="1173"/>
+        <location filename="../src/widget.cpp" line="1189"/>
         <source>Temporary cache was cleaned</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widget.cpp" line="1255"/>
+        <location filename="../src/widget.cpp" line="1271"/>
         <source>The URL has been copied to the clipboard</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widget.cpp" line="1350"/>
+        <location filename="../src/widget.cpp" line="1366"/>
         <source>Yes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widget.cpp" line="1350"/>
+        <location filename="../src/widget.cpp" line="1366"/>
         <source>No</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widget.cpp" line="1351"/>
+        <location filename="../src/widget.cpp" line="1367"/>
         <source>Information for Contributors</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widget.cpp" line="1352"/>
+        <location filename="../src/widget.cpp" line="1368"/>
         <source>Currently the translation contribution is limited to English,
 and you will be redirected to our Gitee repository at which you are
 supposed to be creating pull requests to contribute app info
