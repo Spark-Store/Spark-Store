@@ -50,7 +50,6 @@ void SpkDialog::AddButton(QString text, SpkUi::SpkButtonStyle style)
     case SpkUi::SpkButtonStyle::Warn:
       b->setObjectName("spk_styling_warnbtn");
       break;
-    case SpkUi::SpkButtonStyle::Normal:
     default:
       break;
   }

@@ -79,8 +79,11 @@ namespace SpkUi
   void PrepareForDeepinDesktop()
   {
 #ifndef NDEBUG
-    // Normally it's installed to system library path
     qApp->addLibraryPath(qApp->applicationDirPath() + "/plugin/dtkplugin");
+#else
+    // You must `make install' before these work in release mode
+    qApp->addLibraryPath("/usr/local/lib");
+    qApp->addLibraryPath("/usr/lib");
 #endif
     QPluginLoader p("libspkdtkplugin");
     if(p.load())
