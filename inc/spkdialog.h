@@ -1,5 +1,4 @@
-#ifndef SPKDIALOG_H
-#define SPKDIALOG_H
+#pragma once
 
 #include <QList>
 #include <QButtonGroup>
@@ -33,5 +32,3 @@ class SpkDialog : public SpkWindow
     QButtonGroup *mBtnGroup;
     QList<QWidget*> mWidgetsList, mParentsList;
 };
-
-#endif // SPKDIALOG_H

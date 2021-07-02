@@ -3,7 +3,7 @@
 #include "spkdialog.h"
 
 SpkDialog::SpkDialog(QWidget *parent) :
-  SpkWindow(parent)
+  SpkWindow(parent, Qt::Dialog)
 {
   mDialogWidget = new QWidget;
   mMainVLay = new QVBoxLayout(mDialogWidget);
@@ -19,7 +19,8 @@ SpkDialog::SpkDialog(QWidget *parent) :
 
   SetCentralWidget(mDialogWidget);
 
-  connect(mBtnGroup, QOverload<int>::of(&QButtonGroup::idClicked),
+  // idClicked is not available on platforms we support, shouldn't change it
+  connect(mBtnGroup, QOverload<int>::of(&QButtonGroup::buttonClicked),
           this, &SpkDialog::ButtonPressed);
   connect(this, &SpkWindow::Closed, this, &SpkDialog::ForceClose);
 }

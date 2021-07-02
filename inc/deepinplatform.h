@@ -2,8 +2,7 @@
 // Created by rigoligo on 2021/5/8.
 //
 
-#ifndef _DEEPINPLATFORM_H_
-#define _DEEPINPLATFORM_H_
+#pragma once
 
 // Stub
 

@@ -1,5 +1,4 @@
-#ifndef SPKPAGEQSSTEST_H
-#define SPKPAGEQSSTEST_H
+#pragma once
 
 #include <QWidget>
 #include <QSplitter>
@@ -40,5 +39,3 @@ namespace SpkUi
       void FetchStylesheet();
   };
 }
-
-#endif // SPKPAGEQSSTEST_H

@@ -5,21 +5,23 @@
 #include <QScreen>
 #include "spkui_general.h"
 #include "spkmsgbox.h"
+#include "spkstore.h"
 
 // Suppress unwanted Clazy check warnings
 // clazy:excludeall=connect-3arg-lambda,lambda-in-connect
 
-const QSize SpkMsgBox::IconSize; // I don't know why I need it
+const QSize SpkMsgBox::IconSize; // I don't know why I need it, compiler wants that
 
-SpkMsgBox::SpkMsgBox()
+SpkMsgBox::SpkMsgBox(QWidget *parent)
 {
+  Q_UNUSED(parent);
   setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Minimum);
 }
 
 int SpkMsgBox::StaticExec(QString msg, QString title, QMessageBox::Icon icon,
                           QMessageBox::StandardButtons buttons, QString extra)
 {
-  SpkMsgBox *b = new SpkMsgBox;
+  SpkMsgBox *b = new SpkMsgBox(SpkStore::Instance->GetRootWindow());
   QWidget *wMsgWidget = new QWidget;
   QHBoxLayout *wMsg = new QHBoxLayout(wMsgWidget);
   QPushButton *wExpandBtn;
@@ -53,7 +55,7 @@ int SpkMsgBox::StaticExec(QString msg, QString title, QMessageBox::Icon icon,
     wMsg->addWidget(wIcon);
   }
   wMsgText->setText(msg);
-  wMsgText->setAlignment(Qt::AlignCenter);
+  wMsgText->setAlignment(Qt::AlignLeft);
   wMsg->addWidget(wMsgText);
   wMsg->setSpacing(10);
   wMsgWidget->setLayout(wMsg);
@@ -95,7 +97,8 @@ int SpkMsgBox::StaticExec(QString msg, QString title, QMessageBox::Icon icon,
   InitialHeight = b->minimumSizeHint().height();
   auto pos = (SpkUi::PrimaryScreenSize - b->sizeHint()) / 2;
   b->move(pos.width(), pos.height());
-  b->setWindowModality(Qt::WindowModal);
+  b->setWindowModality(Qt::ApplicationModal);
+  b->setFixedSize(b->sizeHint());
 
   auto r = b->Exec();
   if(r != -1)

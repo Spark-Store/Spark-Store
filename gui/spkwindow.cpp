@@ -12,9 +12,12 @@
 
 #include <QDebug>
 
-SpkWindow::SpkWindow(QWidget *parent) : QMainWindow(parent)
+SpkWindow::SpkWindow(QWidget *parent, Qt::WindowFlags flags) : QMainWindow(parent, flags)
 {
-  setWindowFlags(Qt::FramelessWindowHint); // Remove default title bar, we'll have custom title bar
+  if(SpkUi::DtkPlugin)
+    SpkUi::DtkPlugin->addWindow(this, parent); // Register window to DXcb so we got Deepin
+  else
+    setWindowFlags(Qt::FramelessWindowHint); // Remove default title bar
   mCornerRadius = 5;
   mUserCentralWidget = nullptr;
   mResizable = true;

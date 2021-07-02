@@ -2,12 +2,14 @@
 // Created by rigoligo on 2021/5/8.
 //
 
-#ifndef _SPKUI_GENERAL_H_
-#define _SPKUI_GENERAL_H_
+#pragma once
 
+#include <QWidget>
 #include <QString>
 #include <QSize>
 #include <QColor>
+
+#include "dtkplugin/spkdtkplugin.h"
 
 namespace SpkUi
 {
@@ -17,6 +19,7 @@ namespace SpkUi
   extern QString StylesheetLight, StylesheetDark, *CurrentStylesheet;
   extern QColor ColorLine, ColorBack;
   extern QSize PrimaryScreenSize;
+  extern SpkDtkPlugin *DtkPlugin;
   enum SpkUiStyle { Light, Dark };
   enum SpkButtonStyle { Normal = 0, Recommend, Warn };
 
@@ -34,5 +37,3 @@ namespace SpkUi
 
   void SetGlobalStyle(SpkUiStyle);
 };
-
-#endif //_SPKUI_GENERAL_H_

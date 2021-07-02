@@ -16,7 +16,7 @@ int main (int argc, char *argv[])
 
   SpkStore store(false, LogPath);
 
-  //*((int*)0) = 0;
+  SpkMsgBox::StaticExec("E", "F");
 
   return QApplication::exec();
 }

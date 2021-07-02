@@ -2,8 +2,7 @@
 // Created by rigoligo on 2021/5/9.
 //
 
-#ifndef _SPKMAINWINDOW_H_
-#define _SPKMAINWINDOW_H_
+#pragma once
 
 #include "spkwindow.h"
 #include <QTextEdit>
@@ -74,5 +73,3 @@ class SpkMainWindow : public SpkWindow
     
     void PopulateCategories(QJsonObject);
 };
-
-#endif //_SPKMAINWINDOW_H_

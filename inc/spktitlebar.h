@@ -2,8 +2,7 @@
 // Created by rigoligo on 2021/5/8.
 //
 
-#ifndef _SPKTITLEBAR_H_
-#define _SPKTITLEBAR_H_
+#pragma once
 
 #include <QHBoxLayout>
 #include <QLabel>
@@ -70,5 +69,3 @@ class SpkTitleBar : public QWidget
     void MinimizeWindow();
     void MaximizeRestoreWindow();
 };
-
-#endif //_SPKTITLEBAR_H_

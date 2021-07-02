@@ -2,8 +2,7 @@
 // Created by rigoligo on 2021/5/8.
 //
 
-#ifndef _SPKWINDOW_H_
-#define _SPKWINDOW_H_
+#pragma once
 
 #include <QMainWindow>
 #include <QFrame>
@@ -32,7 +31,7 @@ class SpkWindow : public QMainWindow
     static constexpr int BorderWidth = 10;
 
   public:
-    SpkWindow(QWidget *parent = nullptr);
+    SpkWindow(QWidget *parent = nullptr, Qt::WindowFlags flags = Qt::WindowFlags());
     ~SpkWindow() override;
     void SetCentralWidget(QWidget *);
     bool GetUseTitleBar();
@@ -63,5 +62,3 @@ class SpkWindow : public QMainWindow
   private:
     void PopulateUi();
 };
-
-#endif //_SPKWINDOW_H_

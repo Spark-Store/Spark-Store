@@ -2,8 +2,7 @@
 // Created by rigoligo on 2021/5/9.
 //
 
-#ifndef _SPKUIMSG_H_
-#define _SPKUIMSG_H_
+#pragma once
 
 #pragma push_macro("signals")
 #undef signals
@@ -31,5 +30,3 @@ class SpkUiMessage : public QObject
   signals:
 
 };
-
-#endif //_SPKUIMSG_H_

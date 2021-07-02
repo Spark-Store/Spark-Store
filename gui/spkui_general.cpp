@@ -11,10 +11,11 @@
 #include <QDateTime>
 #include <QDebug>
 #include <QScreen>
+#include <QPluginLoader>
+#include <QStyleFactory>
 #include <csignal>
-#include <dlfcn.h>
 #include <execinfo.h>
-#include "deepinplatform.h"
+
 #include "spkui_general.h"
 #include "spkmsgbox.h"
 #include "spklogging.h"
@@ -24,6 +25,8 @@ namespace SpkUi
   QString StylesheetLight, StylesheetDark, *CurrentStylesheet = &StylesheetLight;
   QColor ColorLine, ColorBack;
   QSize PrimaryScreenSize;
+  SpkDtkPlugin *DtkPlugin = nullptr;
+
   namespace Priv
   {
     bool CrashHandlerActivated;
@@ -50,9 +53,10 @@ namespace SpkUi
     signal(SIGFPE, SpkUi::CrashSignalHandler);
 
     // Prepare theme following for DDE
-    PrepareForDeepinDesktop();
+    if(CheckIsDeepinDesktop())
+      PrepareForDeepinDesktop();
 
-    // Data initialization
+    // Misc data initialization
     PrimaryScreenSize = QGuiApplication::primaryScreen()->size();
   }
 
@@ -64,6 +68,7 @@ namespace SpkUi
   bool CheckIsDeepinDesktop()
   {
     QString Desktop(getenv("XDG_CURRENT_DESKTOP"));
+    // This method of checking is from DTK source code.
     if(Desktop.contains("deepin", Qt::CaseInsensitive) ||
        Desktop.contains("tablet", Qt::CaseInsensitive))
       return true;
@@ -73,7 +78,30 @@ namespace SpkUi
 
   void PrepareForDeepinDesktop()
   {
+#ifndef NDEBUG
+    // Normally it's installed to system library path
+    qApp->addLibraryPath(qApp->applicationDirPath() + "/plugin/dtkplugin");
+#endif
+    QPluginLoader p("libspkdtkplugin");
+    if(p.load())
+    {
+      auto i = qobject_cast<SpkDtkPlugin*>(p.instance());
+      if(i)
+        DtkPlugin = i;
+    }
 
+    // FIXME: Chameleon style kept adding unwanted blue focus indication border
+    // to widgets that shouldn't have borders.
+    // We need to eliminate this irritating problem.
+    auto styles = QStyleFactory::keys();
+    styles.removeAll("chameleon");
+    if(styles.contains("Fusion"))
+      qApp->setStyle(QStyleFactory::create("Fusion"));
+    else if(styles.size()) // What? This shouldn't happen.
+      qApp->setStyle(QStyleFactory::create(styles[0]));
+    else // Duh...
+      sWarn(QObject::tr("Cannot find styles other than 'chameleon'! You may see widgets "
+                        "with unwanted blue borders."));
   }
 
   void SetGlobalStyle(const SpkUiStyle aStyle)

@@ -1,5 +1,4 @@
-#ifndef SPKMSGBOX_H
-#define SPKMSGBOX_H
+#pragma once
 
 #include <QStyle>
 #include <QMessageBox>
@@ -9,7 +8,7 @@ class SpkMsgBox : public SpkDialog
 {
     Q_OBJECT
   public:
-    SpkMsgBox();
+    SpkMsgBox(QWidget *parent = nullptr);
     static int StaticExec(QString msg, QString title, QMessageBox::Icon = QMessageBox::NoIcon,
                            QMessageBox::StandardButtons = QMessageBox::Ok, QString extra = "");
   private:
@@ -18,5 +17,3 @@ class SpkMsgBox : public SpkDialog
     static constexpr QSize IconSize {48, 48};
     static constexpr int Margin = 10;
 };
-
-#endif // SPKMSGBOX_H

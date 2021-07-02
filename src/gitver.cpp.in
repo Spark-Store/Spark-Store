@@ -1,0 +1,15 @@
+
+#include "gitver.h"
+
+namespace GitVer
+{
+  const char *DescribeTags()
+  {
+    return "@GIT_DESCRIBE@";
+  }
+
+  const char *CommitDate()
+  {
+    return "@GIT_COMMIT_DATE_ISO8601@";
+  }
+}

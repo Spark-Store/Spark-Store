@@ -2,8 +2,7 @@
 // Created by rigoligo on 2021/5/12.
 //
 
-#ifndef _SPKSTORE_H_
-#define _SPKSTORE_H_
+#pragma once
 
 #include <QMap>
 #include <QString>
@@ -20,15 +19,14 @@ class SpkStore : public QObject
 {
     Q_OBJECT
   public:
-    SpkStore *Instance;
+    static SpkStore *Instance;
     SpkStore(bool aCli, QString &aLogPath);
     ~SpkStore();
 
+    SpkMainWindow* GetRootWindow() { return mMainWindow; };
 
   private:
     SpkLogger *mLogger;
-    SpkMainWindow *mMainWindow;
+    SpkMainWindow *mMainWindow = nullptr;
 
 };
-
-#endif //_SPKSTORE_H_

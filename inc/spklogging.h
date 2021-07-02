@@ -3,8 +3,7 @@
  * @brief Simple logging for Spark Store
  */
 
-#ifndef _SPKLOGGING_H_
-#define _SPKLOGGING_H_
+#pragma once
 
 #pragma push_macro("signals")
 #undef signals
@@ -43,5 +42,3 @@ class SpkLogger
 #define sErrPop(X) SpkLogger::GetInstance()->Error(X,true)
 #define sCritical(X) SpkLogger::GetInstance()->Critical(X)
 #define sNotify(X)
-
-#endif //_SPKLOGGING_H_

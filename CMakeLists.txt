@@ -1,5 +1,17 @@
 cmake_minimum_required(VERSION 3.10)
 project(spark_store)
+set(EXECUTABLE_NAME sparkstore)
+
+# Begin Compilation Options
+
+# When set to ON, DTK Plugin for DDE platform will be built.
+# Note that only machines with DTK and dev packages installed can build the plugin.
+set(SPARK_BUILD_DTK_PLUGIN ON)
+
+# When set to ON, store will transmit telemetry even in Debug builds.
+set(SPARK_FORCE_TELEMETRY OFF)
+
+# End Compilation Options
 
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_AUTOMOC ON)
@@ -7,16 +19,34 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 
 set(QT_VERSION 5)
-set(REQUIRED_LIBS Core Gui Widgets)
-set(REQUIRED_LIBS_QUALIFIED Qt5::Core Qt5::Gui Qt5::Widgets)
+set(REQUIRED_LIBS
+    Core
+    Gui
+    Widgets
+    Concurrent)
+set(REQUIRED_LIBS_QUALIFIED
+    Qt5::Core
+    Qt5::Gui
+    Qt5::Widgets
+    Qt5::Concurrent)
 
 include_directories(inc)
+include_directories(plugin)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
+
+set(PRE_CONFIGURE_FILE "src/gitver.cpp.in")
+set(POST_CONFIGURE_FILE "${CMAKE_CURRENT_BINARY_DIR}/src/gitver.cpp")
+include(cmake/git_watcher.cmake)
+add_library(gitver STATIC ${POST_CONFIGURE_FILE})
+#target_include_directories(gitver PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+add_dependencies(gitver check_git)
+
 
 set(SOURCE_FILES
     src/main.cpp
     resource/resource.qrc
+    inc/gitver.h
     gui/spkwindow.cpp
     inc/spkwindow.h
     gui/spktitlebar.cpp
@@ -24,6 +54,7 @@ set(SOURCE_FILES
     inc/spkui_general.h
     gui/spkui_general.cpp
     inc/deepinplatform.h
+    inc/dtk/spkdtkplugin.h
     src/spklogging.cpp
     inc/spklogging.h
     inc/spkuimsg.h
@@ -33,6 +64,8 @@ set(SOURCE_FILES
     gui/spkmsgbox.cpp
     inc/spkdialog.h
     gui/spkdialog.cpp
+    inc/spkabout.h
+    gui/spkabout.cpp
     inc/spkstore.h
     src/spkstore.cpp
     gui/spkmainwindow.cpp
@@ -40,7 +73,7 @@ set(SOURCE_FILES
     gui/spkpageqsstest.cpp
     gui/spkcategoryselector.cpp
     inc/spkconfig.h
-    src/telemetry/collectid.cpp
+    inc/telemetry/collectid.h
     )
 
 include(cmake/FindLibNotify.cmake)
@@ -50,6 +83,7 @@ include(cmake/FindGdk3.cmake)
 include_directories(${GLIB_INCLUDE_DIRS})
 include_directories(${GDK3_INCLUDE_DIRS})
 set(LIBLINKING ${LIBLINKING}
+    gitver
     ${LIBNOTIFY_LIBRARIES}
     ${GLIB_LIBRARIES}
     ${GDK3_LIBRARIES}
@@ -59,7 +93,15 @@ set(LIBLINKING ${LIBLINKING}
 add_compile_options(-g)
 add_link_options(-rdynamic)
 
-add_executable(${PROJECT_NAME} ${SOURCE_FILES})
-
+# Find Qt before adding other build targets
 find_package(Qt${QT_VERSION} COMPONENTS ${REQUIRED_LIBS} REQUIRED)
-target_link_libraries(${PROJECT_NAME} ${REQUIRED_LIBS_QUALIFIED} ${LIBLINKING})
+
+add_executable(${EXECUTABLE_NAME} ${SOURCE_FILES})
+
+if(SPARK_BUILD_DTK_PLUGIN)
+    add_subdirectory(plugin/dtkplugin)
+endif()
+
+target_link_libraries(${EXECUTABLE_NAME} ${REQUIRED_LIBS_QUALIFIED} ${LIBLINKING})
+
+install(TARGETS ${EXECUTABLE_NAME} RUNTIME DESTINATION in)
