@@ -23,11 +23,13 @@ set(REQUIRED_LIBS
     Core
     Gui
     Widgets
+    Network
     Concurrent)
 set(REQUIRED_LIBS_QUALIFIED
     Qt5::Core
     Qt5::Gui
     Qt5::Widgets
+    Qt5::Network
     Qt5::Concurrent)
 
 include_directories(inc)
@@ -71,9 +73,10 @@ set(SOURCE_FILES
     gui/spkmainwindow.cpp
     inc/spkpageqsstest.h
     gui/spkpageqsstest.cpp
-    gui/spkcategoryselector.cpp
     inc/spkconfig.h
     inc/telemetry/collectid.h
+    gui/spkloading.cpp
+    inc/spkloading.h
     )
 
 include(cmake/FindLibNotify.cmake)

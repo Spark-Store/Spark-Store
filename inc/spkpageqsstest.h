@@ -10,6 +10,9 @@
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QSlider>
+
+#include "spkloading.h"
+
 namespace SpkUi
 {
   class SpkPageQssTest : public QSplitter
@@ -33,6 +36,7 @@ namespace SpkUi
       QGroupBox *Group;
       QSlider *SlideH;
       QSlider *SlideV;
+      SpkLoading *Loading;
 
     public slots:
       void SetStylesheet();

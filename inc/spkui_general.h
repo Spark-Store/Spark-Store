@@ -13,15 +13,18 @@
 
 namespace SpkUi
 {
+  enum SpkUiStyle { Light, Dark };
+  enum SpkButtonStyle { Normal = 0, Recommend, Warn };
+
   constexpr int StackTraceArraySize = 64;
   constexpr const char * const StoreIconName = "spark-store";
 
-  extern QString StylesheetLight, StylesheetDark, *CurrentStylesheet;
+  extern SpkUiStyle CurrentStyle;
+  extern QString StylesheetBase, CurrentStylesheet;
   extern QColor ColorLine, ColorBack;
   extern QSize PrimaryScreenSize;
   extern SpkDtkPlugin *DtkPlugin;
-  enum SpkUiStyle { Light, Dark };
-  enum SpkButtonStyle { Normal = 0, Recommend, Warn };
+  extern QStyle *OldSystemStyle;
 
   namespace Priv
   {
@@ -32,6 +35,10 @@ namespace SpkUi
   void GuessAppropriateTheme();
   void PrepareForDeepinDesktop();
   bool CheckIsDeepinDesktop();
+  QString StylesheetFromColors(QList<QColor>);
+
+  QIcon GetThemedIcon(QString);
+  QColor ColorTextOnBackground(QColor);
 
   void CrashSignalHandler(int);
 

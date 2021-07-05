@@ -9,7 +9,7 @@ SpkUi::SpkPageQssTest::SpkPageQssTest(QWidget *parent) : QSplitter(parent)
 
   TextStylesheet = new QTextEdit(this);
   TextStylesheet->setObjectName("spk_pg_qsstest_qsstext");
-  TextStylesheet->setPlainText(*SpkUi::CurrentStylesheet);
+  TextStylesheet->setPlainText(SpkUi::CurrentStylesheet);
 
   BtnApply = new QPushButton(this);
   BtnApply->setObjectName("spk_pg_qsstest_btnapply");
@@ -38,6 +38,10 @@ SpkUi::SpkPageQssTest::SpkPageQssTest(QWidget *parent) : QSplitter(parent)
   Rad->setObjectName("spk_pg_qsstest_radiobtn");
   Rad->setText("RadioButton");
 
+  Loading = new SpkLoading(this);
+  Loading->setObjectName("spk_pg_qsstest_loading");
+  Loading->start();
+
   SlideV = new QSlider(this);
   SlideV->setObjectName("spk_pg_qsstest_slider_v");
   SlideV->setOrientation(Qt::Vertical);
@@ -55,6 +59,7 @@ SpkUi::SpkPageQssTest::SpkPageQssTest(QWidget *parent) : QSplitter(parent)
   VLayBtn->addWidget(Btn);
   VLayBtn->addWidget(Chk);
   VLayBtn->addWidget(Rad);
+  VLayBtn->addWidget(Loading);
 
   Group = new QGroupBox(this);
   Group->setObjectName("spk_pg_qsstest_groupbox");
@@ -95,5 +100,5 @@ void SpkUi::SpkPageQssTest::SetStylesheet()
 
 void SpkUi::SpkPageQssTest::FetchStylesheet()
 {
-  TextStylesheet->setPlainText(*SpkUi::CurrentStylesheet);
+  TextStylesheet->setPlainText(SpkUi::CurrentStylesheet);
 }

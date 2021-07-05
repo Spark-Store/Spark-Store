@@ -11,33 +11,40 @@ SpkTitleBar::SpkTitleBar(QWidget *parent) : QWidget(parent)
   setMinimumHeight(48);
   setMaximumHeight(48);
   setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
-  mIcon.setFixedSize(32, 32);
 
-  mMainLayout.addSpacing(8);
-  mMainLayout.addWidget(&mIcon);
-  mMainLayout.addSpacing(8);
-  mMainLayout.addWidget(&mTitle);
-  mMainLayout.addSpacing(8);
-  mMainLayout.addLayout(&mUserSpaceL);
-  mMainLayout.addStretch();
-  mMainLayout.addLayout(&mUserSpaceR);
-  mMainLayout.addSpacing(8);
-  mMainLayout.addWidget(&mBtnMin);
-  mMainLayout.addWidget(&mBtnMaxRestore);
-  mMainLayout.addWidget(&mBtnClose);
+  mIcon = new QLabel(this);
+  mTitle = new QLabel(this);
+  mIcon->setFixedSize(32, 32);
 
-  mBtnMin.SetRole(OperationButton::Minimize);
-  mBtnMaxRestore.SetRole(OperationButton::MaximizeRestore);
-  mBtnClose.SetRole(OperationButton::Close);
+  mMainLayout = new QHBoxLayout(this);
+  mUserSpace = new QHBoxLayout();
+  mBtnGroup = new QHBoxLayout();
+  mBtnMin = new SpkTitleBarDefaultButton(this);
+  mBtnMaxRestore = new SpkTitleBarDefaultButton(this);
+  mBtnClose= new SpkTitleBarDefaultButton(this);
+  mMainLayout->setSpacing(8);
+  mBtnGroup->setSpacing(0);
 
-  mMainLayout.setSpacing(0);
-  mMainLayout.setContentsMargins(0, 0, 0, 0);
+  mMainLayout->addSpacing(8);
+  mMainLayout->addWidget(mIcon);
+  mMainLayout->addWidget(mTitle);
+  mMainLayout->addLayout(mUserSpace);
+  mMainLayout->addLayout(mBtnGroup);
+  mBtnGroup->addWidget(mBtnMin);
+  mBtnGroup->addWidget(mBtnMaxRestore);
+  mBtnGroup->addWidget(mBtnClose);
 
-  setLayout(&mMainLayout);
+  mBtnMin->SetRole(OperationButton::Minimize);
+  mBtnMaxRestore->SetRole(OperationButton::MaximizeRestore);
+  mBtnClose->SetRole(OperationButton::Close);
 
-  connect(&mBtnClose, &QPushButton::clicked, this, &SpkTitleBar::CloseWindow);
-  connect(&mBtnMin, &QPushButton::clicked, this, &SpkTitleBar::MinimizeWindow);
-  connect(&mBtnMaxRestore, &QPushButton::clicked, this, &SpkTitleBar::MaximizeRestoreWindow);
+  mMainLayout->setContentsMargins(0, 0, 0, 0);
+
+  setLayout(mMainLayout);
+
+  connect(mBtnClose, &QPushButton::clicked, this, &SpkTitleBar::CloseWindow);
+  connect(mBtnMin, &QPushButton::clicked, this, &SpkTitleBar::MinimizeWindow);
+  connect(mBtnMaxRestore, &QPushButton::clicked, this, &SpkTitleBar::MaximizeRestoreWindow);
 }
 
 SpkTitleBar::~SpkTitleBar()
@@ -47,9 +54,9 @@ SpkTitleBar::~SpkTitleBar()
 
 void SpkTitleBar::SetOperationButton(OperationButton type)
 {
-  mBtnClose.setVisible(type & OperationButton::Close);
-  mBtnMaxRestore.setVisible(type & OperationButton::MaximizeRestore);
-  mBtnMin.setVisible(type & OperationButton::Minimize);
+  mBtnClose->setVisible(type & OperationButton::Close);
+  mBtnMaxRestore->setVisible(type & OperationButton::MaximizeRestore);
+  mBtnMin->setVisible(type & OperationButton::Minimize);
 }
 
 bool SpkTitleBar::event(QEvent *evt)
@@ -59,7 +66,7 @@ bool SpkTitleBar::event(QEvent *evt)
     case QEvent::MouseButtonDblClick:
     {
       if(static_cast<QMouseEvent*>(evt)->button())
-        emit mBtnMaxRestore.clicked();
+        emit mBtnMaxRestore->clicked();
       break;
     }
     default:;
@@ -90,7 +97,7 @@ void SpkTitleBar::MaximizeRestoreWindow()
   }
 }
 
-SpkTitleBarDefaultButton::SpkTitleBarDefaultButton()
+SpkTitleBarDefaultButton::SpkTitleBarDefaultButton(QWidget* parent) : QPushButton(parent)
 {
   setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Expanding);
   setMaximumWidth(ButtonWidth);

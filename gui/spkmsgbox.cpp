@@ -79,7 +79,7 @@ int SpkMsgBox::StaticExec(QString msg, QString title, QMessageBox::Icon icon,
     wExpandBtn->setMaximumWidth(100);
     wExpandBtn->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
     wExpandBtn->setCheckable(true);
-    wExpandBtn->setObjectName("spk_styling_msgboxexpandbtn");
+    wExpandBtn->setObjectName("spk_styling_checkbtn");
     connect(wExpandBtn, &QPushButton::clicked,
             [&](){  // FIXME: hint doesn't change when visibility changes, this is a quirky hack
                     wExtraArea->setVisible(wExpandBtn->isChecked());
@@ -88,12 +88,15 @@ int SpkMsgBox::StaticExec(QString msg, QString title, QMessageBox::Icon icon,
                     else
                       b->setFixedHeight(InitialHeight);
                  });
-    b->AddWidget(wExpandBtn);
+    b->mBtnLay->addWidget(wExpandBtn);
+    b->mBtnLay->addStretch();
     b->AddWidget(wExtraArea);
   }
 
   b->AddSpacing(3);
   AddButtons(b, buttons);
+  if(hasextra) // Keep conventional buttons centered
+    b->mBtnLay->addStretch();
   InitialHeight = b->minimumSizeHint().height();
   auto pos = (SpkUi::PrimaryScreenSize - b->sizeHint()) / 2;
   b->move(pos.width(), pos.height());

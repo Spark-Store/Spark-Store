@@ -14,7 +14,7 @@
 
 SpkWindow::SpkWindow(QWidget *parent, Qt::WindowFlags flags) : QMainWindow(parent, flags)
 {
-  if(SpkUi::DtkPlugin)
+  if(SpkUi::DtkPlugin && qgetenv("SPARK_NO_DXCB") == "0")
     SpkUi::DtkPlugin->addWindow(this, parent); // Register window to DXcb so we got Deepin
   else
     setWindowFlags(Qt::FramelessWindowHint); // Remove default title bar
@@ -24,6 +24,7 @@ SpkWindow::SpkWindow(QWidget *parent, Qt::WindowFlags flags) : QMainWindow(paren
   mResizing = false;
   mCloseHook = nullptr;
   mMaximized = windowState().testFlag(Qt::WindowMaximized);
+  mUseCustomEvents = SpkUi::DtkPlugin == nullptr;
 
   PopulateUi();
 }
@@ -35,15 +36,19 @@ SpkWindow::~SpkWindow()
 
 bool SpkWindow::event(QEvent *evt)
 {
+  // These custom events weren't useful for Deepin platform
+  if(!mUseCustomEvents)
+    return QMainWindow::event(evt);
+
   switch(evt->type())
   {
     case QEvent::WindowStateChange:
     {
       mMaximized = windowState().testFlag(Qt::WindowMaximized);
       if(mMaximized)
-        mTitleBarComponent->mBtnMaxRestore.SetRole(SpkTitleBarDefaultButton::Restore);
+        mTitleBarComponent->mBtnMaxRestore->SetRole(SpkTitleBarDefaultButton::Restore);
       else
-        mTitleBarComponent->mBtnMaxRestore.SetRole(SpkTitleBarDefaultButton::MaximizeRestore);
+        mTitleBarComponent->mBtnMaxRestore->SetRole(SpkTitleBarDefaultButton::MaximizeRestore);
       break;
     }
     case QEvent::MouseButtonPress:
@@ -211,10 +216,10 @@ void SpkWindow::SetWindowTheme(SpkWindow::SpkWindowStyle style)
   switch(style)
   {
     case Light:
-      this->setStyleSheet(SpkUi::StylesheetLight);
+      SpkUi::SetGlobalStyle(SpkUi::SpkUiStyle::Light);
       break;
     case Dark:
-      this->setStyleSheet(SpkUi::StylesheetDark);
+      SpkUi::SetGlobalStyle(SpkUi::SpkUiStyle::Dark);
       break;
     default:
       ;

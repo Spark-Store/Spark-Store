@@ -27,6 +27,7 @@ class SpkWindow : public QMainWindow
     bool mMoving, mResizing, mMaximized, mResizable;
     Qt::Edges mEdgesBeingResized;
     bool (*mCloseHook)(void);
+    bool mUseCustomEvents;
 
     static constexpr int BorderWidth = 10;
 

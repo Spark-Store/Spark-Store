@@ -22,10 +22,12 @@
 
 namespace SpkUi
 {
-  QString StylesheetLight, StylesheetDark, *CurrentStylesheet = &StylesheetLight;
+  SpkUiStyle CurrentStyle;
+  QString StylesheetBase, CurrentStylesheet;
   QColor ColorLine, ColorBack;
   QSize PrimaryScreenSize;
   SpkDtkPlugin *DtkPlugin = nullptr;
+  QStyle *OldSystemStyle = nullptr;
 
   namespace Priv
   {
@@ -36,13 +38,9 @@ namespace SpkUi
   {
     // Obtain global stylesheets
     QFile ObtainStylesheet;
-    ObtainStylesheet.setFileName(":/stylesheets/stylesheets/mainwindow.css");
-    ObtainStylesheet.open(QIODevice::ReadOnly);
-    StylesheetLight = ObtainStylesheet.readAll();
-    ObtainStylesheet.close();
     ObtainStylesheet.setFileName(":/stylesheets/stylesheets/mainwindow_dark.css");
     ObtainStylesheet.open(QIODevice::ReadOnly);
-    StylesheetDark = ObtainStylesheet.readAll();
+    StylesheetBase = ObtainStylesheet.readAll();
     ObtainStylesheet.close();
 
     SetGlobalStyle(Dark);
@@ -96,10 +94,16 @@ namespace SpkUi
     // FIXME: Chameleon style kept adding unwanted blue focus indication border
     // to widgets that shouldn't have borders.
     // We need to eliminate this irritating problem.
+    if(qgetenv("SPARK_NO_QSTYLE_CHANGE") == "1")
+      return;
+    OldSystemStyle = QStyleFactory::create("chameleon"); // TreeWidget doesn't work well with Fusion
     auto styles = QStyleFactory::keys();
     styles.removeAll("chameleon");
     if(styles.contains("Fusion"))
-      qApp->setStyle(QStyleFactory::create("Fusion"));
+    {
+      auto style = QStyleFactory::create("Fusion");
+      qApp->setStyle(style);
+    }
     else if(styles.size()) // What? This shouldn't happen.
       qApp->setStyle(QStyleFactory::create(styles[0]));
     else // Duh...
@@ -109,22 +113,34 @@ namespace SpkUi
 
   void SetGlobalStyle(const SpkUiStyle aStyle)
   {
+    CurrentStyle = aStyle;
     switch(aStyle)
     {
       case Light:
-        qApp->setStyleSheet(StylesheetLight);
-        CurrentStylesheet = &StylesheetLight;
+        CurrentStylesheet = StylesheetFromColors(
+          QList<QColor>{
+            0x353535, 0x353535, 0xff0000, 0x0070ff, 0x2987ff,
+            0x6b6b6b, 0x656565, 0x606060, 0x404040, 0x383838,
+            ColorTextOnBackground(0x0070ff)
+          });
+        qApp->setStyleSheet(CurrentStylesheet);
+        // TODO
         ColorLine = Qt::black;
         break;
       case Dark:
-        qApp->setStyleSheet(StylesheetDark);
-        CurrentStylesheet = &StylesheetDark;
+        CurrentStylesheet = StylesheetFromColors(
+          QList<QColor>{
+            0x353535, 0x353535, 0xff0000, 0x0070ff, 0x2987ff,
+            0x6b6b6b, 0x656565, 0x606060, 0x404040, 0x383838,
+            ColorTextOnBackground(0x0070ff)
+          });
+        qApp->setStyleSheet(CurrentStylesheet);
         ColorLine = Qt::white;
         break;
-      default:
-        sWarn(QObject::tr("SetGlobalStyle invoked with unknown style %1.")
-              .arg(static_cast<int>(aStyle)));
-        break;
+//      default:
+//        sWarn(QObject::tr("SetGlobalStyle invoked with unknown style %1.")
+//              .arg(static_cast<int>(aStyle)));
+//        break;
     }
   }
 
@@ -195,4 +211,27 @@ namespace SpkUi
                             "to continue execution.").arg(sig));
     }
   }
+
+  QIcon GetThemedIcon(QString name)
+  {
+    if(CurrentStyle == SpkUiStyle::Dark)
+      name += "-dark";
+    return QIcon(":/icons/" + name + ".svg");
+  }
+
+  QString StylesheetFromColors(QList<QColor> aColors)
+  {
+    QString ret = StylesheetBase;
+    foreach(auto &i, aColors)
+      ret = ret.arg(i.name());
+    return ret;
+  }
+
+  QColor ColorTextOnBackground(QColor c)
+  {
+    // From https://github.com/feiyangqingyun/qtkaifajingyan
+    double gray = (0.299 * c.red() + 0.587 * c.green() + 0.114 * c.blue()) / 255;
+    return gray > 0.5 ? Qt::black : Qt::white;
+  }
+
 }

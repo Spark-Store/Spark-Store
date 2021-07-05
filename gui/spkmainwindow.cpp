@@ -33,7 +33,7 @@ void SpkMainWindow::PopulateCategories(QJsonObject aCategoryData)
     SpkUiMessage::SendStoreNotification(tr("Failed to load categories; invalid return code."));
     return;
   }
-  if(OpRetCode.toDouble() != 0)
+  if(OpRetCode.toInt() != 0)
   {
     SpkUiMessage::SendStoreNotification(tr("Failed to load categories; operation failed: %1.")
                                         .arg(OpRetCode.toDouble()));
@@ -66,7 +66,7 @@ void SpkMainWindow::PopulateCategories(QJsonObject aCategoryData)
       if(j.contains("type_name") && j.value("type_name").isString())
         typeName = j.value("type_name").toString();
       else goto WRONG_CATEGORY;
-      w->AddButton(tr(typeName.toLocal8Bit()), typeId /* TODO: ICONS */);
+        // TODO
       continue;
     }
     WRONG_CATEGORY:
@@ -78,9 +78,7 @@ SpkUi::SpkMainWidget::SpkMainWidget(QWidget *parent) : QFrame(parent)
 {
   setObjectName("spk_mainwidget");
 
-  VLayCategoryButtons = new QVBoxLayout;
-  VLayCategoryButtons->setObjectName("spk_mw_category_vlay");
-  VLayCategoryButtons->addWidget(new QPushButton);
+  QTreeWidgetItem *item;
 
   Pager = new QStackedWidget(this);
   Pager->setObjectName("spk_mw_pager");
@@ -88,7 +86,8 @@ SpkUi::SpkMainWidget::SpkMainWidget(QWidget *parent) : QFrame(parent)
 
   TitleBar = new SpkTitleBar(this);
   TitleBar->setObjectName("spk_mw_titlebar");
-  TitleBar->SetTitle("Title");
+  TitleBar->SetUseIcon(false);
+  TitleBar->SetTitle("");
 
   VLayMain = new QVBoxLayout;
   VLayMain->setObjectName("spk_mw_main_vlay");
@@ -97,20 +96,73 @@ SpkUi::SpkMainWidget::SpkMainWidget(QWidget *parent) : QFrame(parent)
   VLayMain->addWidget(TitleBar);
   VLayMain->addWidget(Pager);
 
-  CategoryWidget = new SpkCategorySelector(this);
+  VLaySidebar = new QVBoxLayout;
+  VLaySidebar->setObjectName("spk_mw_sidebar_lay");
+  VLaySidebar->setSpacing(0);
+  VLaySidebar->setContentsMargins(0, 0, 0, 0);
+
+  SideBarRestrictor = new QWidget(this);
+  SideBarRestrictor->setObjectName("spk_mw_sidebar_restrictor");
+  SideBarRestrictor->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Preferred);
+  SideBarRestrictor->setMaximumWidth(300);
+  SideBarRestrictor->setMinimumWidth(300);
+  SideBarRestrictor->setLayout(VLaySidebar);
+
+  HLaySideTop = new QHBoxLayout;
+  HLaySideTop->setObjectName("spk_mw_sidebar_top_lay");
+  HLaySideTop->setSpacing(8);
+  HLaySideTop->setContentsMargins(8, 4, 4, 4);
+
+  StoreIcon = new QLabel(this);
+  StoreIcon->setObjectName("spk_mw_icon");
+  StoreIcon->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+  StoreIcon->setMaximumSize({ 48, 48 });
+  StoreIcon->setMinimumSize({ 48, 48 });
+  StoreIcon->setPixmap(QIcon(":/icons/spark-store.svg").pixmap(StoreIcon->size()));
+
+  SidebarMgr = new SpkSidebarSelector(this);
+  SidebarMgr->setObjectName("spk_mw_sidebar_mgr");
+
+  BtnSettings = new QPushButton(this);
+  BtnSettings->setObjectName("spk_styling_plaincheckbtn");
+  BtnSettings->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+  BtnSettings->setCheckable(true);
+  BtnSettings->setMaximumSize({ 48, 48 });
+  BtnSettings->setMinimumSize({ 48, 48 });
+  BtnSettings->setIconSize(QSize(24, 24));
+  BtnSettings->setIcon(SpkUi::GetThemedIcon("settings"));
+  BtnSettings->setProperty("spk_pageno", 0);
+  SidebarMgr->BindPageSwitcherButton(BtnSettings);
+
+  HLaySideTop->addWidget(StoreIcon);
+  HLaySideTop->addStretch();
+  HLaySideTop->addWidget(BtnSettings);
+  VLaySidebar->addLayout(HLaySideTop);
+
+  CategoryWidget = new QTreeWidget(this);
   CategoryWidget->setObjectName("spk_mw_category");
-  CategoryWidget->setLayout(VLayCategoryButtons);
   CategoryWidget->setAutoFillBackground(true);
-  CategoryWidget->setMaximumWidth(300);
-  CategoryWidget->setMinimumWidth(300);
-  CategoryWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Expanding);
+  CategoryWidget->setColumnCount(1);
+  CategoryWidget->setHeaderHidden(true);
+  CategoryWidget->setSelectionMode(QAbstractItemView::SelectionMode::SingleSelection);
+  item = new QTreeWidgetItem(QStringList("Placeholder"));
+  item->setData(0, Qt::UserRole + 1, 1);
+  item->setData(0, Qt::UserRole + 2, 1);
+  CategoryWidget->addTopLevelItem(item);
+  // FIXMEIFPOSSIBLE: Fusion adds extra gradient.
+  // Details: https://forum.qt.io/topic/128190/fusion-style-kept-adding-an-extra-
+  // layer-of-gradient-to-my-selected-item-of-qtreewidget-even-with-qss
+  if(SpkUi::OldSystemStyle)
+    CategoryWidget->setStyle(SpkUi::OldSystemStyle);
+  VLaySidebar->addWidget(CategoryWidget);
+  SidebarMgr->BindCategoryWidget(CategoryWidget);
 
   HorizontalDivide = new QHBoxLayout;
   HorizontalDivide->setObjectName("spk_mw_divide_hlay");
   HorizontalDivide->setSpacing(0);
   HorizontalDivide->setContentsMargins(0, 0, 0, 0);
   HorizontalDivide->setAlignment(Qt::AlignLeft);
-  HorizontalDivide->addWidget(CategoryWidget);
+  HorizontalDivide->addWidget(SideBarRestrictor);
   HorizontalDivide->addLayout(VLayMain);
 
   // Initialize pages

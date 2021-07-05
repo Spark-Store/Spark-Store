@@ -9,6 +9,7 @@
 class SpkDialog : public SpkWindow
 {
     Q_OBJECT
+    friend class SpkMsgBox;
   public:
     SpkDialog(QWidget *parent = nullptr);
     ~SpkDialog();
