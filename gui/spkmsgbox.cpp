@@ -35,23 +35,26 @@ int SpkMsgBox::StaticExec(QString msg, QString title, QMessageBox::Icon icon,
   if(icon)
   {
     wIcon = new QLabel;
+    QIcon icon_;
     switch(icon)
     {
       case QMessageBox::Critical:
-        wIcon->setPixmap(QIcon::fromTheme("dialog-error").pixmap(IconSize));
+        icon_ = QIcon::fromTheme("dialog-error");
         break;
       case QMessageBox::Warning:
-        wIcon->setPixmap(QIcon::fromTheme("dialog-warning").pixmap(IconSize));
+        icon_ = QIcon::fromTheme("dialog-warning");
         break;
       case QMessageBox::Information:
-        wIcon->setPixmap(QIcon::fromTheme("dialog-information").pixmap(IconSize));
+        icon_ = QIcon::fromTheme("dialog-information");
         break;
       case QMessageBox::Question:
-        wIcon->setPixmap(QIcon::fromTheme("dialog-question").pixmap(IconSize));
+        icon_ = QIcon::fromTheme("dialog-question");
         break;
       case QMessageBox::NoIcon:
         break;
     }
+    if(icon)
+      wIcon->setPixmap(icon_.pixmap(IconSize));
     wMsg->addWidget(wIcon);
   }
   wMsgText->setText(msg);
