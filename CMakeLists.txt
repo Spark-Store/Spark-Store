@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.10)
 project(spark_store)
-set(EXECUTABLE_NAME sparkstore)
+set(EXECUTABLE_NAME spark-store)
 
 # Begin Compilation Options
 
