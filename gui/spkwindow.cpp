@@ -14,7 +14,7 @@
 
 SpkWindow::SpkWindow(QWidget *parent, Qt::WindowFlags flags) : QMainWindow(parent, flags)
 {
-  if(SpkUi::DtkPlugin && qgetenv("SPARK_NO_DXCB") == "0")
+  if(SpkUi::DtkPlugin && !qgetenv("SPARK_NO_DXCB").toInt())
     SpkUi::DtkPlugin->addWindow(this, parent); // Register window to DXcb so we got Deepin
   else
     setWindowFlags(Qt::FramelessWindowHint); // Remove default title bar
