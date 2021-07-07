@@ -143,3 +143,8 @@ QScrollBar::handle:hover
 {
     background-color: #606060
 }
+
+QScrollBar::add-line, QScrollBar::sub-line
+{
+    height:0px
+}
