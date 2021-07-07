@@ -130,8 +130,6 @@ SpkTitleBarDefaultButton:pressed
     background-color: %8;
 }
 
-SpkTitleBar, QWidget[objectName="spk_mw_"]
-
 QScrollBar::handle
 {
     border: 0px;
