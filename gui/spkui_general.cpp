@@ -28,6 +28,12 @@ namespace SpkUi
   QSize PrimaryScreenSize;
   SpkDtkPlugin *DtkPlugin = nullptr;
   QStyle *OldSystemStyle = nullptr;
+  QList<QColor> CurrentColorSet;
+
+  namespace States
+  {
+    bool IsDDE = false, IsUsingDtkPlugin = false;
+  }
 
   namespace Priv
   {
@@ -51,7 +57,7 @@ namespace SpkUi
     signal(SIGFPE, SpkUi::CrashSignalHandler);
 
     // Prepare theme following for DDE
-    if(CheckIsDeepinDesktop())
+    if((States::IsDDE = CheckIsDeepinDesktop()))
       PrepareForDeepinDesktop();
 
     // Misc data initialization
@@ -83,12 +89,18 @@ namespace SpkUi
     qApp->addLibraryPath("/usr/local/lib");
     qApp->addLibraryPath("/usr/lib");
 #endif
-    QPluginLoader p("libspkdtkplugin");
-    if(p.load())
+    if(!qgetenv("SPARK_NO_DTK_PLUGIN").toInt())
     {
-      auto i = qobject_cast<SpkDtkPlugin*>(p.instance());
-      if(i)
-        DtkPlugin = i;
+      QPluginLoader p("libspkdtkplugin");
+      if(p.load())
+      {
+        auto i = qobject_cast<SpkDtkPlugin*>(p.instance());
+        if(i)
+        {
+          DtkPlugin = i;
+          States::IsUsingDtkPlugin = true;
+        }
+      }
     }
 
     // FIXME: Chameleon style kept adding unwanted blue focus indication border
@@ -117,26 +129,28 @@ namespace SpkUi
     switch(aStyle)
     {
       case Light:
-        CurrentStylesheet = StylesheetFromColors(
-          QList<QColor>{
-            0x353535, 0x353535, 0xff0000, 0x0070ff, 0x2987ff,
-            0x6b6b6b, 0x656565, 0x606060, 0x404040, 0x383838,
-            ColorTextOnBackground(0x0070ff)
-          });
+        static auto LightColor = QList<QColor>{
+                               0x353535, 0x353535, 0xff0000, 0x0070ff, 0x2987ff,
+                               0x6b6b6b, 0x656565, 0x606060, 0x404040, 0x383838,
+                               ColorTextOnBackground(0x0070ff)
+                             };
+        CurrentStylesheet = StylesheetFromColors(LightColor);
         qApp->setStyleSheet(CurrentStylesheet);
         // TODO
         ColorLine = Qt::black;
         break;
       case Dark:
-        CurrentStylesheet = StylesheetFromColors(
-          QList<QColor>{
-            0x353535, 0x353535, 0xff0000, 0x0070ff, 0x2987ff,
-            0x6b6b6b, 0x656565, 0x606060, 0x404040, 0x383838,
-            ColorTextOnBackground(0x0070ff)
-          });
+        static auto DarkColor = QList<QColor>{
+                         0x353535, 0x353535, 0xff0000, 0x0070ff, 0x2987ff,
+                         0x6b6b6b, 0x656565, 0x606060, 0x404040, 0x383838,
+                         ColorTextOnBackground(0x0070ff)
+                       };
+        CurrentStylesheet = StylesheetFromColors(DarkColor);
+        CurrentColorSet = DarkColor;
         qApp->setStyleSheet(CurrentStylesheet);
         ColorLine = Qt::white;
         break;
+        // IDE complains about default label covering all conditions, commented
 //      default:
 //        sWarn(QObject::tr("SetGlobalStyle invoked with unknown style %1.")
 //              .arg(static_cast<int>(aStyle)));

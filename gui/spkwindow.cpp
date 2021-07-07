@@ -21,7 +21,7 @@ SpkWindow::SpkWindow(QWidget *parent, Qt::WindowFlags flags) : QMainWindow(paren
   mCornerRadius = 5;
   mUserCentralWidget = nullptr;
   mResizable = true;
-  mResizing = false;
+  mMoving = mResizing = false;
   mCloseHook = nullptr;
   mMaximized = windowState().testFlag(Qt::WindowMaximized);
   mUseCustomEvents = SpkUi::DtkPlugin == nullptr;
@@ -63,6 +63,17 @@ bool SpkWindow::event(QEvent *evt)
         mEdgesBeingResized = edge;
         return true;
       }
+      else
+      {
+        if(!QMainWindow::event(evt) || 1)
+        {
+          mMoveOffset = e->globalPos() - pos();
+          setCursor(Qt::SizeAllCursor);
+          mMoving = true;
+          mResizing = false;
+        }
+        return true;
+      }
       break;
     }
     case QEvent::MouseButtonRelease:
@@ -71,30 +82,39 @@ bool SpkWindow::event(QEvent *evt)
       auto e = static_cast<QMouseEvent*>(evt);
       if(e->button() != Qt::LeftButton) break;
       mResizing = false;
+      mMoving = false;
+      unsetCursor();
       return true;
       break;
     }
     case QEvent::HoverMove:
     {
-      if(mResizing || !mResizable) break;
+      if((mResizing || !mResizable) && !mMoving) break;
       if(mMaximized)
       {
         unsetCursor();
         break;
       }
-      auto e = static_cast<QHoverEvent*>(evt);
-      auto edge = DetectEdgeOnThis(e->pos());
-      SetMouseCursor(edge);
+      if(mResizable && !mMoving)
+      {
+        auto e = static_cast<QHoverEvent*>(evt);
+        auto edge = DetectEdgeOnThis(e->pos());
+        SetMouseCursor(edge);
+      }
       break;
     }
     case QEvent::MouseMove:
     {
-      if(!mResizable) break;
+      if(mMaximized) break;
       auto e = static_cast<QMouseEvent*>(evt);
-      if(mResizing && !mMaximized)
+      if(mResizing && mResizable)
       {
         ResizeWindowByCursor(e->globalPos());
-        return true;
+        return true; // Intercept resize movements
+      }
+      else if(mMoving)
+      {
+        move(e->globalPos() - mMoveOffset);
       }
       break;
     }
@@ -221,8 +241,6 @@ void SpkWindow::SetWindowTheme(SpkWindow::SpkWindowStyle style)
     case Dark:
       SpkUi::SetGlobalStyle(SpkUi::SpkUiStyle::Dark);
       break;
-    default:
-      ;
   }
 }
 

@@ -162,6 +162,8 @@ SpkUi::SpkMainWidget::SpkMainWidget(QWidget *parent) : QFrame(parent)
   HorizontalDivide->setSpacing(0);
   HorizontalDivide->setContentsMargins(0, 0, 0, 0);
   HorizontalDivide->setAlignment(Qt::AlignLeft);
+  if(!SpkUi::States::IsUsingDtkPlugin)
+    HorizontalDivide->addSpacing(SpkWindow::BorderWidth);
   HorizontalDivide->addWidget(SideBarRestrictor);
   HorizontalDivide->addLayout(VLayMain);
 

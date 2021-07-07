@@ -18,6 +18,7 @@ class SpkWindow : public QMainWindow
     Q_OBJECT
   public:
     enum SpkWindowStyle { Dark, Light };
+    static constexpr int BorderWidth = 7;
 
   private:
     QWidget *mCentralWidget, *mUserCentralWidget;
@@ -26,24 +27,23 @@ class SpkWindow : public QMainWindow
     int mCornerRadius;
     bool mMoving, mResizing, mMaximized, mResizable;
     Qt::Edges mEdgesBeingResized;
+    QPoint mMoveOffset;
     bool (*mCloseHook)(void);
     bool mUseCustomEvents;
-
-    static constexpr int BorderWidth = 10;
 
   public:
     SpkWindow(QWidget *parent = nullptr, Qt::WindowFlags flags = Qt::WindowFlags());
     ~SpkWindow() override;
     void SetCentralWidget(QWidget *);
     bool GetUseTitleBar();
-    bool GetResizable() { return mResizable; };
+    bool GetResizable() { return mResizable; }
     void SetCloseHook(bool(*f)(void));
 
   public slots:
     void SetCornerRadius(int);
     void SetWindowTheme(SpkWindowStyle);
     void SetUseTitleBar(bool);
-    void SetResizable(bool a) { mResizable = a; };
+    void SetResizable(bool a) { mResizable = a; }
     void SetCentralMargin(int, int, int, int);
     void ClearCloseHook();
     void RecalculateSize();
@@ -59,6 +59,7 @@ class SpkWindow : public QMainWindow
     void SetMouseCursor(Qt::Edges);
     void ResizeWindowByCursor(QPoint);
     void closeEvent(QCloseEvent *) override;
+//    void paintEvent(QPaintEvent *) override;
 
   private:
     void PopulateUi();

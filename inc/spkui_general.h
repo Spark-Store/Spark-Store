@@ -25,6 +25,12 @@ namespace SpkUi
   extern QSize PrimaryScreenSize;
   extern SpkDtkPlugin *DtkPlugin;
   extern QStyle *OldSystemStyle;
+  extern QList<QColor> CurrentColorSet;
+
+  namespace States
+  {
+    extern bool IsDDE, IsUsingDtkPlugin;
+  }
 
   namespace Priv
   {
