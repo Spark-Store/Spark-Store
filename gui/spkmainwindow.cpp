@@ -2,6 +2,7 @@
 #include <QGuiApplication>
 #include <QScreen>
 #include <QJsonArray>
+#include "spkmsgbox.h"
 #include "spkmainwindow.h"
 #include "spklogging.h"
 #include "spkuimsg.h"

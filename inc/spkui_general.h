@@ -9,7 +9,7 @@
 #include <QSize>
 #include <QColor>
 
-#include "dtkplugin/spkdtkplugin.h"
+#include "dtk/spkdtkplugin.h"
 
 namespace SpkUi
 {
@@ -19,6 +19,19 @@ namespace SpkUi
   constexpr int StackTraceArraySize = 64;
   constexpr const char * const StoreIconName = "spark-store";
 
+  class UiMetaObject : public QObject
+  {
+      Q_OBJECT
+    private:
+      static UiMetaObject *sGlobalInstance;
+    public:
+      UiMetaObject() {}
+      UiMetaObject *Instance() {return nullptr;} //FIXME!!
+    public slots:
+      void SetAccentColor(QColor);
+  };
+
+  extern UiMetaObject SpkUiMetaObject;
   extern SpkUiStyle CurrentStyle;
   extern QString StylesheetBase, CurrentStylesheet;
   extern QColor ColorLine, ColorBack;

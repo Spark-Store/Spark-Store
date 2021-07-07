@@ -11,6 +11,8 @@
     %9 : Dark controls gradient light
     %10: Dark controls gradient dark
     %11: Text on Selection/Activation
+    %12: Text on Global background
+    %13: Text on controls background
 */
 
 QWidget
@@ -21,19 +23,20 @@ QWidget
 QTreeWidget[objectName=spk_mw_category]
 {
     border: none;
-    font-size: 16px;
+    font-size: 14px;
     show-decoration-selected: 1;
 }
 
 QTreeWidget[objectName=spk_mw_category]::item
 {
-    height: 50px;
+    height: 35px;
     border: none;
-    color: %11;
+    color: %13;
 }
 
 QTreeWidget[objectName=spk_mw_category]::item:selected
 {
+    color: %11;
     background-color: %4;
 }
 
@@ -44,7 +47,7 @@ QTreeWidget[objectName=spk_mw_category]::branch:selected
 
 QLabel
 {
-    font-size: 16px
+    font-size: 14px
 }
 
 QScrollArea
@@ -56,9 +59,9 @@ QScrollArea
 QPushButton
 {
     border-width: 1px;
-    padding: 4px;
-    border-radius: 7px;
-    font-size: 16px;
+    padding: 2px;
+    border-radius: 11px;
+    font-size: 14px;
     font-weight: 300;
     border-top-color: #7b7b7b;
     border-style: solid;
@@ -126,6 +129,8 @@ SpkTitleBarDefaultButton:pressed
 {
     background-color: %8;
 }
+
+SpkTitleBar, QWidget[objectName="spk_mw_"]
 
 QScrollBar::handle
 {

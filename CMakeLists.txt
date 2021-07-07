@@ -44,7 +44,6 @@ add_library(gitver STATIC ${POST_CONFIGURE_FILE})
 #target_include_directories(gitver PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 add_dependencies(gitver check_git)
 
-
 set(SOURCE_FILES
     src/main.cpp
     resource/resource.qrc
@@ -103,6 +102,7 @@ add_executable(${EXECUTABLE_NAME} ${SOURCE_FILES})
 
 if(SPARK_BUILD_DTK_PLUGIN)
     add_subdirectory(plugin/dtkplugin)
+    add_dependencies(${EXECUTABLE_NAME} spkdtkplugin)
 endif()
 
 target_link_libraries(${EXECUTABLE_NAME} ${REQUIRED_LIBS_QUALIFIED} ${LIBLINKING})

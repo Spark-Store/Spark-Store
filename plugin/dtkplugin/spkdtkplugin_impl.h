@@ -5,7 +5,7 @@
 #include <QtPlugin>
 #include "spkdtkplugin.h"
 
-class SpkDtkPluginImpl : public QObject, SpkDtkPlugin
+class SpkDtkPluginImpl : public SpkDtkPlugin
 {
   Q_OBJECT
   Q_PLUGIN_METADATA(IID "org.spark-store.client.dtkplugin")
@@ -13,4 +13,6 @@ class SpkDtkPluginImpl : public QObject, SpkDtkPlugin
 
   public:
     void addWindow(QWidget* w, QObject* parent) override;
+    void Initialize() override;
+    QColor GetAccentColor() override;
 };

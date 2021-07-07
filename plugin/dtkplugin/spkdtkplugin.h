@@ -3,12 +3,17 @@
 
 #include <QWidget>
 
-class SpkDtkPlugin
+class SpkDtkPlugin : public QObject
 {
+    Q_OBJECT
   public:
     virtual ~SpkDtkPlugin() = default;
-
+    virtual void Initialize() = 0;
     virtual void addWindow(QWidget* w, QObject* parent) = 0;
+    virtual QColor GetAccentColor() = 0;
+
+  signals:
+    void AccentColorChanged(QColor);
 };
 QT_BEGIN_NAMESPACE
 Q_DECLARE_INTERFACE(SpkDtkPlugin, "org.spark-store.client.dtkplugin")

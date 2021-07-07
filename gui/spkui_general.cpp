@@ -22,6 +22,8 @@
 
 namespace SpkUi
 {
+  UiMetaObject SpkUiMetaObject;
+
   SpkUiStyle CurrentStyle;
   QString StylesheetBase, CurrentStylesheet;
   QColor ColorLine, ColorBack;
@@ -100,6 +102,13 @@ namespace SpkUi
           DtkPlugin = i;
           States::IsUsingDtkPlugin = true;
         }
+
+        i->Initialize();
+
+        SpkUiMetaObject.SetAccentColor(i->GetAccentColor()); // Match OS accent color
+
+        QObject::connect(i, &SpkDtkPlugin::AccentColorChanged,
+                         &SpkUiMetaObject, &UiMetaObject::SetAccentColor);
       }
     }
 
@@ -130,10 +139,12 @@ namespace SpkUi
     {
       case Light:
         static auto LightColor = QList<QColor>{
-                               0x353535, 0x353535, 0xff0000, 0x0070ff, 0x2987ff,
-                               0x6b6b6b, 0x656565, 0x606060, 0x404040, 0x383838,
-                               ColorTextOnBackground(0x0070ff)
-                             };
+                           0x282828, 0x282828, 0xff0000, 0x0070ff, QColor(0x70ff).lighter(120),
+                           0x6b6b6b, 0x656565, 0x606060, 0x404040, 0x383838,
+                           ColorTextOnBackground(0x0070ff),
+                           ColorTextOnBackground(0x282828),
+                           ColorTextOnBackground(0x282828)
+                         };
         CurrentStylesheet = StylesheetFromColors(LightColor);
         qApp->setStyleSheet(CurrentStylesheet);
         // TODO
@@ -141,10 +152,12 @@ namespace SpkUi
         break;
       case Dark:
         static auto DarkColor = QList<QColor>{
-                         0x353535, 0x353535, 0xff0000, 0x0070ff, 0x2987ff,
-                         0x6b6b6b, 0x656565, 0x606060, 0x404040, 0x383838,
-                         ColorTextOnBackground(0x0070ff)
-                       };
+                          0x282828, 0x282828, 0xff0000, 0x0070ff, QColor(0x70ff).lighter(120),
+                          0x6b6b6b, 0x656565, 0x606060, 0x404040, 0x383838,
+                          ColorTextOnBackground(0x0070ff),
+                          ColorTextOnBackground(0x282828),
+                          ColorTextOnBackground(0x282828)
+                         };
         CurrentStylesheet = StylesheetFromColors(DarkColor);
         CurrentColorSet = DarkColor;
         qApp->setStyleSheet(CurrentStylesheet);
@@ -246,6 +259,14 @@ namespace SpkUi
     // From https://github.com/feiyangqingyun/qtkaifajingyan
     double gray = (0.299 * c.red() + 0.587 * c.green() + 0.114 * c.blue()) / 255;
     return gray > 0.5 ? Qt::black : Qt::white;
+  }
+
+  void UiMetaObject::SetAccentColor(QColor aColor)
+  {
+    CurrentColorSet[3] = aColor.lighter(80);
+    CurrentColorSet[4] = aColor;
+    CurrentColorSet[10] = ColorTextOnBackground(aColor);
+    qApp->setStyleSheet(StylesheetFromColors(CurrentColorSet));
   }
 
 }
