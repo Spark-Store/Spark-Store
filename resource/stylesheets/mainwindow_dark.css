@@ -40,6 +40,11 @@ QTreeWidget[objectName=spk_mw_category]::item:selected
     background-color: %4;
 }
 
+QTreeWidget[objectName=spk_mw_category]::branch
+{
+    background: %1;
+}
+
 QTreeWidget[objectName=spk_mw_category]::branch:selected
 {
     background-color: %4;
