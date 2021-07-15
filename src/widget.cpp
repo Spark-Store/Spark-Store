@@ -629,8 +629,8 @@ void Widget::on_pushButton_download_clicked()
     download_list[allDownload - 1].setFileName(fileName);
 
     QPixmap icon;
-    icon.load("icon.png");
-    system("cp icon.png icon_" + QString::number(allDownload - 1).toUtf8() + ".png");
+    icon.load("/tmp/spark-store/icon.png", "PNG");
+    system("cp /tmp/spark-store/icon.png /tmp/spark-store/icon_" + QString::number(allDownload - 1).toUtf8() + ".png");
     download_list[allDownload - 1].seticon(icon);
 
     if(!isBusy)
@@ -1159,16 +1159,24 @@ void Widget::on_pushButton_uninstall_clicked()
         ui->pushButton_uninstall->setEnabled(false);
 
         QProcess uninstall;
-        uninstall.start("pkexec apt purge -y " + pkgName.toLower());
+        uninstall.start("pkexec", QStringList() << "apt" << "purge" << "-y" << pkgName.toLower());
         uninstall.waitForFinished();
 
-        ui->pushButton_download->setEnabled(true);
-        ui->pushButton_download->setText("Install");
-        ui->pushButton_uninstall->hide();
-        ui->pushButton_uninstall->setEnabled(true);
+        QProcess check;
+        check.start("dpkg", QStringList() << "-s" << pkgName.toLower());
+        check.waitForFinished();
 
-        updatesEnabled();
-        sendNotification(tr("Uninstall succeeded"));
+        if (check.readAllStandardOutput().isEmpty())
+        {
+            ui->pushButton_download->setText(tr("Install"));
+            ui->pushButton_uninstall->hide();
+
+            updatesEnabled();
+            sendNotification(tr("Uninstall succeeded"));
+        }
+
+        ui->pushButton_download->setEnabled(true);
+        ui->pushButton_uninstall->setEnabled(true);
     });
 }
 

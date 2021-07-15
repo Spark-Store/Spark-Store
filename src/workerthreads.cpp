@@ -109,6 +109,11 @@ void SpkAppInfoLoaderThread::run()
             QPixmap appicon;
             appicon.loadFromData(imgData);
             emit finishedIconLoad(&appicon);
+
+            QFile icon("/tmp/spark-store/icon.png");
+            icon.open(QFile::WriteOnly);
+            appicon.save(&icon, "PNG");
+            icon.close();
         })
         .onError([this](QString errorStr)
         {

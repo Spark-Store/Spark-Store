@@ -144,35 +144,17 @@ void downloadlist::install(int t)
         QtConcurrent::run([=]()
         {
             QProcess installer;
-            if(!reinstall)
+            switch(t)
             {
-                switch(t)
-                {
-                case 0:
-                    installer.start("pkexec ssinstall /tmp/spark-store/" + ui->label_filename->text().toUtf8());
-                    break;
-                case 1:
-                    installer.start("deepin-deb-installer /tmp/spark-store/" + ui->label_filename->text().toUtf8());
-                    break;
-                case 2:
-                    installer.start("pkexec gdebi -n /tmp/spark-store/" + ui->label_filename->text().toUtf8());
-                    break;
-                }
-            }
-            else
-            {
-                switch(t)
-                {
-                case 0:
-                    installer.start("pkexec ssinstall /tmp/spark-store/" + ui->label_filename->text().toUtf8());
-                    break;
-                case 1:
-                    installer.start("deepin-deb-installer /tmp/spark-store/" + ui->label_filename->text().toUtf8());
-                    break;
-                case 2:
-                    installer.start("pkexec gdebi -n /tmp/spark-store/" + ui->label_filename->text().toUtf8());
-                    break;
-                }
+            case 0:
+                installer.start("pkexec", QStringList() << "ssinstall" << "/tmp/spark-store/" + ui->label_filename->text().toUtf8());
+                break;
+            case 1:
+                installer.start("deepin-deb-installer", QStringList() << "/tmp/spark-store/" + ui->label_filename->text().toUtf8());
+                break;
+            case 2:
+                installer.start("pkexec", QStringList() << "gdebi" << "-n" << "/tmp/spark-store/" + ui->label_filename->text().toUtf8());
+                break;
             }
 
             bool haveError = false;
