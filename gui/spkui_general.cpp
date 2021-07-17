@@ -115,7 +115,7 @@ namespace SpkUi
     // FIXME: Chameleon style kept adding unwanted blue focus indication border
     // to widgets that shouldn't have borders.
     // We need to eliminate this irritating problem.
-    if(qgetenv("SPARK_NO_QSTYLE_CHANGE") == "1")
+    if(qgetenv("SPARK_NO_QSTYLE_CHANGE").toInt())
       return;
     OldSystemStyle = QStyleFactory::create("chameleon"); // TreeWidget doesn't work well with Fusion
     auto styles = QStyleFactory::keys();

@@ -46,36 +46,29 @@ add_dependencies(gitver check_git)
 
 set(SOURCE_FILES
     src/main.cpp
+
     resource/resource.qrc
+
     inc/gitver.h
-    gui/spkwindow.cpp
-    inc/spkwindow.h
-    gui/spktitlebar.cpp
-    inc/spktitlebar.h
-    inc/spkui_general.h
-    gui/spkui_general.cpp
     inc/deepinplatform.h
     inc/dtk/spkdtkplugin.h
-    src/spklogging.cpp
-    inc/spklogging.h
-    inc/spkuimsg.h
-    src/spkuimsg.cpp
-    inc/spkmainwindow.h
-    inc/spkmsgbox.h
-    gui/spkmsgbox.cpp
-    inc/spkdialog.h
-    gui/spkdialog.cpp
-    inc/spkabout.h
-    gui/spkabout.cpp
-    inc/spkstore.h
-    src/spkstore.cpp
-    gui/spkmainwindow.cpp
-    inc/spkpageqsstest.h
-    gui/spkpageqsstest.cpp
-    inc/spkconfig.h
+    inc/spkutils.h src/spkutils.cpp
     inc/telemetry/collectid.h
-    gui/spkloading.cpp
-    inc/spkloading.h
+
+    inc/spkwindow.h gui/spkwindow.cpp
+    inc/spktitlebar.h gui/spktitlebar.cpp
+    inc/spkui_general.h gui/spkui_general.cpp
+    inc/spkmainwindow.h gui/spkmainwindow.cpp
+    inc/spkmsgbox.h gui/spkmsgbox.cpp
+    inc/spkdialog.h gui/spkdialog.cpp
+    inc/spkabout.h gui/spkabout.cpp
+    inc/spkpageqsstest.h gui/spkpageqsstest.cpp
+    inc/spkloading.h gui/spkloading.cpp
+    inc/spksidebartree.h gui/spksidebartree.cpp
+
+    inc/spkstore.h src/spkstore.cpp
+    inc/spkuimsg.h src/spkuimsg.cpp
+    inc/spklogging.h src/spklogging.cpp
     )
 
 include(cmake/FindLibNotify.cmake)

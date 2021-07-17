@@ -19,7 +19,7 @@ SpkMsgBox::SpkMsgBox(QWidget *parent)
 }
 
 int SpkMsgBox::StaticExec(QString msg, QString title, QMessageBox::Icon icon,
-                          QMessageBox::StandardButtons buttons, QString extra)
+                          QMessageBox::StandardButtons buttons, QString extra, bool expanded)
 {
   SpkMsgBox *b = new SpkMsgBox(SpkStore::Instance->GetRootWindow());
   QWidget *wMsgWidget = new QWidget;
@@ -98,8 +98,12 @@ int SpkMsgBox::StaticExec(QString msg, QString title, QMessageBox::Icon icon,
 
   b->AddSpacing(3);
   AddButtons(b, buttons);
-  if(hasextra) // Keep conventional buttons centered
-    b->mBtnLay->addStretch();
+  if(hasextra)
+  {
+    b->mBtnLay->addStretch(); // Keep conventional buttons centered
+    if(expanded)
+      emit wExpandBtn->clicked();
+  }
   InitialHeight = b->minimumSizeHint().height();
   auto pos = (SpkUi::PrimaryScreenSize - b->sizeHint()) / 2;
   b->move(pos.width(), pos.height());

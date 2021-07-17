@@ -9,8 +9,11 @@
 #include <QStackedWidget>
 #include <QButtonGroup>
 #include <QJsonObject>
-#include <QTreeWidget>
+#include "spksidebartree.h" // In place of #include <QTreeWidget>
+#include <QPointer>
 #include "spkpageqsstest.h"
+
+class QNetworkReply;
 
 namespace SpkUi
 {
@@ -21,6 +24,7 @@ namespace SpkUi
       QPushButton *mLastCheckedBtn;
       QTreeWidgetItem *mLastSelectedItem;
       QTreeWidget *mCategoryWidget;
+      QVector<QTreeWidgetItem *> mUnusableItems; // Unselectable top level items; never changes
 
     public:
       SpkSidebarSelector(QObject *parent = nullptr) : QObject(parent)
@@ -40,9 +44,10 @@ namespace SpkUi
       void BindCategoryWidget(QTreeWidget* w)
       {
         mCategoryWidget = w;
-        connect(w, &QTreeWidget::itemPressed, this,
+        connect(w, &QTreeWidget::itemClicked, this,
                 &SpkSidebarSelector::TreeItemSelected);
       }
+      void AddUnusableItem(QTreeWidgetItem *i) { mUnusableItems.append(i); }
 
     private slots:
       // We assume the objects in interest all have the correct properties
@@ -73,6 +78,10 @@ namespace SpkUi
       }
       void TreeItemSelected(QTreeWidgetItem *item, int column)
       {
+        if(mUnusableItems.contains(item))
+        {
+          UnusableItemSelected(item); return;
+        }
         if(mLastCheckedBtn)
         {
           mLastCheckedBtn->setChecked(false);
@@ -83,6 +92,18 @@ namespace SpkUi
           emit SwitchToCategory(item->data(column, RoleItemCategoryPageId).toInt());
         else
           emit SwitchToPage(item->data(column, RoleItemCategoryPageId).toInt());
+      }
+      void UnusableItemSelected(QTreeWidgetItem *i)
+      {
+        i->setSelected(false);
+        if(mLastSelectedItem)
+        {
+          mLastSelectedItem->setSelected(true);
+        }
+        else if(mLastCheckedBtn)
+        {
+          mLastCheckedBtn->setChecked(true);
+        }
       }
 
     signals:
@@ -109,9 +130,11 @@ namespace SpkUi
       QHBoxLayout *HLaySideTop;
       QLabel *StoreIcon;
       QPushButton *BtnSettings, *BtnFeedback, *BtnLogs;
-      QTreeWidget *CategoryWidget;
+      SpkSidebarTree *CategoryWidget;
       QMap<int, QTreeWidgetItem> *CategoryItemMap;
       SpkSidebarSelector *SidebarMgr;
+
+      QTreeWidgetItem *CategoryParentItem;
 
       //Pages
       SpkPageQssTest *PageQssTest;
@@ -127,5 +150,14 @@ class SpkMainWindow : public SpkWindow
   public:
     SpkMainWindow(QWidget *parent = nullptr);
     
-    void PopulateCategories(QJsonObject);
+    void PopulateCategories(QJsonArray);
+
+  private:
+    QPointer<QNetworkReply> mCategoryGetReply;
+
+  public slots:
+    void RefreshCategoryData();
+
+  private slots:
+    void CategoryDataReceived();
 };

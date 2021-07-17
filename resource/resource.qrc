@@ -4,6 +4,7 @@
     </qresource>
     <qresource prefix="/info">
         <file>lipsum.txt</file>
+        <file>default_config</file>
     </qresource>
     <qresource prefix="/">
         <file>icons/spark-store.svg</file>

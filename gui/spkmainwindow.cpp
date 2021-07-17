@@ -5,6 +5,7 @@
 #include "spkmsgbox.h"
 #include "spkmainwindow.h"
 #include "spklogging.h"
+#include "spkutils.h"
 #include "spkuimsg.h"
 
 SpkMainWindow::SpkMainWindow(QWidget *parent) : SpkWindow(parent)
@@ -14,47 +15,23 @@ SpkMainWindow::SpkMainWindow(QWidget *parent) : SpkWindow(parent)
   SetUseTitleBar(false);
   SetCentralWidget(ui);
   SetTitleBar(ui->TitleBar, false);
+  RefreshCategoryData();
 
   auto size = QGuiApplication::primaryScreen()->size() * 0.25;
   resize(QGuiApplication::primaryScreen()->size() * 0.5);
   move(size.width(), size.height());
 }
 
-void SpkMainWindow::PopulateCategories(QJsonObject aCategoryData)
+void SpkMainWindow::PopulateCategories(QJsonArray aCategoryData)
 {
+  using SpkUi::SpkSidebarSelector;
+  QTreeWidgetItem *catg;
   auto w = ui->CategoryWidget;
-  if(!aCategoryData.contains("code"))
-  {
-    SpkUiMessage::SendStoreNotification(tr("Failed to load categories; return code lost."));
-    return;
-  }
-  auto OpRetCode = aCategoryData.value("code");
-  if(!OpRetCode.isDouble())
-  {
-    SpkUiMessage::SendStoreNotification(tr("Failed to load categories; invalid return code."));
-    return;
-  }
-  if(OpRetCode.toInt() != 0)
-  {
-    SpkUiMessage::SendStoreNotification(tr("Failed to load categories; operation failed: %1.")
-                                        .arg(OpRetCode.toDouble()));
-    return;
-  }
+  if(ui->CategoryParentItem->childCount()) // Clear all existing children if there is any
+    foreach(auto &i, ui->CategoryParentItem->takeChildren())
+      delete i;
 
-  if(!aCategoryData.contains("data"))
-  {
-    SpkUiMessage::SendStoreNotification(tr("Failed to load categories; data lost."));
-    return;
-  }
-  auto OpData = aCategoryData.value("data");
-  if(!OpRetCode.isArray())
-  {
-    SpkUiMessage::SendStoreNotification(tr("Failed to load categories; invalid data."));
-    return;
-  }
-
-  auto OpDataArr = OpData.toArray();
-  foreach(auto i, OpDataArr)
+  foreach(auto i, aCategoryData)
   {
     if(i.isObject())
     {
@@ -67,19 +44,40 @@ void SpkMainWindow::PopulateCategories(QJsonObject aCategoryData)
       if(j.contains("type_name") && j.value("type_name").isString())
         typeName = j.value("type_name").toString();
       else goto WRONG_CATEGORY;
-        // TODO
+      catg = new QTreeWidgetItem(ui->CategoryParentItem, QStringList(typeName));
+      catg->setData(0, SpkSidebarSelector::RoleItemIsCategory, true);
+      catg->setData(0, SpkSidebarSelector::RoleItemCategoryPageId, typeId);
       continue;
+WRONG_CATEGORY:;
     }
-    WRONG_CATEGORY:
-    sLog("One category ignored because of invalid data");
+    ui->CategoryParentItem->setExpanded(true);
   }
+}
+
+void SpkMainWindow::RefreshCategoryData()
+{
+  // Asynchronously call category API
+  using namespace SpkUtils;
+  VerifySingleRequest(mCategoryGetReply);
+  mCategoryGetReply = STORE->SendApiRequest("type/get_type_list");
+  DeleteReplyLater(mCategoryGetReply);
+  connect(mCategoryGetReply, &QNetworkReply::finished, this, &SpkMainWindow::CategoryDataReceived);
+}
+
+void SpkMainWindow::CategoryDataReceived()
+{
+  QJsonValue retval;
+  if(!SpkUtils::VerifyReplyJson(mCategoryGetReply, retval) || !retval.isArray())
+  {
+    sErr(tr("Failed to load categories!"));
+    // TODO: Switch to an error page
+  }
+  PopulateCategories(retval.toArray());
 }
 
 SpkUi::SpkMainWidget::SpkMainWidget(QWidget *parent) : QFrame(parent)
 {
   setObjectName("spk_mainwidget");
-
-  QTreeWidgetItem *item;
 
   Pager = new QStackedWidget(this);
   Pager->setObjectName("spk_mw_pager");
@@ -140,16 +138,19 @@ SpkUi::SpkMainWidget::SpkMainWidget(QWidget *parent) : QFrame(parent)
   HLaySideTop->addWidget(BtnSettings);
   VLaySidebar->addLayout(HLaySideTop);
 
-  CategoryWidget = new QTreeWidget(this);
+  using SpkUi::SpkSidebarSelector;
+  CategoryWidget = new SpkSidebarTree(this);
   CategoryWidget->setObjectName("spk_mw_category");
   CategoryWidget->setAutoFillBackground(true);
   CategoryWidget->setColumnCount(1);
   CategoryWidget->setHeaderHidden(true);
   CategoryWidget->setSelectionMode(QAbstractItemView::SelectionMode::SingleSelection);
-  item = new QTreeWidgetItem(QStringList("Placeholder"));
-  item->setData(0, Qt::UserRole + 1, 1);
-  item->setData(0, Qt::UserRole + 2, 1);
-  CategoryWidget->addTopLevelItem(item);
+  CategoryParentItem = new QTreeWidgetItem(QStringList(tr("Categories")));
+  CategoryParentItem->setFlags(CategoryParentItem->flags().setFlag(Qt::ItemIsSelectable, false));
+  CategoryParentItem->setExpanded(true);
+  SidebarMgr->AddUnusableItem(CategoryParentItem);
+  CategoryWidget->addTopLevelItem(CategoryParentItem);
+
   // FIXMEIFPOSSIBLE: Fusion adds extra gradient.
   // Details: https://forum.qt.io/topic/128190/fusion-style-kept-adding-an-extra-
   // layer-of-gradient-to-my-selected-item-of-qtreewidget-even-with-qss

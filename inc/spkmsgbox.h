@@ -10,7 +10,8 @@ class SpkMsgBox : public SpkDialog
   public:
     SpkMsgBox(QWidget *parent = nullptr);
     static int StaticExec(QString msg, QString title, QMessageBox::Icon = QMessageBox::NoIcon,
-                           QMessageBox::StandardButtons = QMessageBox::Ok, QString extra = "");
+                          QMessageBox::StandardButtons = QMessageBox::Ok, QString extra = "",
+                          bool expanded = false);
   private:
     static void AddButtons(SpkMsgBox *me, QMessageBox::StandardButtons b);
     QList<QMessageBox::StandardButton> mButtonList;

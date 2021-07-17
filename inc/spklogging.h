@@ -41,4 +41,4 @@ class SpkLogger
 #define sErr(X) SpkLogger::GetInstance()->Error(X)
 #define sErrPop(X) SpkLogger::GetInstance()->Error(X,true)
 #define sCritical(X) SpkLogger::GetInstance()->Critical(X)
-#define sNotify(X)
+#define sNotify(X) SpkLogger::GetInstance()->Notify(X)

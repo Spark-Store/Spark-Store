@@ -96,12 +96,12 @@ void SpkLogger::Error(QString message, const bool pop)
 //                               .arg(message));
 //    msgbox.exec(); // I don't know whether we need to show it non-modal.
     SpkMsgBox::StaticExec(QObject::tr("Spark Store has encountered an error.\n"
-                               "Parts of the experience is expected to be broken.\n\n"
-                               "Details:\n%1"),
+                               "Parts of the experience is expected to be broken.\n\n"),
                           QObject::tr("Spark Store Error"),
                           QMessageBox::Critical,
                           QMessageBox::Ok,
-                          message);
+                          message,
+                          true);
   }
 }
 
@@ -120,5 +120,10 @@ void SpkLogger::Critical(QString message)
                                     "Details:\n%1")
                                     .arg(message));
   exit(2);
+}
+
+void SpkLogger::Notify(QString message)
+{
+  Q_UNUSED(message);
 }
 
