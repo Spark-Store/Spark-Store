@@ -23,16 +23,31 @@ SpkStore::SpkStore(bool aCli, QString &aLogPath)
   Instance = this;
 
   // Finish all essential initialization after this.
-  if(QFileInfo(QDir::homePath() + "/.config/spark-store/config").exists())
+
+  mConfigPath = QDir::homePath() + "/.config/spark-store/config"; //TODO: flexible config via CLI
+  if(QFileInfo(mConfigPath).exists())
     mCfg = new QSettings(QDir::homePath() + "/.config/spark-store/config", QSettings::IniFormat);
   else
   {
     mCfg = new QSettings(":/info/default_config", QSettings::IniFormat);
-#ifndef NDEBUG
+#if 0
+    bool cfgDirOk;
     if(!qgetenv("SPARK_NO_INSTALL_CONFIG").toInt())
     {
-      if(!QFile::copy(":/info/default_config", QDir::homePath() + "/.config/spark-store/config"))
-        sErrPop(tr("Cannot install default config file!"));
+      QString path = mConfigPath.section('/', 1, -2, QString::SectionIncludeLeadingSep);
+      if(!QDir().exists(path))
+      {
+        if(!QDir().mkpath(path))
+          sErrPop(QObject::tr("Config directory \"%1\" cannot be created.").arg(path));
+        else
+          cfgDirOk = true;
+      }
+      else
+        cfgDirOk = true;
+
+      if(cfgDirOk) // Only try copying if config dir is OK
+        if(!QFile::copy(":/info/default_config", QDir::homePath() + "/.config/spark-store/config"))
+          sErrPop(tr("Cannot install default config file!"));
     }
 #endif
   }
