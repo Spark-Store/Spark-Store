@@ -68,7 +68,6 @@ bool SpkWindow::event(QEvent *evt)
         if(!QMainWindow::event(evt) || 1)
         {
           mMoveOffset = e->globalPos() - pos();
-          setCursor(Qt::SizeAllCursor);
           mMoving = true;
           mResizing = false;
         }
