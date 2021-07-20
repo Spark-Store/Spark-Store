@@ -17,35 +17,36 @@
 
 QWidget
 {
-    background-color: %1
+    background-color: %1;
+    color: #ffffff;
 }
 
-QTreeWidget[objectName=spk_mw_category]
+#spk_mw_category
 {
     border: none;
     font-size: 14px;
     show-decoration-selected: 1;
 }
 
-QTreeWidget[objectName=spk_mw_category]::item
+#spk_mw_category::item
 {
     height: 35px;
     border: none;
     color: %13;
 }
 
-QTreeWidget[objectName=spk_mw_category]::item:selected
+#spk_mw_category::item:selected
 {
     color: %11;
     background-color: %4;
 }
 
-QTreeWidget[objectName=spk_mw_category]::branch
+#spk_mw_category::branch:!has-children
 {
     background: %1;
 }
 
-QTreeWidget[objectName=spk_mw_category]::branch:selected
+#spk_mw_category::branch:selected
 {
     background-color: %4;
 }
@@ -65,9 +66,10 @@ QPushButton
 {
     border-width: 1px;
     padding: 2px;
-    border-radius: 11px;
     font-size: 14px;
     font-weight: 300;
+    border-radius: 11px;
+    border-color: %7;
     border-top-color: #7b7b7b;
     border-style: solid;
     background: qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 %6, stop:1 %7)
@@ -80,34 +82,34 @@ QPushButton::pressed
     background: qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 %8, stop:1 %6)
 }
 
-QPushButton[objectName=spk_styling_checkbtn]
+#spk_styling_checkbtn
 {
     border-width: 0px;
     background-color: %9
 }
 
-QPushButton[objectName=spk_styling_checkbtn]:pressed
+#spk_styling_checkbtn:pressed
 {
     background-color: %5
 }
 
-QPushButton[objectName=spk_styling_checkbtn]:checked
+#spk_styling_checkbtn:checked
 {
     background-color: %4
 }
 
-QPushButton[objectName=spk_styling_plaincheckbtn]
+#spk_styling_plaincheckbtn
 {
     border-width: 0px;
     background-color: %1
 }
 
-QPushButton[objectName=spk_styling_plaincheckbtn]:pressed
+#spk_styling_plaincheckbtn:pressed
 {
     background-color: %5
 }
 
-QPushButton[objectName=spk_styling_plaincheckbtn]:checked
+#spk_styling_plaincheckbtn:checked
 {
     background-color: %4
 }
