@@ -1,5 +1,6 @@
 
 #include "spkuimsg.h"
+#include "spkpopup.h"
 
 NotifyNotification *SpkUiMessage::_notify = nullptr; // Initialize statics
 int SpkUiMessage::mTimeoutDesktop = 5000;
@@ -25,7 +26,7 @@ void SpkUiMessage::SendDesktopNotification(QString s, const char * const icon)
 
 void SpkUiMessage::SendStoreNotification(QString s) // TODO: IMPLEMENT IN-APP NOTIFICATION
 {
-  Q_UNUSED(s);
+  SpkUi::Popup->Show(s);
 }
 
 void SpkUiMessage::SetDesktopNotifyTimeout(int ms)

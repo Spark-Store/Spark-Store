@@ -6,6 +6,7 @@
 #include <QFileInfo>
 #include "spklogging.h"
 #include "spkmsgbox.h"
+#include "spkuimsg.h"
 
 SpkLogger *SpkLogger::Instance = nullptr;
 
@@ -124,6 +125,6 @@ void SpkLogger::Critical(QString message)
 
 void SpkLogger::Notify(QString message)
 {
-  Q_UNUSED(message);
+  SpkUiMessage::SendStoreNotification(message);
 }
 

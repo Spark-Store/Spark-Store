@@ -1,4 +1,5 @@
 
+#include <arpa/inet.h>
 #include <QDebug>
 #include "spkutils.h"
 
@@ -14,7 +15,8 @@ void SpkUtils::VerifySingleRequest(QPointer<QNetworkReply> aReply)
 QString SpkUtils::GetDistroName()
 {
   QSettings osRelease("/etc/os-release", QSettings::IniFormat);
-  return osRelease.value("PRETTY_NAME", "Unknown Distro").toString();
+  return osRelease.value("PRETTY_NAME", "Unknown Distro").toString() + "-" +
+         osRelease.value("BUILD_ID", "Unknown Build").toString();
 }
 
 bool SpkUtils::VerifyReplyJson(QNetworkReply *aReply, QJsonValue &aRetDoc)

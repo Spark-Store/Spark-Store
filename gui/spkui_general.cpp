@@ -18,6 +18,7 @@
 
 #include "spkui_general.h"
 #include "spkmsgbox.h"
+#include "spkpopup.h"
 #include "spklogging.h"
 
 namespace SpkUi
@@ -31,6 +32,8 @@ namespace SpkUi
   SpkDtkPlugin *DtkPlugin = nullptr;
   QStyle *OldSystemStyle = nullptr;
   QList<QColor> CurrentColorSet;
+
+  SpkPopup *Popup;
 
   namespace States
   {
@@ -112,7 +115,7 @@ namespace SpkUi
       }
     }
 
-    // FIXME: Chameleon style kept adding unwanted blue focus indication border
+    // NOTE: Chameleon style kept adding unwanted blue focus indication border
     // to widgets that shouldn't have borders.
     // We need to eliminate this irritating problem.
     if(qgetenv("SPARK_NO_QSTYLE_CHANGE").toInt())

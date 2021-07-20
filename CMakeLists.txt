@@ -65,6 +65,7 @@ set(SOURCE_FILES
     inc/spkpageqsstest.h gui/spkpageqsstest.cpp
     inc/spkloading.h gui/spkloading.cpp
     inc/spksidebartree.h gui/spksidebartree.cpp
+    inc/spkpopup.h gui/spkpopup.cpp
 
     inc/spkstore.h src/spkstore.cpp
     inc/spkuimsg.h src/spkuimsg.cpp

@@ -1,6 +1,7 @@
 
 #include <QApplication>
 #include "spkpageqsstest.h"
+#include "spkpopup.h"
 #include "spkui_general.h"
 
 SpkUi::SpkPageQssTest::SpkPageQssTest(QWidget *parent) : QSplitter(parent)
@@ -42,6 +43,14 @@ SpkUi::SpkPageQssTest::SpkPageQssTest(QWidget *parent) : QSplitter(parent)
   Loading->setObjectName("spk_pg_qsstest_loading");
   Loading->start();
 
+  PopupText = new QLineEdit(this);
+  PopupText->setObjectName("spk_pg_qsstest_poptext");
+  PopupText->setText("Hello, world");
+
+  ShowPopup = new QPushButton(this);
+  ShowPopup->setText("Show Popup");
+  connect(ShowPopup, &QPushButton::clicked, this, &SpkPageQssTest::ShowPopupSlot);
+
   SlideV = new QSlider(this);
   SlideV->setObjectName("spk_pg_qsstest_slider_v");
   SlideV->setOrientation(Qt::Vertical);
@@ -60,6 +69,8 @@ SpkUi::SpkPageQssTest::SpkPageQssTest(QWidget *parent) : QSplitter(parent)
   VLayBtn->addWidget(Chk);
   VLayBtn->addWidget(Rad);
   VLayBtn->addWidget(Loading);
+  VLayBtn->addWidget(PopupText);
+  VLayBtn->addWidget(ShowPopup);
 
   Group = new QGroupBox(this);
   Group->setObjectName("spk_pg_qsstest_groupbox");
@@ -101,4 +112,9 @@ void SpkUi::SpkPageQssTest::SetStylesheet()
 void SpkUi::SpkPageQssTest::FetchStylesheet()
 {
   TextStylesheet->setPlainText(SpkUi::CurrentStylesheet);
+}
+
+void SpkUi::SpkPageQssTest::ShowPopupSlot()
+{
+  SpkUi::Popup->Show(PopupText->text());
 }

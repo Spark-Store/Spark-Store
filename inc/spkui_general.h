@@ -16,6 +16,8 @@ namespace SpkUi
   enum SpkUiStyle { Light, Dark };
   enum SpkButtonStyle { Normal = 0, Recommend, Warn };
 
+  class SpkPopup;
+
   constexpr int StackTraceArraySize = 64;
   constexpr const char * const StoreIconName = "spark-store";
 
@@ -39,6 +41,8 @@ namespace SpkUi
   extern SpkDtkPlugin *DtkPlugin;
   extern QStyle *OldSystemStyle;
   extern QList<QColor> CurrentColorSet;
+
+  extern SpkPopup *Popup;
 
   namespace States
   {

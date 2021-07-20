@@ -7,6 +7,7 @@
 #include <QCheckBox>
 #include <QGroupBox>
 #include <QTextEdit>
+#include <QLineEdit>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QSlider>
@@ -38,8 +39,12 @@ namespace SpkUi
       QSlider *SlideV;
       SpkLoading *Loading;
 
+      QLineEdit *PopupText;
+      QPushButton *ShowPopup;
+
     public slots:
       void SetStylesheet();
       void FetchStylesheet();
+      void ShowPopupSlot();
   };
 }

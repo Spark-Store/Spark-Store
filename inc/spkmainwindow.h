@@ -62,7 +62,7 @@ namespace SpkUi
             mLastCheckedBtn = nullptr;
           }
           else
-            // QUESTIONABLE:
+            // NOTE:
             // Apparently for checkable buttons, Qt flip their checked property AFTER
             // this slot function. So to prevent a checkable button being unchecked,
             // we set it to unchecked here. Qt will flip it back to checked later.

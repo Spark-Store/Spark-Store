@@ -4,8 +4,10 @@
 #include <QDir>
 #include <QApplication>
 #include <QtNetwork/QNetworkProxy>
+
 #include "dtk/spkdtkplugin.h"
 #include "gitver.h"
+#include "spkpopup.h"
 #include "spkstore.h"
 #include "spkutils.h"
 
@@ -50,6 +52,7 @@ SpkStore::SpkStore(bool aCli, QString &aLogPath)
   // UI Initialization
   SpkUi::Initialize();
   mMainWindow = new SpkMainWindow;
+  SpkUi::Popup = new SpkUi::SpkPopup(mMainWindow);
 
   mMainWindow->show();
 }
