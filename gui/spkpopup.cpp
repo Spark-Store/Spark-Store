@@ -1,7 +1,6 @@
 
 #include "spkmainwindow.h"
 #include "spkpopup.h"
-#include <libavutil/avutil.h>
 namespace SpkUi
 {
   SpkPopup::SpkPopup(QWidget *parent,  int aMillis) : QWidget(parent)
